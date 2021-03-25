@@ -26,8 +26,8 @@
 #' sim_df <- matric::sim_annotate(sim_df, annotation_cols)
 #' filter_keep <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
 #' filter_drop <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
-#' matric::sim_filter(sim_df, filter_keep, "left")
-#' matric::sim_filter(sim_df, filter_drop, "left")
+#' matric::sim_filter(sim_df, filter_keep = filter_keep, filter_side = "left")
+#' matric::sim_filter(sim_df, filter_drop = filter_drop, filter_side = "left")
 #' @export
 sim_filter <-
   function(sim_df,
@@ -37,6 +37,8 @@ sim_filter <-
     metadata <- attr(sim_df, "row_metadata")
 
     stopifnot(!is.null(metadata))
+
+    stopifnot(!is.null(filter_side))
 
     stopifnot(filter_side %in% c("left", "right"))
 
