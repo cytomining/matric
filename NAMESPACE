@@ -2,6 +2,10 @@
 
 export("%<>%")
 export("%>%")
+export(drop_annotation)
+export(get_annotation)
 export(sim_calculate)
+export(sim_read)
+export(sim_write)
 importFrom(magrittr,"%<>%")
 importFrom(magrittr,"%>%")
