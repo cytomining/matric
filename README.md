@@ -4,6 +4,10 @@
 # matric
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/shntnu/matric/workflows/R-CMD-check/badge.svg)](https://github.com/shntnu/matric/actions)
+[![pkgdown](https://github.com/shntnu/matric/workflows/pkgdown/badge.svg)](https://github.com/shntnu/matric/actions)
+[![test-coverage](https://github.com/shntnu/matric/workflows/test-coverage/badge.svg)](https://github.com/shntnu/matric/actions)
 <!-- badges: end -->
 
 This is a prototype for testing out ideas for
