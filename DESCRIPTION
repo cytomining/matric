@@ -1,11 +1,12 @@
 Package: matric
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Metrics for Similarity Matrices
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Authors@R: c(
+    person("Shantanu", "Singh", email = "shsingh@broad.io", role = c("aut", "cre")),
+    person("Gregory", "Way", email = "gway@broad.io", role = c("aut"))
+  )
+Description: This is a prototype for testing out ideas for `cytominer-eval`.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
