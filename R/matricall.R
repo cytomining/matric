@@ -1,3 +1,5 @@
+utils::globalVariables("id1")
+utils::globalVariables("id2")
 #' Calculate melted similarity matrix.
 #'
 #' \code{sim_calculate} calculates a melted similarity matrix.
@@ -8,8 +10,6 @@
 #'
 #' @return data.frame of melted similarity matrix.
 #'
-#' @importFrom magrittr %>%
-#' @importFrom magrittr %<>%
 #'
 #' @examples
 #' suppressMessages(suppressWarnings(library(magrittr)))
@@ -19,7 +19,7 @@
 #'   y = x + rnorm(4) / 100,
 #'   z = y + rnorm(4) / 1000
 #' )
-#' simplyr::sim_calculate(population, method = "pearson")
+#' matric::sim_calculate(population, method = "pearson")
 #' @export
 sim_calculate <-
   function(population,
