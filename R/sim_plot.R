@@ -1,4 +1,4 @@
-utils::globalVariables(c(".data", "sim", "sim_mean","sim_rank", "sim_sd"))
+utils::globalVariables(c(".data", "sim", "sim_mean", "sim_rank", "sim_sd"))
 #' Plot similarity matrix.
 #'
 #' \code{sim_plot} Plots similarity matrix.
@@ -55,7 +55,8 @@ sim_plot <-
         col1_short, col2_short
       )))) %>%
       dplyr::summarise(dplyr::across(dplyr::any_of(c("sim", "sim_rank")), mean),
-                       .groups = "keep")
+        .groups = "keep"
+      )
 
     if (calculate_sim_rank) {
       sim_df %<>%
