@@ -6,7 +6,8 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of matric is to …
+This is a prototype for testing out ideas for
+[`cytominer-eval`](https://github.com/cytomining/cytominer-eval).
 
 ## Installation
 
