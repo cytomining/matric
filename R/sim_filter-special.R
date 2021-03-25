@@ -110,11 +110,12 @@ sim_all_same <-
 #' filter_keep_right <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
 #' drop_reference <- FALSE
 #' matric::sim_all_same_keep_some(
-#'     sim_df,
-#'     all_same_cols,
-#'     filter_keep_right,
-#'     annotation_cols,
-#'     drop_reference)
+#'   sim_df,
+#'   all_same_cols,
+#'   filter_keep_right,
+#'   annotation_cols,
+#'   drop_reference
+#' )
 #' @export
 sim_all_same_keep_some <-
   function(sim_df,
@@ -192,13 +193,14 @@ sim_all_same_keep_some <-
 #' filter_drop_right <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
 #' drop_reference <- FALSE
 #' matric::sim_some_different_drop_some(
-#'     sim_df,
-#'     any_different_cols,
-#'     all_same_cols,
-#'     all_different_cols,
-#'     filter_drop_left,
-#'     filter_drop_right,
-#'     annotation_cols)
+#'   sim_df,
+#'   any_different_cols,
+#'   all_same_cols,
+#'   all_different_cols,
+#'   filter_drop_left,
+#'   filter_drop_right,
+#'   annotation_cols
+#' )
 #' @export
 sim_some_different_drop_some <-
   function(sim_df,

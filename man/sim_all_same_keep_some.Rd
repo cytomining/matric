@@ -49,9 +49,10 @@ all_same_cols <- c("Metadata_group")
 filter_keep_right <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
 drop_reference <- FALSE
 matric::sim_all_same_keep_some(
-    sim_df,
-    all_same_cols,
-    filter_keep_right,
-    annotation_cols,
-    drop_reference)
+  sim_df,
+  all_same_cols,
+  filter_keep_right,
+  annotation_cols,
+  drop_reference
+)
 }
