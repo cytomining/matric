@@ -51,8 +51,8 @@ sim_df <- matric::sim_annotate(sim_df, annotation_cols)
 all_same_cols <- c("Metadata_group")
 all_different_cols <- c("Metadata_type1")
 any_different_cols <- c("Metadata_type2")
-filter_drop_left <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
-filter_drop_right <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
+filter_drop_left <- tibble::tibble(Metadata_group = "a", Metadata_type1 = "x")
+filter_drop_right <- tibble::tibble(Metadata_group = "a", Metadata_type1 = "x")
 drop_reference <- FALSE
 matric::sim_some_different_drop_some(
   sim_df,
