@@ -69,17 +69,13 @@ sim_write <- function(sim_df, output, file_format = "parquet") {
     futile.logger::flog.info(glue::glue("Writing {metric_metadata_filename} ..."))
 
     attr(sim_df, "metric_metadata") %>% jsonlite::write_json(metric_metadata_filename)
-
   } else {
-
     futile.logger::flog.info(glue::glue("Writing {output} ..."))
 
     sim_df %>% arrow::write_parquet(output, compression = "gzip", compression_level = 9)
-
   }
 
   NULL
-
 }
 
 
@@ -122,7 +118,6 @@ sim_write <- function(sim_df, output, file_format = "parquet") {
 #' all(sim_df_parquet1 == sim_df_csv)
 #' @export
 sim_read <- function(input, file_format = "parquet") {
-
   stopifnot(file_format %in% c("csv", "parquet"))
 
   if (file_format == "csv") {
@@ -140,8 +135,8 @@ sim_read <- function(input, file_format = "parquet") {
     metric_metadata_filename %<>% file.path(input, .)
 
     stopifnot(file.exists(sim_filename) &&
-                file.exists(row_metadata_filename) &&
-                file.exists(metric_metadata_filename))
+      file.exists(row_metadata_filename) &&
+      file.exists(metric_metadata_filename))
 
     futile.logger::flog.info(glue::glue("Reading {sim_filename} ..."))
 
@@ -155,15 +150,12 @@ sim_read <- function(input, file_format = "parquet") {
 
     attr(sim_df, "metric_metadata") <-
       jsonlite::read_json(metric_metadata_filename)
-
   } else {
-
     sim_df <- arrow::read_parquet(input)
-
   }
 
   stopifnot(!is.null(attr(sim_df, "row_metadata")) &&
-              !is.null(attr(sim_df, "metric_metadata")))
+    !is.null(attr(sim_df, "metric_metadata")))
 
   sim_df
 }

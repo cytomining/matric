@@ -44,26 +44,29 @@ sim_annotate <-
     if (index == "left") {
       sim_df %<>%
         dplyr::inner_join(metadata_i,
-                   by = c("id1" = "id"),
-                   suffix = c("1", "2"))
+          by = c("id1" = "id"),
+          suffix = c("1", "2")
+        )
     }
 
     if (index == "right") {
       sim_df %<>%
         dplyr::inner_join(metadata_i,
-                   by = c("id2" = "id"),
-                   suffix = c("1", "2"))
+          by = c("id2" = "id"),
+          suffix = c("1", "2")
+        )
     }
 
     if (index == "both") {
       sim_df %<>%
         dplyr::inner_join(metadata_i,
-                   by = c("id1" = "id")) %>%
+          by = c("id1" = "id")
+        ) %>%
         dplyr::inner_join(metadata_i,
-                   by = c("id2" = "id"),
-                   suffix = c("1", "2"))
+          by = c("id2" = "id"),
+          suffix = c("1", "2")
+        )
     }
 
     sim_df
-
   }

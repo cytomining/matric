@@ -73,5 +73,4 @@ sim_filter <-
     }
 
     sim_df
-
   }
