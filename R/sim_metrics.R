@@ -1,3 +1,4 @@
+utils::globalVariables(c("type"))
 #' Compute metrics.
 #'
 #' \code{sim_metrics} computes metrics.
@@ -11,6 +12,8 @@
 #'
 #' @export
 #'
+#' @importFrom stats median sd mad
+#'
 sim_metrics <- function(munged_sim,
                         sim_type,
                         calculate_grouped = FALSE,
@@ -20,7 +23,7 @@ sim_metrics <- function(munged_sim,
   } else {
     message("Warning: Inferring columns specifying replicates from similarity dataframe...")
     rep_cols <-
-      str_subset(colnames(munged_sim), pattern = annotation_prefix)
+      stringr::str_subset(colnames(munged_sim), pattern = annotation_prefix)
   }
 
   helper_scale_aggregate <-

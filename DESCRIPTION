@@ -21,7 +21,9 @@ Imports:
     jsonlite,
     glue,
     purrr,
-    ggplot2
+    ggplot2,
+    stringr,
+    rlang
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 Suggests: 
