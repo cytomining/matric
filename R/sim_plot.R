@@ -41,10 +41,9 @@ sim_plot <-
     col2_short_sym <- rlang::sym(col2_short)
 
     if (!is.null(trim_label)) {
-      sim_df[[col1_short]] <- str_sub(sim_df[[col1]] , 1, trim_label)
+      sim_df[[col1_short]] <- str_sub(sim_df[[col1]], 1, trim_label)
       sim_df[[col2_short]] <-
-        stringr::str_sub(sim_df[[col2]] , 1, trim_label)
-
+        stringr::str_sub(sim_df[[col2]], 1, trim_label)
     } else {
       col1_short <- col1
       col2_short <- col2
@@ -60,7 +59,6 @@ sim_plot <-
       sim_df %<>%
         dplyr::group_by(across(all_of(c(col1_short)))) %>%
         dplyr::mutate(sim_rank = rank(-sim) / length(sim))
-
     } else {
       stopifnot("sim_rank" %in% names(sim_df))
     }
@@ -83,5 +81,4 @@ sim_plot <-
       ggplot2::scale_fill_continuous(limits = c(0, 1))
 
     p
-
   }
