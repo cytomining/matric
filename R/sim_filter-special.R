@@ -1,3 +1,4 @@
+utils::globalVariables(c("all_same_col"))
 #' Filter rows of the melted similarity matrix to keep pairs with the same values in specific columns.
 #'
 #' \code{sim_all_same} Filters melted similarity matrix to keep pairs with the same values in specific columns.
@@ -85,6 +86,7 @@ sim_all_same <-
 #' @param filter_keep_right tbl of metadata specifying which rows to keep on the right index.
 #' @param annotation_cols optional character vector specifying which columns from \code{metadata} to annotate the left index of the filtered \code{sim_df} with.
 #' @param drop_reference optional boolean specifying whether to filter (drop) pairs using \code{filter_keep_right} on the left index.
+#' @param sim_cols optional character string specifying minimal set of columns for a similarity matrix
 #'
 #' @return filtered \code{sim_df} where only pairs with the same values in \code{all_same_cols} columns are kept, with further filtering using \code{filter_keep_right}.
 #'
@@ -107,14 +109,20 @@ sim_all_same <-
 #' all_same_cols <- c("Metadata_group")
 #' filter_keep_right <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
 #' drop_reference <- FALSE
-#' matric::sim_all_same_keep_some(sim_df, all_same_cols, filter_keep_right, annotation_cols, drop_reference)
+#' matric::sim_all_same_keep_some(
+#'     sim_df,
+#'     all_same_cols,
+#'     filter_keep_right,
+#'     annotation_cols,
+#'     drop_reference)
 #' @export
 sim_all_same_keep_some <-
   function(sim_df,
            all_same_cols,
            filter_keep_right,
            annotation_cols = NULL,
-           drop_reference = TRUE) {
+           drop_reference = TRUE,
+           sim_cols = c("id1", "id2", "sim")) {
     metadata <- attr(sim_df, "row_metadata")
 
     stopifnot(!is.null(metadata))
@@ -183,7 +191,14 @@ sim_all_same_keep_some <-
 #' filter_drop_left <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
 #' filter_drop_right <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
 #' drop_reference <- FALSE
-#' matric::sim_some_different_drop_some(sim_df, any_different_cols, all_same_cols, all_different_cols, filter_drop_left, filter_drop_right, annotation_cols)
+#' matric::sim_some_different_drop_some(
+#'     sim_df,
+#'     any_different_cols,
+#'     all_same_cols,
+#'     all_different_cols,
+#'     filter_drop_left,
+#'     filter_drop_right,
+#'     annotation_cols)
 #' @export
 sim_some_different_drop_some <-
   function(sim_df,
