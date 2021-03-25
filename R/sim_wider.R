@@ -95,17 +95,23 @@ sim_wider <-
     key1 <- data.frame(x = as.character(row.names(sim_df_wider)))
     names(key1) <- primary_key_column1
 
-    value1 <- key1 %>% dplyr::inner_join(map1) %>% dplyr::pull(annotation_column1)
+    value1 <- key1 %>%
+      dplyr::inner_join(map1) %>%
+      dplyr::pull(annotation_column1)
 
     value_unique1 <-
-      key1 %>% dplyr::inner_join(map1) %>% dplyr::pull(annotation_column_unique1)
+      key1 %>%
+      dplyr::inner_join(map1) %>%
+      dplyr::pull(annotation_column_unique1)
 
     row.names(sim_df_wider) <- value_unique1
-    colnames(sim_df_wider)  <- row.names(sim_df_wider)
+    colnames(sim_df_wider) <- row.names(sim_df_wider)
 
-    map1 %<>% dplyr::select(id = annotation_column_unique1,
-                            annotation = annotation_column1,
-                            primary_key = primary_key_column1)
+    map1 %<>% dplyr::select(
+      id = annotation_column_unique1,
+      annotation = annotation_column1,
+      primary_key = primary_key_column1
+    )
 
     attr(sim_df_wider, "map") <- map1
 
