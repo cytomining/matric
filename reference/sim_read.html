@@ -153,23 +153,23 @@ For Parquet format, <code>sim_read</code> is identical to
 <span class='op'>)</span>
 <span class='va'>sim_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sim_calculate.html'>sim_calculate</a></span><span class='op'>(</span><span class='va'>population</span>, method <span class='op'>=</span> <span class='st'>"pearson"</span><span class='op'>)</span>
 <span class='va'>sim_df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='sim_write.html'>sim_write</a></span><span class='op'>(</span><span class='st'>"/tmp/test"</span>, file_format <span class='op'>=</span> <span class='st'>"csv"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; INFO [2021-03-25 17:56:43] Creating /tmp/test ...
-#&gt; INFO [2021-03-25 17:56:43] Writing /tmp/test/test.csv ...
-#&gt; INFO [2021-03-25 17:56:44] Writing /tmp/test/test_metadata.csv ...
-#&gt; INFO [2021-03-25 17:56:44] Writing /tmp/test/test_metadata.json ...</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='va'>sim_df_csv</span> <span class='op'>&lt;-</span> <span class='fu'>sim_read</span><span class='op'>(</span><span class='st'>"/tmp/test"</span>, file_format <span class='op'>=</span> <span class='st'>"csv"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; INFO [2021-03-25 17:56:44] Reading /tmp/test/test.csv ...</div><div class='output co'>#&gt; <span class='message'></span>
+</div><div class='output co'>#&gt; INFO [2021-03-25 18:14:07] Creating /tmp/test ...
+#&gt; INFO [2021-03-25 18:14:07] Writing /tmp/test/test.csv ...
+#&gt; INFO [2021-03-25 18:14:07] Writing /tmp/test/test_metadata.csv ...
+#&gt; INFO [2021-03-25 18:14:07] Writing /tmp/test/test_metadata.json ...</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='va'>sim_df_csv</span> <span class='op'>&lt;-</span> <span class='fu'>sim_read</span><span class='op'>(</span><span class='st'>"/tmp/test"</span>, file_format <span class='op'>=</span> <span class='st'>"csv"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; INFO [2021-03-25 18:14:07] Reading /tmp/test/test.csv ...</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'><span style='color: #00BBBB;'>──</span><span> </span><span style='font-weight: bold;'>Column specification</span><span> </span><span style='color: #00BBBB;'>────────────────────────────────────────────────────────</span><span></span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  id1 = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
 #&gt; <span class='message'>  id2 = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
 #&gt; <span class='message'>  sim = </span><span style='color: #00BB00;'>col_double()</span><span></span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; INFO [2021-03-25 17:56:44] Reading /tmp/test/test_metadata.csv ...</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; INFO [2021-03-25 18:14:08] Reading /tmp/test/test_metadata.csv ...</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'></span><span style='color: #00BBBB;'>──</span><span> </span><span style='font-weight: bold;'>Column specification</span><span> </span><span style='color: #00BBBB;'>────────────────────────────────────────────────────────</span><span></span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  id = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
 #&gt; <span class='message'>  Metadata_group = </span><span style='color: #BB0000;'>col_character()</span><span></span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; INFO [2021-03-25 17:56:44] Reading /tmp/test/test_metadata.json ...</div><div class='input'><span class='va'>sim_df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='sim_write.html'>sim_write</a></span><span class='op'>(</span><span class='st'>"/tmp/test.parquet"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; INFO [2021-03-25 17:56:44] Writing /tmp/test.parquet ...</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='va'>sim_df_parquet1</span> <span class='op'>&lt;-</span> <span class='fu'>sim_read</span><span class='op'>(</span><span class='st'>"/tmp/test.parquet"</span><span class='op'>)</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; INFO [2021-03-25 18:14:08] Reading /tmp/test/test_metadata.json ...</div><div class='input'><span class='va'>sim_df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='sim_write.html'>sim_write</a></span><span class='op'>(</span><span class='st'>"/tmp/test.parquet"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; INFO [2021-03-25 18:14:08] Writing /tmp/test.parquet ...</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='va'>sim_df_parquet1</span> <span class='op'>&lt;-</span> <span class='fu'>sim_read</span><span class='op'>(</span><span class='st'>"/tmp/test.parquet"</span><span class='op'>)</span>
 <span class='va'>sim_df</span> <span class='op'>%&gt;%</span> <span class='fu'>arrow</span><span class='fu'>::</span><span class='fu'><a href='https://arrow.apache.org/docs/r//reference/write_parquet.html'>write_parquet</a></span><span class='op'>(</span><span class='st'>"/tmp/test.parquet"</span><span class='op'>)</span>
 <span class='va'>sim_df_parquet2</span> <span class='op'>&lt;-</span> <span class='fu'>arrow</span><span class='fu'>::</span><span class='fu'><a href='https://arrow.apache.org/docs/r//reference/read_parquet.html'>read_parquet</a></span><span class='op'>(</span><span class='st'>"/tmp/test.parquet"</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='va'>sim_df_parquet1</span> <span class='op'>==</span> <span class='va'>sim_df_parquet2</span><span class='op'>)</span>
