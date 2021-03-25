@@ -4,7 +4,12 @@
 \alias{sim_annotate}
 \title{Annotate melted similarity matrix.}
 \usage{
-sim_annotate(sim_df, annotation_cols, index = "both")
+sim_annotate(
+  sim_df,
+  annotation_cols,
+  index = "both",
+  sim_cols = c("id1", "id2", "sim")
+)
 }
 \arguments{
 \item{sim_df}{tbl with melted similarity matrix.}
@@ -12,6 +17,8 @@ sim_annotate(sim_df, annotation_cols, index = "both")
 \item{annotation_cols}{character vector specifying annotation columns.}
 
 \item{index}{optional character string specifying whether to annotate left index, right index, or both.  This must be one of the strings \code{"both"} (default), \code{"left"}, \code{"right"}.}
+
+\item{sim_cols}{optional character string specifying minimal set of columns for a similarity matrix}
 }
 \value{
 annotated melted similarity matrix of the same class as \code{sim_df}.

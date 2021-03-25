@@ -35,12 +35,12 @@ population <- tibble::tibble(
   y = x + rnorm(4) / 100,
   z = y + rnorm(4) / 1000
 )
-sim_df <- simplyr::sim_calculate(population, method = "pearson")
-sim_df \%>\% simplyr::sim_write("/tmp/test", file_format = "csv")
+sim_df <- matric::sim_calculate(population, method = "pearson")
+sim_df \%>\% matric::sim_write("/tmp/test", file_format = "csv")
 readr::read_csv("/tmp/test/test.csv")
 readr::read_csv("/tmp/test/test_metadata.csv")
 jsonlite::read_json("/tmp/test/test_metadata.json")
-sim_df \%>\% simplyr::sim_write("/tmp/test.parquet")
+sim_df \%>\% matric::sim_write("/tmp/test.parquet")
 sim_df_in <- arrow::read_parquet("/tmp/test.parquet")
 attr(sim_df_in, "row_metadata")
 attr(sim_df_in, "metric_metadata")

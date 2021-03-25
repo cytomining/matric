@@ -8,6 +8,8 @@ sim_read(input, file_format = "parquet")
 }
 \arguments{
 \item{input}{character string specifying the input filename or directory.}
+
+\item{file_format}{character string specify file format. This must be one of \code{csv} or \code{parquet}(default).}
 }
 \value{
 tbl with similarity matrix.

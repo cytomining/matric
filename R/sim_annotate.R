@@ -1,4 +1,4 @@
-utils::globalVariables(c("id1", "id2"))
+utils::globalVariables(c("id"))
 #' Annotate melted similarity matrix.
 #'
 #' \code{sim_annotate} annotates a melted similarity matrix.
@@ -6,6 +6,7 @@ utils::globalVariables(c("id1", "id2"))
 #' @param sim_df tbl with melted similarity matrix.
 #' @param annotation_cols character vector specifying annotation columns.
 #' @param index optional character string specifying whether to annotate left index, right index, or both.  This must be one of the strings \code{"both"} (default), \code{"left"}, \code{"right"}.
+#' @param sim_cols optional character string specifying minimal set of columns for a similarity matrix
 #'
 #' @return annotated melted similarity matrix of the same class as \code{sim_df}.
 #'
@@ -28,7 +29,8 @@ utils::globalVariables(c("id1", "id2"))
 sim_annotate <-
   function(sim_df,
            annotation_cols,
-           index = "both") {
+           index = "both",
+           sim_cols = c("id1", "id2", "sim")) {
     metadata <- attr(sim_df, "row_metadata")
 
     stopifnot(!is.null(metadata))
@@ -48,16 +50,16 @@ sim_annotate <-
 
     if (index == "right") {
       sim_df %<>%
-        inner_join(metadata_i,
+        dplyr::inner_join(metadata_i,
                    by = c("id2" = "id"),
                    suffix = c("1", "2"))
     }
 
     if (index == "both") {
       sim_df %<>%
-        inner_join(metadata_i,
+        dplyr::inner_join(metadata_i,
                    by = c("id1" = "id")) %>%
-        inner_join(metadata_i,
+        dplyr::inner_join(metadata_i,
                    by = c("id2" = "id"),
                    suffix = c("1", "2"))
     }

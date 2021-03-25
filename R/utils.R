@@ -1,3 +1,4 @@
+utils::globalVariables(c("id"))
 #' Get row annotations.
 #'
 #' \code{get_annotation} gets row annotations.
