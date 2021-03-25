@@ -17,7 +17,9 @@ Imports:
     tidyr,
     readr,
     futile.logger,
-    arrow
+    arrow,
+    jsonlite,
+    glue
 RoxygenNote: 7.1.1
 Suggests: 
     testthat (>= 3.0.0)

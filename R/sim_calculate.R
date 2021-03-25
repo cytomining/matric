@@ -1,5 +1,4 @@
-utils::globalVariables("id1")
-utils::globalVariables("id2")
+utils::globalVariables(c("id1", "id2"))
 #' Calculate melted similarity matrix.
 #'
 #' \code{sim_calculate} calculates a melted similarity matrix.

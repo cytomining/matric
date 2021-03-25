@@ -29,6 +29,6 @@ population <- tibble::tibble(
   z = y + rnorm(4) / 1000
 )
 annotation_cols <- c("Metadata_group")
-sim_df <- simplyr::sim_calculate(population, method = "pearson")
-simplyr::sim_annotate(sim_df, annotation_cols)
+sim_df <- matric::sim_calculate(population, method = "pearson")
+matric::sim_annotate(sim_df, annotation_cols)
 }

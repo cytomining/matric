@@ -1,3 +1,4 @@
+utils::globalVariables(c("id1", "id2"))
 #' Annotate melted similarity matrix.
 #'
 #' \code{sim_annotate} annotates a melted similarity matrix.
@@ -21,8 +22,8 @@
 #'   z = y + rnorm(4) / 1000
 #' )
 #' annotation_cols <- c("Metadata_group")
-#' sim_df <- simplyr::sim_calculate(population, method = "pearson")
-#' simplyr::sim_annotate(sim_df, annotation_cols)
+#' sim_df <- matric::sim_calculate(population, method = "pearson")
+#' matric::sim_annotate(sim_df, annotation_cols)
 #' @export
 sim_annotate <-
   function(sim_df,
@@ -34,13 +35,13 @@ sim_annotate <-
 
     metadata_i <-
       metadata %>%
-      select(id, any_of(annotation_cols))
+      dplyr::select(id, dplyr::any_of(annotation_cols))
 
     sim_df %<>% dplyr::select(dplyr::all_of(sim_cols))
 
     if (index == "left") {
       sim_df %<>%
-        inner_join(metadata_i,
+        dplyr::inner_join(metadata_i,
                    by = c("id1" = "id"),
                    suffix = c("1", "2"))
     }
