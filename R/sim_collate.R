@@ -69,11 +69,12 @@
 #'
 #'
 #' @param sim_df tbl with melted similarity matrix.
-#' @param all_same_cols character vector specifying columns.
 #' @param annotation_cols character vector specifying which columns from \code{metadata} to annotate the left index of the filtered \code{sim_df} with.
-#' @param any_different_cols optional character vector specifying columns.
+#' @param all_same_cols_rep optional character vector specifying columns.
+#' @param all_same_cols_ref optional character vector specifying columns.
 #' @param all_same_cols_rep_ref optional character vector specifying columns.
 #' @param any_different_cols_non_rep optional character vector specifying columns.
+#' @param all_same_cols_non_rep optional character vector specifying columns.
 #' @param all_different_cols_non_rep optional character vector specifying columns.
 #' @param any_different_cols_group optional character vector specifying columns.
 #' @param all_same_cols_group optional character vector specifying columns.
@@ -266,7 +267,7 @@ sim_collate <-
     # 6. Combine
 
     combined <-
-      rep %>% mutate(type = "rep")
+      rep %>% dplyr::mutate(type = "rep")
 
     if (fetch_rep_ref) {
       combined %<>%

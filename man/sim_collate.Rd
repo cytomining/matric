@@ -23,11 +23,17 @@ sim_collate(
 \arguments{
 \item{sim_df}{tbl with melted similarity matrix.}
 
+\item{all_same_cols_rep}{optional character vector specifying columns.}
+
 \item{annotation_cols}{character vector specifying which columns from \code{metadata} to annotate the left index of the filtered \code{sim_df} with.}
+
+\item{all_same_cols_ref}{optional character vector specifying columns.}
 
 \item{all_same_cols_rep_ref}{optional character vector specifying columns.}
 
 \item{any_different_cols_non_rep}{optional character vector specifying columns.}
+
+\item{all_same_cols_non_rep}{optional character vector specifying columns.}
 
 \item{all_different_cols_non_rep}{optional character vector specifying columns.}
 
@@ -40,10 +46,6 @@ sim_collate(
 \item{drop_reference}{optional boolean specifying whether to filter (drop) pairs using \code{reference} on the left index.}
 
 \item{drop_group}{optional tbl; rows that match on \code{drop_group} on the left or right index are dropped.}
-
-\item{all_same_cols}{character vector specifying columns.}
-
-\item{any_different_cols}{optional character vector specifying columns.}
 }
 \value{
 filtered \code{sim_df} with sets of pairs.
