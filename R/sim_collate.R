@@ -108,26 +108,25 @@ sim_collate <-
       sim_df %<>%
         sim_filter(filter_drop = drop_group, filter_side = "left") %>%
         sim_filter(filter_drop = drop_group, filter_side = "right")
-
     }
 
     fetch_ref <-
       !is.null(all_same_cols_ref) &&
-      !is.null(reference)
+        !is.null(reference)
 
     fetch_rep_ref <-
       !is.null(all_same_cols_ref) &&
-      !is.null(reference) &&
-      !is.null(all_same_cols_rep_ref)
+        !is.null(reference) &&
+        !is.null(all_same_cols_rep_ref)
 
     fetch_non_rep <-
       !is.null(any_different_cols_non_rep) &&
-      !is.null(all_same_cols_non_rep) &&
-      !is.null(all_different_cols_non_rep)
+        !is.null(all_same_cols_non_rep) &&
+        !is.null(all_different_cols_non_rep)
 
     fetch_rep_group <-
       !is.null(any_different_cols_group) &&
-      !is.null(all_same_cols_group)
+        !is.null(all_same_cols_group)
 
     # ---- 1. Similarity to reference ----
 
@@ -166,8 +165,9 @@ sim_collate <-
       sim_filter(filter_drop = reference, filter_side = "left") %>%
       sim_filter(filter_drop = reference, filter_side = "right") %>%
       sim_all_same(all_same_cols_rep,
-                   annotation_cols,
-                   drop_lower = FALSE)
+        annotation_cols,
+        drop_lower = FALSE
+      )
 
     # ---- 3. Similarity to replicates (only references) ----
 
@@ -184,10 +184,14 @@ sim_collate <-
     if (fetch_rep_ref) {
       rep_ref <-
         sim_df %>%
-        sim_filter(filter_keep = reference,
-                   filter_side = "left") %>%
-        sim_filter(filter_keep = reference,
-                   filter_side = "right") %>%
+        sim_filter(
+          filter_keep = reference,
+          filter_side = "left"
+        ) %>%
+        sim_filter(
+          filter_keep = reference,
+          filter_side = "right"
+        ) %>%
         sim_all_same(
           all_same_cols = all_same_cols_rep_ref,
           annotation_cols = annotation_cols,
