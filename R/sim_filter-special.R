@@ -48,13 +48,13 @@ sim_all_same <-
 
     ids <-
       dplyr::inner_join(metadata_i,
-                        metadata_i,
-                        by = "all_same_col",
-                        suffix = c("1", "2"))
+        metadata_i,
+        by = "all_same_col",
+        suffix = c("1", "2")
+      )
 
     if (include_group_tag) {
       ids %<>% dplyr::select(id1, id2, group = all_same_col)
-
     } else {
       ids %<>% dplyr::select(id1, id2)
     }
@@ -69,11 +69,11 @@ sim_all_same <-
     if (!is.null(annotation_cols)) {
       sim_df %<>%
         sim_annotate(annotation_cols,
-                     index = "left")
+          index = "left"
+        )
     }
 
     sim_df
-
   }
 
 #' Filter rows of the melted similarity matrix to keep pairs with the same values in specific columns, and keep only some of these pairs.
@@ -114,31 +114,34 @@ sim_all_same_keep_some <-
            all_same_cols,
            filter_keep_right,
            annotation_cols = NULL,
-           drop_reference = TRUE)
-  {
+           drop_reference = TRUE) {
     metadata <- attr(sim_df, "row_metadata")
 
     stopifnot(!is.null(metadata))
 
     sim_df %<>%
       sim_all_same(all_same_cols) %>%
-      sim_filter(filter_keep = filter_keep_right,
-                 filter_side = "right")
+      sim_filter(
+        filter_keep = filter_keep_right,
+        filter_side = "right"
+      )
 
     if (drop_reference) {
       filter_drop_left <- filter_keep_right
 
       sim_df %<>%
-        sim_filter(filter_drop = filter_drop_left,
-                   filter_side = "left")
+        sim_filter(
+          filter_drop = filter_drop_left,
+          filter_side = "left"
+        )
     }
 
     if (!is.null(annotation_cols)) {
       sim_df %<>%
         dplyr::select(dplyr::all_of(sim_cols)) %>%
         sim_annotate(annotation_cols,
-                     index = "left")
-
+          index = "left"
+        )
     }
 
     sim_df
@@ -173,14 +176,14 @@ sim_all_same_keep_some <-
 #' )
 #' annotation_cols <- c("Metadata_group", "Metadata_type")
 #' sim_df <- matric::sim_calculate(population, method = "pearson")
-#' sim_df <- matric::sim_annotate(sim_df,  annotation_cols)
+#' sim_df <- matric::sim_annotate(sim_df, annotation_cols)
 #' all_same_cols <- c("Metadata_group")
 #' all_different_cols <- c("Metadata_type1")
 #' any_different_cols <- c("Metadata_type2")
 #' filter_drop_left <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
 #' filter_drop_right <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
 #' drop_reference <- FALSE
-#' matric::sim_some_different_drop_some(sim_df,  any_different_cols, all_same_cols, all_different_cols, filter_drop_left, filter_drop_right, annotation_cols)
+#' matric::sim_some_different_drop_some(sim_df, any_different_cols, all_same_cols, all_different_cols, filter_drop_left, filter_drop_right, annotation_cols)
 #' @export
 sim_some_different_drop_some <-
   function(sim_df,
@@ -234,7 +237,6 @@ sim_some_different_drop_some <-
 
       all_different_cols <-
         c(all_different_cols, "any_different_col")
-
     }
 
     # create left and right metadata
@@ -243,45 +245,46 @@ sim_some_different_drop_some <-
         if (is.null(filter_drop)) {
           metadata_i %>%
             dplyr::select(id, all_same_col)
-
         } else {
           metadata_i %>%
             dplyr::anti_join(filter_drop, by = colnames(filter_drop)) %>%
             dplyr::select(id, all_same_col)
-
         }
       }
 
-    metadata_left  <- f_metadata_filter(filter_drop_left)
+    metadata_left <- f_metadata_filter(filter_drop_left)
     metadata_right <- f_metadata_filter(filter_drop_right)
 
     # list of rows that should be the same (weak constraint)
     ids_all_same <-
       dplyr::inner_join(metadata_left,
-                        metadata_right,
-                        by = "all_same_col",
-                        suffix = c("1", "2"))
+        metadata_right,
+        by = "all_same_col",
+        suffix = c("1", "2")
+      )
 
     # list of rows that should be the different (strong constraint)
     ids_all_different <-
-      purrr::map_df(all_different_cols,
-                    function(all_different_col) {
-                      dplyr::inner_join(
-                        metadata_i %>% dplyr::select(id, dplyr::all_of(all_different_col)),
-                        metadata_i %>% dplyr::select(id, dplyr::all_of(all_different_col)),
-                        by = all_different_col,
-                        suffix = c("1", "2")
-                      ) %>%
-                        dplyr::select(id1, id2)
-
-                    }) %>%
+      purrr::map_df(
+        all_different_cols,
+        function(all_different_col) {
+          dplyr::inner_join(
+            metadata_i %>% dplyr::select(id, dplyr::all_of(all_different_col)),
+            metadata_i %>% dplyr::select(id, dplyr::all_of(all_different_col)),
+            by = all_different_col,
+            suffix = c("1", "2")
+          ) %>%
+            dplyr::select(id1, id2)
+        }
+      ) %>%
       dplyr::distinct()
 
     # impose strong constraint on weak constraint
     ids <-
       dplyr::anti_join(ids_all_same,
-                       ids_all_different,
-                       by = c("id1", "id2"))
+        ids_all_different,
+        by = c("id1", "id2")
+      )
 
     ids %<>% dplyr::select(id1, id2)
 
@@ -293,9 +296,9 @@ sim_some_different_drop_some <-
     if (!is.null(annotation_cols)) {
       sim_df %<>%
         sim_annotate(annotation_cols,
-                     index = "left")
+          index = "left"
+        )
     }
 
     sim_df
-
   }
