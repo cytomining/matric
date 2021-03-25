@@ -51,70 +51,92 @@ sim_collate(
 filtered \code{sim_df} with sets of pairs.
 }
 \description{
-\code{sim_some_different_drop_some} Filters melted similarity matrix to create several sets of pairs.
+\code{sim_collate} Filters melted similarity matrix to create several sets of pairs.
 }
 \details{
-0. Filter out some rows
+\subsection{0. Filter out some rows}{
 
 Filter out pairs that match \code{drop_group} in either right or left indices
+}
 
-1. Similarity to reference
+\subsection{1. Similarity to reference}{
 
 Fetch similarities between
-a. all rows (except, optionally those containing \code{reference})
-and
-b. all rows containing \code{reference}
+\itemize{
+\item (a) all rows (except, optionally those containing \code{reference}), and
+\item (b) all rows containing \code{reference}
+}
+
 Do so only for those (a, b) pairs that
-- have *same* values in *all* columns of \code{all_same_cols_ref}
+\itemize{
+\item have \emph{same} values in \emph{all} columns of \code{all_same_cols_ref}
+}
+}
 
-2. Similarity to replicates (no references)
-
-Fetch similarities between
-a. all rows except \code{reference} rows
-and
-b. all rows except \code{reference} rows (i.e. to each other)
-
-Do so for only those (a, b) pairs that
-- have *same* values in *all* columns of \code{all_same_cols_rep}
-
-Keep, both, (a, b) and (b, a)
-
-3. Similarity to replicates (only references)
+\subsection{2. Similarity to replicates (no references)}{
 
 Fetch similarities between
-a. all rows containing \code{reference}
-and
-b. all rows containing \code{reference} (i.e. to each other)
+\itemize{
+\item (a) all rows except \code{reference} rows, and
+\item (b) all rows except \code{reference} rows (i.e. to each other)
+}
 
 Do so for only those (a, b) pairs that
-- have *same* values in *all* columns of \code{all_same_cols_rep_ref}.
+\itemize{
+\item have \emph{same} values in \emph{all} columns of \code{all_same_cols_rep}
+}
 
 Keep, both, (a, b) and (b, a)
+}
 
-4. Similarity to non-replicates
+\subsection{3. Similarity to replicates (only references)}{
 
 Fetch similarities between
-a. all rows (except, optionally, \code{reference} rows)
-and
-b. all rows except \code{reference} rows
+\itemize{
+\item (a) all rows containing \code{reference}, and
+\item (b) all rows containing \code{reference} (i.e. to each other)
+}
 
 Do so for only those (a, b) pairs that
-- have *same* values in *all* columns of \code{all_same_cols_non_rep}
-- have *different* values in *all* columns \code{all_different_cols_non_rep}
-- have *different* values in *at least one* column of \code{any_different_cols_non_rep}
+\itemize{
+\item have \emph{same} values in \emph{all} columns of \code{all_same_cols_rep_ref}.
+}
 
 Keep, both, (a, b) and (b, a)
+}
 
-5. Similarity to group
+\subsection{4. Similarity to non-replicates}{
 
 Fetch similarities between
-a. all rows (except, optionally, \code{reference} rows)
-and
-b. all rows (except, optionally, \code{reference} rows)
+\itemize{
+\item (a) all rows (except, optionally, \code{reference} rows), and
+\item (b) all rows except \code{reference} rows
+}
 
 Do so for only those (a, b) pairs that
-- have *same* values in *all* columns of \code{all_same_cols_group}
-- have *different* values in *at least one* column of \code{any_different_cols_group}
+\itemize{
+\item have \emph{same} values in \emph{all} columns of \code{all_same_cols_non_rep}
+\item have \emph{different} values in \emph{all} columns \code{all_different_cols_non_rep}
+\item have \emph{different} values in \emph{at least one} column of \code{any_different_cols_non_rep}
+}
 
 Keep, both, (a, b) and (b, a)
+}
+
+\subsection{5. Similarity to group}{
+
+Fetch similarities between
+\itemize{
+\item (a) all rows (except, optionally, \code{reference} rows), and
+\item (b) all rows (except, optionally, \code{reference} rows)
+}
+
+Do so for only those (a, b) pairs that
+\itemize{
+\item have \emph{same} values in \emph{all} columns of \code{all_same_cols_group}
+\item have \emph{different} values in \emph{at least one} column of \code{any_different_cols_group}
+}
+
+Keep, both, (a, b) and (b, a)
+}
 }
