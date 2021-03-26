@@ -26,7 +26,7 @@ three columns.
 Columns:
 \itemize{
 \item \code{id1} and \code{id2}: integers, indicating row ids.
-\item \code{sim} similarity: double, indicating similarity between the rows.
+\item \code{sim}: double, indicating similarity between the rows.
 }
 
 Attributes:

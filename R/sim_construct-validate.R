@@ -7,7 +7,7 @@
 #'
 #' Columns:
 #' - \code{id1} and \code{id2}: integers, indicating row ids.
-#' - \code{sim} similarity: double, indicating similarity between the rows.
+#' - \code{sim}: double, indicating similarity between the rows.
 #'
 #' Attributes:
 #' - \code{row_metadata}: data.frame of row annotations, with `id` column.
