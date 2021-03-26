@@ -64,12 +64,17 @@ sim_validate <- function(x) {
 #' \code{sim_preserve} preserves the attributes of class \code{sim}.
 #'
 #' This is a workaround until we figure out S3 inheritance better
-#' https://adv-r.hadley.nz/s3.html#inheritance
+#' https://adv-r.hadley.nz/s3.html#inheritance.
+#'
+#' https://cran.r-project.org/web/packages/sticky/vignettes/introduction.html
+#' like attempts something similar, but in a more sophisticated way.
 #'
 #' @param x object to preserve.
 #' @param x0 object of class \code{sim}.
 #'
 #' @return object of class \code{sim} if \code{x} is a valid object of that class
+#'
+#' @export
 sim_preserve <- function(x, x0) {
 
   invisible(sim_validate(x0))
