@@ -1,4 +1,4 @@
-test_that("get_annotation works", {
+test_that("`get_annotation` works", {
   population <- tibble::tibble(
     Metadata_group = c(
       "control",
@@ -24,7 +24,7 @@ test_that("get_annotation works", {
   )
 })
 
-test_that("drop_annotation works", {
+test_that("`drop_annotation` works", {
   population <- tibble::tibble(
     Metadata_group = c(
       "control",
