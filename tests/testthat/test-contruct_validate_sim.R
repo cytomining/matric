@@ -37,7 +37,9 @@ test_that("`preserve_sim` works", {
 
   invisible(sim_validate(x))
 
-  x <- x %>% group_by(id1) %>% mutate(sim = sim / 2)
+  x <- x %>%
+    group_by(id1) %>%
+    mutate(sim = sim / 2)
 
   expect_error(invisible(sim_validate(x)))
 
@@ -45,9 +47,10 @@ test_that("`preserve_sim` works", {
 
   attr_x <- attributes(x)
 
-  x <- x %>% group_by(id1) %>% mutate(sim = sim / 2) %>% sim_preserve(attr_x)
+  x <- x %>%
+    group_by(id1) %>%
+    mutate(sim = sim / 2) %>%
+    sim_preserve(attr_x)
 
   expect_s3_class(sim_validate(x), "sim")
-
 })
-

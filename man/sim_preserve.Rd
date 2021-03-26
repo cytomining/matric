@@ -4,12 +4,12 @@
 \alias{sim_preserve}
 \title{Preserver for \code{sim} S3 class.}
 \usage{
-sim_preserve(x, x0)
+sim_preserve(x, x_attributes)
 }
 \arguments{
 \item{x}{object to preserve.}
 
-\item{x0}{object of class \code{sim}.}
+\item{x_attributes}{list of attributes of class \code{sim}.}
 }
 \value{
 object of class \code{sim} if \code{x} is a valid object of that class
@@ -22,5 +22,5 @@ This is a workaround until we figure out S3 inheritance better
 https://adv-r.hadley.nz/s3.html#inheritance.
 
 https://cran.r-project.org/web/packages/sticky/vignettes/introduction.html
-like attempts something similar, but in a more sophisticated way.
+likely attempts something similar.
 }

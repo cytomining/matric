@@ -31,7 +31,6 @@ sim_annotate <-
            annotation_cols,
            index = "both",
            sim_cols = c("id1", "id2", "sim")) {
-
     invisible(sim_validate(sim_df))
 
     row_metadata <- attr(sim_df, "row_metadata")

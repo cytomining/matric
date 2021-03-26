@@ -77,7 +77,6 @@ sim_validate <- function(x) {
 #'
 #' @export
 sim_preserve <- function(x, x_attributes) {
-
   mostattributes(x) <- x_attributes
 
   sim_validate(x)
