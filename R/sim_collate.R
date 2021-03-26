@@ -196,8 +196,8 @@ sim_collate <-
 
     if (!is.null(drop_group)) {
       sim_df %<>%
-        sim_filter(filter_drop = drop_group, filter_side = "left") %>%
-        sim_filter(filter_drop = drop_group, filter_side = "right")
+        sim_filter(row_metadata = row_metadata, filter_drop = drop_group, filter_side = "left") %>%
+        sim_filter(row_metadata = row_metadata, filter_drop = drop_group, filter_side = "right")
     }
 
     fetch_ref <-
@@ -256,7 +256,8 @@ sim_collate <-
       sim_filter(row_metadata = row_metadata, filter_drop = reference, filter_side = "left") %>%
       sim_filter(row_metadata = row_metadata, filter_drop = reference, filter_side = "right") %>%
       sim_all_same(
-        row_metadata = row_metadata, all_same_cols_rep,
+        row_metadata = row_metadata,
+        all_same_cols_rep,
         annotation_cols,
         drop_lower = FALSE
       )

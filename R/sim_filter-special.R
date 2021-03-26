@@ -27,11 +27,19 @@ utils::globalVariables(c("all_same_col"))
 #' )
 #' annotation_cols <- c("Metadata_group", "Metadata_type")
 #' sim_df <- matric::sim_calculate(population, method = "pearson")
-#' sim_df <- matric::sim_annotate(sim_df, annotation_cols)
+#' row_metadata <- attr(sim_df, "row_metadata")
+#' sim_df <- matric::sim_annotate(sim_df, row_metadata, annotation_cols)
 #' all_same_cols <- c("Metadata_group")
 #' include_group_tag <- TRUE
 #' drop_lower <- FALSE
-#' matric::sim_all_same(sim_df, all_same_cols, annotation_cols, include_group_tag, drop_lower)
+#' matric::sim_all_same(
+#'     sim_df,
+#'     row_metadata,
+#'     all_same_cols,
+#'     annotation_cols,
+#'     include_group_tag,
+#'     drop_lower
+#'  )
 #' @export
 sim_all_same <-
   function(sim_df,
@@ -40,7 +48,7 @@ sim_all_same <-
            annotation_cols = NULL,
            include_group_tag = FALSE,
            drop_lower = FALSE) {
-    sim_df %<>% as.data.frame(sim_df)
+    sim_df %<>% as.data.frame()
 
     metadata_i <-
       row_metadata %>%
@@ -106,12 +114,14 @@ sim_all_same <-
 #' )
 #' annotation_cols <- c("Metadata_group", "Metadata_type")
 #' sim_df <- matric::sim_calculate(population, method = "pearson")
-#' sim_df <- matric::sim_annotate(sim_df, annotation_cols)
+#' row_metadata <- attr(sim_df, "row_metadata")
+#' sim_df <- matric::sim_annotate(sim_df, row_metadata, annotation_cols)
 #' all_same_cols <- c("Metadata_group")
 #' filter_keep_right <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
 #' drop_reference <- FALSE
 #' matric::sim_all_same_keep_some(
 #'   sim_df,
+#'   row_metadata,
 #'   all_same_cols,
 #'   filter_keep_right,
 #'   annotation_cols,
@@ -126,7 +136,7 @@ sim_all_same_keep_some <-
            annotation_cols = NULL,
            drop_reference = TRUE,
            sim_cols = c("id1", "id2", "sim")) {
-    sim_df %<>% as.data.frame(sim_df)
+    sim_df %<>% as.data.frame()
 
     sim_df %<>%
       sim_all_same(row_metadata, all_same_cols) %>%
@@ -188,7 +198,8 @@ sim_all_same_keep_some <-
 #' )
 #' annotation_cols <- c("Metadata_group", "Metadata_type")
 #' sim_df <- matric::sim_calculate(population, method = "pearson")
-#' sim_df <- matric::sim_annotate(sim_df, annotation_cols)
+#' row_metadata <- attr(sim_df, "row_metadata")
+#' sim_df <- matric::sim_annotate(sim_df, row_metadata, annotation_cols)
 #' all_same_cols <- c("Metadata_group")
 #' all_different_cols <- c("Metadata_type1")
 #' any_different_cols <- c("Metadata_type2")
@@ -197,6 +208,7 @@ sim_all_same_keep_some <-
 #' drop_reference <- FALSE
 #' matric::sim_some_different_drop_some(
 #'   sim_df,
+#'   row_metadata,
 #'   any_different_cols,
 #'   all_same_cols,
 #'   all_different_cols,
@@ -214,7 +226,7 @@ sim_some_different_drop_some <-
            filter_drop_left = NULL,
            filter_drop_right = NULL,
            annotation_cols = NULL) {
-    sim_df %<>% as.data.frame(sim_df)
+    sim_df %<>% as.data.frame()
 
     stopifnot(!any(all_same_cols %in% all_different_cols))
 

@@ -4,6 +4,7 @@ utils::globalVariables(c("id"))
 #' \code{sim_annotate} annotates a melted similarity matrix.
 #'
 #' @param sim_df tbl with melted similarity matrix.
+#' @param row_metadata tbl with row metadata.
 #' @param annotation_cols character vector specifying annotation columns.
 #' @param index optional character string specifying whether to annotate left index, right index, or both.  This must be one of the strings \code{"both"} (default), \code{"left"}, \code{"right"}.
 #' @param sim_cols optional character string specifying minimal set of columns for a similarity matrix
@@ -24,16 +25,17 @@ utils::globalVariables(c("id"))
 #' )
 #' annotation_cols <- c("Metadata_group")
 #' sim_df <- matric::sim_calculate(population, method = "pearson")
-#' matric::sim_annotate(sim_df, annotation_cols)
+#' row_metadata <- attr(sim_df, "row_metadata")
+#' matric::sim_annotate(sim_df, row_metadata, annotation_cols)
 #' @export
 sim_annotate <-
   function(sim_df,
+           row_metadata,
            annotation_cols,
            index = "both",
            sim_cols = c("id1", "id2", "sim")) {
-    invisible(sim_validate(sim_df))
 
-    row_metadata <- attr(sim_df, "row_metadata")
+    sim_df %<>% as.data.frame()
 
     metadata_i <-
       row_metadata %>%
@@ -68,5 +70,5 @@ sim_annotate <-
         )
     }
 
-    sim_validate(sim_df)
+    sim_df
   }
