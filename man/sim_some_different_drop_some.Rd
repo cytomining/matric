@@ -6,6 +6,7 @@
 \usage{
 sim_some_different_drop_some(
   sim_df,
+  row_metadata,
   any_different_cols,
   all_same_cols = NULL,
   all_different_cols = NULL,
@@ -16,6 +17,8 @@ sim_some_different_drop_some(
 }
 \arguments{
 \item{sim_df}{tbl with melted similarity matrix.}
+
+\item{row_metadata}{tbl with row metadata.}
 
 \item{any_different_cols}{character vector specifying columns.}
 
@@ -47,7 +50,8 @@ population <- tibble::tibble(
 )
 annotation_cols <- c("Metadata_group", "Metadata_type")
 sim_df <- matric::sim_calculate(population, method = "pearson")
-sim_df <- matric::sim_annotate(sim_df, annotation_cols)
+row_metadata <- attr(sim_df, "row_metadata")
+sim_df <- matric::sim_annotate(sim_df, row_metadata, annotation_cols)
 all_same_cols <- c("Metadata_group")
 all_different_cols <- c("Metadata_type1")
 any_different_cols <- c("Metadata_type2")
@@ -56,6 +60,7 @@ filter_drop_right <- tibble::tibble(Metadata_group = "a", Metadata_type1 = "x")
 drop_reference <- FALSE
 matric::sim_some_different_drop_some(
   sim_df,
+  row_metadata,
   any_different_cols,
   all_same_cols,
   all_different_cols,

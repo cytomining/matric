@@ -7,14 +7,11 @@
 sim_write(sim_df, output, file_format = "parquet")
 }
 \arguments{
-\item{sim_df}{tbl with melted similarity matrix.}
+\item{sim_df}{\code{metric_sim} object.}
 
 \item{output}{character string specifying the output directory or filename.}
 
 \item{file_format}{character string specify file format. This must be one of \code{csv} or \code{parquet}(default).}
-}
-\value{
-\code{sim_df}.
 }
 \description{
 \code{sim_write} writes similarity matrix.

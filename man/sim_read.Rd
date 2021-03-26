@@ -12,18 +12,10 @@ sim_read(input, file_format = "parquet")
 \item{file_format}{character string specify file format. This must be one of \code{csv} or \code{parquet}(default).}
 }
 \value{
-tbl with similarity matrix.
+\code{metric_sim} object.
 }
 \description{
 \code{sim_read} reads similarity matrix.
-}
-\details{
-With the CSV format, the \code{row_metadata} and \code{metric_metadata}
-attributes are read in and added as attributes to the \code{sim_df} tbl.
-
-This is not required for Parquet because it the attributes are saved.
-For Parquet format, \code{sim_read} is identical to
-\code{arrow::read_parquet}
 }
 \examples{
 suppressMessages(suppressWarnings(library(magrittr)))

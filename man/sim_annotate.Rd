@@ -6,6 +6,7 @@
 \usage{
 sim_annotate(
   sim_df,
+  row_metadata,
   annotation_cols,
   index = "both",
   sim_cols = c("id1", "id2", "sim")
@@ -13,6 +14,8 @@ sim_annotate(
 }
 \arguments{
 \item{sim_df}{tbl with melted similarity matrix.}
+
+\item{row_metadata}{tbl with row metadata.}
 
 \item{annotation_cols}{character vector specifying annotation columns.}
 
@@ -37,5 +40,6 @@ population <- tibble::tibble(
 )
 annotation_cols <- c("Metadata_group")
 sim_df <- matric::sim_calculate(population, method = "pearson")
-matric::sim_annotate(sim_df, annotation_cols)
+row_metadata <- attr(sim_df, "row_metadata")
+matric::sim_annotate(sim_df, row_metadata, annotation_cols)
 }

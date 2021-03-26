@@ -21,7 +21,7 @@ sim_collate(
 )
 }
 \arguments{
-\item{sim_df}{tbl with melted similarity matrix.}
+\item{sim_df}{\code{metric_sim} object.}
 
 \item{all_same_cols_rep}{optional character vector specifying columns.}
 

@@ -6,6 +6,7 @@
 \usage{
 sim_all_same(
   sim_df,
+  row_metadata,
   all_same_cols,
   annotation_cols = NULL,
   include_group_tag = FALSE,
@@ -14,6 +15,8 @@ sim_all_same(
 }
 \arguments{
 \item{sim_df}{tbl with melted similarity matrix.}
+
+\item{row_metadata}{tbl with row metadata.}
 
 \item{all_same_cols}{character vector specifying columns.}
 
@@ -41,9 +44,17 @@ population <- tibble::tibble(
 )
 annotation_cols <- c("Metadata_group", "Metadata_type")
 sim_df <- matric::sim_calculate(population, method = "pearson")
-sim_df <- matric::sim_annotate(sim_df, annotation_cols)
+row_metadata <- attr(sim_df, "row_metadata")
+sim_df <- matric::sim_annotate(sim_df, row_metadata, annotation_cols)
 all_same_cols <- c("Metadata_group")
 include_group_tag <- TRUE
 drop_lower <- FALSE
-matric::sim_all_same(sim_df, all_same_cols, annotation_cols, include_group_tag, drop_lower)
+matric::sim_all_same(
+    sim_df,
+    row_metadata,
+    all_same_cols,
+    annotation_cols,
+    include_group_tag,
+    drop_lower
+ )
 }
