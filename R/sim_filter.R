@@ -34,7 +34,7 @@ sim_filter <-
            filter_keep = NULL,
            filter_drop = NULL,
            filter_side = NULL) {
-    invisible(validate_sim(sim_df))
+    invisible(sim_validate(sim_df))
 
     row_metadata <- attr(sim_df, "row_metadata")
 
@@ -74,5 +74,5 @@ sim_filter <-
         dplyr::anti_join(filter_ids, by = join_str)
     }
 
-    validate_sim(sim_df)
+    sim_validate(sim_df)
   }

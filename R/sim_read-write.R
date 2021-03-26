@@ -162,5 +162,5 @@ sim_read <- function(input, file_format = "parquet") {
     metric_metadata <- attr(sim_df, "metric_metadata")
   }
 
-  validate_sim(new_sim(sim_df, row_metadata, metric_metadata))
+  sim_validate(sim_new(sim_df, row_metadata, metric_metadata))
 }

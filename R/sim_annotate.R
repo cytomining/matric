@@ -31,9 +31,10 @@ sim_annotate <-
            annotation_cols,
            index = "both",
            sim_cols = c("id1", "id2", "sim")) {
-    row_metadata <- attr(sim_df, "row_metadata")
 
-    invisible(validate_sim(sim_df))
+    invisible(sim_validate(sim_df))
+
+    row_metadata <- attr(sim_df, "row_metadata")
 
     metadata_i <-
       row_metadata %>%
@@ -68,5 +69,5 @@ sim_annotate <-
         )
     }
 
-    validate_sim(sim_df)
+    sim_validate(sim_df)
   }

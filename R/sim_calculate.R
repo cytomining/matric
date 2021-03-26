@@ -49,5 +49,5 @@ sim_calculate <-
       dplyr::mutate(id2 = as.integer(id2)) %>%
       dplyr::filter(id1 != id2)
 
-    validate_sim(new_sim(sim_df, row_metadata, list(method = method)))
+    sim_validate(sim_new(sim_df, row_metadata, list(method = method)))
   }

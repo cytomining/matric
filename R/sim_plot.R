@@ -34,7 +34,7 @@ sim_plot <-
            annotation_column,
            calculate_sim_rank = FALSE,
            trim_label = NULL) {
-    invisible(validate_sim(sim_df))
+    invisible(sim_validate(sim_df))
 
     col1 <- paste0(annotation_column, "1")
     col2 <- paste0(annotation_column, "2")

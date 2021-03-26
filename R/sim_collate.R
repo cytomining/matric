@@ -188,7 +188,7 @@ sim_collate <-
            reference = NULL,
            drop_reference = FALSE,
            drop_group = NULL) {
-    invisible(validate_sim(sim_df))
+    invisible(sim_validate(sim_df))
 
     row_metadata <- attr(sim_df, "row_metadata")
 
