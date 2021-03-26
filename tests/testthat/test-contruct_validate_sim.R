@@ -1,16 +1,16 @@
-test_that("`new_sim` works", {
+test_that("`sim_new` works", {
   x <- data.frame(id1 = 1, id2 = 1, sim = 1)
 
   row_metadata <- data.frame(id = 1, Metadata_type = "a")
 
   metric_metadata <- list(method = "pearson")
 
-  expect_s3_class(new_sim(x, row_metadata, metric_metadata), "sim")
+  expect_s3_class(sim_new(x, row_metadata, metric_metadata), "sim")
 
-  expect_error(new_sim(x))
+  expect_error(sim_new(x))
 })
 
-test_that("`validate_sim` works", {
+test_that("`sim_validate` works", {
   x <- data.frame(id1 = 1, id2 = 1, sim = 1)
 
   row_metadata <- data.frame(id = 1, Metadata_type = "a")
@@ -19,7 +19,35 @@ test_that("`validate_sim` works", {
 
   metric_metadata <- list(method = "pearson")
 
-  expect_s3_class(validate_sim(new_sim(x, row_metadata, metric_metadata)), "sim")
+  expect_s3_class(sim_validate(sim_new(x, row_metadata, metric_metadata)), "sim")
 
-  expect_error(validate_sim(new_sim(x, row_metadata_bad, metric_metadata)))
+  expect_error(sim_validate(sim_new(x, row_metadata_bad, metric_metadata)))
 })
+
+test_that("`preserve_sim` works", {
+  x <- data.frame(id1 = 1, id2 = 1, sim = 1)
+
+  row_metadata <- data.frame(id = 1, Metadata_type = "a")
+
+  row_metadata_bad <- data.frame(id = 2, Metadata_type = "a")
+
+  metric_metadata <- list(method = "pearson")
+
+  x <- sim_new(x, row_metadata, metric_metadata)
+
+  invisible(sim_validate(x))
+
+  x <- x %>% group_by(id1) %>% mutate(sim = sim / 2)
+
+  expect_error(invisible(sim_validate(x)))
+
+  x <- sim_new(x, row_metadata, metric_metadata)
+
+  x0 <- x
+
+  x <- x %>% group_by(id1) %>% mutate(sim = sim / 2) %>% sim_preserve(x0)
+
+  expect_s3_class(sim_validate(x), "sim")
+
+})
+
