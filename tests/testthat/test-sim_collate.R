@@ -23,8 +23,10 @@ test_that("`sim_collate` works", {
 
 
   all_same_cols_ref <-
-    c("Metadata_cell_line",
-      "Metadata_Plate")
+    c(
+      "Metadata_cell_line",
+      "Metadata_Plate"
+    )
 
   ## 2. Similarity to replicates (no references)
 
@@ -43,9 +45,11 @@ test_that("`sim_collate` works", {
   # Keep, both, (a, b) and (b, a)
 
   all_same_cols_rep <-
-    c("Metadata_cell_line",
+    c(
+      "Metadata_cell_line",
       "Metadata_gene_name",
-      "Metadata_pert_name")
+      "Metadata_pert_name"
+    )
 
   ## 3. Similarity to replicates (only references)
 
@@ -92,13 +96,17 @@ test_that("`sim_collate` works", {
   # Keep, both, (a, b) and (b, a)
 
   any_different_cols_non_rep <-
-    c("Metadata_cell_line",
+    c(
+      "Metadata_cell_line",
       "Metadata_gene_name",
-      "Metadata_pert_name")
+      "Metadata_pert_name"
+    )
 
   all_same_cols_non_rep <-
-    c("Metadata_cell_line",
-      "Metadata_Plate")
+    c(
+      "Metadata_cell_line",
+      "Metadata_Plate"
+    )
 
   all_different_cols_non_rep <-
     c("Metadata_gene_name")
@@ -121,20 +129,26 @@ test_that("`sim_collate` works", {
   # - have *different* values in *at least one* column of `any_different_cols_group`
 
   all_same_cols_group <-
-    c("Metadata_cell_line",
-      "Metadata_gene_name")
+    c(
+      "Metadata_cell_line",
+      "Metadata_gene_name"
+    )
 
   any_different_cols_group <-
-    c("Metadata_cell_line",
+    c(
+      "Metadata_cell_line",
       "Metadata_gene_name",
-      "Metadata_pert_name")
+      "Metadata_pert_name"
+    )
 
   ## Combine all and annotate the similarity matrix
 
   annotation_cols <-
-    c("Metadata_cell_line",
+    c(
+      "Metadata_cell_line",
       "Metadata_gene_name",
-      "Metadata_pert_name")
+      "Metadata_pert_name"
+    )
 
   sim_df <- sim_calculate(cellhealth)
 
@@ -160,12 +174,14 @@ test_that("`sim_collate` works", {
       n = c(48, 144, 60, 72)
     ),
     collated_sim %>%
-      dplyr::group_by(Metadata_cell_line,
-                      Metadata_gene_name,
-                      type) %>%
+      dplyr::group_by(
+        Metadata_cell_line,
+        Metadata_gene_name,
+        type
+      ) %>%
       dplyr::tally() %>%
       dplyr::filter(Metadata_gene_name == "AKT1" &
-                      Metadata_cell_line == "A549") %>%
+        Metadata_cell_line == "A549") %>%
       dplyr::ungroup() %>%
       dplyr::select(type, n),
     ignore_attr = TRUE
@@ -183,5 +199,4 @@ test_that("`sim_collate` works", {
   )
 
   expect_equal(mean(collated_sim$sim), 0.103919374)
-
 })
