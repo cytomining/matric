@@ -49,9 +49,6 @@ sim_calculate <-
       dplyr::mutate(id2 = as.integer(id2)) %>%
       dplyr::filter(id1 != id2)
 
-    attr(sim_df, "metric_metadata") <- list(method = method)
+    validate_sim(new_sim(sim_df, row_metadata, list(method = method)))
 
-    attr(sim_df, "row_metadata") <- row_metadata
-
-    sim_df
   }

@@ -146,21 +146,24 @@ sim_read <- function(input, file_format = "parquet") {
     futile.logger::flog.info(glue::glue("Reading {row_metadata_filename} ..."))
 
     # https://www.tidyverse.org/blog/2018/12/readr-1-3-1/#tibble-subclass
-    attr(sim_df, "row_metadata") <-
-      readr::read_csv(row_metadata_filename, col_types = readr::cols())[]
+    row_metadata <- readr::read_csv(row_metadata_filename, col_types = readr::cols())[]
 
     futile.logger::flog.info(glue::glue("Reading {metric_metadata_filename} ..."))
 
-    attr(sim_df, "metric_metadata") <-
+    metric_metadata <-
       jsonlite::read_json(metric_metadata_filename,
         simplifyVector = TRUE
       )
+
   } else {
     sim_df <- arrow::read_parquet(input)
+
+    row_metadata <- attr(sim_df, "row_metadata")
+
+    metric_metadata <- attr(sim_df, "metric_metadata")
+
   }
 
-  stopifnot(!is.null(attr(sim_df, "row_metadata")) &&
-    !is.null(attr(sim_df, "metric_metadata")))
+ validate_sim(new_sim(sim_df, row_metadata, metric_metadata))
 
-  sim_df
 }

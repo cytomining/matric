@@ -38,9 +38,10 @@ sim_all_same <-
            annotation_cols = NULL,
            include_group_tag = FALSE,
            drop_lower = FALSE) {
-    row_metadata <- attr(sim_df, "row_metadata")
 
-    stopifnot(!is.null(row_metadata))
+    invisible(validate_sim(sim_df))
+
+    row_metadata <- attr(sim_df, "row_metadata")
 
     metadata_i <-
       row_metadata %>%
@@ -74,7 +75,7 @@ sim_all_same <-
         )
     }
 
-    sim_df
+    validate_sim(sim_df)
   }
 
 #' Filter rows of the melted similarity matrix to keep pairs with the same values in specific columns, and keep only some of these pairs.
@@ -124,9 +125,10 @@ sim_all_same_keep_some <-
            annotation_cols = NULL,
            drop_reference = TRUE,
            sim_cols = c("id1", "id2", "sim")) {
-    row_metadata <- attr(sim_df, "row_metadata")
 
-    stopifnot(!is.null(row_metadata))
+    invisible(validate_sim(sim_df))
+
+    row_metadata <- attr(sim_df, "row_metadata")
 
     sim_df %<>%
       sim_all_same(all_same_cols) %>%
@@ -153,7 +155,7 @@ sim_all_same_keep_some <-
         )
     }
 
-    sim_df
+    validate_sim(sim_df)
   }
 
 #' Filter rows of the melted similarity matrix to keep pairs with the same values in specific columns, and keep only some of these pairs.
@@ -210,9 +212,10 @@ sim_some_different_drop_some <-
            filter_drop_left = NULL,
            filter_drop_right = NULL,
            annotation_cols = NULL) {
-    row_metadata <- attr(sim_df, "row_metadata")
 
-    stopifnot(!is.null(row_metadata))
+    invisible(validate_sim(sim_df))
+
+    row_metadata <- attr(sim_df, "row_metadata")
 
     stopifnot(!any(all_same_cols %in% all_different_cols))
 
@@ -317,5 +320,5 @@ sim_some_different_drop_some <-
         )
     }
 
-    sim_df
+    validate_sim(sim_df)
   }
