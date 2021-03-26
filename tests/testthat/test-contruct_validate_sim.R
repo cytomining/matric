@@ -43,9 +43,9 @@ test_that("`preserve_sim` works", {
 
   x <- sim_new(x, row_metadata, metric_metadata)
 
-  x0 <- x
+  attr_x <- attributes(x)
 
-  x <- x %>% group_by(id1) %>% mutate(sim = sim / 2) %>% sim_preserve(x0)
+  x <- x %>% group_by(id1) %>% mutate(sim = sim / 2) %>% sim_preserve(attr_x)
 
   expect_s3_class(sim_validate(x), "sim")
 

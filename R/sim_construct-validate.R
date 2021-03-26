@@ -67,17 +67,18 @@ sim_validate <- function(x) {
 #' https://adv-r.hadley.nz/s3.html#inheritance.
 #'
 #' https://cran.r-project.org/web/packages/sticky/vignettes/introduction.html
-#' like attempts something similar, but in a more sophisticated way.
+#' likely attempts something similar.
+#'
 #'
 #' @param x object to preserve.
-#' @param x0 object of class \code{sim}.
+#' @param x_attributes list of attributes of class \code{sim}.
 #'
 #' @return object of class \code{sim} if \code{x} is a valid object of that class
 #'
 #' @export
-sim_preserve <- function(x, x0) {
+sim_preserve <- function(x, x_attributes) {
 
-  invisible(sim_validate(x0))
+  mostattributes(x) <- x_attributes
 
-  sim_validate(sim_new(x, attr(x0, "row_metadata"), attr(x0, "metric_metadata")))
+  sim_validate(x)
 }
