@@ -160,14 +160,14 @@ test_that("`sim_collate` works", {
       n = c(48, 144, 60, 72)
     ),
     collated_sim %>%
-      group_by(Metadata_cell_line,
-               Metadata_gene_name,
-               type) %>%
-      tally() %>%
-      filter(Metadata_gene_name == "AKT1" &
-               Metadata_cell_line == "A549") %>%
-      ungroup() %>%
-      select(type, n),
+      dplyr::group_by(Metadata_cell_line,
+                      Metadata_gene_name,
+                      type) %>%
+      dplyr::tally() %>%
+      dplyr::filter(Metadata_gene_name == "AKT1" &
+                      Metadata_cell_line == "A549") %>%
+      dplyr::ungroup() %>%
+      dplyr::select(type, n),
     ignore_attr = TRUE
   )
 
@@ -177,8 +177,8 @@ test_that("`sim_collate` works", {
       n = c(1152, 2052, 468, 3672)
     ),
     collated_sim %>%
-      group_by(type) %>%
-      tally(),
+      dplyr::group_by(type) %>%
+      dplyr::tally(),
     ignore_attr = TRUE
   )
 

@@ -141,13 +141,13 @@ sim_read <- function(input, file_format = "parquet") {
     futile.logger::flog.info(glue::glue("Reading {sim_filename} ..."))
 
     # https://www.tidyverse.org/blog/2018/12/readr-1-3-1/#tibble-subclass
-    sim_df <- readr::read_csv(sim_filename, col_types = cols())[]
+    sim_df <- readr::read_csv(sim_filename, col_types = readr::cols())[]
 
     futile.logger::flog.info(glue::glue("Reading {row_metadata_filename} ..."))
 
     # https://www.tidyverse.org/blog/2018/12/readr-1-3-1/#tibble-subclass
     attr(sim_df, "row_metadata") <-
-      readr::read_csv(row_metadata_filename, col_types = cols())[]
+      readr::read_csv(row_metadata_filename, col_types = readr::cols())[]
 
     futile.logger::flog.info(glue::glue("Reading {metric_metadata_filename} ..."))
 
