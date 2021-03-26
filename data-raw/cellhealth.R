@@ -29,7 +29,9 @@ genes <-
   cellhealth %>%
   distinct(Metadata_gene_name) %>%
   slice(1:3) %>%
-  bind_rows(data.frame(Metadata_gene_name = "EMPTY")) %>%
+  bind_rows(
+    data.frame(Metadata_gene_name = c("EMPTY", "Chr2"))
+    ) %>%
   distinct()
 
 cellhealth <-

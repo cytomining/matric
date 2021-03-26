@@ -5,7 +5,7 @@
 \alias{cellhealth}
 \title{Cell Painting dataset of CRISPR perturbations.}
 \format{
-A data frame with 90 rows and 8 variables:
+A data frame with 198 rows and 8 variables:
 \describe{
 \item{Metadata_Plate}{Plate id}
 \item{Metadata_Well}{Well id}
