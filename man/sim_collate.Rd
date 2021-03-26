@@ -151,13 +151,17 @@ reference <-
   data.frame(Metadata_gene_name = c("Chr2"))
 
 all_same_cols_ref <-
-  c("Metadata_cell_line",
-    "Metadata_Plate")
+  c(
+    "Metadata_cell_line",
+    "Metadata_Plate"
+  )
 
 all_same_cols_rep <-
-  c("Metadata_cell_line",
+  c(
+    "Metadata_cell_line",
     "Metadata_gene_name",
-    "Metadata_pert_name")
+    "Metadata_pert_name"
+  )
 
 all_same_cols_rep_ref <-
   c(
@@ -168,30 +172,40 @@ all_same_cols_rep_ref <-
   )
 
 any_different_cols_non_rep <-
-  c("Metadata_cell_line",
+  c(
+    "Metadata_cell_line",
     "Metadata_gene_name",
-    "Metadata_pert_name")
+    "Metadata_pert_name"
+  )
 
 all_same_cols_non_rep <-
-  c("Metadata_cell_line",
-    "Metadata_Plate")
+  c(
+    "Metadata_cell_line",
+    "Metadata_Plate"
+  )
 
 all_different_cols_non_rep <-
   c("Metadata_gene_name")
 
 all_same_cols_group <-
-  c("Metadata_cell_line",
-    "Metadata_gene_name")
+  c(
+    "Metadata_cell_line",
+    "Metadata_gene_name"
+  )
 
 any_different_cols_group <-
-  c("Metadata_cell_line",
+  c(
+    "Metadata_cell_line",
     "Metadata_gene_name",
-    "Metadata_pert_name")
+    "Metadata_pert_name"
+  )
 
 annotation_cols <-
-  c("Metadata_cell_line",
+  c(
+    "Metadata_cell_line",
     "Metadata_gene_name",
-    "Metadata_pert_name")
+    "Metadata_pert_name"
+  )
 
 collated_sim <-
   matric::sim_collate(
@@ -211,5 +225,7 @@ collated_sim <-
 
 head(collated_sim)
 
-collated_sim \%>\% dplyr::group_by(type) \%>\% dplyr::tally()
+collated_sim \%>\%
+  dplyr::group_by(type) \%>\%
+  dplyr::tally()
 }
