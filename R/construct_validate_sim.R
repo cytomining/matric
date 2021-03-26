@@ -22,7 +22,7 @@ new_sim <- function(x, row_metadata, metric_metadata) {
     x,
     row_metadata = row_metadata,
     metric_metadata = metric_metadata,
-    class = c("sim", class(x)) # this might not be the right way to do it!
+    class = unique(c("sim", class(x))) # this might not be the right way to do it!
   )
 
 }
