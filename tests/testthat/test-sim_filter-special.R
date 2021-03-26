@@ -11,7 +11,8 @@ test_that("`sim_all_same` works", {
   annotation_cols <- c("Metadata_group", "Metadata_type")
 
   sim_df <- matric::sim_calculate(population, method = "pearson")
-  sim_df <- matric::sim_annotate(sim_df, annotation_cols)
+  row_metadata <- attr(sim_df, "row_metadata")
+  sim_df <- matric::sim_annotate(sim_df, row_metadata, annotation_cols)
 
   all_same_cols <- c("Metadata_group")
   include_group_tag <- TRUE
@@ -19,6 +20,7 @@ test_that("`sim_all_same` works", {
 
   sim_df <- matric::sim_all_same(
     sim_df,
+    row_metadata,
     all_same_cols,
     annotation_cols,
     include_group_tag,
@@ -26,7 +28,7 @@ test_that("`sim_all_same` works", {
   )
 
   sim_df <-
-    matric::sim_annotate(sim_df, annotation_cols = annotation_cols)
+    matric::sim_annotate(sim_df, row_metadata, annotation_cols = annotation_cols)
 
   expect_equal(sim_df$Metadata_group1, sim_df$Metadata_group2)
 })
@@ -45,7 +47,8 @@ test_that("`sim_all_same_keep_some` works", {
   annotation_cols <- c("Metadata_group", "Metadata_type")
 
   sim_df <- matric::sim_calculate(population, method = "pearson")
-  sim_df <- matric::sim_annotate(sim_df, annotation_cols)
+  row_metadata <- attr(sim_df, "row_metadata")
+  sim_df <- matric::sim_annotate(sim_df, row_metadata, annotation_cols)
 
   all_same_cols <- c("Metadata_group")
   filter_keep_right <-
@@ -54,6 +57,7 @@ test_that("`sim_all_same_keep_some` works", {
 
   sim_df <- matric::sim_all_same_keep_some(
     sim_df,
+    row_metadata,
     all_same_cols,
     filter_keep_right,
     annotation_cols,
@@ -61,7 +65,7 @@ test_that("`sim_all_same_keep_some` works", {
   )
 
   sim_df <-
-    matric::sim_annotate(sim_df, annotation_cols = annotation_cols)
+    matric::sim_annotate(sim_df, row_metadata, annotation_cols = annotation_cols)
 
   expect_equal(sim_df$Metadata_group1, sim_df$Metadata_group2)
 
@@ -96,7 +100,8 @@ test_that("sim_some_different_drop_some works", {
     )
 
   sim_df <- matric::sim_calculate(population, method = "pearson")
-  sim_df <- matric::sim_annotate(sim_df, annotation_cols)
+  row_metadata <- attr(sim_df, "row_metadata")
+  sim_df <- matric::sim_annotate(sim_df, row_metadata, annotation_cols)
 
   all_same_cols <- c("Metadata_group")
   all_different_cols <- c("Metadata_type1")
@@ -111,6 +116,7 @@ test_that("sim_some_different_drop_some works", {
   sim_df <-
     matric::sim_some_different_drop_some(
       sim_df,
+      row_metadata,
       any_different_cols,
       all_same_cols,
       all_different_cols,
@@ -120,7 +126,7 @@ test_that("sim_some_different_drop_some works", {
     )
 
   sim_df <-
-    matric::sim_annotate(sim_df, annotation_cols = annotation_cols)
+    matric::sim_annotate(sim_df, row_metadata, annotation_cols = annotation_cols)
 
   expect_equal(sim_df$Metadata_group1, sim_df$Metadata_group2)
 
