@@ -7,8 +7,7 @@ utils::globalVariables(c("id1", "id2"))
 #' @param annotation_prefix optional character string specifying prefix for annotation columns.
 #' @param method optional character string specifying method for \code{stats::cor} to calculate similarity.  This must be one of the strings \code{"pearson"} (default), \code{"kendall"}, \code{"spearman"}.
 #'
-#' @return data.frame of melted similarity matrix.
-#'
+#' @return \code{metric_sim} object, with similarity matrix and related metadata
 #'
 #' @examples
 #' suppressMessages(suppressWarnings(library(magrittr)))
