@@ -34,7 +34,6 @@ sim_annotate <-
            annotation_cols,
            index = "both",
            sim_cols = c("id1", "id2", "sim")) {
-
     sim_df %<>% as.data.frame()
 
     metadata_i <-

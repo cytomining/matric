@@ -50,11 +50,11 @@ all_same_cols <- c("Metadata_group")
 include_group_tag <- TRUE
 drop_lower <- FALSE
 matric::sim_all_same(
-    sim_df,
-    row_metadata,
-    all_same_cols,
-    annotation_cols,
-    include_group_tag,
-    drop_lower
- )
+  sim_df,
+  row_metadata,
+  all_same_cols,
+  annotation_cols,
+  include_group_tag,
+  drop_lower
+)
 }
