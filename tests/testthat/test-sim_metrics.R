@@ -8,13 +8,17 @@ test_that("multiplication works", {
     data.frame(Metadata_gene_name = c("Chr2"))
 
   all_same_cols_ref <-
-    c("Metadata_cell_line",
-      "Metadata_Plate")
+    c(
+      "Metadata_cell_line",
+      "Metadata_Plate"
+    )
 
   all_same_cols_rep <-
-    c("Metadata_cell_line",
+    c(
+      "Metadata_cell_line",
       "Metadata_gene_name",
-      "Metadata_pert_name")
+      "Metadata_pert_name"
+    )
 
   all_same_cols_rep_ref <-
     c(
@@ -25,29 +29,39 @@ test_that("multiplication works", {
     )
 
   any_different_cols_non_rep <-
-    c("Metadata_cell_line",
+    c(
+      "Metadata_cell_line",
       "Metadata_gene_name",
-      "Metadata_pert_name")
+      "Metadata_pert_name"
+    )
 
   all_same_cols_non_rep <-
-    c("Metadata_cell_line",
-      "Metadata_Plate")
+    c(
+      "Metadata_cell_line",
+      "Metadata_Plate"
+    )
 
   all_different_cols_non_rep <-
     c("Metadata_gene_name")
 
   all_same_cols_group <-
-    c("Metadata_cell_line",
-      "Metadata_gene_name")
+    c(
+      "Metadata_cell_line",
+      "Metadata_gene_name"
+    )
   any_different_cols_group <-
-    c("Metadata_cell_line",
+    c(
+      "Metadata_cell_line",
       "Metadata_gene_name",
-      "Metadata_pert_name")
+      "Metadata_pert_name"
+    )
 
   annotation_cols <-
-    c("Metadata_cell_line",
+    c(
+      "Metadata_cell_line",
       "Metadata_gene_name",
-      "Metadata_pert_name")
+      "Metadata_pert_name"
+    )
 
   collated_sim <-
     matric::sim_collate(
@@ -78,14 +92,18 @@ test_that("multiplication works", {
         sim_mean_stat_ref_i = 0.101138990315028,
         sim_sd_stat_ref_i = 0.79702010493852
       ),
-      row.names = c(NA,
-                    -1L),
+      row.names = c(
+        NA,
+        -1L
+      ),
       class = c("tbl_df", "tbl", "data.frame")
     )
 
-  expect_equal(answer,
-               metrics$per_row %>%
-                 summarise(across(starts_with("sim"), mean)))
+  expect_equal(
+    answer,
+    metrics$per_row %>%
+      summarise(across(starts_with("sim"), mean))
+  )
 
   answer <-
     structure(
@@ -103,13 +121,17 @@ test_that("multiplication works", {
         sim_sd_stat_ref_i_mean_i = 0.79702010493852,
         sim_sd_stat_ref_i_median_i = 0.80835316991924
       ),
-      row.names = c(NA,
-                    -1L),
+      row.names = c(
+        NA,
+        -1L
+      ),
       class = c("tbl_df", "tbl", "data.frame")
     )
-  expect_equal(answer,
-               metrics$per_set %>%
-                 summarise(across(starts_with("sim"), mean)))
+  expect_equal(
+    answer,
+    metrics$per_set %>%
+      summarise(across(starts_with("sim"), mean))
+  )
 
 
   answer <-
@@ -122,14 +144,16 @@ test_that("multiplication works", {
         sim_mean_stat_ref_g = 0.101138990315028,
         sim_sd_stat_ref_g = 0.835088742570834
       ),
-      row.names = c(NA,
-                    -1L),
+      row.names = c(
+        NA,
+        -1L
+      ),
       class = c("tbl_df", "tbl", "data.frame")
     )
 
-  expect_equal(answer,
-               metrics$per_set_group %>%
-                 summarise(across(starts_with("sim"), mean)))
-
-
+  expect_equal(
+    answer,
+    metrics$per_set_group %>%
+      summarise(across(starts_with("sim"), mean))
+  )
 })
