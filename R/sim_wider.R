@@ -56,8 +56,10 @@ sim_wider <-
       sim_df %>%
       dplyr::select(all_of(c(primary_key_columns, "sim"))) %>%
       dplyr::arrange(across(all_of(primary_key_columns))) %>%
-      tidyr::pivot_wider(names_from = all_of(primary_key_column2),
-                         values_from = "sim") %>%
+      tidyr::pivot_wider(
+        names_from = all_of(primary_key_column2),
+        values_from = "sim"
+      ) %>%
       tibble::column_to_rownames(primary_key_column1)
 
     # assumes symmetric matrix
@@ -89,7 +91,9 @@ sim_wider <-
 
     map1[[annotation_column_unique1]] <-
       paste(map1[[annotation_column1]],
-            seq_along(map1[[annotation_column1]]), sep = ":")
+        seq_along(map1[[annotation_column1]]),
+        sep = ":"
+      )
 
     map1[[primary_key_column1]] <-
       as.character(map1[[primary_key_column1]])

@@ -34,5 +34,4 @@ test_that("`sim_filter` works", {
   expect_equal(
     s1, s2
   )
-
 })

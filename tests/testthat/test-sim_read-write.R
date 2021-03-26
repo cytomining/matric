@@ -24,15 +24,16 @@ test_that("`sim_write` works", {
   json_file <- file.path(tmp_path_prefix, "test_metadata.json")
 
   expect_equal(sim_df,
-               readr::read_csv(
-                 sim_file,
-                 col_types = readr::cols(
-                   id1 = readr::col_double(),
-                   id2 = readr::col_double(),
-                   sim = readr::col_double()
-                 )
-               ),
-               ignore_attr = TRUE)
+    readr::read_csv(
+      sim_file,
+      col_types = readr::cols(
+        id1 = readr::col_double(),
+        id2 = readr::col_double(),
+        sim = readr::col_double()
+      )
+    ),
+    ignore_attr = TRUE
+  )
 
   expect_equal(
     row_metadata,
@@ -49,19 +50,22 @@ test_that("`sim_write` works", {
   expect_equal(
     metric_metadata,
     jsonlite::read_json(json_file,
-                        simplifyVector = TRUE))
+      simplifyVector = TRUE
+    )
+  )
 
   sim_file <- paste(tmp_path_prefix, "parquet", sep = ".")
 
   sim_df %>% matric::sim_write(sim_file)
   sim_df_in <- arrow::read_parquet(sim_file)
 
-  expect_equal(sim_df,
-               sim_df_in)
+  expect_equal(
+    sim_df,
+    sim_df_in
+  )
 })
 
 test_that("`sim_read` works", {
-
   n <- 2
 
   population <- tibble::tibble(

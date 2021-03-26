@@ -152,7 +152,8 @@ sim_read <- function(input, file_format = "parquet") {
 
     attr(sim_df, "metric_metadata") <-
       jsonlite::read_json(metric_metadata_filename,
-                        simplifyVector = TRUE)
+        simplifyVector = TRUE
+      )
   } else {
     sim_df <- arrow::read_parquet(input)
   }

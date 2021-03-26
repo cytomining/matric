@@ -27,8 +27,10 @@ test_that("`sim_wider` works", {
 
   expect_true(is.na(unique(diag(resmat))))
 
-  expect_equal(sort(resmat[upper.tri(resmat)]),
-               sort(resmat[lower.tri(resmat)]))
+  expect_equal(
+    sort(resmat[upper.tri(resmat)]),
+    sort(resmat[lower.tri(resmat)])
+  )
 
   mapped <-
     data.frame(id = rownames(res)) %>%
@@ -43,13 +45,11 @@ test_that("`sim_wider` works", {
         c(primary_key_column, annotation_column)
       ))) %>%
       as.data.frame() %>%
-      unname()
-    ,
+      unname(),
     mapped %>%
       dplyr::distinct(primary_key, annotation) %>%
       dplyr::arrange(primary_key, annotation) %>%
       unname(),
     ignore_attr = TRUE
   )
-
 })
