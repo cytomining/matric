@@ -3,6 +3,7 @@
 #' \code{sim_filter} filters rows of the melted similarity matrix.
 #'
 #' @param sim_df tbl with melted similarity matrix.
+#' @param row_metadata tbl with row metadata.
 #' @param filter_keep optional tbl of metadata specifying which rows to keep.
 #' @param filter_drop optional tbl of metadata specifying which rows to drop.
 #' @param filter_side character string specifying which index to filter on. This must be one of the strings \code{"left"} or \code{"right"}.
@@ -31,12 +32,12 @@
 #' @export
 sim_filter <-
   function(sim_df,
+           row_metadata,
            filter_keep = NULL,
            filter_drop = NULL,
            filter_side = NULL) {
-    invisible(sim_validate(sim_df))
 
-    row_metadata <- attr(sim_df, "row_metadata")
+    sim_df %<>% as.data.frame(sim_df)
 
     stopifnot(!is.null(filter_side))
 
@@ -74,5 +75,5 @@ sim_filter <-
         dplyr::anti_join(filter_ids, by = join_str)
     }
 
-    sim_validate(sim_df)
+    sim_df
   }

@@ -4,6 +4,7 @@ utils::globalVariables(c("all_same_col"))
 #' \code{sim_all_same} Filters melted similarity matrix to keep pairs with the same values in specific columns.
 #'
 #' @param sim_df tbl with melted similarity matrix.
+#' @param row_metadata tbl with row metadata.
 #' @param all_same_cols character vector specifying columns.
 #' @param annotation_cols optional character vector specifying which columns from \code{metadata} to annotate the left index of the filtered \code{sim_df} with.
 #' @param include_group_tag optional boolean specifying whether to include an identifier for the pairs using the values in the \code{all_same_cols} columns.
@@ -34,13 +35,13 @@ utils::globalVariables(c("all_same_col"))
 #' @export
 sim_all_same <-
   function(sim_df,
+           row_metadata,
            all_same_cols,
            annotation_cols = NULL,
            include_group_tag = FALSE,
            drop_lower = FALSE) {
-    invisible(sim_validate(sim_df))
 
-    row_metadata <- attr(sim_df, "row_metadata")
+   sim_df %<>% as.data.frame(sim_df)
 
     metadata_i <-
       row_metadata %>%
@@ -69,12 +70,12 @@ sim_all_same <-
 
     if (!is.null(annotation_cols)) {
       sim_df %<>%
-        sim_annotate(annotation_cols,
+        sim_annotate(row_metadata, annotation_cols,
           index = "left"
         )
     }
 
-    sim_validate(sim_df)
+    sim_df
   }
 
 #' Filter rows of the melted similarity matrix to keep pairs with the same values in specific columns, and keep only some of these pairs.
@@ -82,6 +83,7 @@ sim_all_same <-
 #' \code{sim_all_same} Filters melted similarity matrix to keep pairs with the same values in specific columns, keeping only some of these pairs.
 #'
 #' @param sim_df tbl with melted similarity matrix.
+#' @param row_metadata tbl with row metadata.
 #' @param all_same_cols character vector specifying columns.
 #' @param filter_keep_right tbl of metadata specifying which rows to keep on the right index.
 #' @param annotation_cols optional character vector specifying which columns from \code{metadata} to annotate the left index of the filtered \code{sim_df} with.
@@ -119,18 +121,19 @@ sim_all_same <-
 #' @export
 sim_all_same_keep_some <-
   function(sim_df,
+           row_metadata,
            all_same_cols,
            filter_keep_right,
            annotation_cols = NULL,
            drop_reference = TRUE,
            sim_cols = c("id1", "id2", "sim")) {
-    invisible(sim_validate(sim_df))
 
-    row_metadata <- attr(sim_df, "row_metadata")
+    sim_df %<>% as.data.frame(sim_df)
 
     sim_df %<>%
-      sim_all_same(all_same_cols) %>%
+      sim_all_same(row_metadata, all_same_cols) %>%
       sim_filter(
+        row_metadata,
         filter_keep = filter_keep_right,
         filter_side = "right"
       )
@@ -140,6 +143,7 @@ sim_all_same_keep_some <-
 
       sim_df %<>%
         sim_filter(
+          row_metadata,
           filter_drop = filter_drop_left,
           filter_side = "left"
         )
@@ -148,12 +152,12 @@ sim_all_same_keep_some <-
     if (!is.null(annotation_cols)) {
       sim_df %<>%
         dplyr::select(dplyr::all_of(sim_cols)) %>%
-        sim_annotate(annotation_cols,
+        sim_annotate(row_metadata, annotation_cols,
           index = "left"
         )
     }
 
-    sim_validate(sim_df)
+    sim_df
   }
 
 #' Filter rows of the melted similarity matrix to keep pairs with the same values in specific columns, and keep only some of these pairs.
@@ -161,6 +165,7 @@ sim_all_same_keep_some <-
 #' \code{sim_some_different_drop_some} Filters melted similarity matrix to keep pairs with the same values in specific columns, keeping only some of these pairs.
 #'
 #' @param sim_df tbl with melted similarity matrix.
+#' @param row_metadata tbl with row metadata.
 #' @param any_different_cols character vector specifying columns.
 #' @param all_same_cols optional character vector specifying columns.
 #' @param all_different_cols optional character vector specifying columns.
@@ -204,15 +209,15 @@ sim_all_same_keep_some <-
 #' @export
 sim_some_different_drop_some <-
   function(sim_df,
+           row_metadata,
            any_different_cols,
            all_same_cols = NULL,
            all_different_cols = NULL,
            filter_drop_left = NULL,
            filter_drop_right = NULL,
            annotation_cols = NULL) {
-    invisible(sim_validate(sim_df))
 
-    row_metadata <- attr(sim_df, "row_metadata")
+    sim_df %<>% as.data.frame(sim_df)
 
     stopifnot(!any(all_same_cols %in% all_different_cols))
 
@@ -312,10 +317,10 @@ sim_some_different_drop_some <-
     # add annotations
     if (!is.null(annotation_cols)) {
       sim_df %<>%
-        sim_annotate(annotation_cols,
+        sim_annotate(row_metadata, annotation_cols,
           index = "left"
         )
     }
 
-    sim_validate(sim_df)
+    sim_df
   }

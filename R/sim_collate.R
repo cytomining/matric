@@ -68,7 +68,7 @@
 #' Keep, both, (a, b) and (b, a)
 #'
 #'
-#' @param sim_df tbl with melted similarity matrix.
+#' @param sim_df \code{metric_sim} object.
 #' @param annotation_cols character vector specifying which columns from \code{metadata} to annotate the left index of the filtered \code{sim_df} with.
 #' @param all_same_cols_rep optional character vector specifying columns.
 #' @param all_same_cols_ref optional character vector specifying columns.
@@ -231,6 +231,7 @@ sim_collate <-
       ref <-
         sim_df %>%
         sim_all_same_keep_some(
+          row_metadata = row_metadata,
           all_same_cols_ref,
           filter_keep_right = reference,
           drop_reference = drop_reference,
@@ -252,9 +253,9 @@ sim_collate <-
 
     rep <-
       sim_df %>%
-      sim_filter(filter_drop = reference, filter_side = "left") %>%
-      sim_filter(filter_drop = reference, filter_side = "right") %>%
-      sim_all_same(all_same_cols_rep,
+      sim_filter(row_metadata = row_metadata, filter_drop = reference, filter_side = "left") %>%
+      sim_filter(row_metadata = row_metadata, filter_drop = reference, filter_side = "right") %>%
+      sim_all_same(row_metadata = row_metadata, all_same_cols_rep,
         annotation_cols,
         drop_lower = FALSE
       )
@@ -275,14 +276,17 @@ sim_collate <-
       rep_ref <-
         sim_df %>%
         sim_filter(
+          row_metadata = row_metadata,
           filter_keep = reference,
           filter_side = "left"
         ) %>%
         sim_filter(
+          row_metadata = row_metadata,
           filter_keep = reference,
           filter_side = "right"
         ) %>%
         sim_all_same(
+          row_metadata = row_metadata,
           all_same_cols = all_same_cols_rep_ref,
           annotation_cols = annotation_cols,
           drop_lower = FALSE
@@ -313,6 +317,7 @@ sim_collate <-
       non_rep <-
         sim_df %>%
         sim_some_different_drop_some(
+          row_metadata = row_metadata,
           any_different_cols = any_different_cols_non_rep,
           all_same_cols = all_same_cols_non_rep,
           all_different_cols = all_different_cols_non_rep,
@@ -345,6 +350,7 @@ sim_collate <-
       rep_group <-
         sim_df %>%
         sim_some_different_drop_some(
+          row_metadata = row_metadata,
           any_different_cols = any_different_cols_group,
           all_same_cols = all_same_cols_group,
           filter_drop_left = reference_both,
