@@ -20,7 +20,7 @@ object of class \code{matric_sim}
 \code{sim_new} creates an object of class \code{matric_sim}.
 }
 \details{
-\code{matric_sim} is just a \code{data.frame} with two attributes and at least
+\code{matric_sim} is just a \code{tibble} with two attributes and at least
 three columns.
 
 Columns:

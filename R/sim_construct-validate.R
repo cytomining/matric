@@ -2,7 +2,7 @@
 #'
 #' \code{sim_new} creates an object of class \code{matric_sim}.
 #'
-#' \code{matric_sim} is just a \code{data.frame} with two attributes and at least
+#' \code{matric_sim} is just a \code{tibble} with two attributes and at least
 #' three columns.
 #'
 #' Columns:
@@ -126,8 +126,9 @@ sim_validate <- function(x) {
 #'   )
 #' @export
 sim_restore <- function(x, x_attributes) {
-  sim_validate(sim_new(x,
-                       x_attributes$row_metadata,
-                       x_attributes$metric_metadata))
-
+  sim_validate(sim_new(
+    x,
+    x_attributes$row_metadata,
+    x_attributes$metric_metadata
+  ))
 }
