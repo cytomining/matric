@@ -17,19 +17,11 @@ This is a prototype for testing out ideas for
 
 ## Installation
 
-You can install the released version of matric from
-[CRAN](https://CRAN.R-project.org) with:
+    You can install the development version from [GitHub](https://github.com/) with:
 
-``` r
-install.packages("matric")
-```
-
-And the development version from [GitHub](https://github.com/) with:
-
-``` r
-# install.packages("devtools")
-devtools::install_github("shntnu/matric")
-```
+    ``` r
+    # install.packages("devtools")
+    devtools::install_github("shntnu/matric")
 
 ## Example
 
