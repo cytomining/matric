@@ -36,7 +36,6 @@ sim_filter <-
            filter_keep = NULL,
            filter_drop = NULL,
            filter_side = NULL) {
-
     sim_df %<>% as.data.frame(sim_df)
 
     stopifnot(!is.null(filter_side))

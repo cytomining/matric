@@ -38,7 +38,7 @@ utils::globalVariables(c("."))
 #' attr(sim_df_in, "metric_metadata")
 #' @export
 sim_write <- function(sim_df, output, file_format = "parquet") {
-  invisible(sim_validate(sim_df)))
+  invisible(sim_validate(sim_df))
 
   if (file_format == "csv") {
     futile.logger::flog.info(glue::glue("Creating {output} ..."))

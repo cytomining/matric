@@ -255,7 +255,8 @@ sim_collate <-
       sim_df %>%
       sim_filter(row_metadata = row_metadata, filter_drop = reference, filter_side = "left") %>%
       sim_filter(row_metadata = row_metadata, filter_drop = reference, filter_side = "right") %>%
-      sim_all_same(row_metadata = row_metadata, all_same_cols_rep,
+      sim_all_same(
+        row_metadata = row_metadata, all_same_cols_rep,
         annotation_cols,
         drop_lower = FALSE
       )
