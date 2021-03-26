@@ -34,4 +34,6 @@ Attributes:
 \item \code{row_metadata}: data.frame of row annotations, with \code{id} column.
 \item \code{metric_metadata}: information about the similarity metric.
 }
+
+This is somewhat similar to \code{Biobase::AnnotatedDataFrame}.
 }

@@ -13,6 +13,8 @@
 #' - \code{row_metadata}: data.frame of row annotations, with `id` column.
 #' - \code{metric_metadata}: information about the similarity metric.
 #'
+#' This is somewhat similar to \code{Biobase::AnnotatedDataFrame}.
+#'
 #' @param x tbl with similarity matrix.
 #' @param row_metadata tbl with row metadata.
 #' @param metric_metadata list with metric information
@@ -29,11 +31,12 @@ sim_new <- function(x, row_metadata, metric_metadata) {
 
   stopifnot(is.list(metric_metadata))
 
-  structure(
+  tibble::new_tibble(
     x,
     row_metadata = row_metadata,
     metric_metadata = metric_metadata,
-    class = unique(c("matric_sim", class(x))) # this might not be the right way to do it!
+    nrow = nrow(x),
+    class = "matric_sim"
   )
 }
 
@@ -70,24 +73,45 @@ sim_validate <- function(x) {
   x
 }
 
-#' Preserver for \code{matric_sim} S3 class.
+#' Restorer for \code{matric_sim} S3 class.
 #'
-#' \code{sim_preserve} preserves the attributes of class \code{matric_sim}.
+#' \code{restore} restores the attributes of class \code{matric_sim}.
 #'
-#' This is a workaround until we figure out S3 inheritance better
+#' This is a workaround until tibble inheritance improves
+#'
+#' https://github.com/tidyverse/tibble/issues/275
 #' https://adv-r.hadley.nz/s3.html#inheritance.
 #'
-#' https://cran.r-project.org/web/packages/sticky/vignettes/introduction.html
-#' likely attempts something similar.
+#' These are some of the \code{dplyr} verbs that will necessitate restoration:
 #'
+#' - \code{summarise}
+#' - \code{group_by}
 #'
 #' @param x object to preserve.
 #' @param x_attributes list of attributes of class \code{matric_sim}.
 #'
 #' @return object of class \code{matric_sim} if \code{x} is a valid object of that class
 #'
+#' @examples
+#'
+#' sim_df <-
+#'     sim_new(
+#'         data.frame(id1 = 1, id2 = 2, sim = 1),
+#'         data.frame(id = c(1, 2), Metadata_group = c("a", "b")),
+#'         list(method = "pearson")
+#'     )
+#'
+#' sim_df_attr <- attributes(sim_df)
+#' "matric_sim" %in% class(sim_df)
+#' "matric_sim" %in% class(sim_df %>% dplyr::slice(1))
+#' "matric_sim" %in%
+#'     class(sim_df %>%
+#'         dplyr::summarize(sim = mean(sim)) %>%
+#'         matric::sim_restore(sim_df_attr)
+#'     )
+#'
 #' @export
-sim_preserve <- function(x, x_attributes) {
+sim_restore <- function(x, x_attributes) {
   mostattributes(x) <- x_attributes
 
   sim_validate(x)

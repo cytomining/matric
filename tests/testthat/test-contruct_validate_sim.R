@@ -50,7 +50,7 @@ test_that("`preserve_sim` works", {
   x <- x %>%
     group_by(id1) %>%
     mutate(sim = sim / 2) %>%
-    sim_preserve(attr_x)
+    sim_restore(attr_x)
 
   expect_s3_class(sim_validate(x), "matric_sim")
 })
