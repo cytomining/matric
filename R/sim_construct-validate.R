@@ -1,13 +1,13 @@
 #' Constructor for \code{sim} S3 class.
 #'
-#' \code{new_sim} creates an object of class \code{sim}.
+#' \code{sim_new} creates an object of class \code{sim}.
 #'
 #' @param x tbl with similarity matrix.
 #' @param row_metadata tbl with row metadata.
 #' @param metric_metadata list with metric information
 #'
 #' @return object of class \code{sim}
-new_sim <- function(x, row_metadata, metric_metadata) {
+sim_new <- function(x, row_metadata, metric_metadata) {
   stopifnot(is.data.frame(x))
 
   stopifnot(!is.null(row_metadata))
@@ -28,12 +28,12 @@ new_sim <- function(x, row_metadata, metric_metadata) {
 
 #' Validator for \code{sim} S3 class.
 #'
-#' \code{validate_sim} validates that an object is of class class \code{sim}.
+#' \code{sim_validate} validates that an object is of class class \code{sim}.
 #'
 #' @param x object.
 #'
 #' @return object of class \code{sim} if \code{x} is a valid object of that class
-validate_sim <- function(x) {
+sim_validate <- function(x) {
   row_metadata <- attr(x, "row_metadata")
 
   metric_metadata <- attr(x, "metric_metadata")
