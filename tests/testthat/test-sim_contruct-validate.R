@@ -1,3 +1,30 @@
+test_that("`sim_new` works", {
+  x <- data.frame(id1 = 1, id2 = 1, sim = 1)
+
+  row_metadata <- data.frame(id = 1, Metadata_type = "a")
+
+  metric_metadata <- list(method = "pearson")
+
+  expect_s3_class(sim_new(x, row_metadata, metric_metadata), "matric_sim")
+
+  expect_error(sim_new(x))
+})
+
+test_that("`sim_validate` works", {
+  x <- data.frame(id1 = 1, id2 = 1, sim = 1)
+
+  row_metadata <- data.frame(id = 1, Metadata_type = "a")
+
+  row_metadata_bad <- data.frame(id = 2, Metadata_type = "a")
+
+  metric_metadata <- list(method = "pearson")
+
+  expect_s3_class(sim_validate(sim_new(x, row_metadata, metric_metadata)), "matric_sim")
+
+  expect_error(sim_validate(sim_new(x, row_metadata_bad, metric_metadata)))
+})
+
+
 test_that("`sim_restore` works", {
   sim_df <-
     matric::sim_new(
