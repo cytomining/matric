@@ -10,11 +10,11 @@ utils::globalVariables(c("."))
 #'
 #' This is not required for Parquet because it saves the attributes as well.
 #'
-#' @param sim_df tbl with melted similarity matrix.
+#' @param sim_df \code{metric_sim} object.
 #' @param output character string specifying the output directory or filename.
 #' @param file_format character string specify file format. This must be one of \code{csv} or \code{parquet}(default).
 #'
-#' @return \code{sim_df}.
+#' @return NULL
 #' @export
 #'
 #' @importFrom magrittr %>%
@@ -38,9 +38,7 @@ utils::globalVariables(c("."))
 #' attr(sim_df_in, "metric_metadata")
 #' @export
 sim_write <- function(sim_df, output, file_format = "parquet") {
-  stopifnot(!is.null(attr(sim_df, "row_metadata")))
-
-  stopifnot(!is.null(attr(sim_df, "metric_metadata")))
+  invisible(sim_validate(sim_df)))
 
   if (file_format == "csv") {
     futile.logger::flog.info(glue::glue("Creating {output} ..."))
@@ -83,17 +81,10 @@ sim_write <- function(sim_df, output, file_format = "parquet") {
 #'
 #' \code{sim_read} reads similarity matrix.
 #'
-#' With the CSV format, the \code{row_metadata} and \code{metric_metadata}
-#' attributes are read in and added as attributes to the \code{sim_df} tbl.
-#'
-#' This is not required for Parquet because it the attributes are saved.
-#' For Parquet format, \code{sim_read} is identical to
-#' \code{arrow::read_parquet}
-#'
 #' @param input character string specifying the input filename or directory.
 #' @param file_format character string specify file format. This must be one of \code{csv} or \code{parquet}(default).
 #'
-#' @return tbl with similarity matrix.
+#' @return \code{metric_sim} object.
 #' @export
 #'
 #' @importFrom magrittr %>%
