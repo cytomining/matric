@@ -168,11 +168,21 @@ test_that("`sim_collate` works", {
       drop_group = drop_group
     )
 
+  answer <-
+    structure(
+      list(
+        type = c("non_rep", "ref", "rep", "rep_group"),
+        n = c(48L, 144L, 60L, 72L)
+      ),
+      row.names = c(NA, -4L),
+      class = c(
+        "tbl_df",
+        "tbl", "data.frame"
+      )
+    )
+
   expect_equal(
-    data.frame(
-      type = c("non_rep", "ref", "rep", "rep_group"),
-      n = c(48, 144, 60, 72)
-    ),
+    answer,
     collated_sim %>%
       dplyr::group_by(
         Metadata_cell_line,
@@ -183,19 +193,27 @@ test_that("`sim_collate` works", {
       dplyr::filter(Metadata_gene_name == "AKT1" &
         Metadata_cell_line == "A549") %>%
       dplyr::ungroup() %>%
-      dplyr::select(type, n),
-    ignore_attr = TRUE
+      dplyr::select(type, n)
   )
 
+  answer <-
+    structure(
+      list(
+        type = c("non_rep", "ref", "rep", "rep_group"),
+        n = c(1152L, 2052L, 468L, 3672L)
+      ),
+      row.names = c(NA, -4L),
+      class = c(
+        "tbl_df",
+        "tbl", "data.frame"
+      )
+    )
+
   expect_equal(
-    data.frame(
-      type = c("non_rep", "ref", "rep", "rep_group"),
-      n = c(1152, 2052, 468, 3672)
-    ),
+    answer,
     collated_sim %>%
       dplyr::group_by(type) %>%
-      dplyr::tally(),
-    ignore_attr = TRUE
+      dplyr::tally()
   )
 
   expect_equal(mean(collated_sim$sim), 0.103919374)

@@ -102,7 +102,7 @@ test_that("multiplication works", {
   expect_equal(
     answer,
     metrics$per_row %>%
-      summarise(across(starts_with("sim"), mean))
+      dplyr::summarise(dplyr::across(dplyr::starts_with("sim"), mean))
   )
 
   answer <-
@@ -130,7 +130,7 @@ test_that("multiplication works", {
   expect_equal(
     answer,
     metrics$per_set %>%
-      summarise(across(starts_with("sim"), mean))
+      dplyr::summarise(dplyr::across(dplyr::starts_with("sim"), mean))
   )
 
 
@@ -154,6 +154,6 @@ test_that("multiplication works", {
   expect_equal(
     answer,
     metrics$per_set_group %>%
-      summarise(across(starts_with("sim"), mean))
+      dplyr::summarise(dplyr::across(dplyr::starts_with("sim"), mean))
   )
 })

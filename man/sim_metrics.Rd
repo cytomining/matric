@@ -113,19 +113,24 @@ collated_sim <-
 
 metrics <- matric::sim_metrics(collated_sim, "ref", calculate_grouped = TRUE)
 
-ggplot(metrics$per_row,
-  aes(sim_scaled_mean_ref_i, fill = Metadata_gene_name)) +
+ggplot(
+  metrics$per_row,
+  aes(sim_scaled_mean_ref_i, fill = Metadata_gene_name)
+) +
   geom_histogram(binwidth = .1) +
   facet_wrap(~Metadata_cell_line)
 
-ggplot(metrics$per_set,
-  aes(sim_scaled_mean_ref_i_mean_i, fill = Metadata_gene_name)) +
+ggplot(
+  metrics$per_set,
+  aes(sim_scaled_mean_ref_i_mean_i, fill = Metadata_gene_name)
+) +
   geom_histogram(binwidth = .1) +
   facet_wrap(~Metadata_cell_line)
 
-ggplot(metrics$per_set_group,
-  aes(sim_scaled_mean_ref_g, fill = Metadata_gene_name)) +
+ggplot(
+  metrics$per_set_group,
+  aes(sim_scaled_mean_ref_g, fill = Metadata_gene_name)
+) +
   geom_histogram(binwidth = .1) +
   facet_wrap(~Metadata_cell_line)
-
 }
