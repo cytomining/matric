@@ -121,10 +121,9 @@ test_that("sim_some_different_drop_some works", {
   expect_true(all(sim_df$Metadata_type11 != sim_df$Metadata_type12))
 
   expect_true(all(
-    or(
-      sim_df$Metadata_type21 != sim_df$Metadata_type22,
-      sim_df$Metadata_type31 != sim_df$Metadata_type32
-    )
+    (sim_df$Metadata_type21 != sim_df$Metadata_type22) |
+      (sim_df$Metadata_type31 != sim_df$Metadata_type32)
+
   ))
 
 })
