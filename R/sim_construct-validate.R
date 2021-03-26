@@ -20,6 +20,7 @@
 #' @param metric_metadata list with metric information
 #'
 #' @return object of class \code{matric_sim}
+#' @export
 sim_new <- function(x, row_metadata, metric_metadata) {
   stopifnot(is.data.frame(x))
 
@@ -47,6 +48,7 @@ sim_new <- function(x, row_metadata, metric_metadata) {
 #' @param x object.
 #'
 #' @return object of class \code{matric_sim} if \code{x} is a valid object of that class
+#' @export
 sim_validate <- function(x) {
   row_metadata <- attr(x, "row_metadata")
 
@@ -83,7 +85,7 @@ sim_validate <- function(x) {
 #' https://adv-r.hadley.nz/s3.html#inheritance.
 #'
 #' https://github.com/tidyverse/dplyr/issues/5480#issuecomment-682620522
-#' > dplyr is not really ready for extension in this way
+#' "dplyr is not really ready for extension in this way"
 #'
 #' These are some of the \code{dplyr} verbs that will necessitate restoration:
 #'

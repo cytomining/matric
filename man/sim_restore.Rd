@@ -23,7 +23,8 @@ This is a workaround until tibble inheritance improves
 https://github.com/tidyverse/tibble/issues/275
 https://adv-r.hadley.nz/s3.html#inheritance.
 
-https://github.com/tidyverse/dplyr/issues/5480#issuecomment-682620522dplyr is not really ready for extension in this way
+https://github.com/tidyverse/dplyr/issues/5480#issuecomment-682620522
+"dplyr is not really ready for extension in this way"
 
 These are some of the \code{dplyr} verbs that will necessitate restoration:
 \itemize{
