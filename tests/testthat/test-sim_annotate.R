@@ -13,4 +13,16 @@ test_that("`sim_annotate` works", {
 
   expect_equal(sort(unique(sim_df$Metadata_group1)),
                sort(unique(sim_df$Metadata_group2)))
+
+  expect_equal(sort(unique(
+    matric::sim_annotate(sim_df,
+                         annotation_cols,
+                         index = "left")$Metadata_group
+  )),
+  sort(unique(
+    matric::sim_annotate(sim_df,
+                         annotation_cols,
+                         index = "right")$Metadata_group
+  )))
+
 })

@@ -25,4 +25,14 @@ test_that("`sim_filter` works", {
     sim_df %>% dplyr::arrange(id1, id2)
   )
 
+  s1 <-
+    matric::sim_filter(sim_df, filter_keep = NULL, filter_side = "left")
+  s2 <-
+    matric::sim_filter(sim_df, filter_drop = NULL, filter_side = "left")
+
+
+  expect_equal(
+    s1, s2
+  )
+
 })
