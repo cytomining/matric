@@ -32,19 +32,17 @@ These are some of the \code{dplyr} verbs that will necessitate restoration:
 \examples{
 
 sim_df <-
-    sim_new(
-        data.frame(id1 = 1, id2 = 2, sim = 1),
-        data.frame(id = c(1, 2), Metadata_group = c("a", "b")),
-        list(method = "pearson")
-    )
+  sim_new(
+    data.frame(id1 = 1, id2 = 2, sim = 1),
+    data.frame(id = c(1, 2), Metadata_group = c("a", "b")),
+    list(method = "pearson")
+  )
 
 sim_df_attr <- attributes(sim_df)
 "matric_sim" \%in\% class(sim_df)
 "matric_sim" \%in\% class(sim_df \%>\% dplyr::slice(1))
 "matric_sim" \%in\%
-    class(sim_df \%>\%
-        dplyr::summarize(sim = mean(sim)) \%>\%
-        matric::sim_restore(sim_df_attr)
-    )
-
+  class(sim_df \%>\%
+    dplyr::summarize(sim = mean(sim)) \%>\%
+    matric::sim_restore(sim_df_attr))
 }
