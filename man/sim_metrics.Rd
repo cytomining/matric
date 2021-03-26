@@ -12,13 +12,13 @@ sim_metrics(
 )
 }
 \arguments{
+\item{collated_sim}{output of \code{sim_collated}.}
+
 \item{sim_type}{character string specifying the background distributions for computing scaled metrics. This must be one of the strings \code{"non_rep"} or \code{"ref"}.}
 
 \item{calculate_grouped}{optional boolean specifying whether to include grouped metrics.}
 
 \item{annotation_prefix}{optional character string specifying prefix for annotation columns (e.g. \code{"Metadata_"} (default)).}
-
-\item{munged_sim}{output of \code{sim_collated}.}
 }
 \value{
 list of metrics.
