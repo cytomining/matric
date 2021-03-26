@@ -38,7 +38,6 @@ sim_all_same <-
            annotation_cols = NULL,
            include_group_tag = FALSE,
            drop_lower = FALSE) {
-
     invisible(validate_sim(sim_df))
 
     row_metadata <- attr(sim_df, "row_metadata")
@@ -125,7 +124,6 @@ sim_all_same_keep_some <-
            annotation_cols = NULL,
            drop_reference = TRUE,
            sim_cols = c("id1", "id2", "sim")) {
-
     invisible(validate_sim(sim_df))
 
     row_metadata <- attr(sim_df, "row_metadata")
@@ -212,7 +210,6 @@ sim_some_different_drop_some <-
            filter_drop_left = NULL,
            filter_drop_right = NULL,
            annotation_cols = NULL) {
-
     invisible(validate_sim(sim_df))
 
     row_metadata <- attr(sim_df, "row_metadata")

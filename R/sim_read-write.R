@@ -154,16 +154,13 @@ sim_read <- function(input, file_format = "parquet") {
       jsonlite::read_json(metric_metadata_filename,
         simplifyVector = TRUE
       )
-
   } else {
     sim_df <- arrow::read_parquet(input)
 
     row_metadata <- attr(sim_df, "row_metadata")
 
     metric_metadata <- attr(sim_df, "metric_metadata")
-
   }
 
- validate_sim(new_sim(sim_df, row_metadata, metric_metadata))
-
+  validate_sim(new_sim(sim_df, row_metadata, metric_metadata))
 }

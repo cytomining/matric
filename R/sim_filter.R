@@ -34,7 +34,6 @@ sim_filter <-
            filter_keep = NULL,
            filter_drop = NULL,
            filter_side = NULL) {
-
     invisible(validate_sim(sim_df))
 
     row_metadata <- attr(sim_df, "row_metadata")

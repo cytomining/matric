@@ -24,7 +24,6 @@ new_sim <- function(x, row_metadata, metric_metadata) {
     metric_metadata = metric_metadata,
     class = unique(c("sim", class(x))) # this might not be the right way to do it!
   )
-
 }
 
 #' Validator for \code{sim} S3 class.
@@ -35,7 +34,6 @@ new_sim <- function(x, row_metadata, metric_metadata) {
 #'
 #' @return object of class \code{sim} if \code{x} is a valid object of that class
 validate_sim <- function(x) {
-
   row_metadata <- attr(x, "row_metadata")
 
   metric_metadata <- attr(x, "metric_metadata")
