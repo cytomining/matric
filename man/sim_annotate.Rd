@@ -13,9 +13,9 @@ sim_annotate(
 )
 }
 \arguments{
-\item{sim_df}{tbl with melted similarity matrix.}
+\item{sim_df}{data.frame with melted similarity matrix.}
 
-\item{row_metadata}{tbl with row metadata.}
+\item{row_metadata}{data.frame with row metadata.}
 
 \item{annotation_cols}{character vector specifying annotation columns.}
 

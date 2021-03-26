@@ -12,7 +12,7 @@ sim_plot(
 )
 }
 \arguments{
-\item{sim_df}{tbl with melted similarity matrix.}
+\item{sim_df}{data.frame with melted similarity matrix.}
 
 \item{annotation_column}{character string specifying the column in \code{sim_df} to use to annotate rows and columns.}
 

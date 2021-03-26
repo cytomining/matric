@@ -3,8 +3,8 @@ utils::globalVariables(c("all_same_col"))
 #'
 #' \code{sim_all_same} Filters melted similarity matrix to keep pairs with the same values in specific columns.
 #'
-#' @param sim_df tbl with melted similarity matrix.
-#' @param row_metadata tbl with row metadata.
+#' @param sim_df data.frame with melted similarity matrix.
+#' @param row_metadata data.frame with row metadata.
 #' @param all_same_cols character vector specifying columns.
 #' @param annotation_cols optional character vector specifying which columns from \code{metadata} to annotate the left index of the filtered \code{sim_df} with.
 #' @param include_group_tag optional boolean specifying whether to include an identifier for the pairs using the values in the \code{all_same_cols} columns.
@@ -89,10 +89,10 @@ sim_all_same <-
 #'
 #' \code{sim_all_same} Filters melted similarity matrix to keep pairs with the same values in specific columns, keeping only some of these pairs.
 #'
-#' @param sim_df tbl with melted similarity matrix.
-#' @param row_metadata tbl with row metadata.
+#' @param sim_df data.frame with melted similarity matrix.
+#' @param row_metadata data.frame with row metadata.
 #' @param all_same_cols character vector specifying columns.
-#' @param filter_keep_right tbl of metadata specifying which rows to keep on the right index.
+#' @param filter_keep_right data.frame of metadata specifying which rows to keep on the right index.
 #' @param annotation_cols optional character vector specifying which columns from \code{metadata} to annotate the left index of the filtered \code{sim_df} with.
 #' @param drop_reference optional boolean specifying whether to filter (drop) pairs using \code{filter_keep_right} on the left index.
 #' @param sim_cols optional character string specifying minimal set of columns for a similarity matrix
@@ -172,13 +172,13 @@ sim_all_same_keep_some <-
 #'
 #' \code{sim_some_different_drop_some} Filters melted similarity matrix to keep pairs with the same values in specific columns, keeping only some of these pairs.
 #'
-#' @param sim_df tbl with melted similarity matrix.
-#' @param row_metadata tbl with row metadata.
+#' @param sim_df data.frame with melted similarity matrix.
+#' @param row_metadata data.frame with row metadata.
 #' @param any_different_cols character vector specifying columns.
 #' @param all_same_cols optional character vector specifying columns.
 #' @param all_different_cols optional character vector specifying columns.
-#' @param filter_drop_left tbl of metadata specifying which rows to drop on the left index.
-#' @param filter_drop_right tbl of metadata specifying which rows to drop on the right index.
+#' @param filter_drop_left data.frame of metadata specifying which rows to drop on the left index.
+#' @param filter_drop_right data.frame of metadata specifying which rows to drop on the right index.
 #' @param annotation_cols optional character vector specifying which columns from \code{metadata} to annotate the left index of the filtered \code{sim_df} with.
 #'
 #' @return filtered \code{sim_df} keeping only pairs that have same values in all columns of \code{all_same_cols_non_rep}, different values in all columns \code{all_different_cols_non_rep}, and different values in at least one column of \code{any_different_cols_non_rep}, with further filtering using \code{filter_drop_left} and \code{filter_drop_right}.

@@ -3,7 +3,7 @@ utils::globalVariables(c(".data", "sim", "sim_mean", "sim_rank", "sim_sd"))
 #'
 #' \code{sim_plot} Plots similarity matrix.
 #'
-#' @param sim_df tbl with melted similarity matrix.
+#' @param sim_df data.frame with melted similarity matrix.
 #' @param annotation_column character string specifying the column in \code{sim_df} to use to annotate rows and columns.
 #' @param calculate_sim_rank boolean specifying whether to calculate rank of similarity.
 #' @param trim_label optional integer specifying the trim length for tick labels.

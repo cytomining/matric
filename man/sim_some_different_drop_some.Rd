@@ -16,9 +16,9 @@ sim_some_different_drop_some(
 )
 }
 \arguments{
-\item{sim_df}{tbl with melted similarity matrix.}
+\item{sim_df}{data.frame with melted similarity matrix.}
 
-\item{row_metadata}{tbl with row metadata.}
+\item{row_metadata}{data.frame with row metadata.}
 
 \item{any_different_cols}{character vector specifying columns.}
 
@@ -26,9 +26,9 @@ sim_some_different_drop_some(
 
 \item{all_different_cols}{optional character vector specifying columns.}
 
-\item{filter_drop_left}{tbl of metadata specifying which rows to drop on the left index.}
+\item{filter_drop_left}{data.frame of metadata specifying which rows to drop on the left index.}
 
-\item{filter_drop_right}{tbl of metadata specifying which rows to drop on the right index.}
+\item{filter_drop_right}{data.frame of metadata specifying which rows to drop on the right index.}
 
 \item{annotation_cols}{optional character vector specifying which columns from \code{metadata} to annotate the left index of the filtered \code{sim_df} with.}
 }

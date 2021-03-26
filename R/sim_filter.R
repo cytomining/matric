@@ -2,10 +2,10 @@
 #'
 #' \code{sim_filter} filters rows of the melted similarity matrix.
 #'
-#' @param sim_df tbl with melted similarity matrix.
-#' @param row_metadata tbl with row metadata.
-#' @param filter_keep optional tbl of metadata specifying which rows to keep.
-#' @param filter_drop optional tbl of metadata specifying which rows to drop.
+#' @param sim_df data.frame with melted similarity matrix.
+#' @param row_metadata data.frame with row metadata.
+#' @param filter_keep optional data.frame of metadata specifying which rows to keep.
+#' @param filter_drop optional data.frame of metadata specifying which rows to drop.
 #' @param filter_side character string specifying which index to filter on. This must be one of the strings \code{"left"} or \code{"right"}.
 #'
 #' @return filtered \code{sim_df} with some rows kept and some rows dropped. No filters applied if both \code{filter_keep} and \code{filter_drop} are NULL.

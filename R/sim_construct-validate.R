@@ -15,7 +15,7 @@
 #'
 #' This is somewhat similar to \code{Biobase::AnnotatedDataFrame}.
 #'
-#' @param x tbl with similarity matrix.
+#' @param x data.frame with similarity matrix.
 #' @param row_metadata tbl with row metadata.
 #' @param metric_metadata list with metric information
 #'

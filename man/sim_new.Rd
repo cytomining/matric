@@ -7,7 +7,7 @@
 sim_new(x, row_metadata, metric_metadata)
 }
 \arguments{
-\item{x}{tbl with similarity matrix.}
+\item{x}{data.frame with similarity matrix.}
 
 \item{row_metadata}{tbl with row metadata.}
 

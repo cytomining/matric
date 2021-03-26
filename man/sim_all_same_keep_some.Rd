@@ -15,13 +15,13 @@ sim_all_same_keep_some(
 )
 }
 \arguments{
-\item{sim_df}{tbl with melted similarity matrix.}
+\item{sim_df}{data.frame with melted similarity matrix.}
 
-\item{row_metadata}{tbl with row metadata.}
+\item{row_metadata}{data.frame with row metadata.}
 
 \item{all_same_cols}{character vector specifying columns.}
 
-\item{filter_keep_right}{tbl of metadata specifying which rows to keep on the right index.}
+\item{filter_keep_right}{data.frame of metadata specifying which rows to keep on the right index.}
 
 \item{annotation_cols}{optional character vector specifying which columns from \code{metadata} to annotate the left index of the filtered \code{sim_df} with.}
 

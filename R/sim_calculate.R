@@ -3,7 +3,7 @@ utils::globalVariables(c("id1", "id2"))
 #'
 #' \code{sim_calculate} calculates a melted similarity matrix.
 #'
-#' @param population tbl with annotations (a.k.a. metadata) and observation variables.
+#' @param population data.frame with annotations (a.k.a. metadata) and observation variables.
 #' @param annotation_prefix optional character string specifying prefix for annotation columns.
 #' @param method optional character string specifying method for \code{stats::cor} to calculate similarity.  This must be one of the strings \code{"pearson"} (default), \code{"kendall"}, \code{"spearman"}.
 #'

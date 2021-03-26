@@ -13,13 +13,13 @@ sim_filter(
 )
 }
 \arguments{
-\item{sim_df}{tbl with melted similarity matrix.}
+\item{sim_df}{data.frame with melted similarity matrix.}
 
-\item{row_metadata}{tbl with row metadata.}
+\item{row_metadata}{data.frame with row metadata.}
 
-\item{filter_keep}{optional tbl of metadata specifying which rows to keep.}
+\item{filter_keep}{optional data.frame of metadata specifying which rows to keep.}
 
-\item{filter_drop}{optional tbl of metadata specifying which rows to drop.}
+\item{filter_drop}{optional data.frame of metadata specifying which rows to drop.}
 
 \item{filter_side}{character string specifying which index to filter on. This must be one of the strings \code{"left"} or \code{"right"}.}
 }

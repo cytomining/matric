@@ -7,7 +7,7 @@
 sim_calculate(population, annotation_prefix = "Metadata_", method = "pearson")
 }
 \arguments{
-\item{population}{tbl with annotations (a.k.a. metadata) and observation variables.}
+\item{population}{data.frame with annotations (a.k.a. metadata) and observation variables.}
 
 \item{annotation_prefix}{optional character string specifying prefix for annotation columns.}
 
