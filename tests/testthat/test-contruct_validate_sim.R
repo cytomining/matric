@@ -5,7 +5,7 @@ test_that("`sim_new` works", {
 
   metric_metadata <- list(method = "pearson")
 
-  expect_s3_class(sim_new(x, row_metadata, metric_metadata), "sim")
+  expect_s3_class(sim_new(x, row_metadata, metric_metadata), "matric_sim")
 
   expect_error(sim_new(x))
 })
@@ -19,7 +19,7 @@ test_that("`sim_validate` works", {
 
   metric_metadata <- list(method = "pearson")
 
-  expect_s3_class(sim_validate(sim_new(x, row_metadata, metric_metadata)), "sim")
+  expect_s3_class(sim_validate(sim_new(x, row_metadata, metric_metadata)), "matric_sim")
 
   expect_error(sim_validate(sim_new(x, row_metadata_bad, metric_metadata)))
 })
@@ -52,5 +52,5 @@ test_that("`preserve_sim` works", {
     mutate(sim = sim / 2) %>%
     sim_preserve(attr_x)
 
-  expect_s3_class(sim_validate(x), "sim")
+  expect_s3_class(sim_validate(x), "matric_sim")
 })

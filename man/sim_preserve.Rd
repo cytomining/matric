@@ -2,20 +2,20 @@
 % Please edit documentation in R/sim_construct-validate.R
 \name{sim_preserve}
 \alias{sim_preserve}
-\title{Preserver for \code{sim} S3 class.}
+\title{Preserver for \code{matric_sim} S3 class.}
 \usage{
 sim_preserve(x, x_attributes)
 }
 \arguments{
 \item{x}{object to preserve.}
 
-\item{x_attributes}{list of attributes of class \code{sim}.}
+\item{x_attributes}{list of attributes of class \code{matric_sim}.}
 }
 \value{
-object of class \code{sim} if \code{x} is a valid object of that class
+object of class \code{matric_sim} if \code{x} is a valid object of that class
 }
 \description{
-\code{sim_preserve} preserves the attributes of class \code{sim}.
+\code{sim_preserve} preserves the attributes of class \code{matric_sim}.
 }
 \details{
 This is a workaround until we figure out S3 inheritance better

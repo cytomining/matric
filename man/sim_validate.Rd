@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_construct-validate.R
 \name{sim_validate}
 \alias{sim_validate}
-\title{Validator for \code{sim} S3 class.}
+\title{Validator for \code{matric_sim} S3 class.}
 \usage{
 sim_validate(x)
 }
@@ -10,8 +10,8 @@ sim_validate(x)
 \item{x}{object.}
 }
 \value{
-object of class \code{sim} if \code{x} is a valid object of that class
+object of class \code{matric_sim} if \code{x} is a valid object of that class
 }
 \description{
-\code{sim_validate} validates that an object is of class class \code{sim}.
+\code{sim_validate} validates that an object is of class class \code{matric_sim}.
 }

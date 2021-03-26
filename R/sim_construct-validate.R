@@ -1,8 +1,8 @@
-#' Constructor for \code{sim} S3 class.
+#' Constructor for \code{matric_sim} S3 class.
 #'
-#' \code{sim_new} creates an object of class \code{sim}.
+#' \code{sim_new} creates an object of class \code{matric_sim}.
 #'
-#' \code{sim} is just a \code{data.frame} with two attributes and at least
+#' \code{matric_sim} is just a \code{data.frame} with two attributes and at least
 #' three columns.
 #'
 #' Columns:
@@ -17,7 +17,7 @@
 #' @param row_metadata tbl with row metadata.
 #' @param metric_metadata list with metric information
 #'
-#' @return object of class \code{sim}
+#' @return object of class \code{matric_sim}
 sim_new <- function(x, row_metadata, metric_metadata) {
   stopifnot(is.data.frame(x))
 
@@ -33,17 +33,17 @@ sim_new <- function(x, row_metadata, metric_metadata) {
     x,
     row_metadata = row_metadata,
     metric_metadata = metric_metadata,
-    class = unique(c("sim", class(x))) # this might not be the right way to do it!
+    class = unique(c("matric_sim", class(x))) # this might not be the right way to do it!
   )
 }
 
-#' Validator for \code{sim} S3 class.
+#' Validator for \code{matric_sim} S3 class.
 #'
-#' \code{sim_validate} validates that an object is of class class \code{sim}.
+#' \code{sim_validate} validates that an object is of class class \code{matric_sim}.
 #'
 #' @param x object.
 #'
-#' @return object of class \code{sim} if \code{x} is a valid object of that class
+#' @return object of class \code{matric_sim} if \code{x} is a valid object of that class
 sim_validate <- function(x) {
   row_metadata <- attr(x, "row_metadata")
 
@@ -70,9 +70,9 @@ sim_validate <- function(x) {
   x
 }
 
-#' Preserver for \code{sim} S3 class.
+#' Preserver for \code{matric_sim} S3 class.
 #'
-#' \code{sim_preserve} preserves the attributes of class \code{sim}.
+#' \code{sim_preserve} preserves the attributes of class \code{matric_sim}.
 #'
 #' This is a workaround until we figure out S3 inheritance better
 #' https://adv-r.hadley.nz/s3.html#inheritance.
@@ -82,9 +82,9 @@ sim_validate <- function(x) {
 #'
 #'
 #' @param x object to preserve.
-#' @param x_attributes list of attributes of class \code{sim}.
+#' @param x_attributes list of attributes of class \code{matric_sim}.
 #'
-#' @return object of class \code{sim} if \code{x} is a valid object of that class
+#' @return object of class \code{matric_sim} if \code{x} is a valid object of that class
 #'
 #' @export
 sim_preserve <- function(x, x_attributes) {

@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_construct-validate.R
 \name{sim_new}
 \alias{sim_new}
-\title{Constructor for \code{sim} S3 class.}
+\title{Constructor for \code{matric_sim} S3 class.}
 \usage{
 sim_new(x, row_metadata, metric_metadata)
 }
@@ -14,13 +14,13 @@ sim_new(x, row_metadata, metric_metadata)
 \item{metric_metadata}{list with metric information}
 }
 \value{
-object of class \code{sim}
+object of class \code{matric_sim}
 }
 \description{
-\code{sim_new} creates an object of class \code{sim}.
+\code{sim_new} creates an object of class \code{matric_sim}.
 }
 \details{
-\code{sim} is just a \code{data.frame} with two attributes and at least
+\code{matric_sim} is just a \code{data.frame} with two attributes and at least
 three columns.
 
 Columns:
