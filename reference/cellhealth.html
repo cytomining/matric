@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • matric</title>
+<title>Cell Painting dataset of CRISPR perturbations. — cellhealth • matric</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,9 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Cell Painting dataset of CRISPR perturbations. — cellhealth" />
+<meta property="og:description" content="Cell Painting dataset of CRISPR perturbations from
+https://www.molbiolcell.org/doi/abs/10.1091/mbc.E20-12-0784" />
 
 
 
@@ -58,7 +60,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -105,126 +107,40 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Cell Painting dataset of CRISPR perturbations.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/shntnu/matric/blob/master/R/cellhealth.R'><code>R/cellhealth.R</code></a></small>
+    <div class="hidden name"><code>cellhealth.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Cell Painting dataset of CRISPR perturbations from
+<a href='https://www.molbiolcell.org/doi/abs/10.1091/mbc.E20-12-0784'>https://www.molbiolcell.org/doi/abs/10.1091/mbc.E20-12-0784</a></p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='va'>cellhealth</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="cellhealth.html">cellhealth</a></code> </p>
-        </td>
-        <td><p>Cell Painting dataset of CRISPR perturbations.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="drop_annotation.html">drop_annotation()</a></code> </p>
-        </td>
-        <td><p>Drop row annotations.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_annotation.html">get_annotation()</a></code> </p>
-        </td>
-        <td><p>Get row annotations.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sim_all_same.html">sim_all_same()</a></code> </p>
-        </td>
-        <td><p>Filter rows of the melted similarity matrix to keep pairs with the same values in specific columns.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sim_all_same_keep_some.html">sim_all_same_keep_some()</a></code> </p>
-        </td>
-        <td><p>Filter rows of the melted similarity matrix to keep pairs with the same values in specific columns, and keep only some of these pairs.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sim_annotate.html">sim_annotate()</a></code> </p>
-        </td>
-        <td><p>Annotate melted similarity matrix.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sim_calculate.html">sim_calculate()</a></code> </p>
-        </td>
-        <td><p>Calculate melted similarity matrix.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sim_collate.html">sim_collate()</a></code> </p>
-        </td>
-        <td><p>Filter rows of the melted similarity matrix to create several sets of pairs.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sim_filter.html">sim_filter()</a></code> </p>
-        </td>
-        <td><p>Filter rows of the melted similarity matrix.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sim_metrics.html">sim_metrics()</a></code> </p>
-        </td>
-        <td><p>Compute metrics.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sim_plot.html">sim_plot()</a></code> </p>
-        </td>
-        <td><p>Plot similarity matrix.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sim_read.html">sim_read()</a></code> </p>
-        </td>
-        <td><p>Read similarity matrix.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sim_some_different_drop_some.html">sim_some_different_drop_some()</a></code> </p>
-        </td>
-        <td><p>Filter rows of the melted similarity matrix to keep pairs with the same values in specific columns, and keep only some of these pairs.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sim_wider.html">sim_wider()</a></code> </p>
-        </td>
-        <td><p>Widen a symmetric similarity matrix.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sim_write.html">sim_write()</a></code> </p>
-        </td>
-        <td><p>Write similarity matrix.</p></td>
-      </tr>
-    </tbody>
-    </table>
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>A data frame with 198 rows and 8 variables:</p><dl>
+<dt>Metadata_Plate</dt><dd><p>Plate id</p></dd>
+<dt>Metadata_Well</dt><dd><p>Well id</p></dd>
+<dt>Metadata_cell_line</dt><dd><p>Cell line id</p></dd>
+<dt>Metadata_gene_name</dt><dd><p>Gene name</p></dd>
+<dt>Metadata_pert_name</dt><dd><p>CRISPR guide name</p></dd>
+<dt>Cells_AreaShape_Compactness</dt><dd><p>compactness measure</p></dd>
+<dt>Cells_AreaShape_Extent</dt><dd><p>extent measure</p></dd>
+<dt>Cells_AreaShape_Zernike_0_0</dt><dd><p>shape measure</p></dd>
+
+</dl>
+
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p><a href='https://github.com/broadinstitute/cell-health/'>https://github.com/broadinstitute/cell-health/</a></p>
+
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

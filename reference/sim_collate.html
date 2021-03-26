@@ -274,6 +274,109 @@
 <p>Keep, both, (a, b) and (b, a)</p>
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='va'>sim_df</span> <span class='op'>&lt;-</span> <span class='fu'>matric</span><span class='fu'>::</span><span class='fu'><a href='sim_calculate.html'>sim_calculate</a></span><span class='op'>(</span><span class='fu'>matric</span><span class='fu'>::</span><span class='va'><a href='cellhealth.html'>cellhealth</a></span><span class='op'>)</span>
+
+<span class='va'>drop_group</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>Metadata_gene_name <span class='op'>=</span> <span class='st'>"EMPTY"</span><span class='op'>)</span>
+
+<span class='va'>reference</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>Metadata_gene_name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Chr2"</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>all_same_cols_ref</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
+    <span class='st'>"Metadata_cell_line"</span>,
+    <span class='st'>"Metadata_Plate"</span>
+  <span class='op'>)</span>
+
+<span class='va'>all_same_cols_rep</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
+    <span class='st'>"Metadata_cell_line"</span>,
+    <span class='st'>"Metadata_gene_name"</span>,
+    <span class='st'>"Metadata_pert_name"</span>
+  <span class='op'>)</span>
+
+<span class='va'>all_same_cols_rep_ref</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
+    <span class='st'>"Metadata_cell_line"</span>,
+    <span class='st'>"Metadata_gene_name"</span>,
+    <span class='st'>"Metadata_pert_name"</span>,
+    <span class='st'>"Metadata_Plate"</span>
+  <span class='op'>)</span>
+
+<span class='va'>any_different_cols_non_rep</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
+    <span class='st'>"Metadata_cell_line"</span>,
+    <span class='st'>"Metadata_gene_name"</span>,
+    <span class='st'>"Metadata_pert_name"</span>
+  <span class='op'>)</span>
+
+<span class='va'>all_same_cols_non_rep</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
+    <span class='st'>"Metadata_cell_line"</span>,
+    <span class='st'>"Metadata_Plate"</span>
+  <span class='op'>)</span>
+
+<span class='va'>all_different_cols_non_rep</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Metadata_gene_name"</span><span class='op'>)</span>
+
+<span class='va'>all_same_cols_group</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
+    <span class='st'>"Metadata_cell_line"</span>,
+    <span class='st'>"Metadata_gene_name"</span>
+  <span class='op'>)</span>
+
+<span class='va'>any_different_cols_group</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
+    <span class='st'>"Metadata_cell_line"</span>,
+    <span class='st'>"Metadata_gene_name"</span>,
+    <span class='st'>"Metadata_pert_name"</span>
+  <span class='op'>)</span>
+
+<span class='va'>annotation_cols</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
+    <span class='st'>"Metadata_cell_line"</span>,
+    <span class='st'>"Metadata_gene_name"</span>,
+    <span class='st'>"Metadata_pert_name"</span>
+  <span class='op'>)</span>
+
+<span class='va'>collated_sim</span> <span class='op'>&lt;-</span>
+  <span class='fu'>matric</span><span class='fu'>::</span><span class='fu'>sim_collate</span><span class='op'>(</span>
+    <span class='va'>sim_df</span>,
+    <span class='va'>reference</span>,
+    all_same_cols_rep <span class='op'>=</span> <span class='va'>all_same_cols_rep</span>,
+    all_same_cols_rep_ref <span class='op'>=</span> <span class='va'>all_same_cols_rep_ref</span>,
+    all_same_cols_ref <span class='op'>=</span> <span class='va'>all_same_cols_ref</span>,
+    any_different_cols_non_rep <span class='op'>=</span> <span class='va'>any_different_cols_non_rep</span>,
+    all_same_cols_non_rep <span class='op'>=</span> <span class='va'>all_same_cols_non_rep</span>,
+    all_different_cols_non_rep <span class='op'>=</span> <span class='va'>all_different_cols_non_rep</span>,
+    any_different_cols_group <span class='op'>=</span> <span class='va'>any_different_cols_group</span>,
+    all_same_cols_group <span class='op'>=</span> <span class='va'>all_same_cols_group</span>,
+    annotation_cols <span class='op'>=</span> <span class='va'>annotation_cols</span>,
+    drop_group <span class='op'>=</span> <span class='va'>drop_group</span>
+  <span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>collated_sim</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 7</span><span>
+#&gt;     id1   id2    sim Metadata_cell_li… Metadata_gene_na… Metadata_pert_na… type 
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1     2 -</span><span style='color: #BB0000;'>0.959</span><span> A549              AKT1              AKT1-1            rep  
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     1    23 -</span><span style='color: #BB0000;'>0.983</span><span> A549              AKT1              AKT1-1            rep  
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     1    24 -</span><span style='color: #BB0000;'>0.990</span><span> A549              AKT1              AKT1-1            rep  
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     1    45 -</span><span style='color: #BB0000;'>0.932</span><span> A549              AKT1              AKT1-1            rep  
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     1    46  0.982 A549              AKT1              AKT1-1            rep  
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span>     2     1 -</span><span style='color: #BB0000;'>0.959</span><span> A549              AKT1              AKT1-1            rep  </div><div class='input'>
+<span class='va'>collated_sim</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>type</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>tally</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 4 x 2</span><span>
+#&gt;   type          n
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> non_rep    </span><span style='text-decoration: underline;'>1</span><span>152
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> ref        </span><span style='text-decoration: underline;'>2</span><span>052
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> rep         468
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> rep_group  </span><span style='text-decoration: underline;'>3</span><span>672</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
