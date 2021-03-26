@@ -2,6 +2,17 @@
 #'
 #' \code{sim_new} creates an object of class \code{sim}.
 #'
+#' \code{sim} is just a \code{data.frame} with two attributes and at least
+#' three columns.
+#'
+#' Columns:
+#' - \code{id1} and \code{id2}: integers, indicating row ids.
+#' - \code{sim} similarity: double, indicating similarity between the rows.
+#'
+#' Attributes:
+#' - \code{row_metadata}: data.frame of row annotations, with `id` column.
+#' - \code{metric_metadata}: information about the similarity metric.
+#'
 #' @param x tbl with similarity matrix.
 #' @param row_metadata tbl with row metadata.
 #' @param metric_metadata list with metric information

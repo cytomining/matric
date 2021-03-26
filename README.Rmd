@@ -16,18 +16,15 @@ knitr::opts_chunk$set(
 # matric
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/shntnu/matric/workflows/R-CMD-check/badge.svg)](https://github.com/shntnu/matric/actions)
-[![pkgdown](https://github.com/shntnu/matric/workflows/pkgdown/badge.svg)](https://github.com/shntnu/matric/actions)
-[![test-coverage](https://github.com/shntnu/matric/workflows/test-coverage/badge.svg)](https://github.com/shntnu/matric/actions)
-[![Codecov test coverage](https://codecov.io/gh/shntnu/matric/branch/main/graph/badge.svg)](https://codecov.io/gh/shntnu/matric?branch=main)
+
+[![R-CMD-check](https://github.com/shntnu/matric/workflows/R-CMD-check/badge.svg)](https://github.com/shntnu/matric/actions) [![pkgdown](https://github.com/shntnu/matric/workflows/pkgdown/badge.svg)](https://github.com/shntnu/matric/actions) [![test-coverage](https://github.com/shntnu/matric/workflows/test-coverage/badge.svg)](https://github.com/shntnu/matric/actions) [![Codecov test coverage](https://codecov.io/gh/shntnu/matric/branch/main/graph/badge.svg)](https://codecov.io/gh/shntnu/matric?branch=main)
+
 <!-- badges: end -->
 
-This is a prototype for testing out ideas for 
-[`cytominer-eval`](https://github.com/cytomining/cytominer-eval).
+This is a prototype for testing out ideas for [`cytominer-eval`](https://github.com/cytomining/cytominer-eval).
 
 ## Installation
 
-```
 You can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
@@ -43,4 +40,3 @@ This is a basic example which shows you how to solve a common problem:
 library(matric)
 ## basic example code
 ```
-

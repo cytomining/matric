@@ -19,3 +19,19 @@ object of class \code{sim}
 \description{
 \code{sim_new} creates an object of class \code{sim}.
 }
+\details{
+\code{sim} is just a \code{data.frame} with two attributes and at least
+three columns.
+
+Columns:
+\itemize{
+\item \code{id1} and \code{id2}: integers, indicating row ids.
+\item \code{sim} similarity: double, indicating similarity between the rows.
+}
+
+Attributes:
+\itemize{
+\item \code{row_metadata}: data.frame of row annotations, with \code{id} column.
+\item \code{metric_metadata}: information about the similarity metric.
+}
+}
