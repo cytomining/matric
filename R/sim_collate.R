@@ -188,9 +188,9 @@ sim_collate <-
            reference = NULL,
            drop_reference = FALSE,
            drop_group = NULL) {
-    metadata <- attr(sim_df, "row_metadata")
+    row_metadata <- attr(sim_df, "row_metadata")
 
-    stopifnot(!is.null(metadata))
+    stopifnot(!is.null(row_metadata))
 
     # ---- 0. Filter out some rows ----
 

@@ -38,12 +38,12 @@ sim_all_same <-
            annotation_cols = NULL,
            include_group_tag = FALSE,
            drop_lower = FALSE) {
-    metadata <- attr(sim_df, "row_metadata")
+    row_metadata <- attr(sim_df, "row_metadata")
 
-    stopifnot(!is.null(metadata))
+    stopifnot(!is.null(row_metadata))
 
     metadata_i <-
-      metadata %>%
+      row_metadata %>%
       dplyr::select(id, dplyr::all_of(all_same_cols)) %>%
       tidyr::unite("all_same_col", dplyr::all_of(all_same_cols), sep = ":")
 
@@ -124,9 +124,9 @@ sim_all_same_keep_some <-
            annotation_cols = NULL,
            drop_reference = TRUE,
            sim_cols = c("id1", "id2", "sim")) {
-    metadata <- attr(sim_df, "row_metadata")
+    row_metadata <- attr(sim_df, "row_metadata")
 
-    stopifnot(!is.null(metadata))
+    stopifnot(!is.null(row_metadata))
 
     sim_df %<>%
       sim_all_same(all_same_cols) %>%
@@ -210,13 +210,13 @@ sim_some_different_drop_some <-
            filter_drop_left = NULL,
            filter_drop_right = NULL,
            annotation_cols = NULL) {
-    metadata <- attr(sim_df, "row_metadata")
+    row_metadata <- attr(sim_df, "row_metadata")
 
-    stopifnot(!is.null(metadata))
+    stopifnot(!is.null(row_metadata))
 
     stopifnot(!any(all_same_cols %in% all_different_cols))
 
-    metadata_i <- metadata
+    metadata_i <- row_metadata
 
     if (is.null(all_same_cols)) {
       # create a dummy column on which to join

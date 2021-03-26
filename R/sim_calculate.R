@@ -30,7 +30,7 @@ sim_calculate <-
       dplyr::select(-dplyr::matches(annotation_prefix))
 
     # get metadata
-    metadata <-
+    row_metadata <-
       population %>%
       dplyr::select(dplyr::matches(annotation_prefix)) %>%
       tibble::rowid_to_column(var = "id")
@@ -51,7 +51,7 @@ sim_calculate <-
 
     attr(sim_df, "metric_metadata") <- list(method = method)
 
-    attr(sim_df, "row_metadata") <- metadata
+    attr(sim_df, "row_metadata") <- row_metadata
 
     sim_df
   }

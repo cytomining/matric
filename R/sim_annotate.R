@@ -31,12 +31,12 @@ sim_annotate <-
            annotation_cols,
            index = "both",
            sim_cols = c("id1", "id2", "sim")) {
-    metadata <- attr(sim_df, "row_metadata")
+    row_metadata <- attr(sim_df, "row_metadata")
 
-    stopifnot(!is.null(metadata))
+    stopifnot(!is.null(row_metadata))
 
     metadata_i <-
-      metadata %>%
+      row_metadata %>%
       dplyr::select(id, dplyr::any_of(annotation_cols))
 
     sim_df %<>% dplyr::select(dplyr::all_of(sim_cols))

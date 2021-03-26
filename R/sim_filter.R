@@ -34,9 +34,9 @@ sim_filter <-
            filter_keep = NULL,
            filter_drop = NULL,
            filter_side = NULL) {
-    metadata <- attr(sim_df, "row_metadata")
+    row_metadata <- attr(sim_df, "row_metadata")
 
-    stopifnot(!is.null(metadata))
+    stopifnot(!is.null(row_metadata))
 
     stopifnot(!is.null(filter_side))
 
@@ -56,7 +56,7 @@ sim_filter <-
 
     if (!is.null(filter_keep)) {
       filter_ids <-
-        metadata %>%
+        row_metadata %>%
         dplyr::inner_join(filter_keep, by = colnames(filter_keep)) %>%
         dplyr::select(id)
 
@@ -66,7 +66,7 @@ sim_filter <-
 
     if (!is.null(filter_drop)) {
       filter_ids <-
-        metadata %>%
+        row_metadata %>%
         dplyr::inner_join(filter_drop, by = colnames(filter_drop)) %>%
         dplyr::select(id)
 
