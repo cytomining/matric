@@ -56,7 +56,8 @@ sim_wider <-
       sim_df %>%
       dplyr::select(all_of(c(primary_key_columns, "sim"))) %>%
       dplyr::arrange(across(all_of(primary_key_columns))) %>%
-      tidyr::pivot_wider(names_from = primary_key_column2, values_from = "sim") %>%
+      tidyr::pivot_wider(names_from = all_of(primary_key_column2),
+                         values_from = "sim") %>%
       tibble::column_to_rownames(primary_key_column1)
 
     # assumes symmetric matrix
@@ -87,7 +88,8 @@ sim_wider <-
     stopifnot(all(map1 == map2))
 
     map1[[annotation_column_unique1]] <-
-      paste(map1[[annotation_column1]], seq_along(map1[[annotation_column1]]), sep = ":")
+      paste(map1[[annotation_column1]],
+            seq_along(map1[[annotation_column1]]), sep = ":")
 
     map1[[primary_key_column1]] <-
       as.character(map1[[primary_key_column1]])
@@ -95,22 +97,23 @@ sim_wider <-
     key1 <- data.frame(x = as.character(row.names(sim_df_wider)))
     names(key1) <- primary_key_column1
 
-    value1 <- key1 %>%
-      dplyr::inner_join(map1) %>%
-      dplyr::pull(annotation_column1)
+    value1 <-
+      key1 %>%
+      dplyr::inner_join(map1, by = primary_key_column1) %>%
+      dplyr::pull(all_of(annotation_column1))
 
     value_unique1 <-
       key1 %>%
-      dplyr::inner_join(map1) %>%
-      dplyr::pull(annotation_column_unique1)
+      dplyr::inner_join(map1, by = primary_key_column1) %>%
+      dplyr::pull(all_of(annotation_column_unique1))
 
     row.names(sim_df_wider) <- value_unique1
     colnames(sim_df_wider) <- row.names(sim_df_wider)
 
     map1 %<>% dplyr::select(
-      id = annotation_column_unique1,
-      annotation = annotation_column1,
-      primary_key = primary_key_column1
+      id = all_of(annotation_column_unique1),
+      annotation = all_of(annotation_column1),
+      primary_key = all_of(primary_key_column1)
     )
 
     attr(sim_df_wider, "map") <- map1
