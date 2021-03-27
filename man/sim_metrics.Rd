@@ -12,7 +12,7 @@ sim_metrics(
 )
 }
 \arguments{
-\item{collated_sim}{output of \code{sim_collated}.}
+\item{collated_sim}{output of \code{sim_collated}, which is a data.frame with some attributes.}
 
 \item{sim_type}{character string specifying the background distributions for computing scaled metrics. This must be one of the strings \code{"non_rep"} or \code{"ref"}.}
 
