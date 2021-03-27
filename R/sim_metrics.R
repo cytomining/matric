@@ -97,21 +97,21 @@ utils::globalVariables(c("type"))
 #' metrics <- matric::sim_metrics(collated_sim, "ref", calculate_grouped = TRUE)
 #'
 #' ggplot(
-#'   metrics$per_row,
+#'   metrics$level_1_0,
 #'   aes(sim_scaled_mean_ref_i, fill = Metadata_gene_name)
 #' ) +
 #'   geom_histogram(binwidth = .1) +
 #'   facet_wrap(~Metadata_cell_line)
 #'
 #' ggplot(
-#'   metrics$per_set,
+#'   metrics$level_1,
 #'   aes(sim_scaled_mean_ref_i_mean_i, fill = Metadata_gene_name)
 #' ) +
 #'   geom_histogram(binwidth = .1) +
 #'   facet_wrap(~Metadata_cell_line)
 #'
 #' ggplot(
-#'   metrics$per_set_group,
+#'   metrics$level_2_1,
 #'   aes(sim_scaled_mean_ref_g, fill = Metadata_gene_name)
 #' ) +
 #'   geom_histogram(binwidth = .1) +
@@ -221,8 +221,8 @@ sim_metrics <- function(collated_sim,
 
   result <-
     list(
-      per_row = sim_norm_agg,
-      per_set = sim_norm_agg_agg
+      level_1_0 = sim_norm_agg,
+      level_1 = sim_norm_agg_agg
     )
 
   # ---- Group replicates  ----
@@ -234,7 +234,7 @@ sim_metrics <- function(collated_sim,
     result <-
       c(
         result,
-        list(per_set_group = sim_norm_group_agg)
+        list(level_2_1 = sim_norm_group_agg)
       )
   }
 
