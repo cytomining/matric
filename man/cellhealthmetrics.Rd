@@ -5,17 +5,7 @@
 \alias{cellhealthmetrics}
 \title{Quality metrics for Cell Painting dataset of CRISPR perturbations.}
 \format{
-A list of data frames comprising quality metrics at three levels:
-\describe{
-\item{Metadata_Plate}{Plate id}
-\item{Metadata_Well}{Well id}
-\item{Metadata_cell_line}{Cell line id}
-\item{Metadata_gene_name}{Gene name}
-\item{Metadata_pert_name}{CRISPR guide name}
-\item{Cells_AreaShape_Compactness}{compactness measure}
-\item{Cells_AreaShape_Extent}{extent measure}
-\item{Cells_AreaShape_Zernike_0_0}{shape measure}
-}
+A list of data frames comprising quality metrics at three levels.
 }
 \source{
 \url{https://github.com/broadinstitute/cell-health/}
