@@ -113,7 +113,7 @@ metrics <-
 ## Per row (Level 0)
 
 ```{r}
-ggplot(metrics$per_row,
+ggplot(metrics$level_1_0,
        aes(sim_scaled_mean_ref_i, fill = Metadata_gene_name)) +
   geom_histogram(binwidth = .1) +
   facet_wrap( ~ Metadata_cell_line) +
@@ -123,7 +123,7 @@ ggplot(metrics$per_row,
 ## Per set (Level 1-0)
 
 ```{r}
-ggplot(metrics$per_set,
+ggplot(metrics$level_1,
        aes(sim_scaled_mean_ref_i_mean_i, fill = Metadata_gene_name)) +
   geom_histogram(binwidth = .1) +
   facet_wrap( ~ Metadata_cell_line) +
@@ -133,10 +133,40 @@ ggplot(metrics$per_set,
 ## Per group (Level 2)
 
 ```{r}
-ggplot(metrics$per_set_group,
+ggplot(metrics$level_2_1,
        aes(sim_scaled_mean_ref_g, fill = Metadata_gene_name)) +
   geom_histogram(binwidth = .1) +
   facet_wrap( ~ Metadata_cell_line) +
   theme(legend.position="bottom", legend.box = "horizontal")
 ```
+# Plot metrics from precomputed data
 
+## Per row (Level 0)
+
+```{r}
+ggplot(cellhealthmetrics$level_1_0,
+       aes(sim_scaled_mean_ref_i, fill = Metadata_gene_name)) +
+  geom_histogram(binwidth = .1) +
+  facet_wrap( ~ Metadata_cell_line) +
+  theme(legend.position="none")
+```
+
+## Per set (Level 1-0)
+
+```{r}
+ggplot(cellhealthmetrics$level_1,
+       aes(sim_scaled_mean_ref_i_mean_i, fill = Metadata_gene_name)) +
+  geom_histogram(binwidth = .1) +
+  facet_wrap( ~ Metadata_cell_line) +
+  theme(legend.position="none")
+```
+
+## Per group (Level 2)
+
+```{r}
+ggplot(cellhealthmetrics$level_2_1,
+       aes(sim_scaled_mean_ref_g, fill = Metadata_gene_name)) +
+  geom_histogram(binwidth = .1) +
+  facet_wrap( ~ Metadata_cell_line) +
+  theme(legend.position="none")
+```

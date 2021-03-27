@@ -6,4 +6,3 @@
 #' @docType package
 #' @name matric
 NULL
-
