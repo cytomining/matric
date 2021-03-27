@@ -139,6 +139,7 @@ ggplot(metrics$level_2_1,
   facet_wrap( ~ Metadata_cell_line) +
   theme(legend.position="bottom", legend.box = "horizontal")
 ```
+
 # Plot metrics from precomputed data
 
 ## Per row (Level 0)
