@@ -6,7 +6,7 @@
 #' @param primary_key_column character string specifying the column in \code{sim_df} to use to uniquely identify rows and columns
 #' @param annotation_column character string specifying the column in \code{sim_df} to use to annotate rows and columns
 #'
-#' @return Widened similarity matrix.
+#' @return data.frame of widened similarity matrix, with some attributes.
 #'
 #' @importFrom magrittr %>%
 #' @importFrom magrittr %>%

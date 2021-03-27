@@ -24,7 +24,7 @@ sim_annotate(
 \item{sim_cols}{optional character string specifying minimal set of columns for a similarity matrix}
 }
 \value{
-annotated melted similarity matrix of the same class as \code{sim_df}.
+Annotated melted similarity matrix of the same class as \code{sim_df}.
 }
 \description{
 \code{sim_annotate} annotates a melted similarity matrix.

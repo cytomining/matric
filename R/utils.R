@@ -3,10 +3,15 @@ utils::globalVariables(c("id"))
 #'
 #' \code{get_annotation} gets row annotations.
 #'
-#' @param population tbl with annotations (a.k.a. metadata) and observation variables.
-#' @param annotation_prefix optional character string specifying prefix for annotation columns (e.g. \code{"Metadata_"} (default)).
+#' @param population data.frame with annotations (a.k.a. metadata) and
+#' observation variables.
 #'
-#' @return row annotations of the same class as \code{population}
+#' @param annotation_prefix optional character string specifying prefix for
+#' annotation columns (e.g. \code{"Metadata_"} (default)).
+#'
+#' @return data.frame with row annotations of the same class as
+#' \code{population}.
+#'
 #' @export
 #'
 #' @importFrom magrittr %>%
@@ -38,10 +43,14 @@ get_annotation <-
 #'
 #' \code{drop_annotation} drops row annotations.
 #'
-#' @param population tbl with annotations (a.k.a. metadata) and observation variables.
-#' @param annotation_prefix optional character string specifying prefix for annotation columns (e.g. \code{"Metadata_"} (default)).
+#' @param population data.frame with annotations (a.k.a. metadata) and
+#' observation variables.
 #'
-#' @return data with all columns except row annotations of the same class as \code{population}
+#' @param annotation_prefix optional character string specifying prefix for
+#' annotation columns (e.g. \code{"Metadata_"} (default)).
+#'
+#' @return data.frame with all columns except row annotations.
+#'
 #' @export
 #'
 #' @importFrom magrittr %>%

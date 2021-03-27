@@ -8,7 +8,7 @@ utils::globalVariables(c("type"))
 #' @param calculate_grouped optional boolean specifying whether to include grouped metrics.
 #' @param annotation_prefix optional character string specifying prefix for annotation columns (e.g. \code{"Metadata_"} (default)).
 #'
-#' @return list of metrics.
+#' @return List of metrics.
 #' @examples
 #'
 #' suppressMessages(suppressWarnings(library(ggplot2)))

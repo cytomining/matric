@@ -27,7 +27,7 @@ rows to drop.}
 This must be one of the strings \code{"left"} or \code{"right"}.}
 }
 \value{
-filtered \code{sim_df} as a data.frame, with some rows kept and
+Filtered \code{sim_df} as a data.frame, with some rows kept and
 some rows dropped. No filters applied if both \code{filter_keep} and
 \code{filter_drop} are NULL.
 }

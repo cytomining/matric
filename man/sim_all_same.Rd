@@ -34,7 +34,7 @@ where the first index is smaller than the second index. This is equivalent
 to dropping the lower triangular of  \code{sim_df}.}
 }
 \value{
-filtered \code{sim_df} as a data.frame, where only pairs with the
+Filtered \code{sim_df} as a data.frame, where only pairs with the
 same values in \code{all_same_cols} columns are kept. Rows are annotated
 based on the first index, if specified.
 }

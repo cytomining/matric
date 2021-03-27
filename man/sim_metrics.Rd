@@ -21,7 +21,7 @@ sim_metrics(
 \item{annotation_prefix}{optional character string specifying prefix for annotation columns (e.g. \code{"Metadata_"} (default)).}
 }
 \value{
-list of metrics.
+List of metrics.
 }
 \description{
 \code{sim_metrics} computes metrics.

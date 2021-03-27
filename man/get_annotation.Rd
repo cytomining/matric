@@ -7,12 +7,15 @@
 get_annotation(population, annotation_prefix = "Metadata_")
 }
 \arguments{
-\item{population}{tbl with annotations (a.k.a. metadata) and observation variables.}
+\item{population}{data.frame with annotations (a.k.a. metadata) and
+observation variables.}
 
-\item{annotation_prefix}{optional character string specifying prefix for annotation columns (e.g. \code{"Metadata_"} (default)).}
+\item{annotation_prefix}{optional character string specifying prefix for
+annotation columns (e.g. \code{"Metadata_"} (default)).}
 }
 \value{
-row annotations of the same class as \code{population}
+data.frame with row annotations of the same class as
+\code{population}.
 }
 \description{
 \code{get_annotation} gets row annotations.
