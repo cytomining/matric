@@ -48,7 +48,7 @@ sim_collate(
 \item{drop_group}{optional tbl; rows that match on \code{drop_group} on the left or right index are dropped.}
 }
 \value{
-filtered \code{sim_df} with sets of pairs.
+\code{metric_sim} object comprising a filtered \code{sim_df} with sets of pairs, preserving the same \code{metric_sim} attributes as \code{sim_df}.
 }
 \description{
 \code{sim_collate} Filters melted similarity matrix to create several sets of pairs.

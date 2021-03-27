@@ -82,7 +82,7 @@
 #' @param drop_reference optional boolean specifying whether to filter (drop) pairs using \code{reference} on the left index.
 #' @param drop_group optional tbl; rows that match on \code{drop_group} on the left or right index are dropped.
 #'
-#' @return filtered \code{sim_df} with sets of pairs.
+#' @return \code{metric_sim} object comprising a filtered \code{sim_df} with sets of pairs, preserving the same \code{metric_sim} attributes as \code{sim_df}.
 #'
 #' @examples
 #'
@@ -188,7 +188,10 @@ sim_collate <-
            reference = NULL,
            drop_reference = FALSE,
            drop_group = NULL) {
+
     invisible(sim_validate(sim_df))
+
+    sim_df_attr <- attributes(sim_df)
 
     row_metadata <- attr(sim_df, "row_metadata")
 
@@ -404,5 +407,8 @@ sim_collate <-
     attr(combined, "drop_reference") <- drop_reference
     attr(combined, "reference") <- reference
 
-    combined
+    combined %<>% as.data.frame()
+
+    sim_restore(combined, sim_df_attr)
+
   }
