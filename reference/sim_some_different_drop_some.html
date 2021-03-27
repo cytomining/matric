@@ -181,12 +181,15 @@ from <code>metadata</code> to annotate the left index of the filtered
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>filtered <code>sim_df</code> as a data.frame, keeping only pairs that
-have same values in all columns of <code>all_same_cols_non_rep</code>, different
-values in all columns <code>all_different_cols_non_rep</code>, and different
-values in at least one column of <code>any_different_cols_non_rep</code>, with
-further filtering using <code>filter_drop_left</code> and <code>filter_drop_right</code>.
-Rows are annotated based on the first index, if specified.</p>
+    <p>Filtered <code>sim_df</code> as a data.frame, keeping only pairs that have</p><ul>
+<li><p>same values in all columns of <code>all_same_cols</code>,</p></li>
+<li><p>different values in all columns <code>all_different_cols</code>, and</p></li>
+<li><p>different values in at least one column of <code>any_different_cols</code>,</p></li>
+</ul>
+
+<p>with further filtering using <code>filter_drop_left</code> and
+<code>filter_drop_right</code>. Rows are annotated based on the first index,
+if specified.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/message.html'>suppressMessages</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span><span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://magrittr.tidyverse.org'>magrittr</a></span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
