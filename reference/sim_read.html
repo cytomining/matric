@@ -85,6 +85,9 @@
   </a>
 </li>
 <li>
+  <a href="../articles/matric.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -134,14 +137,7 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>tbl with similarity matrix.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>With the CSV format, the <code>row_metadata</code> and <code>metric_metadata</code>
-attributes are read in and added as attributes to the <code>sim_df</code> tbl.</p>
-<p>This is not required for Parquet because it the attributes are saved.
-For Parquet format, <code>sim_read</code> is identical to
-<code><a href='https://arrow.apache.org/docs/r//reference/read_parquet.html'>arrow::read_parquet</a></code></p>
+    <p><code>metric_sim</code> object.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/message.html'>suppressMessages</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span><span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://magrittr.tidyverse.org'>magrittr</a></span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
@@ -153,14 +149,14 @@ For Parquet format, <code>sim_read</code> is identical to
 <span class='op'>)</span>
 <span class='va'>sim_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sim_calculate.html'>sim_calculate</a></span><span class='op'>(</span><span class='va'>population</span>, method <span class='op'>=</span> <span class='st'>"pearson"</span><span class='op'>)</span>
 <span class='va'>sim_df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='sim_write.html'>sim_write</a></span><span class='op'>(</span><span class='st'>"/tmp/test"</span>, file_format <span class='op'>=</span> <span class='st'>"csv"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; INFO [2021-03-26 13:39:51] Creating /tmp/test ...
-#&gt; INFO [2021-03-26 13:39:51] Writing /tmp/test/test.csv ...
-#&gt; INFO [2021-03-26 13:39:51] Writing /tmp/test/test_metadata.csv ...
-#&gt; INFO [2021-03-26 13:39:51] Writing /tmp/test/test_metadata.json ...</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='va'>sim_df_csv</span> <span class='op'>&lt;-</span> <span class='fu'>sim_read</span><span class='op'>(</span><span class='st'>"/tmp/test"</span>, file_format <span class='op'>=</span> <span class='st'>"csv"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; INFO [2021-03-26 13:39:51] Reading /tmp/test/test.csv ...
-#&gt; INFO [2021-03-26 13:39:51] Reading /tmp/test/test_metadata.csv ...
-#&gt; INFO [2021-03-26 13:39:51] Reading /tmp/test/test_metadata.json ...</div><div class='input'><span class='va'>sim_df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='sim_write.html'>sim_write</a></span><span class='op'>(</span><span class='st'>"/tmp/test.parquet"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; INFO [2021-03-26 13:39:51] Writing /tmp/test.parquet ...</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='va'>sim_df_parquet1</span> <span class='op'>&lt;-</span> <span class='fu'>sim_read</span><span class='op'>(</span><span class='st'>"/tmp/test.parquet"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; INFO [2021-03-27 15:25:59] Creating /tmp/test ...
+#&gt; INFO [2021-03-27 15:25:59] Writing /tmp/test/test.csv ...
+#&gt; INFO [2021-03-27 15:25:59] Writing /tmp/test/test_metadata.csv ...
+#&gt; INFO [2021-03-27 15:25:59] Writing /tmp/test/test_metadata.json ...</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='va'>sim_df_csv</span> <span class='op'>&lt;-</span> <span class='fu'>sim_read</span><span class='op'>(</span><span class='st'>"/tmp/test"</span>, file_format <span class='op'>=</span> <span class='st'>"csv"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; INFO [2021-03-27 15:25:59] Reading /tmp/test/test.csv ...
+#&gt; INFO [2021-03-27 15:25:59] Reading /tmp/test/test_metadata.csv ...
+#&gt; INFO [2021-03-27 15:25:59] Reading /tmp/test/test_metadata.json ...</div><div class='input'><span class='va'>sim_df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='sim_write.html'>sim_write</a></span><span class='op'>(</span><span class='st'>"/tmp/test.parquet"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; INFO [2021-03-27 15:25:59] Writing /tmp/test.parquet ...</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='va'>sim_df_parquet1</span> <span class='op'>&lt;-</span> <span class='fu'>sim_read</span><span class='op'>(</span><span class='st'>"/tmp/test.parquet"</span><span class='op'>)</span>
 <span class='va'>sim_df</span> <span class='op'>%&gt;%</span> <span class='fu'>arrow</span><span class='fu'>::</span><span class='fu'><a href='https://arrow.apache.org/docs/r//reference/write_parquet.html'>write_parquet</a></span><span class='op'>(</span><span class='st'>"/tmp/test.parquet"</span><span class='op'>)</span>
 <span class='va'>sim_df_parquet2</span> <span class='op'>&lt;-</span> <span class='fu'>arrow</span><span class='fu'>::</span><span class='fu'><a href='https://arrow.apache.org/docs/r//reference/read_parquet.html'>read_parquet</a></span><span class='op'>(</span><span class='st'>"/tmp/test.parquet"</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='va'>sim_df_parquet1</span> <span class='op'>==</span> <span class='va'>sim_df_parquet2</span><span class='op'>)</span>

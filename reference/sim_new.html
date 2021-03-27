@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Assignment pipe operator — %&lt;&gt;% • matric</title>
+<title>Constructor for matric_sim S3 class. — sim_new • matric</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Assignment pipe operator — %&lt;&gt;%" />
-<meta property="og:description" content="See magrittr::%&amp;lt;&amp;gt;% for details." />
+<meta property="og:title" content="Constructor for matric_sim S3 class. — sim_new" />
+<meta property="og:description" content="sim_new creates an object of class matric_sim." />
 
 
 
@@ -111,33 +111,52 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Assignment pipe operator</h1>
-    <small class="dont-index">Source: <a href='https://github.com/shntnu/matric/blob/master/R/utils-assignment.R'><code>R/utils-assignment.R</code></a></small>
-    <div class="hidden name"><code>assignment-pipe.Rd</code></div>
+    <h1>Constructor for <code>matric_sim</code> S3 class.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/shntnu/matric/blob/master/R/sim_construct-validate.R'><code>R/sim_construct-validate.R</code></a></small>
+    <div class="hidden name"><code>sim_new.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>See <code>magrittr::%&lt;&gt;%</code> for details.</p>
+    <p><code>sim_new</code> creates an object of class <code>matric_sim</code>.</p>
     </div>
 
-    <pre class="usage"><span class='va'>lhs</span> <span class='op'>%&lt;&gt;%</span> <span class='va'>rhs</span></pre>
+    <pre class="usage"><span class='fu'>sim_new</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>row_metadata</span>, <span class='va'>metric_metadata</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>lhs</th>
-      <td><p>A value or the magrittr placeholder.</p></td>
+      <th>x</th>
+      <td><p>data.frame with similarity matrix.</p></td>
     </tr>
     <tr>
-      <th>rhs</th>
-      <td><p>A function call using the magrittr semantics.</p></td>
+      <th>row_metadata</th>
+      <td><p>tbl with row metadata.</p></td>
+    </tr>
+    <tr>
+      <th>metric_metadata</th>
+      <td><p>list with metric information</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The result of calling <code>rhs(lhs)</code>.</p>
+    <p>object of class <code>matric_sim</code></p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p><code>matric_sim</code> is just a <code>tibble</code> with two attributes and at least
+three columns.</p>
+<p>Columns:</p><ul>
+<li><p><code>id1</code> and <code>id2</code>: integers, indicating row ids.</p></li>
+<li><p><code>sim</code>: double, indicating similarity between the rows.</p></li>
+</ul>
+
+<p>Attributes:</p><ul>
+<li><p><code>row_metadata</code>: data.frame of row annotations, with <code>id</code> column.</p></li>
+<li><p><code>metric_metadata</code>: information about the similarity metric.</p></li>
+</ul>
+
+<p>This is somewhat similar to <code>Biobase::AnnotatedDataFrame</code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

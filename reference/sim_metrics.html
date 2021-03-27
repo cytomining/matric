@@ -85,6 +85,9 @@
   </a>
 </li>
 <li>
+  <a href="../articles/matric.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -129,7 +132,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>collated_sim</th>
-      <td><p>output of <code>sim_collated</code>.</p></td>
+      <td><p>output of <code>sim_collated</code>, which is a data.frame with some attributes.</p></td>
     </tr>
     <tr>
       <th>sim_type</th>
@@ -237,21 +240,21 @@
 <span class='va'>metrics</span> <span class='op'>&lt;-</span> <span class='fu'>matric</span><span class='fu'>::</span><span class='fu'>sim_metrics</span><span class='op'>(</span><span class='va'>collated_sim</span>, <span class='st'>"ref"</span>, calculate_grouped <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>
-  <span class='va'>metrics</span><span class='op'>$</span><span class='va'>per_row</span>,
+  <span class='va'>metrics</span><span class='op'>$</span><span class='va'>level_1_0</span>,
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>sim_scaled_mean_ref_i</span>, fill <span class='op'>=</span> <span class='va'>Metadata_gene_name</span><span class='op'>)</span>
 <span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_histogram.html'>geom_histogram</a></span><span class='op'>(</span>binwidth <span class='op'>=</span> <span class='fl'>.1</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>Metadata_cell_line</span><span class='op'>)</span>
 </div><div class='img'><img src='sim_metrics-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>
-  <span class='va'>metrics</span><span class='op'>$</span><span class='va'>per_set</span>,
+  <span class='va'>metrics</span><span class='op'>$</span><span class='va'>level_1</span>,
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>sim_scaled_mean_ref_i_mean_i</span>, fill <span class='op'>=</span> <span class='va'>Metadata_gene_name</span><span class='op'>)</span>
 <span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_histogram.html'>geom_histogram</a></span><span class='op'>(</span>binwidth <span class='op'>=</span> <span class='fl'>.1</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>Metadata_cell_line</span><span class='op'>)</span>
 </div><div class='img'><img src='sim_metrics-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>
-  <span class='va'>metrics</span><span class='op'>$</span><span class='va'>per_set_group</span>,
+  <span class='va'>metrics</span><span class='op'>$</span><span class='va'>level_2_1</span>,
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>sim_scaled_mean_ref_g</span>, fill <span class='op'>=</span> <span class='va'>Metadata_gene_name</span><span class='op'>)</span>
 <span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_histogram.html'>geom_histogram</a></span><span class='op'>(</span>binwidth <span class='op'>=</span> <span class='fl'>.1</span><span class='op'>)</span> <span class='op'>+</span>

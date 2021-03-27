@@ -85,6 +85,9 @@
   </a>
 </li>
 <li>
+  <a href="../articles/matric.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -119,6 +122,7 @@
 
     <pre class="usage"><span class='fu'>sim_all_same_keep_some</span><span class='op'>(</span>
   <span class='va'>sim_df</span>,
+  <span class='va'>row_metadata</span>,
   <span class='va'>all_same_cols</span>,
   <span class='va'>filter_keep_right</span>,
   annotation_cols <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -131,7 +135,11 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>sim_df</th>
-      <td><p>tbl with melted similarity matrix.</p></td>
+      <td><p>data.frame with melted similarity matrix.</p></td>
+    </tr>
+    <tr>
+      <th>row_metadata</th>
+      <td><p>data.frame with row metadata.</p></td>
     </tr>
     <tr>
       <th>all_same_cols</th>
@@ -139,25 +147,33 @@
     </tr>
     <tr>
       <th>filter_keep_right</th>
-      <td><p>tbl of metadata specifying which rows to keep on the right index.</p></td>
+      <td><p>data.frame of metadata specifying which rows to
+keep on the right index.</p></td>
     </tr>
     <tr>
       <th>annotation_cols</th>
-      <td><p>optional character vector specifying which columns from <code>metadata</code> to annotate the left index of the filtered <code>sim_df</code> with.</p></td>
+      <td><p>optional character vector specifying which columns
+from <code>metadata</code> to annotate the left index of the filtered
+<code>sim_df</code> with.</p></td>
     </tr>
     <tr>
       <th>drop_reference</th>
-      <td><p>optional boolean specifying whether to filter (drop) pairs using <code>filter_keep_right</code> on the left index.</p></td>
+      <td><p>optional boolean specifying whether to filter (drop)
+pairs using <code>filter_keep_right</code> on the left index.</p></td>
     </tr>
     <tr>
       <th>sim_cols</th>
-      <td><p>optional character string specifying minimal set of columns for a similarity matrix</p></td>
+      <td><p>optional character string specifying minimal set of columns
+for a similarity matrix</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>filtered <code>sim_df</code> where only pairs with the same values in <code>all_same_cols</code> columns are kept, with further filtering using <code>filter_keep_right</code>.</p>
+    <p>filtered <code>sim_df</code> as a data.frame, where only pairs with the
+same values in <code>all_same_cols</code> columns are kept, with further filtering
+using <code>filter_keep_right</code>.Rows are annotated based on the first index,
+if specified.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/message.html'>suppressMessages</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span><span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://magrittr.tidyverse.org'>magrittr</a></span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
@@ -171,34 +187,34 @@
 <span class='op'>)</span>
 <span class='va'>annotation_cols</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Metadata_group"</span>, <span class='st'>"Metadata_type"</span><span class='op'>)</span>
 <span class='va'>sim_df</span> <span class='op'>&lt;-</span> <span class='fu'>matric</span><span class='fu'>::</span><span class='fu'><a href='sim_calculate.html'>sim_calculate</a></span><span class='op'>(</span><span class='va'>population</span>, method <span class='op'>=</span> <span class='st'>"pearson"</span><span class='op'>)</span>
-<span class='va'>sim_df</span> <span class='op'>&lt;-</span> <span class='fu'>matric</span><span class='fu'>::</span><span class='fu'><a href='sim_annotate.html'>sim_annotate</a></span><span class='op'>(</span><span class='va'>sim_df</span>, <span class='va'>annotation_cols</span><span class='op'>)</span>
+<span class='va'>row_metadata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span><span class='op'>(</span><span class='va'>sim_df</span>, <span class='st'>"row_metadata"</span><span class='op'>)</span>
+<span class='va'>sim_df</span> <span class='op'>&lt;-</span> <span class='fu'>matric</span><span class='fu'>::</span><span class='fu'><a href='sim_annotate.html'>sim_annotate</a></span><span class='op'>(</span><span class='va'>sim_df</span>, <span class='va'>row_metadata</span>, <span class='va'>annotation_cols</span><span class='op'>)</span>
 <span class='va'>all_same_cols</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Metadata_group"</span><span class='op'>)</span>
 <span class='va'>filter_keep_right</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>Metadata_group <span class='op'>=</span> <span class='st'>"a"</span>, Metadata_type <span class='op'>=</span> <span class='st'>"x"</span><span class='op'>)</span>
 <span class='va'>drop_reference</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
 <span class='fu'>matric</span><span class='fu'>::</span><span class='fu'>sim_all_same_keep_some</span><span class='op'>(</span>
   <span class='va'>sim_df</span>,
+  <span class='va'>row_metadata</span>,
   <span class='va'>all_same_cols</span>,
   <span class='va'>filter_keep_right</span>,
   <span class='va'>annotation_cols</span>,
   <span class='va'>drop_reference</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 14 x 5</span><span>
-#&gt;      id1   id2    sim Metadata_group Metadata_type
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>     2    16 -</span><span style='color: #BB0000;'>0.913</span><span> a              x            
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>     4     2  0.999 a              y            
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>     4    16 -</span><span style='color: #BB0000;'>0.900</span><span> a              y            
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>     6     2  0.997 a              y            
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>     6    16 -</span><span style='color: #BB0000;'>0.943</span><span> a              y            
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>     9     2 -</span><span style='color: #BB0000;'>0.967</span><span> a              y            
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>     9    16  0.987 a              y            
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>    11     2  0.987 a              y            
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>    11    16 -</span><span style='color: #BB0000;'>0.967</span><span> a              y            
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>    15     2 -</span><span style='color: #BB0000;'>0.977</span><span> a              y            
-#&gt; </span><span style='color: #BCBCBC;'>11</span><span>    15    16  0.980 a              y            
-#&gt; </span><span style='color: #BCBCBC;'>12</span><span>    16     2 -</span><span style='color: #BB0000;'>0.913</span><span> a              x            
-#&gt; </span><span style='color: #BCBCBC;'>13</span><span>    19     2 -</span><span style='color: #BB0000;'>0.807</span><span> a              y            
-#&gt; </span><span style='color: #BCBCBC;'>14</span><span>    19    16  0.977 a              y            </div></span></pre>
+</div><div class='output co'>#&gt;    id1 id2        sim Metadata_group Metadata_type
+#&gt; 1    2  16 -0.9133769              a             x
+#&gt; 2    4   2  0.9994822              a             y
+#&gt; 3    4  16 -0.8998047              a             y
+#&gt; 4    6   2  0.9967145              a             y
+#&gt; 5    6  16 -0.9433502              a             y
+#&gt; 6    9   2 -0.9667218              a             y
+#&gt; 7    9  16  0.9871336              a             y
+#&gt; 8   11   2  0.9872481              a             y
+#&gt; 9   11  16 -0.9665379              a             y
+#&gt; 10  15   2 -0.9766434              a             y
+#&gt; 11  15  16  0.9795189              a             y
+#&gt; 12  16   2 -0.9133769              a             x
+#&gt; 13  19   2 -0.8068429              a             y
+#&gt; 14  19  16  0.9774614              a             y</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
