@@ -3,7 +3,7 @@ utils::globalVariables(c(".data", "sim", "sim_mean", "sim_rank", "sim_sd"))
 #'
 #' \code{sim_plot} Plots similarity matrix.
 #'
-#' @param sim_df tbl with melted similarity matrix.
+#' @param sim_df data.frame with melted similarity matrix.
 #' @param annotation_column character string specifying the column in \code{sim_df} to use to annotate rows and columns.
 #' @param calculate_sim_rank boolean specifying whether to calculate rank of similarity.
 #' @param trim_label optional integer specifying the trim length for tick labels.
@@ -25,7 +25,8 @@ utils::globalVariables(c(".data", "sim", "sim_mean", "sim_rank", "sim_sd"))
 #' )
 #' annotation_cols <- c("Metadata_group", "Metadata_type")
 #' sim_df <- matric::sim_calculate(population, method = "pearson")
-#' sim_df <- matric::sim_annotate(sim_df, annotation_cols)
+#' row_metadata <- attr(sim_df, "row_metadata")
+#' sim_df <- matric::sim_annotate(sim_df, row_metadata, annotation_cols)
 #' annotation_column <- "Metadata_group"
 #' matric::sim_plot(sim_df, annotation_column, calculate_sim_rank = TRUE)
 #' @export
@@ -34,6 +35,8 @@ sim_plot <-
            annotation_column,
            calculate_sim_rank = FALSE,
            trim_label = NULL) {
+    sim_df %<>% as.data.frame()
+
     col1 <- paste0(annotation_column, "1")
     col2 <- paste0(annotation_column, "2")
     col1_short <- paste0(annotation_column, "1")

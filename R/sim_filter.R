@@ -2,12 +2,22 @@
 #'
 #' \code{sim_filter} filters rows of the melted similarity matrix.
 #'
-#' @param sim_df tbl with melted similarity matrix.
-#' @param filter_keep optional tbl of metadata specifying which rows to keep.
-#' @param filter_drop optional tbl of metadata specifying which rows to drop.
-#' @param filter_side character string specifying which index to filter on. This must be one of the strings \code{"left"} or \code{"right"}.
+#' @param sim_df data.frame with melted similarity matrix.
 #'
-#' @return filtered \code{sim_df} with some rows kept and some rows dropped. No filters applied if both \code{filter_keep} and \code{filter_drop} are NULL.
+#' @param row_metadata data.frame with row metadata.
+#'
+#' @param filter_keep optional data.frame of metadata specifying which
+#' rows to keep.
+#'
+#' @param filter_drop optional data.frame of metadata specifying which
+#' rows to drop.
+#'
+#' @param filter_side character string specifying which index to filter on.
+#' This must be one of the strings \code{"left"} or \code{"right"}.
+#'
+#' @return filtered \code{sim_df} as a data.frame, with some rows kept and
+#' some rows dropped. No filters applied if both \code{filter_keep} and
+#' \code{filter_drop} are NULL.
 #'
 #' @importFrom magrittr %>%
 #' @importFrom magrittr %<>%
@@ -23,20 +33,20 @@
 #' )
 #' annotation_cols <- c("Metadata_group", "Metadata_type")
 #' sim_df <- matric::sim_calculate(population, method = "pearson")
-#' sim_df <- matric::sim_annotate(sim_df, annotation_cols)
+#' row_metadata <- attr(sim_df, "row_metadata")
+#' sim_df <- matric::sim_annotate(sim_df, row_metadata, annotation_cols)
 #' filter_keep <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
 #' filter_drop <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
-#' matric::sim_filter(sim_df, filter_keep = filter_keep, filter_side = "left")
-#' matric::sim_filter(sim_df, filter_drop = filter_drop, filter_side = "left")
+#' matric::sim_filter(sim_df, row_metadata, filter_keep = filter_keep, filter_side = "left")
+#' matric::sim_filter(sim_df, row_metadata, filter_drop = filter_drop, filter_side = "left")
 #' @export
 sim_filter <-
   function(sim_df,
+           row_metadata,
            filter_keep = NULL,
            filter_drop = NULL,
            filter_side = NULL) {
-    metadata <- attr(sim_df, "row_metadata")
-
-    stopifnot(!is.null(metadata))
+    sim_df %<>% as.data.frame()
 
     stopifnot(!is.null(filter_side))
 
@@ -56,7 +66,7 @@ sim_filter <-
 
     if (!is.null(filter_keep)) {
       filter_ids <-
-        metadata %>%
+        row_metadata %>%
         dplyr::inner_join(filter_keep, by = colnames(filter_keep)) %>%
         dplyr::select(id)
 
@@ -66,7 +76,7 @@ sim_filter <-
 
     if (!is.null(filter_drop)) {
       filter_ids <-
-        metadata %>%
+        row_metadata %>%
         dplyr::inner_join(filter_drop, by = colnames(filter_drop)) %>%
         dplyr::select(id)
 

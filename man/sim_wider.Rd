@@ -7,7 +7,7 @@
 sim_wider(sim_df, annotation_column, primary_key_column)
 }
 \arguments{
-\item{sim_df}{tbl with melted similarity matrix.}
+\item{sim_df}{data.frame with melted similarity matrix.}
 
 \item{annotation_column}{character string specifying the column in \code{sim_df} to use to annotate rows and columns}
 
@@ -33,7 +33,8 @@ population$Metadata_id <- seq(nrow(population))
 metadata <- matric::get_annotation(population)
 annotation_cols <- c("Metadata_group", "Metadata_id")
 sim_df <- matric::sim_calculate(population, method = "pearson")
-sim_df <- matric::sim_annotate(sim_df, annotation_cols)
+row_metadata <- attr(sim_df, "row_metadata")
+sim_df <- matric::sim_annotate(sim_df, row_metadata, annotation_cols)
 annotation_column <- "Metadata_group"
 primary_key_column <- "Metadata_id"
 res <- matric::sim_wider(sim_df, annotation_column, primary_key_column)

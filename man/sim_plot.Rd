@@ -12,7 +12,7 @@ sim_plot(
 )
 }
 \arguments{
-\item{sim_df}{tbl with melted similarity matrix.}
+\item{sim_df}{data.frame with melted similarity matrix.}
 
 \item{annotation_column}{character string specifying the column in \code{sim_df} to use to annotate rows and columns.}
 
@@ -38,7 +38,8 @@ population <- tibble::tibble(
 )
 annotation_cols <- c("Metadata_group", "Metadata_type")
 sim_df <- matric::sim_calculate(population, method = "pearson")
-sim_df <- matric::sim_annotate(sim_df, annotation_cols)
+row_metadata <- attr(sim_df, "row_metadata")
+sim_df <- matric::sim_annotate(sim_df, row_metadata, annotation_cols)
 annotation_column <- "Metadata_group"
 matric::sim_plot(sim_df, annotation_column, calculate_sim_rank = TRUE)
 }

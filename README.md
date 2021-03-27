@@ -10,6 +10,7 @@
 [![test-coverage](https://github.com/shntnu/matric/workflows/test-coverage/badge.svg)](https://github.com/shntnu/matric/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/shntnu/matric/branch/main/graph/badge.svg)](https://codecov.io/gh/shntnu/matric?branch=main)
+
 <!-- badges: end -->
 
 This is a prototype for testing out ideas for
@@ -17,14 +18,8 @@ This is a prototype for testing out ideas for
 
 ## Installation
 
-You can install the released version of matric from
-[CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("matric")
-```
-
-And the development version from [GitHub](https://github.com/) with:
+You can install the development version from
+[GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")

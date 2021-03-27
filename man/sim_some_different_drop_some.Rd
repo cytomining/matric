@@ -2,10 +2,12 @@
 % Please edit documentation in R/sim_filter-special.R
 \name{sim_some_different_drop_some}
 \alias{sim_some_different_drop_some}
-\title{Filter rows of the melted similarity matrix to keep pairs with the same values in specific columns, and keep only some of these pairs.}
+\title{Filter rows of the melted similarity matrix to keep pairs with the same
+values in specific columns, and keep only some of these pairs.}
 \usage{
 sim_some_different_drop_some(
   sim_df,
+  row_metadata,
   any_different_cols,
   all_same_cols = NULL,
   all_different_cols = NULL,
@@ -15,7 +17,9 @@ sim_some_different_drop_some(
 )
 }
 \arguments{
-\item{sim_df}{tbl with melted similarity matrix.}
+\item{sim_df}{data.frame with melted similarity matrix.}
+
+\item{row_metadata}{data.frame with row metadata.}
 
 \item{any_different_cols}{character vector specifying columns.}
 
@@ -23,17 +27,28 @@ sim_some_different_drop_some(
 
 \item{all_different_cols}{optional character vector specifying columns.}
 
-\item{filter_drop_left}{tbl of metadata specifying which rows to drop on the left index.}
+\item{filter_drop_left}{data.frame of metadata specifying which rows to
+drop on the left index.}
 
-\item{filter_drop_right}{tbl of metadata specifying which rows to drop on the right index.}
+\item{filter_drop_right}{data.frame of metadata specifying which rows to
+drop on the right index.}
 
-\item{annotation_cols}{optional character vector specifying which columns from \code{metadata} to annotate the left index of the filtered \code{sim_df} with.}
+\item{annotation_cols}{optional character vector specifying which columns
+from \code{metadata} to annotate the left index of the filtered
+\code{sim_df} with.}
 }
 \value{
-filtered \code{sim_df} keeping only pairs that have same values in all columns of \code{all_same_cols_non_rep}, different values in all columns \code{all_different_cols_non_rep}, and different values in at least one column of \code{any_different_cols_non_rep}, with further filtering using \code{filter_drop_left} and \code{filter_drop_right}.
+filtered \code{sim_df} as a data.frame, keeping only pairs that
+have same values in all columns of \code{all_same_cols_non_rep}, different
+values in all columns \code{all_different_cols_non_rep}, and different
+values in at least one column of \code{any_different_cols_non_rep}, with
+further filtering using \code{filter_drop_left} and \code{filter_drop_right}.
+Rows are annotated based on the first index, if specified.
 }
 \description{
-\code{sim_some_different_drop_some} Filters melted similarity matrix to keep pairs with the same values in specific columns, keeping only some of these pairs.
+\code{sim_some_different_drop_some} Filters melted similarity matrix to keep
+pairs with the same values in specific columns, keeping only some of
+these pairs.
 }
 \examples{
 suppressMessages(suppressWarnings(library(magrittr)))
@@ -47,7 +62,8 @@ population <- tibble::tibble(
 )
 annotation_cols <- c("Metadata_group", "Metadata_type")
 sim_df <- matric::sim_calculate(population, method = "pearson")
-sim_df <- matric::sim_annotate(sim_df, annotation_cols)
+row_metadata <- attr(sim_df, "row_metadata")
+sim_df <- matric::sim_annotate(sim_df, row_metadata, annotation_cols)
 all_same_cols <- c("Metadata_group")
 all_different_cols <- c("Metadata_type1")
 any_different_cols <- c("Metadata_type2")
@@ -56,6 +72,7 @@ filter_drop_right <- tibble::tibble(Metadata_group = "a", Metadata_type1 = "x")
 drop_reference <- FALSE
 matric::sim_some_different_drop_some(
   sim_df,
+  row_metadata,
   any_different_cols,
   all_same_cols,
   all_different_cols,

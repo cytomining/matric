@@ -3,12 +3,11 @@ utils::globalVariables(c("id1", "id2"))
 #'
 #' \code{sim_calculate} calculates a melted similarity matrix.
 #'
-#' @param population tbl with annotations (a.k.a. metadata) and observation variables.
+#' @param population data.frame with annotations (a.k.a. metadata) and observation variables.
 #' @param annotation_prefix optional character string specifying prefix for annotation columns.
 #' @param method optional character string specifying method for \code{stats::cor} to calculate similarity.  This must be one of the strings \code{"pearson"} (default), \code{"kendall"}, \code{"spearman"}.
 #'
-#' @return data.frame of melted similarity matrix.
-#'
+#' @return \code{metric_sim} object, with similarity matrix and related metadata
 #'
 #' @examples
 #' suppressMessages(suppressWarnings(library(magrittr)))
@@ -30,7 +29,7 @@ sim_calculate <-
       dplyr::select(-dplyr::matches(annotation_prefix))
 
     # get metadata
-    metadata <-
+    row_metadata <-
       population %>%
       dplyr::select(dplyr::matches(annotation_prefix)) %>%
       tibble::rowid_to_column(var = "id")
@@ -49,9 +48,5 @@ sim_calculate <-
       dplyr::mutate(id2 = as.integer(id2)) %>%
       dplyr::filter(id1 != id2)
 
-    attr(sim_df, "metric_metadata") <- list(method = method)
-
-    attr(sim_df, "row_metadata") <- metadata
-
-    sim_df
+    sim_validate(sim_new(sim_df, row_metadata, list(method = method)))
   }

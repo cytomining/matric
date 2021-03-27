@@ -7,14 +7,14 @@
 sim_calculate(population, annotation_prefix = "Metadata_", method = "pearson")
 }
 \arguments{
-\item{population}{tbl with annotations (a.k.a. metadata) and observation variables.}
+\item{population}{data.frame with annotations (a.k.a. metadata) and observation variables.}
 
 \item{annotation_prefix}{optional character string specifying prefix for annotation columns.}
 
 \item{method}{optional character string specifying method for \code{stats::cor} to calculate similarity.  This must be one of the strings \code{"pearson"} (default), \code{"kendall"}, \code{"spearman"}.}
 }
 \value{
-data.frame of melted similarity matrix.
+\code{metric_sim} object, with similarity matrix and related metadata
 }
 \description{
 \code{sim_calculate} calculates a melted similarity matrix.

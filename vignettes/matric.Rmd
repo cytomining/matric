@@ -1,0 +1,173 @@
+---
+title: "matric"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{matric}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Load packages
+
+```{r setup}
+suppressMessages(suppressWarnings(library(dplyr)))
+suppressMessages(suppressWarnings(library(ggplot2)))
+suppressMessages(suppressWarnings(library(magrittr)))
+suppressMessages(suppressWarnings(library(matric)))
+```
+
+# Calculate similarity
+
+```{r}
+sim_df <- matric::sim_calculate(cellhealth)
+```
+
+# Filter and collate similarity
+
+```{r}
+drop_group <-
+  data.frame(Metadata_gene_name = "EMPTY")
+
+reference <-
+  data.frame(Metadata_gene_name = c("Chr2"))
+
+all_same_cols_ref <-
+  c("Metadata_cell_line",
+    "Metadata_Plate")
+
+all_same_cols_rep <-
+  c("Metadata_cell_line",
+    "Metadata_gene_name",
+    "Metadata_pert_name")
+
+all_same_cols_rep_ref <-
+  c(
+    "Metadata_cell_line",
+    "Metadata_gene_name",
+    "Metadata_pert_name",
+    "Metadata_Plate"
+  )
+
+any_different_cols_non_rep <-
+  c("Metadata_cell_line",
+    "Metadata_gene_name",
+    "Metadata_pert_name")
+
+all_same_cols_non_rep <-
+  c("Metadata_cell_line",
+    "Metadata_Plate")
+
+all_different_cols_non_rep <-
+  c("Metadata_gene_name")
+
+all_same_cols_group <-
+  c("Metadata_cell_line",
+    "Metadata_gene_name")
+
+any_different_cols_group <-
+  c("Metadata_cell_line",
+    "Metadata_gene_name",
+    "Metadata_pert_name")
+
+annotation_cols <-
+  c("Metadata_cell_line",
+    "Metadata_gene_name",
+    "Metadata_pert_name")
+```
+
+
+```{r}
+collated_sim <-
+  matric::sim_collate(
+    sim_df,
+    reference,
+    all_same_cols_rep = all_same_cols_rep,
+    all_same_cols_rep_ref = all_same_cols_rep_ref,
+    all_same_cols_ref = all_same_cols_ref,
+    any_different_cols_non_rep = any_different_cols_non_rep,
+    all_same_cols_non_rep = all_same_cols_non_rep,
+    all_different_cols_non_rep = all_different_cols_non_rep,
+    any_different_cols_group = any_different_cols_group,
+    all_same_cols_group = all_same_cols_group,
+    annotation_cols = annotation_cols,
+    drop_group = drop_group
+  )
+```
+
+# Compute metrics
+
+```{r}
+metrics <-
+  matric::sim_metrics(collated_sim, "ref", calculate_grouped = TRUE)
+```
+
+# Plot metrics
+
+## Per row (Level 0)
+
+```{r}
+ggplot(metrics$level_1_0,
+       aes(sim_scaled_mean_ref_i, fill = Metadata_gene_name)) +
+  geom_histogram(binwidth = .1) +
+  facet_wrap( ~ Metadata_cell_line) +
+  theme(legend.position="bottom", legend.box = "horizontal")
+```
+
+## Per set (Level 1-0)
+
+```{r}
+ggplot(metrics$level_1,
+       aes(sim_scaled_mean_ref_i_mean_i, fill = Metadata_gene_name)) +
+  geom_histogram(binwidth = .1) +
+  facet_wrap( ~ Metadata_cell_line) +
+  theme(legend.position="bottom", legend.box = "horizontal")
+```
+
+## Per group (Level 2)
+
+```{r}
+ggplot(metrics$level_2_1,
+       aes(sim_scaled_mean_ref_g, fill = Metadata_gene_name)) +
+  geom_histogram(binwidth = .1) +
+  facet_wrap( ~ Metadata_cell_line) +
+  theme(legend.position="bottom", legend.box = "horizontal")
+```
+
+# Plot metrics from precomputed data
+
+## Per row (Level 0)
+
+```{r}
+ggplot(cellhealthmetrics$level_1_0,
+       aes(sim_scaled_mean_ref_i, fill = Metadata_gene_name)) +
+  geom_histogram(binwidth = .1) +
+  facet_wrap( ~ Metadata_cell_line) +
+  theme(legend.position="none")
+```
+
+## Per set (Level 1-0)
+
+```{r}
+ggplot(cellhealthmetrics$level_1,
+       aes(sim_scaled_mean_ref_i_mean_i, fill = Metadata_gene_name)) +
+  geom_histogram(binwidth = .1) +
+  facet_wrap( ~ Metadata_cell_line) +
+  theme(legend.position="none")
+```
+
+## Per group (Level 2)
+
+```{r}
+ggplot(cellhealthmetrics$level_2_1,
+       aes(sim_scaled_mean_ref_g, fill = Metadata_gene_name)) +
+  geom_histogram(binwidth = .1) +
+  facet_wrap( ~ Metadata_cell_line) +
+  theme(legend.position="none")
+```

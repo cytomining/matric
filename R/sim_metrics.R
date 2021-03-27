@@ -3,7 +3,7 @@ utils::globalVariables(c("type"))
 #'
 #' \code{sim_metrics} computes metrics.
 #'
-#' @param collated_sim output of \code{sim_collated}.
+#' @param collated_sim output of \code{sim_collated}, which is a data.frame with some attributes.
 #' @param sim_type character string specifying the background distributions for computing scaled metrics. This must be one of the strings \code{"non_rep"} or \code{"ref"}.
 #' @param calculate_grouped optional boolean specifying whether to include grouped metrics.
 #' @param annotation_prefix optional character string specifying prefix for annotation columns (e.g. \code{"Metadata_"} (default)).
@@ -97,21 +97,21 @@ utils::globalVariables(c("type"))
 #' metrics <- matric::sim_metrics(collated_sim, "ref", calculate_grouped = TRUE)
 #'
 #' ggplot(
-#'   metrics$per_row,
+#'   metrics$level_1_0,
 #'   aes(sim_scaled_mean_ref_i, fill = Metadata_gene_name)
 #' ) +
 #'   geom_histogram(binwidth = .1) +
 #'   facet_wrap(~Metadata_cell_line)
 #'
 #' ggplot(
-#'   metrics$per_set,
+#'   metrics$level_1,
 #'   aes(sim_scaled_mean_ref_i_mean_i, fill = Metadata_gene_name)
 #' ) +
 #'   geom_histogram(binwidth = .1) +
 #'   facet_wrap(~Metadata_cell_line)
 #'
 #' ggplot(
-#'   metrics$per_set_group,
+#'   metrics$level_2_1,
 #'   aes(sim_scaled_mean_ref_g, fill = Metadata_gene_name)
 #' ) +
 #'   geom_histogram(binwidth = .1) +
@@ -221,8 +221,8 @@ sim_metrics <- function(collated_sim,
 
   result <-
     list(
-      per_row = sim_norm_agg,
-      per_set = sim_norm_agg_agg
+      level_1_0 = sim_norm_agg,
+      level_1 = sim_norm_agg_agg
     )
 
   # ---- Group replicates  ----
@@ -234,7 +234,7 @@ sim_metrics <- function(collated_sim,
     result <-
       c(
         result,
-        list(per_set_group = sim_norm_group_agg)
+        list(level_2_1 = sim_norm_group_agg)
       )
   }
 

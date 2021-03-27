@@ -6,6 +6,7 @@
 \usage{
 sim_all_same_keep_some(
   sim_df,
+  row_metadata,
   all_same_cols,
   filter_keep_right,
   annotation_cols = NULL,
@@ -14,20 +15,30 @@ sim_all_same_keep_some(
 )
 }
 \arguments{
-\item{sim_df}{tbl with melted similarity matrix.}
+\item{sim_df}{data.frame with melted similarity matrix.}
+
+\item{row_metadata}{data.frame with row metadata.}
 
 \item{all_same_cols}{character vector specifying columns.}
 
-\item{filter_keep_right}{tbl of metadata specifying which rows to keep on the right index.}
+\item{filter_keep_right}{data.frame of metadata specifying which rows to
+keep on the right index.}
 
-\item{annotation_cols}{optional character vector specifying which columns from \code{metadata} to annotate the left index of the filtered \code{sim_df} with.}
+\item{annotation_cols}{optional character vector specifying which columns
+from \code{metadata} to annotate the left index of the filtered
+\code{sim_df} with.}
 
-\item{drop_reference}{optional boolean specifying whether to filter (drop) pairs using \code{filter_keep_right} on the left index.}
+\item{drop_reference}{optional boolean specifying whether to filter (drop)
+pairs using \code{filter_keep_right} on the left index.}
 
-\item{sim_cols}{optional character string specifying minimal set of columns for a similarity matrix}
+\item{sim_cols}{optional character string specifying minimal set of columns
+for a similarity matrix}
 }
 \value{
-filtered \code{sim_df} where only pairs with the same values in \code{all_same_cols} columns are kept, with further filtering using \code{filter_keep_right}.
+filtered \code{sim_df} as a data.frame, where only pairs with the
+same values in \code{all_same_cols} columns are kept, with further filtering
+using \code{filter_keep_right}.Rows are annotated based on the first index,
+if specified.
 }
 \description{
 \code{sim_all_same} Filters melted similarity matrix to keep pairs with the same values in specific columns, keeping only some of these pairs.
@@ -44,12 +55,14 @@ population <- tibble::tibble(
 )
 annotation_cols <- c("Metadata_group", "Metadata_type")
 sim_df <- matric::sim_calculate(population, method = "pearson")
-sim_df <- matric::sim_annotate(sim_df, annotation_cols)
+row_metadata <- attr(sim_df, "row_metadata")
+sim_df <- matric::sim_annotate(sim_df, row_metadata, annotation_cols)
 all_same_cols <- c("Metadata_group")
 filter_keep_right <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
 drop_reference <- FALSE
 matric::sim_all_same_keep_some(
   sim_df,
+  row_metadata,
   all_same_cols,
   filter_keep_right,
   annotation_cols,

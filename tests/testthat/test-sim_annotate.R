@@ -9,7 +9,8 @@ test_that("`sim_annotate` works", {
   annotation_cols <- c("Metadata_group")
   # this is not a great test because it tests more than one function
   sim_df <- matric::sim_calculate(population, method = "pearson")
-  sim_df <- matric::sim_annotate(sim_df, annotation_cols)
+  row_metadata <- attr(sim_df, "row_metadata")
+  sim_df <- matric::sim_annotate(sim_df, row_metadata, annotation_cols)
 
   expect_equal(
     sort(unique(sim_df$Metadata_group1)),
@@ -18,13 +19,17 @@ test_that("`sim_annotate` works", {
 
   expect_equal(
     sort(unique(
-      matric::sim_annotate(sim_df,
+      matric::sim_annotate(
+        sim_df,
+        row_metadata,
         annotation_cols,
         index = "left"
       )$Metadata_group
     )),
     sort(unique(
-      matric::sim_annotate(sim_df,
+      matric::sim_annotate(
+        sim_df,
+        row_metadata,
         annotation_cols,
         index = "right"
       )$Metadata_group

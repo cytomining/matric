@@ -10,11 +10,11 @@ utils::globalVariables(c("."))
 #'
 #' This is not required for Parquet because it saves the attributes as well.
 #'
-#' @param sim_df tbl with melted similarity matrix.
+#' @param sim_df \code{metric_sim} object.
 #' @param output character string specifying the output directory or filename.
 #' @param file_format character string specify file format. This must be one of \code{csv} or \code{parquet}(default).
 #'
-#' @return \code{sim_df}.
+#' @return NULL
 #' @export
 #'
 #' @importFrom magrittr %>%
@@ -38,9 +38,7 @@ utils::globalVariables(c("."))
 #' attr(sim_df_in, "metric_metadata")
 #' @export
 sim_write <- function(sim_df, output, file_format = "parquet") {
-  stopifnot(!is.null(attr(sim_df, "row_metadata")))
-
-  stopifnot(!is.null(attr(sim_df, "metric_metadata")))
+  invisible(sim_validate(sim_df))
 
   if (file_format == "csv") {
     futile.logger::flog.info(glue::glue("Creating {output} ..."))
@@ -83,17 +81,10 @@ sim_write <- function(sim_df, output, file_format = "parquet") {
 #'
 #' \code{sim_read} reads similarity matrix.
 #'
-#' With the CSV format, the \code{row_metadata} and \code{metric_metadata}
-#' attributes are read in and added as attributes to the \code{sim_df} tbl.
-#'
-#' This is not required for Parquet because it the attributes are saved.
-#' For Parquet format, \code{sim_read} is identical to
-#' \code{arrow::read_parquet}
-#'
 #' @param input character string specifying the input filename or directory.
 #' @param file_format character string specify file format. This must be one of \code{csv} or \code{parquet}(default).
 #'
-#' @return tbl with similarity matrix.
+#' @return \code{metric_sim} object.
 #' @export
 #'
 #' @importFrom magrittr %>%
@@ -146,21 +137,21 @@ sim_read <- function(input, file_format = "parquet") {
     futile.logger::flog.info(glue::glue("Reading {row_metadata_filename} ..."))
 
     # https://www.tidyverse.org/blog/2018/12/readr-1-3-1/#tibble-subclass
-    attr(sim_df, "row_metadata") <-
-      readr::read_csv(row_metadata_filename, col_types = readr::cols())[]
+    row_metadata <- readr::read_csv(row_metadata_filename, col_types = readr::cols())[]
 
     futile.logger::flog.info(glue::glue("Reading {metric_metadata_filename} ..."))
 
-    attr(sim_df, "metric_metadata") <-
+    metric_metadata <-
       jsonlite::read_json(metric_metadata_filename,
         simplifyVector = TRUE
       )
   } else {
     sim_df <- arrow::read_parquet(input)
+
+    row_metadata <- attr(sim_df, "row_metadata")
+
+    metric_metadata <- attr(sim_df, "metric_metadata")
   }
 
-  stopifnot(!is.null(attr(sim_df, "row_metadata")) &&
-    !is.null(attr(sim_df, "metric_metadata")))
-
-  sim_df
+  sim_validate(sim_new(sim_df, row_metadata, metric_metadata))
 }
