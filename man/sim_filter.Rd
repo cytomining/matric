@@ -17,14 +17,19 @@ sim_filter(
 
 \item{row_metadata}{data.frame with row metadata.}
 
-\item{filter_keep}{optional data.frame of metadata specifying which rows to keep.}
+\item{filter_keep}{optional data.frame of metadata specifying which
+rows to keep.}
 
-\item{filter_drop}{optional data.frame of metadata specifying which rows to drop.}
+\item{filter_drop}{optional data.frame of metadata specifying which
+rows to drop.}
 
-\item{filter_side}{character string specifying which index to filter on. This must be one of the strings \code{"left"} or \code{"right"}.}
+\item{filter_side}{character string specifying which index to filter on.
+This must be one of the strings \code{"left"} or \code{"right"}.}
 }
 \value{
-filtered \code{sim_df} with some rows kept and some rows dropped. No filters applied if both \code{filter_keep} and \code{filter_drop} are NULL.
+filtered \code{sim_df} as a data.frame, with some rows kept and
+some rows dropped. No filters applied if both \code{filter_keep} and
+\code{filter_drop} are NULL.
 }
 \description{
 \code{sim_filter} filters rows of the melted similarity matrix.

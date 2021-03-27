@@ -2,7 +2,8 @@
 % Please edit documentation in R/sim_filter-special.R
 \name{sim_some_different_drop_some}
 \alias{sim_some_different_drop_some}
-\title{Filter rows of the melted similarity matrix to keep pairs with the same values in specific columns, and keep only some of these pairs.}
+\title{Filter rows of the melted similarity matrix to keep pairs with the same
+values in specific columns, and keep only some of these pairs.}
 \usage{
 sim_some_different_drop_some(
   sim_df,
@@ -26,17 +27,28 @@ sim_some_different_drop_some(
 
 \item{all_different_cols}{optional character vector specifying columns.}
 
-\item{filter_drop_left}{data.frame of metadata specifying which rows to drop on the left index.}
+\item{filter_drop_left}{data.frame of metadata specifying which rows to
+drop on the left index.}
 
-\item{filter_drop_right}{data.frame of metadata specifying which rows to drop on the right index.}
+\item{filter_drop_right}{data.frame of metadata specifying which rows to
+drop on the right index.}
 
-\item{annotation_cols}{optional character vector specifying which columns from \code{metadata} to annotate the left index of the filtered \code{sim_df} with.}
+\item{annotation_cols}{optional character vector specifying which columns
+from \code{metadata} to annotate the left index of the filtered
+\code{sim_df} with.}
 }
 \value{
-filtered \code{sim_df} keeping only pairs that have same values in all columns of \code{all_same_cols_non_rep}, different values in all columns \code{all_different_cols_non_rep}, and different values in at least one column of \code{any_different_cols_non_rep}, with further filtering using \code{filter_drop_left} and \code{filter_drop_right}.
+filtered \code{sim_df} as a data.frame, keeping only pairs that
+have same values in all columns of \code{all_same_cols_non_rep}, different
+values in all columns \code{all_different_cols_non_rep}, and different
+values in at least one column of \code{any_different_cols_non_rep}, with
+further filtering using \code{filter_drop_left} and \code{filter_drop_right}.
+Rows are annotated based on the first index, if specified.
 }
 \description{
-\code{sim_some_different_drop_some} Filters melted similarity matrix to keep pairs with the same values in specific columns, keeping only some of these pairs.
+\code{sim_some_different_drop_some} Filters melted similarity matrix to keep
+pairs with the same values in specific columns, keeping only some of
+these pairs.
 }
 \examples{
 suppressMessages(suppressWarnings(library(magrittr)))

@@ -2,7 +2,8 @@
 % Please edit documentation in R/sim_filter-special.R
 \name{sim_all_same}
 \alias{sim_all_same}
-\title{Filter rows of the melted similarity matrix to keep pairs with the same values in specific columns.}
+\title{Filter rows of the melted similarity matrix to keep pairs with the same
+values in specific columns.}
 \usage{
 sim_all_same(
   sim_df,
@@ -20,17 +21,26 @@ sim_all_same(
 
 \item{all_same_cols}{character vector specifying columns.}
 
-\item{annotation_cols}{optional character vector specifying which columns from \code{metadata} to annotate the left index of the filtered \code{sim_df} with.}
+\item{annotation_cols}{optional character vector specifying which columns
+from \code{metadata} to annotate the left index of the filtered
+\code{sim_df} with.}
 
-\item{include_group_tag}{optional boolean specifying whether to include an identifier for the pairs using the values in the \code{all_same_cols} columns.}
+\item{include_group_tag}{optional boolean specifying whether to include an
+identifier for the pairs using the values in the \code{all_same_cols}
+columns.}
 
-\item{drop_lower}{optional boolean specifying whether to drop the pairs where the first index is smaller than the second index. This is equivalent to dropping the lower triangular of  \code{sim_df}.}
+\item{drop_lower}{optional boolean specifying whether to drop the pairs
+where the first index is smaller than the second index. This is equivalent
+to dropping the lower triangular of  \code{sim_df}.}
 }
 \value{
-filtered \code{sim_df} where only pairs with the same values in \code{all_same_cols} columns are kept.
+filtered \code{sim_df} as a data.frame, where only pairs with the
+same values in \code{all_same_cols} columns are kept. Rows are annotated
+based on the first index, if specified.
 }
 \description{
-\code{sim_all_same} Filters melted similarity matrix to keep pairs with the same values in specific columns.
+\code{sim_all_same} Filters melted similarity matrix to keep pairs with the
+same values in specific columns.
 }
 \examples{
 suppressMessages(suppressWarnings(library(magrittr)))
