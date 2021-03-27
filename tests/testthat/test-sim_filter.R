@@ -37,7 +37,7 @@ test_that("`sim_filter_keep_or_drop_some` works", {
   )
 })
 
-test_that("`sim_all_same` works", {
+test_that("`sim_filter_all_same` works", {
   n <- 5
 
   population <- tibble::tibble(
@@ -57,7 +57,7 @@ test_that("`sim_all_same` works", {
   include_group_tag <- TRUE
   drop_lower <- FALSE
 
-  sim_df <- matric::sim_all_same(
+  sim_df <- matric::sim_filter_all_same(
     sim_df,
     row_metadata,
     all_same_cols,
@@ -73,7 +73,7 @@ test_that("`sim_all_same` works", {
 })
 
 
-test_that("`sim_all_same_keep_some` works", {
+test_that("`sim_filter_all_same_keep_some` works", {
   n <- 20
 
   population <- tibble::tibble(
@@ -94,7 +94,7 @@ test_that("`sim_all_same_keep_some` works", {
     tibble::tibble(Metadata_group = "a", Metadata_type = "x")
   drop_reference <- FALSE
 
-  sim_df <- matric::sim_all_same_keep_some(
+  sim_df <- matric::sim_filter_all_same_keep_some(
     sim_df,
     row_metadata,
     all_same_cols,
@@ -118,7 +118,7 @@ test_that("`sim_all_same_keep_some` works", {
 })
 
 
-test_that("sim_some_different_drop_some works", {
+test_that("sim_filter_some_different_drop_some works", {
   n <- 20
 
   population <- tibble::tibble(
@@ -153,7 +153,7 @@ test_that("sim_some_different_drop_some works", {
   drop_reference <- FALSE
 
   sim_df <-
-    matric::sim_some_different_drop_some(
+    matric::sim_filter_some_different_drop_some(
       sim_df,
       row_metadata,
       any_different_cols,

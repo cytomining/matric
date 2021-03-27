@@ -234,7 +234,7 @@ sim_collate <-
     if (fetch_ref) {
       ref <-
         sim_df %>%
-        sim_all_same_keep_some(
+        sim_filter_all_same_keep_some(
           row_metadata = row_metadata,
           all_same_cols_ref,
           filter_keep_right = reference,
@@ -259,7 +259,7 @@ sim_collate <-
       sim_df %>%
       sim_filter_keep_or_drop_some(row_metadata = row_metadata, filter_drop = reference, filter_side = "left") %>%
       sim_filter_keep_or_drop_some(row_metadata = row_metadata, filter_drop = reference, filter_side = "right") %>%
-      sim_all_same(
+      sim_filter_all_same(
         row_metadata = row_metadata,
         all_same_cols_rep,
         annotation_cols,
@@ -291,7 +291,7 @@ sim_collate <-
           filter_keep = reference,
           filter_side = "right"
         ) %>%
-        sim_all_same(
+        sim_filter_all_same(
           row_metadata = row_metadata,
           all_same_cols = all_same_cols_rep_ref,
           annotation_cols = annotation_cols,
@@ -322,7 +322,7 @@ sim_collate <-
 
       non_rep <-
         sim_df %>%
-        sim_some_different_drop_some(
+        sim_filter_some_different_drop_some(
           row_metadata = row_metadata,
           any_different_cols = any_different_cols_non_rep,
           all_same_cols = all_same_cols_non_rep,
@@ -355,7 +355,7 @@ sim_collate <-
 
       rep_group <-
         sim_df %>%
-        sim_some_different_drop_some(
+        sim_filter_some_different_drop_some(
           row_metadata = row_metadata,
           any_different_cols = any_different_cols_group,
           all_same_cols = all_same_cols_group,

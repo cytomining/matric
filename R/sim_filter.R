@@ -2,8 +2,8 @@ utils::globalVariables(c("all_same_col"))
 
 #' Filter a melted similarity matrix to remove or keep specified rows.
 #'
-#' \code{sim_filter_keep_or_drop_some} filters a melted similarity matrix to remove or keep
-#' specified rows.
+#' \code{sim_filter_keep_or_drop_some} filters a melted similarity matrix to
+#' remove or keep specified rows.
 #'
 #' @param sim_df data.frame with melted similarity matrix.
 #'
@@ -40,8 +40,10 @@ utils::globalVariables(c("all_same_col"))
 #' sim_df <- matric::sim_annotate(sim_df, row_metadata, annotation_cols)
 #' filter_keep <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
 #' filter_drop <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
-#' matric::sim_filter_keep_or_drop_some(sim_df, row_metadata, filter_keep = filter_keep, filter_side = "left")
-#' matric::sim_filter_keep_or_drop_some(sim_df, row_metadata, filter_drop = filter_drop, filter_side = "left")
+#' matric::sim_filter_keep_or_drop_some(sim_df, row_metadata,
+#'  filter_keep = filter_keep, filter_side = "left")
+#' matric::sim_filter_keep_or_drop_some(sim_df, row_metadata,
+#'  filter_drop = filter_drop, filter_side = "left")
 #' @export
 sim_filter_keep_or_drop_some <-
   function(sim_df,
@@ -93,7 +95,7 @@ sim_filter_keep_or_drop_some <-
 #' Filter a melted similarity matrix to keep pairs with the same
 #' values in specific columns.
 #'
-#' \code{sim_all_same} filters a melted similarity matrix to keep pairs with the
+#' \code{sim_filter_all_same} filters a melted similarity matrix to keep pairs with the
 #' same values in specific columns.
 #'
 #' @param sim_df data.frame with melted similarity matrix.
@@ -138,7 +140,7 @@ sim_filter_keep_or_drop_some <-
 #' all_same_cols <- c("Metadata_group")
 #' include_group_tag <- TRUE
 #' drop_lower <- FALSE
-#' matric::sim_all_same(
+#' matric::sim_filter_all_same(
 #'   sim_df,
 #'   row_metadata,
 #'   all_same_cols,
@@ -147,7 +149,7 @@ sim_filter_keep_or_drop_some <-
 #'   drop_lower
 #' )
 #' @export
-sim_all_same <-
+sim_filter_all_same <-
   function(sim_df,
            row_metadata,
            all_same_cols,
@@ -194,7 +196,7 @@ sim_all_same <-
 #' Filter a melted similarity matrix to keep pairs with the same values in
 #' specific columns, and keep only some of these pairs.
 #'
-#' \code{sim_all_same} filters a melted similarity matrix to keep pairs with
+#' \code{sim_filter_all_same} filters a melted similarity matrix to keep pairs with
 #' the same values in specific columns, keeping only some of these pairs.
 #'
 #' @param sim_df data.frame with melted similarity matrix.
@@ -241,7 +243,7 @@ sim_all_same <-
 #' all_same_cols <- c("Metadata_group")
 #' filter_keep_right <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
 #' drop_reference <- FALSE
-#' matric::sim_all_same_keep_some(
+#' matric::sim_filter_all_same_keep_some(
 #'   sim_df,
 #'   row_metadata,
 #'   all_same_cols,
@@ -250,7 +252,7 @@ sim_all_same <-
 #'   drop_reference
 #' )
 #' @export
-sim_all_same_keep_some <-
+sim_filter_all_same_keep_some <-
   function(sim_df,
            row_metadata,
            all_same_cols,
@@ -261,7 +263,7 @@ sim_all_same_keep_some <-
     sim_df %<>% as.data.frame()
 
     sim_df %<>%
-      sim_all_same(row_metadata, all_same_cols) %>%
+      sim_filter_all_same(row_metadata, all_same_cols) %>%
       sim_filter_keep_or_drop_some(
         row_metadata,
         filter_keep = filter_keep_right,
@@ -293,7 +295,7 @@ sim_all_same_keep_some <-
 #' Filter a melted similarity matrix to keep pairs with the same
 #' values in specific columns, and other constraints.
 #'
-#' \code{sim_some_different_drop_some} filters a melted similarity matrix to
+#' \code{sim_filter_some_different_drop_some} filters a melted similarity matrix to
 #' keep pairs with the same values in specific columns, and other constraints.
 #'
 #' @param sim_df data.frame with melted similarity matrix.
@@ -348,7 +350,7 @@ sim_all_same_keep_some <-
 #' filter_drop_left <- tibble::tibble(Metadata_group = "a", Metadata_type1 = "x")
 #' filter_drop_right <- tibble::tibble(Metadata_group = "a", Metadata_type1 = "x")
 #' drop_reference <- FALSE
-#' matric::sim_some_different_drop_some(
+#' matric::sim_filter_some_different_drop_some(
 #'   sim_df,
 #'   row_metadata,
 #'   any_different_cols,
@@ -359,7 +361,7 @@ sim_all_same_keep_some <-
 #'   annotation_cols
 #' )
 #' @export
-sim_some_different_drop_some <-
+sim_filter_some_different_drop_some <-
   function(sim_df,
            row_metadata,
            any_different_cols,
