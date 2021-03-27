@@ -188,7 +188,6 @@ sim_collate <-
            reference = NULL,
            drop_reference = FALSE,
            drop_group = NULL) {
-
     invisible(sim_validate(sim_df))
 
     sim_df_attr <- attributes(sim_df)
@@ -410,5 +409,4 @@ sim_collate <-
     combined %<>% as.data.frame()
 
     sim_restore(combined, sim_df_attr)
-
   }

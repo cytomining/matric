@@ -3,7 +3,7 @@ utils::globalVariables(c("type"))
 #'
 #' \code{sim_metrics} computes metrics.
 #'
-#' @param collated_sim output of \code{sim_collated}.
+#' @param collated_sim output of \code{sim_collated}, which is a data.frame with some attributes.
 #' @param sim_type character string specifying the background distributions for computing scaled metrics. This must be one of the strings \code{"non_rep"} or \code{"ref"}.
 #' @param calculate_grouped optional boolean specifying whether to include grouped metrics.
 #' @param annotation_prefix optional character string specifying prefix for annotation columns (e.g. \code{"Metadata_"} (default)).
