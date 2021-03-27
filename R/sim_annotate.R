@@ -1,5 +1,5 @@
 utils::globalVariables(c("id"))
-#' Annotate melted similarity matrix.
+#' Annotate a melted similarity matrix.
 #'
 #' \code{sim_annotate} annotates a melted similarity matrix.
 #'

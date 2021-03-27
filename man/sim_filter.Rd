@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_filter.R
 \name{sim_filter}
 \alias{sim_filter}
-\title{Filter rows of the melted similarity matrix.}
+\title{Filter a melted similarity matrix to remove or keep specified rows.}
 \usage{
 sim_filter(
   sim_df,
@@ -32,7 +32,8 @@ some rows dropped. No filters applied if both \code{filter_keep} and
 \code{filter_drop} are NULL.
 }
 \description{
-\code{sim_filter} filters rows of the melted similarity matrix.
+\code{sim_filter} filters a melted similarity matrix to remove or keep
+specified rows.
 }
 \examples{
 suppressMessages(suppressWarnings(library(magrittr)))

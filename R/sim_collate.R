@@ -1,6 +1,8 @@
-#' Filter rows of the melted similarity matrix to create several sets of pairs.
+#' Collate several subsets of a melted simolarity matrix, required for computing
+#' metrics.
 #'
-#' \code{sim_collate} Filters melted similarity matrix to create several sets of pairs.
+#' \code{sim_collate} collates several subsets of a melted simolarity matrix,
+#' required for computing metrics.
 #'
 #' @details
 #'

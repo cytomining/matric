@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_annotate.R
 \name{sim_annotate}
 \alias{sim_annotate}
-\title{Annotate melted similarity matrix.}
+\title{Annotate a melted similarity matrix.}
 \usage{
 sim_annotate(
   sim_df,

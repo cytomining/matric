@@ -2,8 +2,8 @@
 % Please edit documentation in R/sim_filter-special.R
 \name{sim_some_different_drop_some}
 \alias{sim_some_different_drop_some}
-\title{Filter rows of the melted similarity matrix to keep pairs with the same
-values in specific columns, and keep only some of these pairs.}
+\title{Filter a melted similarity matrix to keep pairs with the same
+values in specific columns, and other constraints.}
 \usage{
 sim_some_different_drop_some(
   sim_df,
@@ -50,9 +50,8 @@ with further filtering using \code{filter_drop_left} and
 if specified.
 }
 \description{
-\code{sim_some_different_drop_some} Filters melted similarity matrix to keep
-pairs with the same values in specific columns, keeping only some of
-these pairs.
+\code{sim_some_different_drop_some} filters a melted similarity matrix to
+keep pairs with the same values in specific columns, and other constraints.
 }
 \examples{
 suppressMessages(suppressWarnings(library(magrittr)))

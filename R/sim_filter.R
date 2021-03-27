@@ -1,6 +1,7 @@
-#' Filter rows of the melted similarity matrix.
+#' Filter a melted similarity matrix to remove or keep specified rows.
 #'
-#' \code{sim_filter} filters rows of the melted similarity matrix.
+#' \code{sim_filter} filters a melted similarity matrix to remove or keep
+#' specified rows.
 #'
 #' @param sim_df data.frame with melted similarity matrix.
 #'

@@ -2,7 +2,8 @@
 % Please edit documentation in R/sim_filter-special.R
 \name{sim_all_same_keep_some}
 \alias{sim_all_same_keep_some}
-\title{Filter rows of the melted similarity matrix to keep pairs with the same values in specific columns, and keep only some of these pairs.}
+\title{Filter a melted similarity matrix to keep pairs with the same values in
+specific columns, and keep only some of these pairs.}
 \usage{
 sim_all_same_keep_some(
   sim_df,
@@ -41,7 +42,8 @@ using \code{filter_keep_right}.Rows are annotated based on the first index,
 if specified.
 }
 \description{
-\code{sim_all_same} Filters melted similarity matrix to keep pairs with the same values in specific columns, keeping only some of these pairs.
+\code{sim_all_same} filters a melted similarity matrix to keep pairs with
+the same values in specific columns, keeping only some of these pairs.
 }
 \examples{
 suppressMessages(suppressWarnings(library(magrittr)))

@@ -2,7 +2,8 @@
 % Please edit documentation in R/sim_collate.R
 \name{sim_collate}
 \alias{sim_collate}
-\title{Filter rows of the melted similarity matrix to create several sets of pairs.}
+\title{Collate several subsets of a melted simolarity matrix, required for computing
+metrics.}
 \usage{
 sim_collate(
   sim_df,
@@ -51,7 +52,8 @@ sim_collate(
 \code{metric_sim} object comprising a filtered \code{sim_df} with sets of pairs, preserving the same \code{metric_sim} attributes as \code{sim_df}.
 }
 \description{
-\code{sim_collate} Filters melted similarity matrix to create several sets of pairs.
+\code{sim_collate} collates several subsets of a melted simolarity matrix,
+required for computing metrics.
 }
 \details{
 \subsection{0. Filter out some rows}{

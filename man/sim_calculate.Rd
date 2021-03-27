@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_calculate.R
 \name{sim_calculate}
 \alias{sim_calculate}
-\title{Calculate melted similarity matrix.}
+\title{Calculate a melted similarity matrix.}
 \usage{
 sim_calculate(population, annotation_prefix = "Metadata_", method = "pearson")
 }

@@ -1,8 +1,8 @@
 utils::globalVariables(c("all_same_col"))
-#' Filter rows of the melted similarity matrix to keep pairs with the same
+#' Filter a melted similarity matrix to keep pairs with the same
 #' values in specific columns.
 #'
-#' \code{sim_all_same} Filters melted similarity matrix to keep pairs with the
+#' \code{sim_all_same} filters a melted similarity matrix to keep pairs with the
 #' same values in specific columns.
 #'
 #' @param sim_df data.frame with melted similarity matrix.
@@ -100,9 +100,11 @@ sim_all_same <-
     sim_df
   }
 
-#' Filter rows of the melted similarity matrix to keep pairs with the same values in specific columns, and keep only some of these pairs.
+#' Filter a melted similarity matrix to keep pairs with the same values in
+#' specific columns, and keep only some of these pairs.
 #'
-#' \code{sim_all_same} Filters melted similarity matrix to keep pairs with the same values in specific columns, keeping only some of these pairs.
+#' \code{sim_all_same} filters a melted similarity matrix to keep pairs with
+#' the same values in specific columns, keeping only some of these pairs.
 #'
 #' @param sim_df data.frame with melted similarity matrix.
 #'
@@ -197,12 +199,11 @@ sim_all_same_keep_some <-
     sim_df
   }
 
-#' Filter rows of the melted similarity matrix to keep pairs with the same
-#' values in specific columns, and keep only some of these pairs.
+#' Filter a melted similarity matrix to keep pairs with the same
+#' values in specific columns, and other constraints.
 #'
-#' \code{sim_some_different_drop_some} Filters melted similarity matrix to keep
-#' pairs with the same values in specific columns, keeping only some of
-#' these pairs.
+#' \code{sim_some_different_drop_some} filters a melted similarity matrix to
+#' keep pairs with the same values in specific columns, and other constraints.
 #'
 #' @param sim_df data.frame with melted similarity matrix.
 #'

@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_filter-special.R
 \name{sim_all_same}
 \alias{sim_all_same}
-\title{Filter rows of the melted similarity matrix to keep pairs with the same
+\title{Filter a melted similarity matrix to keep pairs with the same
 values in specific columns.}
 \usage{
 sim_all_same(
@@ -39,7 +39,7 @@ same values in \code{all_same_cols} columns are kept. Rows are annotated
 based on the first index, if specified.
 }
 \description{
-\code{sim_all_same} Filters melted similarity matrix to keep pairs with the
+\code{sim_all_same} filters a melted similarity matrix to keep pairs with the
 same values in specific columns.
 }
 \examples{
