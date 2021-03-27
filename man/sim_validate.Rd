@@ -10,7 +10,8 @@ sim_validate(x)
 \item{x}{object.}
 }
 \value{
-object of class \code{matric_sim} if \code{x} is a valid object of that class
+Object of class \code{matric_sim} if \code{x} is a valid object of
+that class.
 }
 \description{
 \code{sim_validate} validates that an object is of class class \code{matric_sim}.

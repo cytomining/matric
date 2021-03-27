@@ -23,7 +23,7 @@ utils::globalVariables(c("all_same_col"))
 #' where the first index is smaller than the second index. This is equivalent
 #' to dropping the lower triangular of  \code{sim_df}.
 #'
-#' @return filtered \code{sim_df} as a data.frame, where only pairs with the
+#' @return Filtered \code{sim_df} as a data.frame, where only pairs with the
 #' same values in \code{all_same_cols} columns are kept. Rows are annotated
 #' based on the first index, if specified.
 #'
@@ -123,7 +123,7 @@ sim_all_same <-
 #' @param sim_cols optional character string specifying minimal set of columns
 #' for a similarity matrix
 #'
-#' @return filtered \code{sim_df} as a data.frame, where only pairs with the
+#' @return Filtered \code{sim_df} as a data.frame, where only pairs with the
 #' same values in \code{all_same_cols} columns are kept, with further filtering
 #' using \code{filter_keep_right}.Rows are annotated based on the first index,
 #' if specified.
@@ -224,12 +224,14 @@ sim_all_same_keep_some <-
 #' from \code{metadata} to annotate the left index of the filtered
 #' \code{sim_df} with.
 #'
-#' @return filtered \code{sim_df} as a data.frame, keeping only pairs that
-#' have same values in all columns of \code{all_same_cols_non_rep}, different
-#' values in all columns \code{all_different_cols_non_rep}, and different
-#' values in at least one column of \code{any_different_cols_non_rep}, with
-#' further filtering using \code{filter_drop_left} and \code{filter_drop_right}.
-#' Rows are annotated based on the first index, if specified.
+#' @return Filtered \code{sim_df} as a data.frame, keeping only pairs that have
+#'   - same values in all columns of \code{all_same_cols},
+#'   - different values in all columns \code{all_different_cols}, and
+#'   - different values in at least one column of \code{any_different_cols},
+#'
+#' with further filtering using \code{filter_drop_left} and
+#' \code{filter_drop_right}. Rows are annotated based on the first index,
+#' if specified.
 #'
 #' @importFrom magrittr %>%
 #' @importFrom magrittr %<>%

@@ -14,7 +14,7 @@ sim_new(x, row_metadata, metric_metadata)
 \item{metric_metadata}{list with metric information}
 }
 \value{
-object of class \code{matric_sim}
+Object of class \code{matric_sim}.
 }
 \description{
 \code{sim_new} creates an object of class \code{matric_sim}.

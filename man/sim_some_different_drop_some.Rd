@@ -38,12 +38,16 @@ from \code{metadata} to annotate the left index of the filtered
 \code{sim_df} with.}
 }
 \value{
-filtered \code{sim_df} as a data.frame, keeping only pairs that
-have same values in all columns of \code{all_same_cols_non_rep}, different
-values in all columns \code{all_different_cols_non_rep}, and different
-values in at least one column of \code{any_different_cols_non_rep}, with
-further filtering using \code{filter_drop_left} and \code{filter_drop_right}.
-Rows are annotated based on the first index, if specified.
+Filtered \code{sim_df} as a data.frame, keeping only pairs that have
+\itemize{
+\item same values in all columns of \code{all_same_cols},
+\item different values in all columns \code{all_different_cols}, and
+\item different values in at least one column of \code{any_different_cols},
+}
+
+with further filtering using \code{filter_drop_left} and
+\code{filter_drop_right}. Rows are annotated based on the first index,
+if specified.
 }
 \description{
 \code{sim_some_different_drop_some} Filters melted similarity matrix to keep

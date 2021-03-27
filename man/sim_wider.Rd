@@ -14,7 +14,7 @@ sim_wider(sim_df, annotation_column, primary_key_column)
 \item{primary_key_column}{character string specifying the column in \code{sim_df} to use to uniquely identify rows and columns}
 }
 \value{
-Widened similarity matrix.
+data.frame of widened similarity matrix, with some attributes.
 }
 \description{
 \code{sim_plot} Plots similarity matrix.

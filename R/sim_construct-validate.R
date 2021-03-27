@@ -19,7 +19,7 @@
 #' @param row_metadata tbl with row metadata.
 #' @param metric_metadata list with metric information
 #'
-#' @return object of class \code{matric_sim}
+#' @return Object of class \code{matric_sim}.
 #' @export
 sim_new <- function(x, row_metadata, metric_metadata) {
   stopifnot(is.data.frame(x))
@@ -47,7 +47,9 @@ sim_new <- function(x, row_metadata, metric_metadata) {
 #'
 #' @param x object.
 #'
-#' @return object of class \code{matric_sim} if \code{x} is a valid object of that class
+#' @return Object of class \code{matric_sim} if \code{x} is a valid object of
+#' that class.
+#'
 #' @export
 sim_validate <- function(x) {
   row_metadata <- attr(x, "row_metadata")
@@ -97,7 +99,8 @@ sim_validate <- function(x) {
 #' @param x object to preserve.
 #' @param x_attributes list of attributes of class \code{matric_sim}.
 #'
-#' @return object of class \code{matric_sim} if \code{x} is a valid object of that class
+#' @return Object of class \code{matric_sim} if \code{x} is a valid object of
+#' that class
 #'
 #' @examples
 #'

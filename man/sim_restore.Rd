@@ -12,7 +12,8 @@ sim_restore(x, x_attributes)
 \item{x_attributes}{list of attributes of class \code{matric_sim}.}
 }
 \value{
-object of class \code{matric_sim} if \code{x} is a valid object of that class
+Object of class \code{matric_sim} if \code{x} is a valid object of
+that class
 }
 \description{
 \code{restore} restores the attributes of class \code{matric_sim}.

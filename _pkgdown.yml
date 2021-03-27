@@ -1,0 +1,36 @@
+reference:
+- title: "User-facing operations"
+- contents:
+  - sim_calculate
+  - sim_collate
+  - sim_metrics
+  - sim_wider
+  - sim_plot
+- title: "Annotation and filtering operations"
+- contents:
+  - sim_annotate
+  - sim_filter
+  - sim_all_same
+  - sim_all_same_keep_some
+  - sim_some_different_drop_some
+- title: "Read-write operations"
+- contents:
+  - sim_read
+  - sim_write
+- title: "Class operations"
+- contents:
+  - sim_new
+  - sim_validate
+  - sim_restore
+- title: "Helper functions"
+- contents:
+  - get_annotation
+  - drop_annotation
+- title: "Datasets"
+- contents:
+  - cellhealth
+  - cellhealthmetrics
+- title: "Package"
+- contents:
+  - matric
+

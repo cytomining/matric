@@ -15,7 +15,7 @@
 #' @param filter_side character string specifying which index to filter on.
 #' This must be one of the strings \code{"left"} or \code{"right"}.
 #'
-#' @return filtered \code{sim_df} as a data.frame, with some rows kept and
+#' @return Filtered \code{sim_df} as a data.frame, with some rows kept and
 #' some rows dropped. No filters applied if both \code{filter_keep} and
 #' \code{filter_drop} are NULL.
 #'

@@ -35,7 +35,7 @@ pairs using \code{filter_keep_right} on the left index.}
 for a similarity matrix}
 }
 \value{
-filtered \code{sim_df} as a data.frame, where only pairs with the
+Filtered \code{sim_df} as a data.frame, where only pairs with the
 same values in \code{all_same_cols} columns are kept, with further filtering
 using \code{filter_keep_right}.Rows are annotated based on the first index,
 if specified.

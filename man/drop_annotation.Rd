@@ -7,12 +7,14 @@
 drop_annotation(population, annotation_prefix = "Metadata_")
 }
 \arguments{
-\item{population}{tbl with annotations (a.k.a. metadata) and observation variables.}
+\item{population}{data.frame with annotations (a.k.a. metadata) and
+observation variables.}
 
-\item{annotation_prefix}{optional character string specifying prefix for annotation columns (e.g. \code{"Metadata_"} (default)).}
+\item{annotation_prefix}{optional character string specifying prefix for
+annotation columns (e.g. \code{"Metadata_"} (default)).}
 }
 \value{
-data with all columns except row annotations of the same class as \code{population}
+data.frame with all columns except row annotations.
 }
 \description{
 \code{drop_annotation} drops row annotations.
