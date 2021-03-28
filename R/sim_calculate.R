@@ -39,7 +39,7 @@ sim_calculate <-
 
     colnames(sim_df) <- seq(1, ncol(sim_df))
 
-    sim_df %<>%
+    sim_df <- sim_df %>%
       tibble::as_tibble() %>%
       tibble::rowid_to_column(var = "id1") %>%
       tidyr::pivot_longer(-id1, names_to = "id2", values_to = "sim") %>%

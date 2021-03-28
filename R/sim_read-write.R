@@ -44,17 +44,14 @@ sim_write <- function(sim_df, output, file_format = "parquet") {
     futile.logger::flog.info(glue::glue("Creating {output} ..."))
     dir.create(output, showWarnings = FALSE)
 
-    sim_filename <- paste(basename(output), file_format, sep = ".")
+    sim_filename <-
+      file.path(output, paste(basename(output), file_format, sep = "."))
 
     row_metadata_filename <-
-      paste(paste0(basename(output), "_metadata"), file_format, sep = ".")
+     file.path(output, paste(paste0(basename(output), "_metadata"), file_format, sep = "."))
 
     metric_metadata_filename <-
-      paste(paste0(basename(output), "_metadata"), "json", sep = ".")
-
-    sim_filename %<>% file.path(output, .)
-    row_metadata_filename %<>% file.path(output, .)
-    metric_metadata_filename %<>% file.path(output, .)
+      file.path(output, paste(paste0(basename(output), "_metadata"), "json", sep = "."))
 
     futile.logger::flog.info(glue::glue("Writing {sim_filename} ..."))
 
@@ -88,7 +85,6 @@ sim_write <- function(sim_df, output, file_format = "parquet") {
 #' @export
 #'
 #' @importFrom magrittr %>%
-#' @importFrom magrittr %<>%
 #'
 #' @examples
 #' suppressMessages(suppressWarnings(library(magrittr)))
@@ -113,17 +109,13 @@ sim_read <- function(input, file_format = "parquet") {
 
   if (file_format == "csv") {
     sim_filename <-
-      paste(basename(input), "csv", sep = ".")
+      file.path(input, paste(basename(input), file_format, sep = "."))
 
     row_metadata_filename <-
-      paste(paste0(basename(input), "_metadata"), file_format, sep = ".")
+     file.path(input, paste(paste0(basename(input), "_metadata"), file_format, sep = "."))
 
     metric_metadata_filename <-
-      paste(paste0(basename(input), "_metadata"), "json", sep = ".")
-
-    sim_filename %<>% file.path(input, .)
-    row_metadata_filename %<>% file.path(input, .)
-    metric_metadata_filename %<>% file.path(input, .)
+      file.path(input, paste(paste0(basename(input), "_metadata"), "json", sep = "."))
 
     stopifnot(file.exists(sim_filename) &&
       file.exists(row_metadata_filename) &&

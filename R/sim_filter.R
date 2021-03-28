@@ -23,7 +23,6 @@ utils::globalVariables(c("all_same_col"))
 #' \code{filter_drop} are NULL.
 #'
 #' @importFrom magrittr %>%
-#' @importFrom magrittr %<>%
 #'
 #' @examples
 #' suppressMessages(suppressWarnings(library(magrittr)))
@@ -51,7 +50,7 @@ sim_filter_keep_or_drop_some <-
            filter_keep = NULL,
            filter_drop = NULL,
            filter_side = NULL) {
-    sim_df %<>% as.data.frame()
+    sim_df <- as.data.frame(sim_df)
 
     stopifnot(!is.null(filter_side))
 
@@ -75,7 +74,7 @@ sim_filter_keep_or_drop_some <-
         dplyr::inner_join(filter_keep, by = colnames(filter_keep)) %>%
         dplyr::select(id)
 
-      sim_df %<>%
+      sim_df <- sim_df %>%
         dplyr::inner_join(filter_ids, by = join_str)
     }
 
@@ -85,7 +84,7 @@ sim_filter_keep_or_drop_some <-
         dplyr::inner_join(filter_drop, by = colnames(filter_drop)) %>%
         dplyr::select(id)
 
-      sim_df %<>%
+      sim_df <- sim_df %>%
         dplyr::anti_join(filter_ids, by = join_str)
     }
 
@@ -121,7 +120,6 @@ sim_filter_keep_or_drop_some <-
 #' based on the first index, if specified.
 #'
 #' @importFrom magrittr %>%
-#' @importFrom magrittr %<>%
 #'
 #' @examples
 #' suppressMessages(suppressWarnings(library(magrittr)))
@@ -156,7 +154,7 @@ sim_filter_all_same <-
            annotation_cols = NULL,
            include_group_tag = FALSE,
            drop_lower = FALSE) {
-    sim_df %<>% as.data.frame()
+    sim_df <- as.data.frame(sim_df)
 
     metadata_i <-
       row_metadata %>%
@@ -171,20 +169,20 @@ sim_filter_all_same <-
       )
 
     if (include_group_tag) {
-      ids %<>% dplyr::select(id1, id2, group = all_same_col)
+      ids <- ids %>% dplyr::select(id1, id2, group = all_same_col)
     } else {
-      ids %<>% dplyr::select(id1, id2)
+      iids <- ids %>% dplyr::select(id1, id2)
     }
 
     if (drop_lower) {
-      sim_df %<>% dplyr::filter(id1 > id2)
+      sim_df <- sim_df %>% dplyr::filter(id1 > id2)
     }
 
-    sim_df %<>%
+    sim_df <- sim_df %>%
       dplyr::inner_join(ids, by = c("id1", "id2"))
 
     if (!is.null(annotation_cols)) {
-      sim_df %<>%
+      sim_df <- sim_df %>%
         sim_annotate(row_metadata, annotation_cols,
           index = "left"
         )
@@ -224,7 +222,6 @@ sim_filter_all_same <-
 #' if specified.
 #'
 #' @importFrom magrittr %>%
-#' @importFrom magrittr %<>%
 #'
 #' @examples
 #' suppressMessages(suppressWarnings(library(magrittr)))
@@ -260,9 +257,9 @@ sim_filter_all_same_keep_some <-
            annotation_cols = NULL,
            drop_reference = TRUE,
            sim_cols = c("id1", "id2", "sim")) {
-    sim_df %<>% as.data.frame()
+    sim_df <- as.data.frame(sim_df)
 
-    sim_df %<>%
+    sim_df <- sim_df %>%
       sim_filter_all_same(row_metadata, all_same_cols) %>%
       sim_filter_keep_or_drop_some(
         row_metadata,
@@ -273,7 +270,7 @@ sim_filter_all_same_keep_some <-
     if (drop_reference) {
       filter_drop_left <- filter_keep_right
 
-      sim_df %<>%
+      sim_df <- sim_df %>%
         sim_filter_keep_or_drop_some(
           row_metadata,
           filter_drop = filter_drop_left,
@@ -282,7 +279,7 @@ sim_filter_all_same_keep_some <-
     }
 
     if (!is.null(annotation_cols)) {
-      sim_df %<>%
+      sim_df <- sim_df %>%
         dplyr::select(dplyr::all_of(sim_cols)) %>%
         sim_annotate(row_metadata, annotation_cols,
           index = "left"
@@ -328,7 +325,6 @@ sim_filter_all_same_keep_some <-
 #' if specified.
 #'
 #' @importFrom magrittr %>%
-#' @importFrom magrittr %<>%
 #'
 #' @examples
 #' suppressMessages(suppressWarnings(library(magrittr)))
@@ -370,7 +366,7 @@ sim_filter_some_different_drop_some <-
            filter_drop_left = NULL,
            filter_drop_right = NULL,
            annotation_cols = NULL) {
-    sim_df %<>% as.data.frame()
+    sim_df <- as.data.frame(sim_df)
 
     stopifnot(!any(all_same_cols %in% all_different_cols))
 
@@ -378,11 +374,11 @@ sim_filter_some_different_drop_some <-
 
     if (is.null(all_same_cols)) {
       # create a dummy column on which to join
-      metadata_i %<>% dplyr::mutate(all_same_col = 0)
+      metadata_i <- metadata_i %>% dplyr::mutate(all_same_col = 0)
       all_same_cols <- "all_same_col"
     } else {
       # create a unified column on which to join
-      metadata_i %<>%
+      metadata_i <- metadata_i %>%
         tidyr::unite(
           "all_same_col",
           dplyr::all_of(all_same_cols),
@@ -402,7 +398,7 @@ sim_filter_some_different_drop_some <-
     # create a unified column for any_different_cols and include that new column
     # in all_different_cols
     if (!is.null(any_different_cols)) {
-      metadata_i %<>%
+      metadata_i <- metadata_i %>%
         tidyr::unite(
           "any_different_col",
           dplyr::all_of(any_different_cols),
@@ -461,15 +457,15 @@ sim_filter_some_different_drop_some <-
         by = c("id1", "id2")
       )
 
-    ids %<>% dplyr::select(id1, id2)
+    ids <- ids %>% dplyr::select(id1, id2)
 
     # filter similarity matrix
-    sim_df %<>%
+    sim_df <- sim_df %>%
       dplyr::inner_join(ids, by = c("id1", "id2"))
 
     # add annotations
     if (!is.null(annotation_cols)) {
-      sim_df %<>%
+      sim_df <- sim_df %>%
         sim_annotate(row_metadata, annotation_cols,
           index = "left"
         )
