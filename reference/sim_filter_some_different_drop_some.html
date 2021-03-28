@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Annotate a melted similarity matrix. — sim_annotate • matric</title>
+<title>Filter a melted similarity matrix to keep pairs with the same
+values in specific columns, and other constraints. — sim_filter_some_different_drop_some • matric</title>
 
 
 <!-- jquery -->
@@ -39,8 +40,10 @@
 
 
 
-<meta property="og:title" content="Annotate a melted similarity matrix. — sim_annotate" />
-<meta property="og:description" content="sim_annotate annotates a melted similarity matrix." />
+<meta property="og:title" content="Filter a melted similarity matrix to keep pairs with the same
+values in specific columns, and other constraints. — sim_filter_some_different_drop_some" />
+<meta property="og:description" content="sim_filter_some_different_drop_some filters a melted similarity matrix to
+keep pairs with the same values in specific columns, and other constraints." />
 
 
 
@@ -111,21 +114,26 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Annotate a melted similarity matrix.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/shntnu/matric/blob/master/R/sim_annotate.R'><code>R/sim_annotate.R</code></a></small>
-    <div class="hidden name"><code>sim_annotate.Rd</code></div>
+    <h1>Filter a melted similarity matrix to keep pairs with the same
+values in specific columns, and other constraints.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/shntnu/matric/blob/master/R/sim_filter.R'><code>R/sim_filter.R</code></a></small>
+    <div class="hidden name"><code>sim_filter_some_different_drop_some.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>sim_annotate</code> annotates a melted similarity matrix.</p>
+    <p><code>sim_filter_some_different_drop_some</code> filters a melted similarity matrix to
+keep pairs with the same values in specific columns, and other constraints.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sim_annotate</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>sim_filter_some_different_drop_some</span><span class='op'>(</span>
   <span class='va'>sim_df</span>,
   <span class='va'>row_metadata</span>,
-  <span class='va'>annotation_cols</span>,
-  index <span class='op'>=</span> <span class='st'>"both"</span>,
-  sim_cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"id1"</span>, <span class='st'>"id2"</span>, <span class='st'>"sim"</span><span class='op'>)</span>
+  <span class='va'>any_different_cols</span>,
+  all_same_cols <span class='op'>=</span> <span class='cn'>NULL</span>,
+  all_different_cols <span class='op'>=</span> <span class='cn'>NULL</span>,
+  filter_drop_left <span class='op'>=</span> <span class='cn'>NULL</span>,
+  filter_drop_right <span class='op'>=</span> <span class='cn'>NULL</span>,
+  annotation_cols <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -140,49 +148,79 @@
       <td><p>data.frame with row metadata.</p></td>
     </tr>
     <tr>
+      <th>any_different_cols</th>
+      <td><p>character vector specifying columns.</p></td>
+    </tr>
+    <tr>
+      <th>all_same_cols</th>
+      <td><p>optional character vector specifying columns.</p></td>
+    </tr>
+    <tr>
+      <th>all_different_cols</th>
+      <td><p>optional character vector specifying columns.</p></td>
+    </tr>
+    <tr>
+      <th>filter_drop_left</th>
+      <td><p>data.frame of metadata specifying which rows to
+drop on the left index.</p></td>
+    </tr>
+    <tr>
+      <th>filter_drop_right</th>
+      <td><p>data.frame of metadata specifying which rows to
+drop on the right index.</p></td>
+    </tr>
+    <tr>
       <th>annotation_cols</th>
-      <td><p>character vector specifying annotation columns.</p></td>
-    </tr>
-    <tr>
-      <th>index</th>
-      <td><p>optional character string specifying whether to annotate left index, right index, or both.  This must be one of the strings <code>"both"</code> (default), <code>"left"</code>, <code>"right"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>sim_cols</th>
-      <td><p>optional character string specifying minimal set of columns for a similarity matrix</p></td>
+      <td><p>optional character vector specifying which columns
+from <code>metadata</code> to annotate the left index of the filtered
+<code>sim_df</code> with.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Annotated melted similarity matrix of the same class as <code>sim_df</code>.</p>
+    <p>Filtered <code>sim_df</code> as a data.frame, keeping only pairs that have</p><ul>
+<li><p>same values in all columns of <code>all_same_cols</code>,</p></li>
+<li><p>different values in all columns <code>all_different_cols</code>, and</p></li>
+<li><p>different values in at least one column of <code>any_different_cols</code>,</p></li>
+</ul>
+
+<p>with further filtering using <code>filter_drop_left</code> and
+<code>filter_drop_right</code>. Rows are annotated based on the first index,
+if specified.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/message.html'>suppressMessages</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span><span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://magrittr.tidyverse.org'>magrittr</a></span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>population</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>
   Metadata_group <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"a"</span>, <span class='st'>"b"</span><span class='op'>)</span>, <span class='fl'>4</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
-  Metadata_type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"x"</span>, <span class='st'>"y"</span><span class='op'>)</span>, <span class='fl'>4</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
+  Metadata_type1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"x"</span>, <span class='st'>"y"</span><span class='op'>)</span>, <span class='fl'>4</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
+  Metadata_type2 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"p"</span>, <span class='st'>"q"</span><span class='op'>)</span>, <span class='fl'>4</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
   x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>4</span><span class='op'>)</span>,
   y <span class='op'>=</span> <span class='va'>x</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>4</span><span class='op'>)</span> <span class='op'>/</span> <span class='fl'>100</span>,
   z <span class='op'>=</span> <span class='va'>y</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>4</span><span class='op'>)</span> <span class='op'>/</span> <span class='fl'>1000</span>
 <span class='op'>)</span>
-<span class='va'>annotation_cols</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Metadata_group"</span><span class='op'>)</span>
+<span class='va'>annotation_cols</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Metadata_group"</span>, <span class='st'>"Metadata_type"</span><span class='op'>)</span>
 <span class='va'>sim_df</span> <span class='op'>&lt;-</span> <span class='fu'>matric</span><span class='fu'>::</span><span class='fu'><a href='sim_calculate.html'>sim_calculate</a></span><span class='op'>(</span><span class='va'>population</span>, method <span class='op'>=</span> <span class='st'>"pearson"</span><span class='op'>)</span>
 <span class='va'>row_metadata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span><span class='op'>(</span><span class='va'>sim_df</span>, <span class='st'>"row_metadata"</span><span class='op'>)</span>
-<span class='fu'>matric</span><span class='fu'>::</span><span class='fu'>sim_annotate</span><span class='op'>(</span><span class='va'>sim_df</span>, <span class='va'>row_metadata</span>, <span class='va'>annotation_cols</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    id1 id2        sim Metadata_group1 Metadata_group2
-#&gt; 1    1   2  0.2931763               a               a
-#&gt; 2    1   3  0.6825945               a               b
-#&gt; 3    1   4 -0.8191562               a               a
-#&gt; 4    2   1  0.2931763               a               a
-#&gt; 5    2   3  0.8988055               a               b
-#&gt; 6    2   4 -0.7885241               a               a
-#&gt; 7    3   1  0.6825945               b               a
-#&gt; 8    3   2  0.8988055               b               a
-#&gt; 9    3   4 -0.9783153               b               a
-#&gt; 10   4   1 -0.8191562               a               a
-#&gt; 11   4   2 -0.7885241               a               a
-#&gt; 12   4   3 -0.9783153               a               b</div></pre>
+<span class='va'>sim_df</span> <span class='op'>&lt;-</span> <span class='fu'>matric</span><span class='fu'>::</span><span class='fu'><a href='sim_annotate.html'>sim_annotate</a></span><span class='op'>(</span><span class='va'>sim_df</span>, <span class='va'>row_metadata</span>, <span class='va'>annotation_cols</span><span class='op'>)</span>
+<span class='va'>all_same_cols</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Metadata_group"</span><span class='op'>)</span>
+<span class='va'>all_different_cols</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Metadata_type1"</span><span class='op'>)</span>
+<span class='va'>any_different_cols</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Metadata_type2"</span><span class='op'>)</span>
+<span class='va'>filter_drop_left</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>Metadata_group <span class='op'>=</span> <span class='st'>"a"</span>, Metadata_type1 <span class='op'>=</span> <span class='st'>"x"</span><span class='op'>)</span>
+<span class='va'>filter_drop_right</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>Metadata_group <span class='op'>=</span> <span class='st'>"a"</span>, Metadata_type1 <span class='op'>=</span> <span class='st'>"x"</span><span class='op'>)</span>
+<span class='va'>drop_reference</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
+<span class='fu'>matric</span><span class='fu'>::</span><span class='fu'>sim_filter_some_different_drop_some</span><span class='op'>(</span>
+  <span class='va'>sim_df</span>,
+  <span class='va'>row_metadata</span>,
+  <span class='va'>any_different_cols</span>,
+  <span class='va'>all_same_cols</span>,
+  <span class='va'>all_different_cols</span>,
+  <span class='va'>filter_drop_left</span>,
+  <span class='va'>filter_drop_right</span>,
+  <span class='va'>annotation_cols</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] id1            id2            sim            Metadata_group
+#&gt; &lt;0 rows&gt; (or 0-length row.names)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
