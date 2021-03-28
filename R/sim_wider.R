@@ -1,6 +1,6 @@
-#' Widen a symmetric similarity matrix.
+#' Widen a symmetric melted similarity matrix.
 #'
-#' \code{sim_plot} Plots similarity matrix.
+#' \code{sim_widen} widens a symmetric melted matrix.
 #'
 #' @param sim_df data.frame with melted similarity matrix.
 #' @param primary_key_column character string specifying the column in \code{sim_df} to use to uniquely identify rows and columns

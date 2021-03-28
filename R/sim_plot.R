@@ -1,7 +1,7 @@
 utils::globalVariables(c(".data", "sim", "sim_mean", "sim_rank", "sim_sd"))
-#' Plot similarity matrix.
+#' Plot a melted similarity matrix.
 #'
-#' \code{sim_plot} Plots similarity matrix.
+#' \code{sim_plot} plots a melted similarity matrix.
 #'
 #' @param sim_df data.frame with melted similarity matrix.
 #' @param annotation_column character string specifying the column in \code{sim_df} to use to annotate rows and columns.

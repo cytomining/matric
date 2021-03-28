@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_wider.R
 \name{sim_wider}
 \alias{sim_wider}
-\title{Widen a symmetric similarity matrix.}
+\title{Widen a symmetric melted similarity matrix.}
 \usage{
 sim_wider(sim_df, annotation_column, primary_key_column)
 }
@@ -17,7 +17,7 @@ sim_wider(sim_df, annotation_column, primary_key_column)
 data.frame of widened similarity matrix, with some attributes.
 }
 \description{
-\code{sim_plot} Plots similarity matrix.
+\code{sim_widen} widens a symmetric melted matrix.
 }
 \examples{
 suppressMessages(suppressWarnings(library(magrittr)))

@@ -9,10 +9,10 @@ reference:
 - title: "Annotation and filtering operations"
 - contents:
   - sim_annotate
-  - sim_filter
-  - sim_all_same
-  - sim_all_same_keep_some
-  - sim_some_different_drop_some
+  - sim_filter_keep_or_drop_some
+  - sim_filter_all_same
+  - sim_filter_all_same_keep_some
+  - sim_filter_some_different_drop_some
 - title: "Read-write operations"
 - contents:
   - sim_read

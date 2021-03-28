@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_plot.R
 \name{sim_plot}
 \alias{sim_plot}
-\title{Plot similarity matrix.}
+\title{Plot a melted similarity matrix.}
 \usage{
 sim_plot(
   sim_df,
@@ -24,7 +24,7 @@ sim_plot(
 \code{ggplot} object of the plot.
 }
 \description{
-\code{sim_plot} Plots similarity matrix.
+\code{sim_plot} plots a melted similarity matrix.
 }
 \examples{
 suppressMessages(suppressWarnings(library(magrittr)))

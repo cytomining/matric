@@ -1,6 +1,8 @@
-#' Filter rows of the melted similarity matrix to create several sets of pairs.
+#' Collate several subsets of a melted simolarity matrix, required for computing
+#' metrics.
 #'
-#' \code{sim_collate} Filters melted similarity matrix to create several sets of pairs.
+#' \code{sim_collate} collates several subsets of a melted simolarity matrix,
+#' required for computing metrics.
 #'
 #' @details
 #'
@@ -198,8 +200,8 @@ sim_collate <-
 
     if (!is.null(drop_group)) {
       sim_df %<>%
-        sim_filter(row_metadata = row_metadata, filter_drop = drop_group, filter_side = "left") %>%
-        sim_filter(row_metadata = row_metadata, filter_drop = drop_group, filter_side = "right")
+        sim_filter_keep_or_drop_some(row_metadata = row_metadata, filter_drop = drop_group, filter_side = "left") %>%
+        sim_filter_keep_or_drop_some(row_metadata = row_metadata, filter_drop = drop_group, filter_side = "right")
     }
 
     fetch_ref <-
@@ -232,7 +234,7 @@ sim_collate <-
     if (fetch_ref) {
       ref <-
         sim_df %>%
-        sim_all_same_keep_some(
+        sim_filter_all_same_keep_some(
           row_metadata = row_metadata,
           all_same_cols_ref,
           filter_keep_right = reference,
@@ -255,9 +257,9 @@ sim_collate <-
 
     rep <-
       sim_df %>%
-      sim_filter(row_metadata = row_metadata, filter_drop = reference, filter_side = "left") %>%
-      sim_filter(row_metadata = row_metadata, filter_drop = reference, filter_side = "right") %>%
-      sim_all_same(
+      sim_filter_keep_or_drop_some(row_metadata = row_metadata, filter_drop = reference, filter_side = "left") %>%
+      sim_filter_keep_or_drop_some(row_metadata = row_metadata, filter_drop = reference, filter_side = "right") %>%
+      sim_filter_all_same(
         row_metadata = row_metadata,
         all_same_cols_rep,
         annotation_cols,
@@ -279,17 +281,17 @@ sim_collate <-
     if (fetch_rep_ref) {
       rep_ref <-
         sim_df %>%
-        sim_filter(
+        sim_filter_keep_or_drop_some(
           row_metadata = row_metadata,
           filter_keep = reference,
           filter_side = "left"
         ) %>%
-        sim_filter(
+        sim_filter_keep_or_drop_some(
           row_metadata = row_metadata,
           filter_keep = reference,
           filter_side = "right"
         ) %>%
-        sim_all_same(
+        sim_filter_all_same(
           row_metadata = row_metadata,
           all_same_cols = all_same_cols_rep_ref,
           annotation_cols = annotation_cols,
@@ -320,7 +322,7 @@ sim_collate <-
 
       non_rep <-
         sim_df %>%
-        sim_some_different_drop_some(
+        sim_filter_some_different_drop_some(
           row_metadata = row_metadata,
           any_different_cols = any_different_cols_non_rep,
           all_same_cols = all_same_cols_non_rep,
@@ -353,7 +355,7 @@ sim_collate <-
 
       rep_group <-
         sim_df %>%
-        sim_some_different_drop_some(
+        sim_filter_some_different_drop_some(
           row_metadata = row_metadata,
           any_different_cols = any_different_cols_group,
           all_same_cols = all_same_cols_group,
