@@ -48,7 +48,7 @@ sim_write <- function(sim_df, output, file_format = "parquet") {
       file.path(output, paste(basename(output), file_format, sep = "."))
 
     row_metadata_filename <-
-     file.path(output, paste(paste0(basename(output), "_metadata"), file_format, sep = "."))
+      file.path(output, paste(paste0(basename(output), "_metadata"), file_format, sep = "."))
 
     metric_metadata_filename <-
       file.path(output, paste(paste0(basename(output), "_metadata"), "json", sep = "."))
@@ -112,7 +112,7 @@ sim_read <- function(input, file_format = "parquet") {
       file.path(input, paste(basename(input), file_format, sep = "."))
 
     row_metadata_filename <-
-     file.path(input, paste(paste0(basename(input), "_metadata"), file_format, sep = "."))
+      file.path(input, paste(paste0(basename(input), "_metadata"), file_format, sep = "."))
 
     metric_metadata_filename <-
       file.path(input, paste(paste0(basename(input), "_metadata"), "json", sep = "."))

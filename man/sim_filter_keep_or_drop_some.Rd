@@ -51,7 +51,9 @@ sim_df <- matric::sim_annotate(sim_df, row_metadata, annotation_cols)
 filter_keep <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
 filter_drop <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
 matric::sim_filter_keep_or_drop_some(sim_df, row_metadata,
- filter_keep = filter_keep, filter_side = "left")
+  filter_keep = filter_keep, filter_side = "left"
+)
 matric::sim_filter_keep_or_drop_some(sim_df, row_metadata,
- filter_drop = filter_drop, filter_side = "left")
+  filter_drop = filter_drop, filter_side = "left"
+)
 }

@@ -40,9 +40,11 @@ utils::globalVariables(c("all_same_col"))
 #' filter_keep <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
 #' filter_drop <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
 #' matric::sim_filter_keep_or_drop_some(sim_df, row_metadata,
-#'  filter_keep = filter_keep, filter_side = "left")
+#'   filter_keep = filter_keep, filter_side = "left"
+#' )
 #' matric::sim_filter_keep_or_drop_some(sim_df, row_metadata,
-#'  filter_drop = filter_drop, filter_side = "left")
+#'   filter_drop = filter_drop, filter_side = "left"
+#' )
 #' @export
 sim_filter_keep_or_drop_some <-
   function(sim_df,
