@@ -23,19 +23,17 @@ sim_calculate <-
   function(population,
            annotation_prefix = "Metadata_",
            method = "pearson") {
-    # get data matrix
-    data_matrix <-
-      population %>%
-      dplyr::select(-dplyr::matches(annotation_prefix))
-
-    # get metadata
-    row_metadata <-
-      population %>%
-      dplyr::select(dplyr::matches(annotation_prefix)) %>%
-      tibble::rowid_to_column(var = "id")
 
     # measure similarities between treatments
     stopifnot(method %in% c("pearson", "kendall", "spearman"))
+
+    stopifnot(is.data.frame(population))
+
+    # get data matrix
+    data_matrix <- drop_annotation(population, annotation_prefix)
+
+    # get metadata
+    row_metadata <- get_annotation(population, annotation_prefix)
 
     sim_df <- stats::cor(t(data_matrix), method = method)
 
