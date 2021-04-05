@@ -13,6 +13,8 @@ coverage](https://codecov.io/gh/shntnu/matric/branch/main/graph/badge.svg)](http
 
 <!-- badges: end -->
 
+Metrics for Similarity Matrices.
+
 This is a prototype for testing out ideas for
 [`cytominer-eval`](https://github.com/cytomining/cytominer-eval).
 
