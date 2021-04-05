@@ -3,9 +3,14 @@ utils::globalVariables(c("id1", "id2"))
 #'
 #' \code{sim_calculate} calculates a melted similarity matrix.
 #'
-#' @param population data.frame with annotations (a.k.a. metadata) and observation variables.
-#' @param annotation_prefix optional character string specifying prefix for annotation columns.
-#' @param method optional character string specifying method for \code{stats::cor} to calculate similarity.  This must be one of the strings \code{"pearson"} (default), \code{"kendall"}, \code{"spearman"}.
+#' @param population data.frame with annotations (a.k.a. metadata) and
+#'   observation variables.
+#' @param annotation_prefix optional character string specifying prefix
+#'   for annotation columns.
+#' @param method optional character string specifying method for
+#'   \code{stats::cor} to calculate similarity. This must be one of the
+#'   strings \code{"pearson"} (default), \code{"kendall"}, \code{"spearman"},
+#'   \code{"euclidean"}, \code{"cosine"}.
 #'
 #' @return \code{metric_sim} object, with similarity matrix and related metadata
 #'
@@ -23,9 +28,11 @@ sim_calculate <-
   function(population,
            annotation_prefix = "Metadata_",
            method = "pearson") {
+    distances <- c("euclidean")
+    correlations <- c("pearson", "kendall", "spearman")
+    similarities <- c("cosine")
 
-    # measure similarities between treatments
-    stopifnot(method %in% c("pearson", "kendall", "spearman"))
+    stopifnot(method %in% c(distances, correlations, similarities))
 
     stopifnot(is.data.frame(population))
 
@@ -35,7 +42,37 @@ sim_calculate <-
     # get metadata
     row_metadata <- get_annotation(population, annotation_prefix)
 
-    sim_df <- stats::cor(t(data_matrix), method = method)
+    if (method %in% distances) {
+      sim_df <-
+        as.matrix(stats::dist(
+          data_matrix,
+          method = method,
+          diag = TRUE,
+          upper = TRUE
+        ))
+    } else if (method %in% correlations) {
+      sim_df <-
+        stats::cor(t(data_matrix),
+                   method = method)
+
+    } else if (method %in% similarities) {
+      if (method == "cosine") {
+        data_matrix <-
+          data_matrix / apply(data_matrix, 1, function(x)
+            sqrt(sum(x ^ 2)))
+
+        sim_df <-
+          as.matrix(stats::dist(
+            data_matrix,
+            method = "euclidean",
+            diag = TRUE,
+            upper = TRUE
+          ))
+
+        sim_df <- 1 - sim_df / 2
+
+      }
+    }
 
     colnames(sim_df) <- seq(1, ncol(sim_df))
 
