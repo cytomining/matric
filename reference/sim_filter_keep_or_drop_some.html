@@ -180,7 +180,8 @@ some rows dropped. No filters applied if both <code>filter_keep</code> and
 <span class='va'>filter_keep</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>Metadata_group <span class='op'>=</span> <span class='st'>"a"</span>, Metadata_type <span class='op'>=</span> <span class='st'>"x"</span><span class='op'>)</span>
 <span class='va'>filter_drop</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>Metadata_group <span class='op'>=</span> <span class='st'>"a"</span>, Metadata_type <span class='op'>=</span> <span class='st'>"x"</span><span class='op'>)</span>
 <span class='fu'>matric</span><span class='fu'>::</span><span class='fu'>sim_filter_keep_or_drop_some</span><span class='op'>(</span><span class='va'>sim_df</span>, <span class='va'>row_metadata</span>,
- filter_keep <span class='op'>=</span> <span class='va'>filter_keep</span>, filter_side <span class='op'>=</span> <span class='st'>"left"</span><span class='op'>)</span>
+  filter_keep <span class='op'>=</span> <span class='va'>filter_keep</span>, filter_side <span class='op'>=</span> <span class='st'>"left"</span>
+<span class='op'>)</span>
 </div><div class='output co'>#&gt;   id1 id2        sim Metadata_group1 Metadata_type1 Metadata_group2
 #&gt; 1   1   2  0.9217822               a              x               a
 #&gt; 2   1   3 -0.6936974               a              x               a
@@ -195,7 +196,8 @@ some rows dropped. No filters applied if both <code>filter_keep</code> and
 #&gt; 4              x
 #&gt; 5              y
 #&gt; 6              x</div><div class='input'><span class='fu'>matric</span><span class='fu'>::</span><span class='fu'>sim_filter_keep_or_drop_some</span><span class='op'>(</span><span class='va'>sim_df</span>, <span class='va'>row_metadata</span>,
- filter_drop <span class='op'>=</span> <span class='va'>filter_drop</span>, filter_side <span class='op'>=</span> <span class='st'>"left"</span><span class='op'>)</span>
+  filter_drop <span class='op'>=</span> <span class='va'>filter_drop</span>, filter_side <span class='op'>=</span> <span class='st'>"left"</span>
+<span class='op'>)</span>
 </div><div class='output co'>#&gt;   id1 id2        sim Metadata_group1 Metadata_type1 Metadata_group2
 #&gt; 1   2   1  0.9217822               a              y               a
 #&gt; 2   2   3 -0.3601848               a              y               a
