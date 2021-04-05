@@ -12,7 +12,6 @@ utils::globalVariables(c("id"))
 #' @return Annotated melted similarity matrix of the same class as \code{sim_df}.
 #'
 #' @importFrom magrittr %>%
-#' @importFrom magrittr %<>%
 #'
 #' @examples
 #' suppressMessages(suppressWarnings(library(magrittr)))
@@ -34,16 +33,16 @@ sim_annotate <-
            annotation_cols,
            index = "both",
            sim_cols = c("id1", "id2", "sim")) {
-    sim_df %<>% as.data.frame()
+    sim_df <- as.data.frame(sim_df)
 
     metadata_i <-
       row_metadata %>%
       dplyr::select(id, dplyr::any_of(annotation_cols))
 
-    sim_df %<>% dplyr::select(dplyr::all_of(sim_cols))
+    sim_df <- sim_df %>% dplyr::select(dplyr::all_of(sim_cols))
 
     if (index == "left") {
-      sim_df %<>%
+      sim_df <- sim_df %>%
         dplyr::inner_join(metadata_i,
           by = c("id1" = "id"),
           suffix = c("1", "2")
@@ -51,7 +50,7 @@ sim_annotate <-
     }
 
     if (index == "right") {
-      sim_df %<>%
+      sim_df <- sim_df %>%
         dplyr::inner_join(metadata_i,
           by = c("id2" = "id"),
           suffix = c("1", "2")
@@ -59,7 +58,7 @@ sim_annotate <-
     }
 
     if (index == "both") {
-      sim_df %<>%
+      sim_df <- sim_df %>%
         dplyr::inner_join(metadata_i,
           by = c("id1" = "id")
         ) %>%

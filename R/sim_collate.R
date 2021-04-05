@@ -199,7 +199,7 @@ sim_collate <-
     # ---- 0. Filter out some rows ----
 
     if (!is.null(drop_group)) {
-      sim_df %<>%
+      sim_df <- sim_df %>%
         sim_filter_keep_or_drop_some(row_metadata = row_metadata, filter_drop = drop_group, filter_side = "left") %>%
         sim_filter_keep_or_drop_some(row_metadata = row_metadata, filter_drop = drop_group, filter_side = "right")
     }
@@ -371,22 +371,22 @@ sim_collate <-
       rep %>% dplyr::mutate(type = "rep")
 
     if (fetch_rep_ref) {
-      combined %<>%
+      combined <- combined %>%
         dplyr::bind_rows(rep_ref %>% dplyr::mutate(type = "rep")) # same tag as ref
     }
 
     if (fetch_non_rep) {
-      combined %<>%
+      combined <- combined %>%
         dplyr::bind_rows(non_rep %>% dplyr::mutate(type = "non_rep"))
     }
 
     if (fetch_ref) {
-      combined %<>%
+      combined <- combined %>%
         dplyr::bind_rows(ref %>% dplyr::mutate(type = "ref"))
     }
 
     if (fetch_rep_group) {
-      combined %<>%
+      combined <- combined %>%
         dplyr::bind_rows(rep_group %>% dplyr::mutate(type = "rep_group"))
     }
 
@@ -408,7 +408,7 @@ sim_collate <-
     attr(combined, "drop_reference") <- drop_reference
     attr(combined, "reference") <- reference
 
-    combined %<>% as.data.frame()
+    combined <- combined %>% as.data.frame()
 
     sim_restore(combined, sim_df_attr)
   }

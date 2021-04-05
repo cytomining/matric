@@ -173,7 +173,7 @@ sim_metrics <- function(collated_sim,
         ) %>%
         dplyr::ungroup()
 
-      sim_norm_agg %<>%
+      sim_norm_agg <- sim_norm_agg %>%
         dplyr::inner_join(sim_stats %>%
           dplyr::rename_with(
             ~ paste(., "stat", sim_type, sep = "_"),
@@ -183,7 +183,7 @@ sim_metrics <- function(collated_sim,
         )
 
       if (!is.null(identifier)) {
-        sim_norm_agg %<>%
+        sim_norm_agg <- sim_norm_agg %>%
           dplyr::rename_with(
             ~ paste(., identifier, sep = "_"),
             dplyr::starts_with("sim")
@@ -213,7 +213,7 @@ sim_metrics <- function(collated_sim,
 
   # append identified ("_i" for "individual")
 
-  sim_norm_agg_agg %<>%
+  sim_norm_agg_agg <- sim_norm_agg_agg %>%
     dplyr::rename_with(
       ~ paste(., "i", sep = "_"),
       dplyr::starts_with("sim")

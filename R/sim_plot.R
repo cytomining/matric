@@ -35,7 +35,7 @@ sim_plot <-
            annotation_column,
            calculate_sim_rank = FALSE,
            trim_label = NULL) {
-    sim_df %<>% as.data.frame()
+    sim_df <- as.data.frame(sim_df)
 
     col1 <- paste0(annotation_column, "1")
     col2 <- paste0(annotation_column, "2")
@@ -53,7 +53,7 @@ sim_plot <-
       col2_short <- col2
     }
 
-    sim_df %<>%
+    sim_df <- sim_df %>%
       dplyr::group_by(dplyr::across(dplyr::all_of(c(
         col1_short, col2_short
       )))) %>%
@@ -62,7 +62,7 @@ sim_plot <-
       )
 
     if (calculate_sim_rank) {
-      sim_df %<>%
+      sim_df <- sim_df %>%
         dplyr::group_by(dplyr::across(dplyr::all_of(c(col1_short)))) %>%
         dplyr::mutate(sim_rank = rank(-sim) / length(sim))
     } else {

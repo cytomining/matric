@@ -44,7 +44,7 @@ sim_wider <-
     primary_key_columns <-
       c(primary_key_column1, primary_key_column2)
 
-    sim_df %<>% as.data.frame()
+    sim_df <- as.data.frame(sim_df)
 
     annotation_column1 <- paste0(annotation_column, "1")
     annotation_column2 <- paste0(annotation_column, "2")
@@ -66,7 +66,7 @@ sim_wider <-
       tibble::column_to_rownames(primary_key_column1)
 
     # assumes symmetric matrix
-    sim_df_wider %<>%
+    sim_df_wider <- sim_df_wider %>%
       dplyr::select(all_of(row.names(sim_df_wider)))
 
     stopifnot(colnames(sim_df_wider) == row.names(sim_df_wider))
@@ -117,7 +117,7 @@ sim_wider <-
     row.names(sim_df_wider) <- value_unique1
     colnames(sim_df_wider) <- row.names(sim_df_wider)
 
-    map1 %<>% dplyr::select(
+    map1 <- map1 %>% dplyr::select(
       id = all_of(annotation_column_unique1),
       annotation = all_of(annotation_column1),
       primary_key = all_of(primary_key_column1)
