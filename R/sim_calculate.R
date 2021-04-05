@@ -69,7 +69,7 @@ sim_calculate <-
             upper = TRUE
           ))
 
-        sim_df <- 1 - sim_df / 2
+        sim_df <- 1 - (sim_df ^2) / 2
 
       }
     }
