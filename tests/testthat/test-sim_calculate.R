@@ -100,5 +100,4 @@ test_that("`sim_calculate` works", {
       dplyr::pull("sim"),
     2 * sqrt(sum(c(-4, 1, -1)^2))
   )
-
 })

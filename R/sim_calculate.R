@@ -53,13 +53,14 @@ sim_calculate <-
     } else if (method %in% correlations) {
       sim_df <-
         stats::cor(t(data_matrix),
-                   method = method)
-
+          method = method
+        )
     } else if (method %in% similarities) {
       if (method == "cosine") {
         data_matrix <-
-          data_matrix / apply(data_matrix, 1, function(x)
-            sqrt(sum(x ^ 2)))
+          data_matrix / apply(data_matrix, 1, function(x) {
+            sqrt(sum(x^2))
+          })
 
         sim_df <-
           as.matrix(stats::dist(
@@ -69,8 +70,7 @@ sim_calculate <-
             upper = TRUE
           ))
 
-        sim_df <- 1 - (sim_df ^2) / 2
-
+        sim_df <- 1 - (sim_df^2) / 2
       }
     }
 
