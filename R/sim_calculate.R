@@ -22,16 +22,19 @@ utils::globalVariables(c("id1", "id2"))
 #'   2, 0, 6, -4,
 #'   3, 7, -4, 3,
 #'   4, 14, -8, 6
-#'  )
-#' sim_pearson   <- matric::sim_calculate(population, method = "pearson")
-#' sim_cosine    <- matric::sim_calculate(population, method = "cosine")
+#' )
+#' sim_pearson <- matric::sim_calculate(population, method = "pearson")
+#' sim_cosine <- matric::sim_calculate(population, method = "cosine")
 #' sim_euclidean <- matric::sim_calculate(population, method = "euclidean")
 #'
 #' sim_pearson %>%
-#'   dplyr::inner_join(sim_cosine, by = c("id1", "id2"),
-#'     suffix = c("_pearson", "_cosine")) %>%
+#'   dplyr::inner_join(sim_cosine,
+#'     by = c("id1", "id2"),
+#'     suffix = c("_pearson", "_cosine")
+#'   ) %>%
 #'   dplyr::inner_join(sim_euclidean %>% dplyr::rename(sim_euclidean = sim),
-#'     by = c("id1", "id2"))
+#'     by = c("id1", "id2")
+#'   )
 #' @export
 sim_calculate <-
   function(population,
