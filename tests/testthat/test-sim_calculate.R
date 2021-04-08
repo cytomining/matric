@@ -113,8 +113,6 @@ test_that("`sim_calculate` handles `NA`s", {
     2, 6, 4, -1, 1, -2
   )
 
-  # ------ Pearson
-
   test_na <- function(method) {
     sim_df <-
       matric::sim_calculate(population,
@@ -166,7 +164,7 @@ test_that("`sim_calculate` handles `NA`s", {
   test_na("cosine")
 })
 
-test_that("`sim_calculate` in stratified form works", {
+test_that("stratified `sim_calculate` works", {
   population <- tibble::tribble(
     ~Metadata_batch, ~Metadata_group, ~x, ~y, ~z, ~b,
     1, 1, -1, 5, -5, NA,
@@ -258,5 +256,74 @@ test_that("`sim_calculate` in stratified form works", {
       dplyr::filter(id1 == 5 & id2 == 6) %>%
       dplyr::pull("sim"),
     -1
+  )
+})
+
+
+test_that("stratified `sim_calculate` works", {
+
+  n <- 100
+  strata <- c("g1", "g2")
+
+  set.seed(42)
+  population <- tibble::tibble(
+    g1 = sample(c("a", "b"), n, TRUE),
+    g2 = sample(c("a", "b"), n, TRUE),
+    x = rnorm(n),
+    y = rnorm(n),
+    z = rnorm(n)
+  ) %>%
+    dplyr::arrange(across(all_of(strata)))
+
+  # ^^ sorting is needed for compariosn because the stratified version sorts
+  # the rows
+
+  method <- "pearson"
+
+  sim_df <-
+    matric::sim_calculate(population,
+                          annotation_prefix = "g",
+                          method = method
+    )
+
+  row_metadata <- attr(sim_df, "row_metadata")
+
+  sim_df <- sim_df %>%
+    sim_annotate(row_metadata, annotation_cols = strata)
+
+  sim_df_s <-
+    matric::sim_calculate(population,
+                          annotation_prefix = "g",
+                          method = method,
+                          strata = strata
+    )
+
+  row_metadata_s <- attr(sim_df_s, "row_metadata")
+
+  sim_df_s <- sim_df_s %>%
+    sim_annotate(row_metadata_s, annotation_cols = strata)
+
+  expect_equal(
+    dplyr::anti_join(
+      sim_df_s %>% dplyr::select(-sim),
+      sim_df %>% dplyr::select(-sim),
+      by = c(
+        "id1", "id2",
+        "g11", "g21",
+        "g12", "g22"
+      )
+    ) %>%
+      nrow(),
+    0
+  )
+
+  expect_equal(
+    row_metadata,
+    row_metadata_s
+  )
+
+  expect_equal(
+    row_metadata_s %>% dplyr::select(-id),
+    population %>% dplyr::select(g1, g2)
   )
 })
