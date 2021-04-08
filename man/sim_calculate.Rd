@@ -4,7 +4,12 @@
 \alias{sim_calculate}
 \title{Calculate a melted similarity matrix.}
 \usage{
-sim_calculate(population, annotation_prefix = "Metadata_", method = "pearson")
+sim_calculate(
+  population,
+  annotation_prefix = "Metadata_",
+  strata = NULL,
+  method = "pearson"
+)
 }
 \arguments{
 \item{population}{data.frame with annotations (a.k.a. metadata) and
@@ -12,6 +17,8 @@ observation variables.}
 
 \item{annotation_prefix}{optional character string specifying prefix
 for annotation columns.}
+
+\item{strata}{optional character vector specifying stratification columns.}
 
 \item{method}{optional character string specifying method for
 to calculate similarity. This must be one of the
