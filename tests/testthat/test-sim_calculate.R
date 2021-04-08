@@ -176,12 +176,11 @@ test_that("`sim_calculate` in stratified form works", {
     2, 6, 4, -1, 1, -2
   )
 
-
   # ------ Pearson
   sim_df <-
     matric::sim_calculate(population,
                           method = "pearson",
-                          strata = c("Metadata_group"))
+                          strata = c("Metadata_batch"))
 
   expect_equal(
     attr(sim_df, "row_metadata") %>% dplyr::select(-id),
