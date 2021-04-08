@@ -42,26 +42,42 @@ sim_calculate <-
            annotation_prefix = "Metadata_",
            strata = NULL,
            method = "pearson") {
-
     # calculate
-    if(is.null(strata)) {
+    if (is.null(strata)) {
       sim_df <-
-        sim_calculate_helper(population = population,
-                             annotation_prefix = annotation_prefix,
-                             method = method)
+        sim_calculate_helper(
+          population = population,
+          annotation_prefix = annotation_prefix,
+          method = method
+        )
 
     } else {
       population <- population %>% dplyr::arrange(across(all_of(strata)))
 
+      reduct <- function(partition, partition_row_indices) {
+        population_partition <-
+          dplyr::inner_join(population, partition, by = names(partition))
+
+        starting_index <- min(partition_row_indices)
+
+        sim_calculate_helper(
+            population = population_partition,
+            annotation_prefix = annotation_prefix,
+            method = method,
+            starting_index = starting_index
+          )
+      }
+
       sim_df <-
-        sim_calculate_helper(population = population,
-                             annotation_prefix = annotation_prefix,
-                             method = method)
-      # sim_df <-
-      #   map_df_stratified(population,
-      #                     sim_calculate_helper,
-      #                     strata = strata,
-      #                     method = method)
+        population %>%
+        dplyr::select(all_of(strata)) %>%
+        dplyr::group_by(across(all_of(strata))) %>%
+        dplyr::summarise(reduct(dplyr::cur_group(),
+                                dplyr::cur_group_rows()),
+                         .groups = "keep") %>%
+        dplyr::ungroup()
+
+      population
 
     }
 
@@ -69,7 +85,8 @@ sim_calculate <-
     row_metadata <- get_annotation(population, annotation_prefix)
 
     # construct object
-    sim_df <- sim_validate(sim_new(sim_df, row_metadata, list(method = method)))
+    sim_df <-
+      sim_validate(sim_new(sim_df, row_metadata, list(method = method)))
 
     sim_df
   }
@@ -86,13 +103,15 @@ sim_calculate <-
 #'   to calculate similarity. This must be one of the
 #'   strings \code{"pearson"} (default), \code{"kendall"}, \code{"spearman"},
 #'   \code{"euclidean"}, \code{"cosine"}.
-#' @param offset optional integer specifying offset in the index.
+#' @param starting_index optional integer specifying starting index.
 #'
 #' @return \code{metric_sim} object, with similarity matrix and related metadata
+#' @noRd
 sim_calculate_helper <- function(population,
                                  annotation_prefix = "Metadata_",
                                  method = "pearson",
-                                 offset = 0) {
+                                 starting_index = 1) {
+  futile.logger::flog.debug(glue::glue("starting_index = {starting_index}"))
 
   distances <- c("euclidean")
   correlations <- c("pearson", "kendall", "spearman")
@@ -108,15 +127,14 @@ sim_calculate_helper <- function(population,
   # drop NA
   # TODO:
   #   - Handle this more elegantly
-  futile.logger::flog.debug(
-    glue::glue("Number of columns before NA filtering = {n}",
-               n = ncol(data_matrix)))
+  futile.logger::flog.debug(glue::glue("Number of columns before NA filtering = {n}",
+                                       n = ncol(data_matrix)))
 
-  data_matrix <- Filter(function(x)!any(is.na(x)), data_matrix)
+  data_matrix <- Filter(function(x)
+    ! any(is.na(x)), data_matrix)
 
-  futile.logger::flog.debug(
-    glue::glue("Number of columns after NA filtering = {n}",
-               n = ncol(data_matrix)))
+  futile.logger::flog.debug(glue::glue("Number of columns after NA filtering = {n}",
+                                       n = ncol(data_matrix)))
 
   if (method %in% distances) {
     sim_df <-
@@ -130,13 +148,12 @@ sim_calculate_helper <- function(population,
     sim_df <-
       stats::cor(t(data_matrix),
                  method = method,
-                 use = "pairwise.complete.obs"
-      )
+                 use = "pairwise.complete.obs")
   } else if (method %in% similarities) {
     if (method == "cosine") {
       data_matrix <-
         data_matrix / apply(data_matrix, 1, function(x) {
-          sqrt(sum(x^2, na.rm = TRUE))
+          sqrt(sum(x ^ 2, na.rm = TRUE))
         })
 
       sim_df <-
@@ -147,7 +164,7 @@ sim_calculate_helper <- function(population,
           upper = TRUE
         ))
 
-      sim_df <- 1 - (sim_df^2) / 2
+      sim_df <- 1 - (sim_df ^ 2) / 2
     }
   }
 
@@ -158,35 +175,9 @@ sim_calculate_helper <- function(population,
     tibble::rowid_to_column(var = "id1") %>%
     tidyr::pivot_longer(-id1, names_to = "id2", values_to = "sim") %>%
     dplyr::mutate(id2 = as.integer(id2)) %>%
-    dplyr::filter(id1 != id2)
-}
+    dplyr::filter(id1 != id2) %>%
+    dplyr::mutate(id1 = id1 + starting_index - 1) %>%
+    dplyr::mutate(id2 = id2 + starting_index - 1)
 
-
-#' Stratify operations
-#'
-#' \code{map_df_stratified} stratifies operations
-#'
-#' @param .x tbl.
-#' @param .f function
-#' @param .strata character vector specifying columns in \code{x} to stratify by
-#' @param ... arguments passed to \code{.f}.
-#'
-#' @return tbl
-#' @noRd
-map_df_stratified <- function(.x, .f, .strata, ...) {
-  reduct <- function(partition, partition_row_indices) {
-    dplyr::inner_join(.x, partition, by = names(partition)) %>%
-      .f(..., offset = min(partition_row_indices))
-  }
-
-  output <-
-    .x %>%
-    dplyr::select(all_of(.strata)) %>%
-    dplyr::group_by(across(all_of(.strata))) %>%
-    dplyr::summarise(reduct(dplyr::cur_group(),
-                            dplyr::cur_group_rows()),
-                     .groups = "keep") %>%
-    dplyr::ungroup()
-
-  output
+  sim_df
 }
