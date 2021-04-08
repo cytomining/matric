@@ -179,16 +179,18 @@ test_that("`sim_calculate` in stratified form works", {
 
   sim_df <-
     matric::sim_calculate(population,
-                          method = "pearson"
+      method = "pearson"
     )
 
   row_metadata <- attr(sim_df, "row_metadata")
 
   sim_df <- sim_df %>%
     sim_annotate(row_metadata,
-                 annotation_cols =
-                   c("Metadata_batch",
-                     "Metadata_group")
+      annotation_cols =
+        c(
+          "Metadata_batch",
+          "Metadata_group"
+        )
     )
 
   sim_df_s <-
@@ -201,18 +203,22 @@ test_that("`sim_calculate` in stratified form works", {
 
   sim_df_s <- sim_df_s %>%
     sim_annotate(row_metadata_s,
-                 annotation_cols =
-                   c("Metadata_batch",
-                     "Metadata_group")
+      annotation_cols =
+        c(
+          "Metadata_batch",
+          "Metadata_group"
+        )
     )
 
   expect_equal(
     dplyr::anti_join(
       sim_df_s %>% dplyr::select(-sim),
       sim_df %>% dplyr::select(-sim),
-      by = c("id1", "id2",
-             "Metadata_batch1", "Metadata_group1",
-             "Metadata_batch2", "Metadata_group2")
+      by = c(
+        "id1", "id2",
+        "Metadata_batch1", "Metadata_group1",
+        "Metadata_batch2", "Metadata_group2"
+      )
     ) %>%
       nrow(),
     0
