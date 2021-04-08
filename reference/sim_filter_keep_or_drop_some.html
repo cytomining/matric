@@ -183,35 +183,35 @@ some rows dropped. No filters applied if both <code>filter_keep</code> and
   filter_keep <span class='op'>=</span> <span class='va'>filter_keep</span>, filter_side <span class='op'>=</span> <span class='st'>"left"</span>
 <span class='op'>)</span>
 </div><div class='output co'>#&gt;   id1 id2        sim Metadata_group1 Metadata_type1 Metadata_group2
-#&gt; 1   1   2  0.9217822               a              x               a
-#&gt; 2   1   3 -0.6936974               a              x               a
-#&gt; 3   1   4 -0.9516741               a              x               b
-#&gt; 4   3   1 -0.6936974               a              x               a
-#&gt; 5   3   2 -0.3601848               a              x               a
-#&gt; 6   3   4  0.8813748               a              x               b
+#&gt; 1   4   1 -0.9815939               a              x               a
+#&gt; 2   4   2 -0.6953686               a              x               a
+#&gt; 3   4   3 -0.9900289               a              x               a
 #&gt;   Metadata_type2
 #&gt; 1              y
-#&gt; 2              x
-#&gt; 3              x
-#&gt; 4              x
-#&gt; 5              y
-#&gt; 6              x</div><div class='input'><span class='fu'>matric</span><span class='fu'>::</span><span class='fu'>sim_filter_keep_or_drop_some</span><span class='op'>(</span><span class='va'>sim_df</span>, <span class='va'>row_metadata</span>,
+#&gt; 2              y
+#&gt; 3              y</div><div class='input'><span class='fu'>matric</span><span class='fu'>::</span><span class='fu'>sim_filter_keep_or_drop_some</span><span class='op'>(</span><span class='va'>sim_df</span>, <span class='va'>row_metadata</span>,
   filter_drop <span class='op'>=</span> <span class='va'>filter_drop</span>, filter_side <span class='op'>=</span> <span class='st'>"left"</span>
 <span class='op'>)</span>
 </div><div class='output co'>#&gt;   id1 id2        sim Metadata_group1 Metadata_type1 Metadata_group2
-#&gt; 1   2   1  0.9217822               a              y               a
-#&gt; 2   2   3 -0.3601848               a              y               a
-#&gt; 3   2   4 -0.7581673               a              y               b
-#&gt; 4   4   1 -0.9516741               b              x               a
-#&gt; 5   4   2 -0.7581673               b              x               a
-#&gt; 6   4   3  0.8813748               b              x               a
+#&gt; 1   1   2  0.5453211               a              y               a
+#&gt; 2   1   3  0.9449041               a              y               a
+#&gt; 3   1   4 -0.9815939               a              y               a
+#&gt; 4   2   1  0.5453211               a              y               a
+#&gt; 5   2   3  0.7896675               a              y               a
+#&gt; 6   2   4 -0.6953686               a              y               a
+#&gt; 7   3   1  0.9449041               a              y               a
+#&gt; 8   3   2  0.7896675               a              y               a
+#&gt; 9   3   4 -0.9900289               a              y               a
 #&gt;   Metadata_type2
-#&gt; 1              x
-#&gt; 2              x
+#&gt; 1              y
+#&gt; 2              y
 #&gt; 3              x
-#&gt; 4              x
+#&gt; 4              y
 #&gt; 5              y
-#&gt; 6              x</div></pre>
+#&gt; 6              x
+#&gt; 7              y
+#&gt; 8              y
+#&gt; 9              x</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
