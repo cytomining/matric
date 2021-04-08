@@ -261,7 +261,6 @@ test_that("stratified `sim_calculate` works", {
 
 
 test_that("stratified `sim_calculate` works", {
-
   n <- 100
   strata <- c("g1", "g2")
 
@@ -282,8 +281,8 @@ test_that("stratified `sim_calculate` works", {
 
   sim_df <-
     matric::sim_calculate(population,
-                          annotation_prefix = "g",
-                          method = method
+      annotation_prefix = "g",
+      method = method
     )
 
   row_metadata <- attr(sim_df, "row_metadata")
@@ -293,9 +292,9 @@ test_that("stratified `sim_calculate` works", {
 
   sim_df_s <-
     matric::sim_calculate(population,
-                          annotation_prefix = "g",
-                          method = method,
-                          strata = strata
+      annotation_prefix = "g",
+      method = method,
+      strata = strata
     )
 
   row_metadata_s <- attr(sim_df_s, "row_metadata")
