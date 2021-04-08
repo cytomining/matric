@@ -177,39 +177,78 @@ test_that("`sim_calculate` in stratified form works", {
     2, 6, 4, -1, 1, -2
   )
 
-  # ------ Pearson
   sim_df <-
+    matric::sim_calculate(population,
+                          method = "pearson"
+    )
+
+  row_metadata <- attr(sim_df, "row_metadata")
+
+  sim_df <- sim_df %>%
+    sim_annotate(row_metadata,
+                 annotation_cols =
+                   c("Metadata_batch",
+                     "Metadata_group")
+    )
+
+  sim_df_s <-
     matric::sim_calculate(population,
       method = "pearson",
       strata = c("Metadata_batch")
     )
 
+  row_metadata_s <- attr(sim_df_s, "row_metadata")
+
+  sim_df_s <- sim_df_s %>%
+    sim_annotate(row_metadata_s,
+                 annotation_cols =
+                   c("Metadata_batch",
+                     "Metadata_group")
+    )
+
   expect_equal(
-    attr(sim_df, "row_metadata") %>% dplyr::select(-id),
+    dplyr::anti_join(
+      sim_df_s %>% dplyr::select(-sim),
+      sim_df %>% dplyr::select(-sim),
+      by = c("id1", "id2",
+             "Metadata_batch1", "Metadata_group1",
+             "Metadata_batch2", "Metadata_group2")
+    ) %>%
+      nrow(),
+    0
+  )
+
+  expect_equal(
+    row_metadata,
+    row_metadata_s
+  )
+
+  expect_equal(
+    row_metadata_s %>% dplyr::select(-id),
     population %>% dplyr::select(Metadata_batch, Metadata_group)
   )
 
   expect_equal(
-    sim_df %>%
+    sim_df_s %>%
       dplyr::filter(id1 == 1 & id2 == 2) %>%
       dplyr::pull("sim"),
     1
   )
 
   expect_equal(
-    nrow(sim_df),
+    nrow(sim_df_s),
     12
   )
 
   expect_equal(
-    sim_df %>%
+    sim_df_s %>%
       dplyr::filter(id1 == 3 & id2 == 4) %>%
       nrow(),
     0
   )
 
   expect_equal(
-    sim_df %>%
+    sim_df_s %>%
       dplyr::filter(id1 == 5 & id2 == 6) %>%
       dplyr::pull("sim"),
     -1

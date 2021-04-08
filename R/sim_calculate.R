@@ -77,7 +77,8 @@ sim_calculate <-
         ),
         .groups = "keep"
         ) %>%
-        dplyr::ungroup()
+        dplyr::ungroup() %>%
+        dplyr::select(id1, id2, sim)
 
       population
     }
