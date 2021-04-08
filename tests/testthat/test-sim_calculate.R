@@ -118,17 +118,20 @@ test_that("`sim_calculate` handles `NA`s", {
   test_na <- function(method) {
     sim_df <-
       matric::sim_calculate(population,
-                            method = method)
+        method = method
+      )
 
     sim_df1 <-
       matric::sim_calculate(population %>%
-                              dplyr::select(-b),
-                            method = method)
+        dplyr::select(-b),
+      method = method
+      )
 
     sim_df2 <-
       matric::sim_calculate(population %>%
-                              dplyr::filter(Metadata_batch == 2),
-                            method = method)
+        dplyr::filter(Metadata_batch == 2),
+      method = method
+      )
 
     expect_equal(
       sim_df %>%
@@ -149,20 +152,18 @@ test_that("`sim_calculate` handles `NA`s", {
     )
 
     expect_lte(
-        sim_df %>%
-          dplyr::filter(id1 == 5 & id2 == 6) %>%
-          dplyr::pull("sim"),
-        sim_df2 %>%
-          dplyr::filter(id1 == 2 & id2 == 3) %>%
-          dplyr::pull("sim")
-      )
-
+      sim_df %>%
+        dplyr::filter(id1 == 5 & id2 == 6) %>%
+        dplyr::pull("sim"),
+      sim_df2 %>%
+        dplyr::filter(id1 == 2 & id2 == 3) %>%
+        dplyr::pull("sim")
+    )
   }
 
   test_na("pearson")
   test_na("euclidean")
   test_na("cosine")
-
 })
 
 test_that("`sim_calculate` in stratified form works", {
@@ -179,31 +180,38 @@ test_that("`sim_calculate` in stratified form works", {
   # ------ Pearson
   sim_df <-
     matric::sim_calculate(population,
-                          method = "pearson",
-                          strata = c("Metadata_batch"))
+      method = "pearson",
+      strata = c("Metadata_batch")
+    )
 
   expect_equal(
     attr(sim_df, "row_metadata") %>% dplyr::select(-id),
     population %>% dplyr::select(Metadata_batch, Metadata_group)
   )
 
-  expect_equal(sim_df %>%
-                 dplyr::filter(id1 == 1 & id2 == 2) %>%
-                 dplyr::pull("sim"),
-               1)
+  expect_equal(
+    sim_df %>%
+      dplyr::filter(id1 == 1 & id2 == 2) %>%
+      dplyr::pull("sim"),
+    1
+  )
 
-  expect_equal(nrow(sim_df),
-               12)
+  expect_equal(
+    nrow(sim_df),
+    12
+  )
 
-  expect_equal(sim_df %>%
-                 dplyr::filter(id1 == 3 & id2 == 4) %>%
-                 nrow(),
-               0)
+  expect_equal(
+    sim_df %>%
+      dplyr::filter(id1 == 3 & id2 == 4) %>%
+      nrow(),
+    0
+  )
 
-  expect_equal(sim_df %>%
-                 dplyr::filter(id1 == 5 & id2 == 6) %>%
-                 dplyr::pull("sim"),
-               -1)
-
+  expect_equal(
+    sim_df %>%
+      dplyr::filter(id1 == 5 & id2 == 6) %>%
+      dplyr::pull("sim"),
+    -1
+  )
 })
-

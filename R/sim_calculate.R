@@ -50,7 +50,6 @@ sim_calculate <-
           annotation_prefix = annotation_prefix,
           method = method
         )
-
     } else {
       population <- population %>% dplyr::arrange(across(all_of(strata)))
 
@@ -61,24 +60,26 @@ sim_calculate <-
         starting_index <- min(partition_row_indices)
 
         sim_calculate_helper(
-            population = population_partition,
-            annotation_prefix = annotation_prefix,
-            method = method,
-            starting_index = starting_index
-          )
+          population = population_partition,
+          annotation_prefix = annotation_prefix,
+          method = method,
+          starting_index = starting_index
+        )
       }
 
       sim_df <-
         population %>%
         dplyr::select(all_of(strata)) %>%
         dplyr::group_by(across(all_of(strata))) %>%
-        dplyr::summarise(reduct(dplyr::cur_group(),
-                                dplyr::cur_group_rows()),
-                         .groups = "keep") %>%
+        dplyr::summarise(reduct(
+          dplyr::cur_group(),
+          dplyr::cur_group_rows()
+        ),
+        .groups = "keep"
+        ) %>%
         dplyr::ungroup()
 
       population
-
     }
 
     # get metadata
@@ -128,13 +129,16 @@ sim_calculate_helper <- function(population,
   # TODO:
   #   - Handle this more elegantly
   futile.logger::flog.debug(glue::glue("Number of columns before NA filtering = {n}",
-                                       n = ncol(data_matrix)))
+    n = ncol(data_matrix)
+  ))
 
-  data_matrix <- Filter(function(x)
-    ! any(is.na(x)), data_matrix)
+  data_matrix <- Filter(function(x) {
+    !any(is.na(x))
+  }, data_matrix)
 
   futile.logger::flog.debug(glue::glue("Number of columns after NA filtering = {n}",
-                                       n = ncol(data_matrix)))
+    n = ncol(data_matrix)
+  ))
 
   if (method %in% distances) {
     sim_df <-
@@ -147,13 +151,14 @@ sim_calculate_helper <- function(population,
   } else if (method %in% correlations) {
     sim_df <-
       stats::cor(t(data_matrix),
-                 method = method,
-                 use = "pairwise.complete.obs")
+        method = method,
+        use = "pairwise.complete.obs"
+      )
   } else if (method %in% similarities) {
     if (method == "cosine") {
       data_matrix <-
         data_matrix / apply(data_matrix, 1, function(x) {
-          sqrt(sum(x ^ 2, na.rm = TRUE))
+          sqrt(sum(x^2, na.rm = TRUE))
         })
 
       sim_df <-
@@ -164,7 +169,7 @@ sim_calculate_helper <- function(population,
           upper = TRUE
         ))
 
-      sim_df <- 1 - (sim_df ^ 2) / 2
+      sim_df <- 1 - (sim_df^2) / 2
     }
   }
 
