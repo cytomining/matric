@@ -7,6 +7,7 @@ utils::globalVariables(c("id1", "id2"))
 #'   observation variables.
 #' @param annotation_prefix optional character string specifying prefix
 #'   for annotation columns.
+#' @param strata optional character vector specifying stratification columns.
 #' @param method optional character string specifying method for
 #'   to calculate similarity. This must be one of the
 #'   strings \code{"pearson"} (default), \code{"kendall"}, \code{"spearman"},
@@ -39,6 +40,7 @@ utils::globalVariables(c("id1", "id2"))
 sim_calculate <-
   function(population,
            annotation_prefix = "Metadata_",
+           strata = NULL,
            method = "pearson") {
     distances <- c("euclidean")
     correlations <- c("pearson", "kendall", "spearman")
@@ -50,6 +52,17 @@ sim_calculate <-
 
     # get data matrix
     data_matrix <- drop_annotation(population, annotation_prefix)
+
+    futile.logger::flog.debug(
+      glue::glue("Number of columns before NA filtering = {n}",
+                 n = ncol(data_matrix)))
+
+    # drop NA
+    data_matrix <- Filter(function(x)!any(is.na(x)), data_matrix)
+
+    futile.logger::flog.debug(
+      glue::glue("Number of columns after NA filtering = {n}",
+                 n = ncol(data_matrix)))
 
     # get metadata
     row_metadata <- get_annotation(population, annotation_prefix)
@@ -65,13 +78,14 @@ sim_calculate <-
     } else if (method %in% correlations) {
       sim_df <-
         stats::cor(t(data_matrix),
-          method = method
+          method = method,
+          use = "pairwise.complete.obs"
         )
     } else if (method %in% similarities) {
       if (method == "cosine") {
         data_matrix <-
           data_matrix / apply(data_matrix, 1, function(x) {
-            sqrt(sum(x^2))
+            sqrt(sum(x^2, na.rm = TRUE))
           })
 
         sim_df <-
