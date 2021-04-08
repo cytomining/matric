@@ -51,6 +51,8 @@ sim_calculate <-
                              method = method)
 
     } else {
+      population <- population %>% dplyr::arrange(across(all_of(strata)))
+
       sim_df <-
         sim_calculate_helper(population = population,
                              annotation_prefix = annotation_prefix,
@@ -84,11 +86,13 @@ sim_calculate <-
 #'   to calculate similarity. This must be one of the
 #'   strings \code{"pearson"} (default), \code{"kendall"}, \code{"spearman"},
 #'   \code{"euclidean"}, \code{"cosine"}.
+#' @param offset optional integer specifying offset in the index.
 #'
 #' @return \code{metric_sim} object, with similarity matrix and related metadata
 sim_calculate_helper <- function(population,
                                  annotation_prefix = "Metadata_",
-                                 method = "pearson") {
+                                 method = "pearson",
+                                 offset = 0) {
 
   distances <- c("euclidean")
   correlations <- c("pearson", "kendall", "spearman")
@@ -170,16 +174,18 @@ sim_calculate_helper <- function(population,
 #' @return tbl
 #' @noRd
 map_df_stratified <- function(.x, .f, .strata, ...) {
-  reduct <- function(partition) {
+  reduct <- function(partition, partition_row_indices) {
     dplyr::inner_join(.x, partition, by = names(partition)) %>%
-      .f(...)
+      .f(..., offset = min(partition_row_indices))
   }
 
   output <-
     .x %>%
     dplyr::select(all_of(.strata)) %>%
     dplyr::group_by(across(all_of(.strata))) %>%
-    dplyr::summarise(reduct(dplyr::cur_group()), .groups = "keep") %>%
+    dplyr::summarise(reduct(dplyr::cur_group(),
+                            dplyr::cur_group_rows()),
+                     .groups = "keep") %>%
     dplyr::ungroup()
 
   output
