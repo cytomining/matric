@@ -1,10 +1,13 @@
 test_that("`sim_annotate` works", {
+  n <- 4
+
+  set.seed(42)
   population <- tibble::tibble(
-    Metadata_group = sample(c("a", "b"), 4, replace = TRUE),
-    Metadata_type = sample(c("x", "y"), 4, replace = TRUE),
-    x = rnorm(4),
-    y = x + rnorm(4) / 100,
-    z = y + rnorm(4) / 1000
+    Metadata_group = sample(c("a", "b"), n, replace = TRUE),
+    Metadata_type = sample(c("x", "y"), n, replace = TRUE),
+    x = rnorm(n),
+    y = x + rnorm(n) / 100,
+    z = y + rnorm(n) / 1000
   )
   annotation_cols <- c("Metadata_group")
   # this is not a great test because it tests more than one function

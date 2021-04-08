@@ -4,6 +4,7 @@ test_that("`sim_write` works", {
 
   n <- 2
 
+  set.seed(42)
   population <- tibble::tibble(
     Metadata_group = sample(c("a", "b"), n, replace = TRUE),
     x = rnorm(n),
@@ -76,6 +77,7 @@ test_that("`sim_read` works", {
 
   n <- 2
 
+  set.seed(42)
   population <- tibble::tibble(
     Metadata_group = sample(c("a", "b"), n, replace = TRUE),
     x = rnorm(n),

@@ -1,6 +1,7 @@
 test_that("`sim_plot` works", {
   n <- 100
 
+  set.seed(42)
   population <- tibble::tibble(
     Metadata_group = sample(c("a", "b", "c", "d"), n, replace = TRUE),
     x1 = rnorm(n),

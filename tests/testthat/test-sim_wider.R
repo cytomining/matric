@@ -1,5 +1,7 @@
 test_that("`sim_wider` works", {
   n <- 10
+
+  set.seed(42)
   population <- tibble::tibble(
     Metadata_group = sample(c("a", "b", "c", "d"), n, replace = TRUE),
     x1 <- rnorm(n),

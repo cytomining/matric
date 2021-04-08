@@ -1,4 +1,4 @@
-test_that("multiplication works", {
+test_that("`sim_metrics` works", {
   sim_df <- matric::sim_calculate(matric::cellhealth)
 
   drop_group <-
