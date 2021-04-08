@@ -42,16 +42,29 @@ sim_calculate <-
            annotation_prefix = "Metadata_",
            strata = NULL,
            method = "pearson") {
-    stopifnot(is.data.frame(population))
 
-    # get data matrix
-    data_matrix <- drop_annotation(population, annotation_prefix)
+    # calculate
+    if(is.null(strata)) {
+      sim_df <-
+        sim_calculate_helper(population = population,
+                             annotation_prefix = annotation_prefix,
+                             method = method)
+
+    } else {
+      sim_df <-
+        sim_calculate_helper(population = population,
+                             annotation_prefix = annotation_prefix,
+                             method = method)
+      # sim_df <-
+      #   map_df_stratified(population,
+      #                     sim_calculate_helper,
+      #                     strata = strata,
+      #                     method = method)
+
+    }
 
     # get metadata
     row_metadata <- get_annotation(population, annotation_prefix)
-
-    # calculate
-    sim_df <- sim_calculate_helper(data_matrix, method)
 
     # construct object
     sim_df <- sim_validate(sim_new(sim_df, row_metadata, list(method = method)))
@@ -63,19 +76,30 @@ sim_calculate <-
 #'
 #' \code{sim_calculate_helper} helps calculate a melted similarity matrix.
 #'
-#' @param data_matrix matrix with observation variables.
+#' @param population data.frame with annotations (a.k.a. metadata) and
+#'   observation variables.
+#' @param annotation_prefix optional character string specifying prefix
+#'   for annotation columns.
 #' @param method optional character string specifying method for
 #'   to calculate similarity. This must be one of the
 #'   strings \code{"pearson"} (default), \code{"kendall"}, \code{"spearman"},
 #'   \code{"euclidean"}, \code{"cosine"}.
 #'
 #' @return \code{metric_sim} object, with similarity matrix and related metadata
-sim_calculate_helper <- function(data_matrix, method = "pearson") {
+sim_calculate_helper <- function(population,
+                                 annotation_prefix = "Metadata_",
+                                 method = "pearson") {
+
   distances <- c("euclidean")
   correlations <- c("pearson", "kendall", "spearman")
   similarities <- c("cosine")
 
+  stopifnot(is.data.frame(population))
+
   stopifnot(method %in% c(distances, correlations, similarities))
+
+  # get data matrix
+  data_matrix <- drop_annotation(population, annotation_prefix)
 
   # drop NA
   # TODO:
@@ -134,6 +158,17 @@ sim_calculate_helper <- function(data_matrix, method = "pearson") {
 }
 
 
+#' Stratify operations
+#'
+#' \code{map_df_stratified} stratifies operations
+#'
+#' @param .x tbl.
+#' @param .f function
+#' @param .strata character vector specifying columns in \code{x} to stratify by
+#' @param ... arguments passed to \code{.f}.
+#'
+#' @return tbl
+#' @noRd
 map_df_stratified <- function(.x, .f, .strata, ...) {
   reduct <- function(partition) {
     dplyr::inner_join(.x, partition, by = names(partition)) %>%
