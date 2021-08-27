@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Collate several subsets of a melted simolarity matrix, required for computing
+<title>Collate several subsets of a melted similarity matrix, required for computing
 metrics. — sim_collate • matric</title>
 
 
@@ -40,7 +40,7 @@ metrics. — sim_collate • matric</title>
 
 
 
-<meta property="og:title" content="Collate several subsets of a melted simolarity matrix, required for computing
+<meta property="og:title" content="Collate several subsets of a melted similarity matrix, required for computing
 metrics. — sim_collate" />
 <meta property="og:description" content="sim_collate collates several subsets of a melted simolarity matrix,
 required for computing metrics." />
@@ -114,7 +114,7 @@ required for computing metrics." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Collate several subsets of a melted simolarity matrix, required for computing
+    <h1>Collate several subsets of a melted similarity matrix, required for computing
 metrics.</h1>
     <small class="dont-index">Source: <a href='https://github.com/shntnu/matric/blob/master/R/sim_collate.R'><code>R/sim_collate.R</code></a></small>
     <div class="hidden name"><code>sim_collate.Rd</code></div>
@@ -366,25 +366,25 @@ required for computing metrics.</p>
   <span class='op'>)</span>
 
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>collated_sim</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 7</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 × 7</span>
 #&gt;     id1   id2    sim Metadata_cell_li… Metadata_gene_na… Metadata_pert_na… type 
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>     1     2 -</span><span style='color: #BB0000;'>0.959</span><span> A549              AKT1              AKT1-1            rep  
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>     1    23 -</span><span style='color: #BB0000;'>0.983</span><span> A549              AKT1              AKT1-1            rep  
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>     1    24 -</span><span style='color: #BB0000;'>0.990</span><span> A549              AKT1              AKT1-1            rep  
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>     1    45 -</span><span style='color: #BB0000;'>0.932</span><span> A549              AKT1              AKT1-1            rep  
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span>     1    46  0.982 A549              AKT1              AKT1-1            rep  
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span>     2     1 -</span><span style='color: #BB0000;'>0.959</span><span> A549              AKT1              AKT1-1            rep  </div><div class='input'>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>             <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>             <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>             <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span>     1     2 -<span style='color: #BB0000;'>0.959</span> A549              AKT1              AKT1-1            rep  
+#&gt; <span style='color: #BCBCBC;'>2</span>     1    23 -<span style='color: #BB0000;'>0.983</span> A549              AKT1              AKT1-1            rep  
+#&gt; <span style='color: #BCBCBC;'>3</span>     1    24 -<span style='color: #BB0000;'>0.990</span> A549              AKT1              AKT1-1            rep  
+#&gt; <span style='color: #BCBCBC;'>4</span>     1    45 -<span style='color: #BB0000;'>0.932</span> A549              AKT1              AKT1-1            rep  
+#&gt; <span style='color: #BCBCBC;'>5</span>     1    46  0.982 A549              AKT1              AKT1-1            rep  
+#&gt; <span style='color: #BCBCBC;'>6</span>     2     1 -<span style='color: #BB0000;'>0.959</span> A549              AKT1              AKT1-1            rep  </div><div class='input'>
 <span class='va'>collated_sim</span> <span class='op'>%&gt;%</span>
   <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>type</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>tally</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 4 x 2</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 × 2</span>
 #&gt;   type          n
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> non_rep    </span><span style='text-decoration: underline;'>1</span><span>152
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> ref        </span><span style='text-decoration: underline;'>2</span><span>052
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> rep         468
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> rep_group  </span><span style='text-decoration: underline;'>3</span><span>672</div></span></pre>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> non_rep    <span style='text-decoration: underline;'>1</span>152
+#&gt; <span style='color: #BCBCBC;'>2</span> ref        <span style='text-decoration: underline;'>2</span>052
+#&gt; <span style='color: #BCBCBC;'>3</span> rep         468
+#&gt; <span style='color: #BCBCBC;'>4</span> rep_group  <span style='text-decoration: underline;'>3</span>672</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
