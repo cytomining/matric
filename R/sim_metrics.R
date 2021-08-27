@@ -192,9 +192,22 @@ helper_scale_aggregate <-
            summary_cols,
            sim_type_replication,
            identifier = NULL) {
-    sim_stats <-
+    # ---- Get background and signal distributions ----
+
+    sim_background <-
       collated_sim %>%
-      dplyr::filter(type == sim_type) %>%
+      dplyr::filter(type == sim_type)
+
+    sim_signal <-
+      collated_sim %>%
+      dplyr::filter(type == sim_type_replication)
+
+    # ---- Scale with respect to background distribution ----
+
+    # Compute statistics (mean and s.d.) on background distribution defined by
+    # `sim_type`
+    sim_stats <-
+      sim_background %>%
       dplyr::group_by(dplyr::across(dplyr::all_of(summary_cols))) %>%
       dplyr::summarise(dplyr::across(dplyr::all_of("sim"), list(mean = mean, sd = sd)),
                        .groups = "keep") %>%
@@ -206,22 +219,33 @@ helper_scale_aggregate <-
       intersect(colnames(collated_sim), colnames(sim_stats))
 
     sim_norm <-
-      collated_sim %>%
-      dplyr::filter(type == sim_type_replication) %>%
+      sim_signal %>%
       dplyr::inner_join(sim_stats, by = join_cols) %>%
       dplyr::mutate(sim_scaled = (sim - sim_mean) / sim_sd)
 
-    # get a summary per group
+    # ---- Rank with respect to background distribution ----
+
+
+    # ---- Summarize transformed (scale-based and rank-based) metrics ----
+
+    # Get a summary per group (defined by `summary_cols`)
+    # create summaries for all
+    # - `sim` (raw similarities)
+    # - `sim_scaled` (centered and scaled similarities)
+    # - `sim_ranked` (rank based transformations)
+
     sim_norm_agg <-
       sim_norm %>%
       dplyr::group_by(dplyr::across(dplyr::all_of(summary_cols))) %>%
-      dplyr::summarise(dplyr::across(dplyr::all_of(c(
-        "sim_scaled", "sim"
+      dplyr::summarise(dplyr::across(dplyr::any_of(c(
+        "sim_scaled", "sim_ranked", "sim"
       )),
       list(mean = mean, median = median)),
       .groups = "keep") %>%
       dplyr::rename_with(~ paste(., sim_type, sep = "_"),
                          dplyr::starts_with("sim_scaled")) %>%
+      dplyr::rename_with(~ paste(., sim_type, sep = "_"),
+                         dplyr::starts_with("sim_ranked")) %>%
       dplyr::ungroup()
 
     sim_norm_agg <- sim_norm_agg %>%
@@ -232,6 +256,7 @@ helper_scale_aggregate <-
                           ),
                         by = join_cols)
 
+    # add a suffix to identify the summary columns
     if (!is.null(identifier)) {
       sim_norm_agg <- sim_norm_agg %>%
         dplyr::rename_with(~ paste(., identifier, sep = "_"),
