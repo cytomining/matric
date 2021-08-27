@@ -133,7 +133,8 @@ sim_metrics <- function(collated_sim,
 
   # ---- Replicates ----
   sim_norm_agg <-
-    helper_scale_aggregate(c("id1", rep_cols), "rep", "i")
+    helper_scale_aggregate(collated_sim,
+                           sim_type, c("id1", rep_cols), "rep", "i")
 
   # get a summary per set
 
@@ -160,7 +161,8 @@ sim_metrics <- function(collated_sim,
 
   if (calculate_grouped) {
     sim_norm_group_agg <-
-      helper_scale_aggregate(rep_cols, "rep_group", "g")
+      helper_scale_aggregate(collated_sim,
+                             sim_type, rep_cols, "rep_group", "g")
 
     result <-
       c(result,
@@ -170,8 +172,24 @@ sim_metrics <- function(collated_sim,
   result
 }
 
+#' Helper function to compute metrics.
+#'
+#' \code{helper_scale_aggregate} helps compute metrics by agrregating and
+#' scaling.
+#'
+#' @param collated_sim output of \code{sim_collated}, which is a data.frame with some attributes.
+#' @param sim_type character string specifying the background distributions for computing scaled metrics. This must be one of the strings \code{"non_rep"} or \code{"ref"}.
+#' @param summary_cols character list specifying columns by which to group similarities.
+#' @param sim_type_replication character string specifying the type of replication being measured. This must be one of the strings \code{"rep"} or \code{"rep_group"}.
+#' @param identifier character string specifying the identifier to add as a suffix to the columns containing scaled-aggregated metrics.
+#'
+#' @return data.frame of metrics.
+#'
+#' @examples
 helper_scale_aggregate <-
-  function(summary_cols,
+  function(collated_sim,
+           sim_type,
+           summary_cols,
            sim_type_replication,
            identifier = NULL) {
     sim_stats <-
