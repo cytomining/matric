@@ -131,68 +131,6 @@ sim_metrics <- function(collated_sim,
       stringr::str_subset(colnames(collated_sim), pattern = annotation_prefix)
   }
 
-  helper_scale_aggregate <-
-    function(summary_cols,
-             sim_type_replication,
-             identifier = NULL) {
-      sim_stats <-
-        collated_sim %>%
-        dplyr::filter(type == sim_type) %>%
-        dplyr::group_by(dplyr::across(dplyr::all_of(summary_cols))) %>%
-        dplyr::summarise(dplyr::across(dplyr::all_of("sim"), list(mean = mean, sd = sd)),
-          .groups = "keep"
-        ) %>%
-        dplyr::ungroup()
-
-      # scale using mean and s.d. of the `sim_type` distribution
-
-      join_cols <-
-        intersect(colnames(collated_sim), colnames(sim_stats))
-
-      sim_norm <-
-        collated_sim %>%
-        dplyr::filter(type == sim_type_replication) %>%
-        dplyr::inner_join(sim_stats, by = join_cols) %>%
-        dplyr::mutate(sim_scaled = (sim - sim_mean) / sim_sd)
-
-      # get a summary per group
-      sim_norm_agg <-
-        sim_norm %>%
-        dplyr::group_by(dplyr::across(dplyr::all_of(summary_cols))) %>%
-        dplyr::summarise(dplyr::across(
-          dplyr::all_of(c(
-            "sim_scaled", "sim"
-          )),
-          list(mean = mean, median = median)
-        ),
-        .groups = "keep"
-        ) %>%
-        dplyr::rename_with(
-          ~ paste(., sim_type, sep = "_"),
-          dplyr::starts_with("sim_scaled")
-        ) %>%
-        dplyr::ungroup()
-
-      sim_norm_agg <- sim_norm_agg %>%
-        dplyr::inner_join(sim_stats %>%
-          dplyr::rename_with(
-            ~ paste(., "stat", sim_type, sep = "_"),
-            dplyr::starts_with("sim")
-          ),
-        by = join_cols
-        )
-
-      if (!is.null(identifier)) {
-        sim_norm_agg <- sim_norm_agg %>%
-          dplyr::rename_with(
-            ~ paste(., identifier, sep = "_"),
-            dplyr::starts_with("sim")
-          )
-      }
-
-      sim_norm_agg
-    }
-
   # ---- Replicates ----
   sim_norm_agg <-
     helper_scale_aggregate(c("id1", rep_cols), "rep", "i")
@@ -240,3 +178,66 @@ sim_metrics <- function(collated_sim,
 
   result
 }
+
+helper_scale_aggregate <-
+  function(summary_cols,
+           sim_type_replication,
+           identifier = NULL) {
+    sim_stats <-
+      collated_sim %>%
+      dplyr::filter(type == sim_type) %>%
+      dplyr::group_by(dplyr::across(dplyr::all_of(summary_cols))) %>%
+      dplyr::summarise(dplyr::across(dplyr::all_of("sim"), list(mean = mean, sd = sd)),
+                       .groups = "keep"
+      ) %>%
+      dplyr::ungroup()
+
+    # scale using mean and s.d. of the `sim_type` distribution
+
+    join_cols <-
+      intersect(colnames(collated_sim), colnames(sim_stats))
+
+    sim_norm <-
+      collated_sim %>%
+      dplyr::filter(type == sim_type_replication) %>%
+      dplyr::inner_join(sim_stats, by = join_cols) %>%
+      dplyr::mutate(sim_scaled = (sim - sim_mean) / sim_sd)
+
+    # get a summary per group
+    sim_norm_agg <-
+      sim_norm %>%
+      dplyr::group_by(dplyr::across(dplyr::all_of(summary_cols))) %>%
+      dplyr::summarise(dplyr::across(
+        dplyr::all_of(c(
+          "sim_scaled", "sim"
+        )),
+        list(mean = mean, median = median)
+      ),
+      .groups = "keep"
+      ) %>%
+      dplyr::rename_with(
+        ~ paste(., sim_type, sep = "_"),
+        dplyr::starts_with("sim_scaled")
+      ) %>%
+      dplyr::ungroup()
+
+    sim_norm_agg <- sim_norm_agg %>%
+      dplyr::inner_join(sim_stats %>%
+                          dplyr::rename_with(
+                            ~ paste(., "stat", sim_type, sep = "_"),
+                            dplyr::starts_with("sim")
+                          ),
+                        by = join_cols
+      )
+
+    if (!is.null(identifier)) {
+      sim_norm_agg <- sim_norm_agg %>%
+        dplyr::rename_with(
+          ~ paste(., identifier, sep = "_"),
+          dplyr::starts_with("sim")
+        )
+    }
+
+    sim_norm_agg
+  }
+
