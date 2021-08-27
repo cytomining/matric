@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_collate.R
 \name{sim_collate}
 \alias{sim_collate}
-\title{Collate several subsets of a melted simolarity matrix, required for computing
+\title{Collate several subsets of a melted similarity matrix, required for computing
 metrics.}
 \usage{
 sim_collate(

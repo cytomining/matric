@@ -17,11 +17,11 @@
 #' suppressMessages(suppressWarnings(library(magrittr)))
 #' population <- tibble::tibble(
 #'   Metadata_group = sample(c("a", "b", "c", "d"), 100, replace = TRUE),
-#'   x1 <- rnorm(100),
-#'   x2 <- rnorm(100),
-#'   x3 <- rnorm(100),
-#'   x4 <- rnorm(100),
-#'   x5 <- rnorm(100)
+#'   x1 = rnorm(100),
+#'   x2 = rnorm(100),
+#'   x3 = rnorm(100),
+#'   x4 = rnorm(100),
+#'   x5 = rnorm(100)
 #' )
 #' population$Metadata_id <- seq(nrow(population))
 #' metadata <- matric::get_annotation(population)

@@ -1,4 +1,4 @@
-#' Collate several subsets of a melted simolarity matrix, required for computing
+#' Collate several subsets of a melted similarity matrix, required for computing
 #' metrics.
 #'
 #' \code{sim_collate} collates several subsets of a melted simolarity matrix,
