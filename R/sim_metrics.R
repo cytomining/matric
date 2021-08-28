@@ -5,6 +5,8 @@ utils::globalVariables(
     "data_signal",
     "signal_probrank",
     "sim_ranked_relrank",
+    "sim_mean_stat",
+    "sim_sd_stat",
     "truth",
     "type",
     ".estimate"
@@ -325,7 +327,7 @@ sim_metrics_helper <-
                                       dplyr::mutate(truth = as.factor(truth)) %>%
                                       dplyr::mutate(signal_probrank = rank(sim) / dplyr::n()) %>%
                                       dplyr::select(-sim) %>%
-                                      dplyr::arrange(desc(signal_probrank))
+                                      dplyr::arrange(dplyr::desc(signal_probrank))
                                   })) %>%
       dplyr::select(-data_background, -data_signal)
 
