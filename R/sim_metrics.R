@@ -334,11 +334,11 @@ helper_scale_aggregate <-
 
     sim_norm_retrieval <-
       sim_norm_retrieval %>%
-      dplyr::mutate(sim_prauc =
+      dplyr::mutate(sim_average_precision =
                       purrr::map_dbl(data_retrieval,
                                      function(df) {
                                        df %>%
-                                         yardstick::pr_auc(truth, signal_probrank) %>%
+                                         yardstick::average_precision(truth, signal_probrank) %>%
                                          dplyr::pull(.estimate)
 
                                      })) %>%
