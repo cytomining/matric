@@ -144,7 +144,7 @@ sim_metrics <- function(collated_sim,
 
   # ---- Replicates ----
   sim_metrics_collated <-
-    helper_scale_aggregate(collated_sim,
+    sim_metrics_helper(collated_sim,
                            sim_type_background,
                            c("id1", rep_cols),
                            "rep",
@@ -176,7 +176,7 @@ sim_metrics <- function(collated_sim,
 
   if (calculate_grouped) {
     sim_metrics_group_collated <-
-      helper_scale_aggregate(collated_sim,
+      sim_metrics_helper(collated_sim,
                              sim_type_background,
                              rep_cols,
                              "rep_group",
@@ -192,7 +192,7 @@ sim_metrics <- function(collated_sim,
 
 #' Helper function to compute metrics.
 #'
-#' \code{helper_scale_aggregate} helps compute metrics by agrregating and
+#' \code{sim_metrics_helper} helps compute metrics by agrregating and
 #' scaling.
 #'
 #' @param collated_sim output of \code{sim_collated}, which is a data.frame with some attributes.
@@ -202,7 +202,7 @@ sim_metrics <- function(collated_sim,
 #' @param identifier character string specifying the identifier to add as a suffix to the columns containing scaled-aggregated metrics.
 #'
 #' @return data.frame of metrics.
-helper_scale_aggregate <-
+sim_metrics_helper <-
   function(collated_sim,
            sim_type_background,
            summary_cols,
