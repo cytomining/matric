@@ -213,6 +213,23 @@ helper_scale_aggregate <-
       dplyr::filter(type == sim_type_replication) %>%
       dplyr::select(-type)
 
+    # ---- Get nested versions of background and signal distributions ----
+    sim_signal_nested <-
+      sim_signal %>%
+      dplyr::group_by(id1) %>%
+      dplyr::arrange(dplyr::desc(sim)) %>%
+      dplyr::ungroup() %>%
+      dplyr::select(dplyr::all_of(c(summary_cols, "sim"))) %>%
+      tidyr::nest(data_signal = c(sim))
+
+    sim_background_nested <-
+      sim_background %>%
+      dplyr::group_by(id1) %>%
+      dplyr::arrange(dplyr::desc(sim)) %>%
+      dplyr::ungroup() %>%
+      dplyr::select(dplyr::all_of(c(summary_cols, "sim"))) %>%
+      tidyr::nest(data_background = c(sim))
+
     # ---- Scale with respect to background distribution ----
 
     # Compute statistics (mean and s.d.) on background distribution defined by
@@ -232,14 +249,6 @@ helper_scale_aggregate <-
       dplyr::mutate(sim_scaled = (sim - sim_mean) / sim_sd)
 
     # ---- Rank with respect to background distribution ----
-
-    sim_background_nested <-
-      sim_background %>%
-      dplyr::group_by(id1) %>%
-      dplyr::arrange(dplyr::desc(sim)) %>%
-      dplyr::ungroup() %>%
-      dplyr::select(dplyr::all_of(c(summary_cols, "sim"))) %>%
-      tidyr::nest(data_background = c(sim))
 
     sim_norm_ranked <-
       sim_signal %>%
@@ -302,14 +311,6 @@ helper_scale_aggregate <-
     # and then aggregated by group.
     # The metrics in this section are computed across the whole group
     # (and therefore don't need further summarizing)
-
-    sim_signal_nested <-
-      sim_signal %>%
-      dplyr::group_by(id1) %>%
-      dplyr::arrange(dplyr::desc(sim)) %>%
-      dplyr::ungroup() %>%
-      dplyr::select(dplyr::all_of(c(summary_cols, "sim"))) %>%
-      tidyr::nest(data_signal = c(sim))
 
     sim_norm_retrieval <-
       sim_signal_nested %>%
