@@ -1,4 +1,4 @@
-utils::globalVariables(c("type"))
+utils::globalVariables(c("data", "sim_ranked_relrank", "type"))
 #' Compute metrics.
 #'
 #' \code{sim_metrics} computes metrics.
@@ -184,8 +184,6 @@ sim_metrics <- function(collated_sim,
 #' @param identifier character string specifying the identifier to add as a suffix to the columns containing scaled-aggregated metrics.
 #'
 #' @return data.frame of metrics.
-#'
-#' @examples
 helper_scale_aggregate <-
   function(collated_sim,
            sim_type,
@@ -230,7 +228,7 @@ helper_scale_aggregate <-
     sim_background_nested <-
       sim_background %>%
       dplyr::group_by(id1) %>%
-      dplyr::arrange(desc(sim)) %>%
+      dplyr::arrange(dplyr::desc(sim)) %>%
       dplyr::ungroup() %>%
       dplyr::select(dplyr::all_of(c(join_cols, "sim"))) %>%
       tidyr::nest(data = c(sim))
@@ -253,15 +251,13 @@ helper_scale_aggregate <-
     # of `sim_signal` common to the two)
 
     sim_norm <-
-      dplyr::inner_join(
-        sim_norm_scaled,
-        sim_norm_ranked,
-        by = colnames(sim_signal)
-      )
+      dplyr::inner_join(sim_norm_scaled,
+                        sim_norm_ranked,
+                        by = colnames(sim_signal))
 
     # ---- Summarize transformed (scale-based and rank-based) metrics ----
 
-    # Get a summary per group (defined by `summary_cols`)
+    # Get a summary per group (a group is defined by `summary_cols`)
     # create summaries for all
     # - `sim` (raw similarities)
     # - `sim_scaled` (centered and scaled similarities)
@@ -270,9 +266,9 @@ helper_scale_aggregate <-
     sim_norm_agg <-
       sim_norm %>%
       dplyr::group_by(dplyr::across(dplyr::all_of(summary_cols))) %>%
-      dplyr::summarise(dplyr::across(dplyr::any_of(c(
-        "sim_scaled", "sim_ranked_relrank", "sim"
-      )),
+      dplyr::summarise(dplyr::across(dplyr::any_of(
+        c("sim_scaled", "sim_ranked_relrank", "sim")
+      ),
       list(mean = mean, median = median)),
       .groups = "keep") %>%
       dplyr::rename_with(~ paste(., sim_type, sep = "_"),
