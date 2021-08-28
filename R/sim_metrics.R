@@ -1,13 +1,15 @@
-utils::globalVariables(c(
-  "data_background",
-  "data_retrieval",
-  "data_signal",
-  "signal_probrank",
-  "sim_ranked_relrank",
-  "truth",
-  "type",
-  ".estimate"
-))
+utils::globalVariables(
+  c(
+    "data_background",
+    "data_retrieval",
+    "data_signal",
+    "signal_probrank",
+    "sim_ranked_relrank",
+    "truth",
+    "type",
+    ".estimate"
+  )
+)
 #' Compute metrics.
 #'
 #' \code{sim_metrics} computes metrics.
@@ -159,8 +161,8 @@ sim_metrics <- function(collated_sim,
   # append identified ("_i" for "individual")
 
   sim_norm_agg_agg <- sim_norm_agg_agg %>%
-    dplyr::rename_with(~ paste(., "i", sep = "_"),
-                       dplyr::starts_with("sim"))
+    dplyr::rename_with( ~ paste(., "i", sep = "_"),
+                        dplyr::starts_with("sim"))
 
   result <-
     list(level_1_0 = sim_norm_agg,
@@ -279,10 +281,10 @@ helper_scale_aggregate <-
       ),
       list(mean = mean, median = median)),
       .groups = "keep") %>%
-      dplyr::rename_with(~ paste(., sim_type, sep = "_"),
-                         dplyr::starts_with("sim_scaled")) %>%
-      dplyr::rename_with(~ paste(., sim_type, sep = "_"),
-                         dplyr::starts_with("sim_ranked_relrank")) %>%
+      dplyr::rename_with( ~ paste(., sim_type, sep = "_"),
+                          dplyr::starts_with("sim_scaled")) %>%
+      dplyr::rename_with( ~ paste(., sim_type, sep = "_"),
+                          dplyr::starts_with("sim_ranked_relrank")) %>%
       dplyr::ungroup()
 
     sim_norm_agg <- sim_norm_agg %>%
@@ -292,13 +294,6 @@ helper_scale_aggregate <-
                             dplyr::starts_with("sim")
                           ),
                         by = join_cols)
-
-    # add a suffix to identify the summary columns
-    if (!is.null(identifier)) {
-      sim_norm_agg <- sim_norm_agg %>%
-        dplyr::rename_with(~ paste(., identifier, sep = "_"),
-                           dplyr::starts_with("sim"))
-    }
 
     # ---- Compute metrics that calculate across the group ----
 
@@ -330,7 +325,7 @@ helper_scale_aggregate <-
                                       dplyr::mutate(signal_probrank = rank(sim) / dplyr::n()) %>%
                                       dplyr::select(-sim)
                                   })) %>%
-    dplyr::select(-data_background, -data_signal)
+      dplyr::select(-data_background, -data_signal)
 
     sim_norm_retrieval <-
       sim_norm_retrieval %>%
@@ -341,26 +336,28 @@ helper_scale_aggregate <-
                                          yardstick::average_precision(truth, signal_probrank) %>%
                                          dplyr::pull(.estimate)
                                      })) %>%
-    dplyr::select(-data_retrieval)
+      dplyr::select(-data_retrieval)
 
     sim_norm_retrieval <-
       sim_norm_retrieval %>%
-      dplyr::rename_with(~ paste(., sim_type, sep = "_"),
-                       dplyr::starts_with("sim_retrieval"))
+      dplyr::rename_with( ~ paste(., sim_type, sep = "_"),
+                          dplyr::starts_with("sim_retrieval"))
 
-    # add a suffix to identify the summary columns
-    if (!is.null(identifier)) {
-      sim_norm_retrieval <- sim_norm_retrieval %>%
-        dplyr::rename_with(~ paste(., identifier, sep = "_"),
-                           dplyr::starts_with("sim"))
-    }
 
     # ---- Collate metrics ----
 
     sim_norm_summary <-
-      dplyr::inner_join(
-        sim_norm_agg,
-        sim_norm_retrieval,
-        by = join_cols
-      )
+      dplyr::inner_join(sim_norm_agg,
+                        sim_norm_retrieval,
+                        by = join_cols)
+
+    # add a suffix to identify the summary columns
+    if (!is.null(identifier)) {
+      sim_norm_summary <-
+        sim_norm_summary %>%
+        dplyr::rename_with( ~ paste(., identifier, sep = "_"),
+                            dplyr::starts_with("sim"))
+    }
+
+    sim_norm_summary
   }
