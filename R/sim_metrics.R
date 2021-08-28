@@ -380,20 +380,11 @@ helper_scale_aggregate <-
     # add a suffix to identify the background
     sim_metrics_collated <-
       sim_metrics_collated %>%
-      dplyr::rename_with(~ paste(., sim_type_background, sep = "_"),
-                         dplyr::starts_with("sim_mean_stat")) %>%
-      dplyr::rename_with(~ paste(., sim_type_background, sep = "_"),
-                         dplyr::starts_with("sim_sd_stat")) %>%
-      dplyr::rename_with(~ paste(., sim_type_background, sep = "_"),
-                         dplyr::starts_with("sim_retrieval")) %>%
-      dplyr::rename_with(~ paste(., sim_type_background, sep = "_"),
-                         dplyr::starts_with("sim_scaled")) %>%
       dplyr::rename_with(
         ~ paste(., sim_type_background, sep = "_"),
-        dplyr::starts_with("sim_ranked_relrank")
+        dplyr::matches("sim_.*_stat|sim_retrieval|sim_scaled|sim_ranked")
       ) %>%
       dplyr::ungroup()
-
 
     # add a suffix to identify the summary columns
     if (!is.null(identifier)) {
