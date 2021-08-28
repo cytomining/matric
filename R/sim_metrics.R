@@ -280,19 +280,23 @@ helper_scale_aggregate <-
         c("sim_scaled", "sim_ranked_relrank", "sim")
       ),
       list(mean = mean, median = median)),
-      .groups = "keep") %>%
+      .groups = "keep")
+
+    sim_norm_agg <-
+      sim_norm_agg %>%
       dplyr::rename_with( ~ paste(., sim_type, sep = "_"),
                           dplyr::starts_with("sim_scaled")) %>%
       dplyr::rename_with( ~ paste(., sim_type, sep = "_"),
                           dplyr::starts_with("sim_ranked_relrank")) %>%
       dplyr::ungroup()
 
+    sim_stats <-
+      sim_stats %>%
+      dplyr::rename_with( ~ paste(., "stat", sim_type, sep = "_"),
+                          dplyr::starts_with("sim"))
+
     sim_norm_agg <- sim_norm_agg %>%
-      dplyr::inner_join(sim_stats %>%
-                          dplyr::rename_with(
-                            ~ paste(., "stat", sim_type, sep = "_"),
-                            dplyr::starts_with("sim")
-                          ),
+      dplyr::inner_join(sim_stats,
                         by = join_cols)
 
     # ---- Compute metrics that calculate across the group ----
