@@ -226,12 +226,9 @@ helper_scale_aggregate <-
 
     # scale using mean and s.d. of the `sim_type` distribution
 
-    join_cols <-
-      intersect(colnames(collated_sim), colnames(sim_stats))
-
     sim_norm_scaled <-
       sim_signal %>%
-      dplyr::inner_join(sim_stats, by = join_cols) %>%
+      dplyr::inner_join(sim_stats, by = summary_cols) %>%
       dplyr::mutate(sim_scaled = (sim - sim_mean) / sim_sd)
 
     # ---- Rank with respect to background distribution ----
@@ -241,12 +238,12 @@ helper_scale_aggregate <-
       dplyr::group_by(id1) %>%
       dplyr::arrange(dplyr::desc(sim)) %>%
       dplyr::ungroup() %>%
-      dplyr::select(dplyr::all_of(c(join_cols, "sim"))) %>%
+      dplyr::select(dplyr::all_of(c(summary_cols, "sim"))) %>%
       tidyr::nest(data_background = c(sim))
 
     sim_norm_ranked <-
       sim_signal %>%
-      dplyr::inner_join(sim_background_nested, by = join_cols) %>%
+      dplyr::inner_join(sim_background_nested, by = summary_cols) %>%
       dplyr::mutate(sim_ranked_relrank = purrr::map2_dbl(sim, data_background, function(sim, df) {
         which(sim >= df$sim)[1] / nrow(df)
       })) %>%
@@ -297,7 +294,7 @@ helper_scale_aggregate <-
 
     sim_norm_agg <- sim_norm_agg %>%
       dplyr::inner_join(sim_stats,
-                        by = join_cols)
+                        by = summary_cols)
 
     # ---- Compute metrics that calculate across the group ----
 
@@ -311,12 +308,12 @@ helper_scale_aggregate <-
       dplyr::group_by(id1) %>%
       dplyr::arrange(dplyr::desc(sim)) %>%
       dplyr::ungroup() %>%
-      dplyr::select(dplyr::all_of(c(join_cols, "sim"))) %>%
+      dplyr::select(dplyr::all_of(c(summary_cols, "sim"))) %>%
       tidyr::nest(data_signal = c(sim))
 
     sim_norm_retrieval <-
       sim_signal_nested %>%
-      dplyr::inner_join(sim_background_nested, by = join_cols)  %>%
+      dplyr::inner_join(sim_background_nested, by = summary_cols)  %>%
       dplyr::mutate(data_retrieval =
                       purrr::map2(data_signal,
                                   data_background,
@@ -353,7 +350,7 @@ helper_scale_aggregate <-
     sim_norm_summary <-
       dplyr::inner_join(sim_norm_agg,
                         sim_norm_retrieval,
-                        by = join_cols)
+                        by = summary_cols)
 
     # add a suffix to identify the summary columns
     if (!is.null(identifier)) {
