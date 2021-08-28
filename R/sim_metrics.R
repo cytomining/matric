@@ -1,8 +1,12 @@
 utils::globalVariables(c(
   "data_background",
+  "data_retrieval",
   "data_signal",
+  "signal_probrank",
   "sim_ranked_relrank",
-  "type"
+  "truth",
+  "type",
+  ".estimate"
 ))
 #' Compute metrics.
 #'
