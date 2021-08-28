@@ -1,4 +1,9 @@
-utils::globalVariables(c("data", "sim_ranked_relrank", "type"))
+utils::globalVariables(c(
+  "data_background",
+  "data_signal",
+  "sim_ranked_relrank",
+  "type"
+))
 #' Compute metrics.
 #'
 #' \code{sim_metrics} computes metrics.
@@ -231,17 +236,16 @@ helper_scale_aggregate <-
       dplyr::arrange(dplyr::desc(sim)) %>%
       dplyr::ungroup() %>%
       dplyr::select(dplyr::all_of(c(join_cols, "sim"))) %>%
-      tidyr::nest(data = c(sim))
+      tidyr::nest(data_background = c(sim))
 
     sim_norm_ranked <-
       sim_signal %>%
       dplyr::inner_join(sim_background_nested, by = join_cols) %>%
-      dplyr::mutate(sim_ranked_relrank = purrr::map2(sim, data, function(sim, df) {
+      dplyr::mutate(sim_ranked_relrank = purrr::map2_dbl(sim, data_background, function(sim, df) {
         which(sim >= df$sim)[1] / nrow(df)
       })) %>%
-      tidyr::unnest(sim_ranked_relrank) %>%
-      dplyr::select(-data) %>%
-      dplyr::mutate(sim_ranked_relrank = tidyr::replace_na(sim_ranked_relrank, 1))
+      dplyr::mutate(sim_ranked_relrank = tidyr::replace_na(sim_ranked_relrank, 1)) %>%
+      dplyr::select(-data_background)
 
 
     # ---- Combine scale-based and rank-based metrics ----
@@ -291,6 +295,32 @@ helper_scale_aggregate <-
         dplyr::rename_with(~ paste(., identifier, sep = "_"),
                            dplyr::starts_with("sim"))
     }
+
+    # ---- Compute metrics that calculate across the group ----
+
+    # The scale-based and rank-based metrics above are computed per row
+    # and then aggregated by group.
+    # The metrics in this section are computed across the whole group
+    # (and therefore don't need further summarizing)
+
+    sim_signal_nested <-
+      sim_signal %>%
+      dplyr::group_by(id1) %>%
+      dplyr::arrange(dplyr::desc(sim)) %>%
+      dplyr::ungroup() %>%
+      dplyr::select(dplyr::all_of(c(join_cols, "sim"))) %>%
+      tidyr::nest(data_signal = c(sim))
+
+    sim_norm_retrieval <-
+      sim_signal_nested %>%
+      dplyr::inner_join(sim_background_nested, by = join_cols)  %>%
+      dplyr::mutate(sim_retrieval =
+                      purrr::map2_dbl(data_signal,
+                                      data_background,
+                                      function(signal, background) {
+                                        1
+                                      })) %>%
+      dplyr::select(-data_background, -data_signal)
 
     sim_norm_agg
   }
