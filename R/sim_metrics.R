@@ -243,14 +243,14 @@ helper_scale_aggregate <-
 
     # scale using mean and s.d. of the `sim_type` distribution
 
-    sim_norm_scaled <-
+    sim_signal_scaled <-
       sim_signal %>%
       dplyr::inner_join(sim_stats, by = summary_cols) %>%
       dplyr::mutate(sim_scaled = (sim - sim_mean) / sim_sd)
 
     # ---- Rank with respect to background distribution ----
 
-    sim_norm_ranked <-
+    sim_signal_ranked <-
       sim_signal %>%
       dplyr::inner_join(sim_background_nested, by = summary_cols) %>%
       dplyr::mutate(sim_ranked_relrank = purrr::map2_dbl(sim, data_background, function(sim, df) {
@@ -262,13 +262,13 @@ helper_scale_aggregate <-
 
     # ---- Combine scale-based and rank-based metrics ----
 
-    # Use the columns of `sim_signal` to join (because `sim_norm_scaled` and
-    # `sim_norm_ranked` add extra columns to `sim_signal`, making the columns
+    # Use the columns of `sim_signal` to join (because `sim_signal_scaled` and
+    # `sim_signal_ranked` add extra columns to `sim_signal`, making the columns
     # of `sim_signal` common to the two)
 
-    sim_norm <-
-      dplyr::inner_join(sim_norm_scaled,
-                        sim_norm_ranked,
+    sim_signal_tranformed <-
+      dplyr::inner_join(sim_signal_scaled,
+                        sim_signal_ranked,
                         by = colnames(sim_signal))
 
     # ---- Summarize transformed (scale-based and rank-based) metrics ----
@@ -279,8 +279,8 @@ helper_scale_aggregate <-
     # - `sim_scaled` (centered and scaled similarities)
     # - `sim_ranked` (rank based transformations)
 
-    sim_norm_agg <-
-      sim_norm %>%
+    sim_signal_tranformed_agg <-
+      sim_signal_tranformed %>%
       dplyr::group_by(dplyr::across(dplyr::all_of(summary_cols))) %>%
       dplyr::summarise(dplyr::across(dplyr::any_of(
         c("sim_scaled", "sim_ranked_relrank", "sim")
@@ -288,8 +288,8 @@ helper_scale_aggregate <-
       list(mean = mean, median = median)),
       .groups = "keep")
 
-    sim_norm_agg <-
-      sim_norm_agg %>%
+    sim_signal_tranformed_agg <-
+      sim_signal_tranformed_agg %>%
       dplyr::rename_with( ~ paste(., sim_type, sep = "_"),
                           dplyr::starts_with("sim_scaled")) %>%
       dplyr::rename_with( ~ paste(., sim_type, sep = "_"),
@@ -301,18 +301,18 @@ helper_scale_aggregate <-
       dplyr::rename_with( ~ paste(., "stat", sim_type, sep = "_"),
                           dplyr::starts_with("sim"))
 
-    sim_norm_agg <- sim_norm_agg %>%
+    sim_signal_tranformed_agg <- sim_signal_tranformed_agg %>%
       dplyr::inner_join(sim_stats,
                         by = summary_cols)
 
-    # ---- Compute metrics that calculate across the group ----
+    # ---- Compute metrics that are calculated across the group ----
 
     # The scale-based and rank-based metrics above are computed per row
     # and then aggregated by group.
     # The metrics in this section are computed across the whole group
     # (and therefore don't need further summarizing)
 
-    sim_norm_retrieval <-
+    sim_signal_retrieval <-
       sim_signal_nested %>%
       dplyr::inner_join(sim_background_nested, by = summary_cols)  %>%
       dplyr::mutate(data_retrieval =
@@ -329,8 +329,8 @@ helper_scale_aggregate <-
                                   })) %>%
       dplyr::select(-data_background, -data_signal)
 
-    sim_norm_retrieval <-
-      sim_norm_retrieval %>%
+    sim_signal_retrieval <-
+      sim_signal_retrieval %>%
       dplyr::mutate(sim_retrieval_average_precision =
                       purrr::map_dbl(data_retrieval,
                                      function(df) {
@@ -340,26 +340,26 @@ helper_scale_aggregate <-
                                      })) %>%
       dplyr::select(-data_retrieval)
 
-    sim_norm_retrieval <-
-      sim_norm_retrieval %>%
+    sim_signal_retrieval <-
+      sim_signal_retrieval %>%
       dplyr::rename_with( ~ paste(., sim_type, sep = "_"),
                           dplyr::starts_with("sim_retrieval"))
 
 
     # ---- Collate metrics ----
 
-    sim_norm_summary <-
-      dplyr::inner_join(sim_norm_agg,
-                        sim_norm_retrieval,
+    sim_metrics_collated <-
+      dplyr::inner_join(sim_signal_tranformed_agg,
+                        sim_signal_retrieval,
                         by = summary_cols)
 
     # add a suffix to identify the summary columns
     if (!is.null(identifier)) {
-      sim_norm_summary <-
-        sim_norm_summary %>%
+      sim_metrics_collated <-
+        sim_metrics_collated %>%
         dplyr::rename_with( ~ paste(., identifier, sep = "_"),
                             dplyr::starts_with("sim"))
     }
 
-    sim_norm_summary
+    sim_metrics_collated
   }
