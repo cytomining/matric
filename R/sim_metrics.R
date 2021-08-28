@@ -314,13 +314,36 @@ helper_scale_aggregate <-
     sim_norm_retrieval <-
       sim_signal_nested %>%
       dplyr::inner_join(sim_background_nested, by = join_cols)  %>%
-      dplyr::mutate(sim_retrieval =
-                      purrr::map2_dbl(data_signal,
-                                      data_background,
-                                      function(signal, background) {
-                                        1
-                                      })) %>%
-      dplyr::select(-data_background, -data_signal)
+      dplyr::mutate(data_retrieval =
+                      purrr::map2(data_signal,
+                                  data_background,
+                                  function(signal, background) {
+                                    dplyr::bind_rows(
+                                      signal %>% dplyr::mutate(truth = "signal"),
+                                      background %>% dplyr::mutate(truth = "background")
+                                    ) %>%
+                                      dplyr::mutate(truth = as.factor(truth)) %>%
+                                      dplyr::mutate(signal_probrank = rank(sim) / dplyr::n()) %>%
+                                      dplyr::select(-sim)
+                                  })) %>%
+    dplyr::select(-data_background, -data_signal)
 
-    sim_norm_agg
+    sim_norm_retrieval <-
+      sim_norm_retrieval %>%
+      dplyr::mutate(sim_prauc =
+                      purrr::map_dbl(data_retrieval,
+                                     function(df) {
+                                       df %>%
+                                         yardstick::pr_auc(truth, signal_probrank) %>%
+                                         dplyr::pull(.estimate)
+
+                                     })) %>%
+    dplyr::select(-data_retrieval)
+
+    sim_norm_summary <-
+      dplyr::inner_join(
+        sim_norm_agg,
+        sim_norm_retrieval,
+        by = join_cols
+      )
   }
