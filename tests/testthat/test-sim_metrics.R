@@ -8,13 +8,17 @@ test_that("`sim_metrics` works", {
     data.frame(Metadata_gene_name = c("Chr2"))
 
   all_same_cols_ref <-
-    c("Metadata_cell_line",
-      "Metadata_Plate")
+    c(
+      "Metadata_cell_line",
+      "Metadata_Plate"
+    )
 
   all_same_cols_rep <-
-    c("Metadata_cell_line",
+    c(
+      "Metadata_cell_line",
       "Metadata_gene_name",
-      "Metadata_pert_name")
+      "Metadata_pert_name"
+    )
 
   all_same_cols_rep_ref <-
     c(
@@ -25,29 +29,39 @@ test_that("`sim_metrics` works", {
     )
 
   any_different_cols_non_rep <-
-    c("Metadata_cell_line",
+    c(
+      "Metadata_cell_line",
       "Metadata_gene_name",
-      "Metadata_pert_name")
+      "Metadata_pert_name"
+    )
 
   all_same_cols_non_rep <-
-    c("Metadata_cell_line",
-      "Metadata_Plate")
+    c(
+      "Metadata_cell_line",
+      "Metadata_Plate"
+    )
 
   all_different_cols_non_rep <-
     c("Metadata_gene_name")
 
   all_same_cols_group <-
-    c("Metadata_cell_line",
-      "Metadata_gene_name")
+    c(
+      "Metadata_cell_line",
+      "Metadata_gene_name"
+    )
   any_different_cols_group <-
-    c("Metadata_cell_line",
+    c(
+      "Metadata_cell_line",
       "Metadata_gene_name",
-      "Metadata_pert_name")
+      "Metadata_pert_name"
+    )
 
   annotation_cols <-
-    c("Metadata_cell_line",
+    c(
+      "Metadata_cell_line",
       "Metadata_gene_name",
-      "Metadata_pert_name")
+      "Metadata_pert_name"
+    )
 
   collated_sim <-
     matric::sim_collate(
@@ -86,9 +100,11 @@ test_that("`sim_metrics` works", {
       class = c("tbl_df", "tbl", "data.frame")
     )
 
-  expect_equal(answer,
-               metrics$level_1_0 %>%
-                 dplyr::summarise(dplyr::across(dplyr::starts_with("sim"), mean)))
+  expect_equal(
+    answer,
+    metrics$level_1_0 %>%
+      dplyr::summarise(dplyr::across(dplyr::starts_with("sim"), mean))
+  )
 
   answer <-
     structure(
@@ -114,14 +130,18 @@ test_that("`sim_metrics` works", {
         sim_retrieval_r_precision_ref_i_mean_i = 0.206666666666667,
         sim_retrieval_r_precision_ref_i_median_i = 0.173333333333333
       ),
-      row.names = c(NA,
-                    -1L),
+      row.names = c(
+        NA,
+        -1L
+      ),
       class = c("tbl_df", "tbl", "data.frame")
     )
 
-  expect_equal(answer,
-               metrics$level_1 %>%
-                 dplyr::summarise(dplyr::across(dplyr::starts_with("sim"), mean)))
+  expect_equal(
+    answer,
+    metrics$level_1 %>%
+      dplyr::summarise(dplyr::across(dplyr::starts_with("sim"), mean))
+  )
 
 
   answer <-
@@ -142,7 +162,9 @@ test_that("`sim_metrics` works", {
       class = c("tbl_df", "tbl", "data.frame")
     )
 
-  expect_equal(answer,
-               metrics$level_2_1 %>%
-                 dplyr::summarise(dplyr::across(dplyr::starts_with("sim"), mean)))
+  expect_equal(
+    answer,
+    metrics$level_2_1 %>%
+      dplyr::summarise(dplyr::across(dplyr::starts_with("sim"), mean))
+  )
 })
