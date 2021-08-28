@@ -334,15 +334,28 @@ helper_scale_aggregate <-
 
     sim_norm_retrieval <-
       sim_norm_retrieval %>%
-      dplyr::mutate(sim_average_precision =
+      dplyr::mutate(sim_retrieval_average_precision =
                       purrr::map_dbl(data_retrieval,
                                      function(df) {
                                        df %>%
                                          yardstick::average_precision(truth, signal_probrank) %>%
                                          dplyr::pull(.estimate)
-
                                      })) %>%
     dplyr::select(-data_retrieval)
+
+    sim_norm_retrieval <-
+      sim_norm_retrieval %>%
+      dplyr::rename_with(~ paste(., sim_type, sep = "_"),
+                       dplyr::starts_with("sim_retrieval"))
+
+    # add a suffix to identify the summary columns
+    if (!is.null(identifier)) {
+      sim_norm_retrieval <- sim_norm_retrieval %>%
+        dplyr::rename_with(~ paste(., identifier, sep = "_"),
+                           dplyr::starts_with("sim"))
+    }
+
+    # ---- Collate metrics ----
 
     sim_norm_summary <-
       dplyr::inner_join(
