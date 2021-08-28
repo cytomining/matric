@@ -196,11 +196,13 @@ helper_scale_aggregate <-
 
     sim_background <-
       collated_sim %>%
-      dplyr::filter(type == sim_type)
+      dplyr::filter(type == sim_type) %>%
+      dplyr::select(-type)
 
     sim_signal <-
       collated_sim %>%
-      dplyr::filter(type == sim_type_replication)
+      dplyr::filter(type == sim_type_replication) %>%
+      dplyr::select(-type)
 
     # ---- Scale with respect to background distribution ----
 
@@ -218,13 +220,44 @@ helper_scale_aggregate <-
     join_cols <-
       intersect(colnames(collated_sim), colnames(sim_stats))
 
-    sim_norm <-
+    sim_norm_scaled <-
       sim_signal %>%
       dplyr::inner_join(sim_stats, by = join_cols) %>%
       dplyr::mutate(sim_scaled = (sim - sim_mean) / sim_sd)
 
     # ---- Rank with respect to background distribution ----
 
+    sim_background_nested <-
+      sim_background %>%
+      dplyr::group_by(id1) %>%
+      dplyr::arrange(desc(sim)) %>%
+      dplyr::ungroup() %>%
+      dplyr::select(dplyr::all_of(c(join_cols, "sim"))) %>%
+      tidyr::nest(data = c(sim))
+
+    sim_norm_ranked <-
+      sim_signal %>%
+      dplyr::inner_join(sim_background_nested, by = join_cols) %>%
+      dplyr::mutate(sim_ranked_relrank = purrr::map2(sim, data, function(sim, df) {
+        which(sim >= df$sim)[1] / nrow(df)
+      })) %>%
+      tidyr::unnest(sim_ranked_relrank) %>%
+      dplyr::select(-data) %>%
+      dplyr::mutate(sim_ranked_relrank = tidyr::replace_na(sim_ranked_relrank, 1))
+
+
+    # ---- Combine scale-based and rank-based metrics ----
+
+    # Use the columns of `sim_signal` to join (because `sim_norm_scaled` and
+    # `sim_norm_ranked` add extra columns to `sim_signal`, making the columns
+    # of `sim_signal` common to the two)
+
+    sim_norm <-
+      dplyr::inner_join(
+        sim_norm_scaled,
+        sim_norm_ranked,
+        by = colnames(sim_signal)
+      )
 
     # ---- Summarize transformed (scale-based and rank-based) metrics ----
 
@@ -238,14 +271,14 @@ helper_scale_aggregate <-
       sim_norm %>%
       dplyr::group_by(dplyr::across(dplyr::all_of(summary_cols))) %>%
       dplyr::summarise(dplyr::across(dplyr::any_of(c(
-        "sim_scaled", "sim_ranked", "sim"
+        "sim_scaled", "sim_ranked_relrank", "sim"
       )),
       list(mean = mean, median = median)),
       .groups = "keep") %>%
       dplyr::rename_with(~ paste(., sim_type, sep = "_"),
                          dplyr::starts_with("sim_scaled")) %>%
       dplyr::rename_with(~ paste(., sim_type, sep = "_"),
-                         dplyr::starts_with("sim_ranked")) %>%
+                         dplyr::starts_with("sim_ranked_relrank")) %>%
       dplyr::ungroup()
 
     sim_norm_agg <- sim_norm_agg %>%
