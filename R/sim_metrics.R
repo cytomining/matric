@@ -145,10 +145,10 @@ sim_metrics <- function(collated_sim,
   # ---- Replicates ----
   sim_metrics_collated <-
     sim_metrics_helper(collated_sim,
-                           sim_type_background,
-                           c("id1", rep_cols),
-                           "rep",
-                           "i")
+                       sim_type_background,
+                       c("id1", rep_cols),
+                       "rep",
+                       "i")
 
   # get a summary per set
 
@@ -177,10 +177,10 @@ sim_metrics <- function(collated_sim,
   if (calculate_grouped) {
     sim_metrics_group_collated <-
       sim_metrics_helper(collated_sim,
-                             sim_type_background,
-                             rep_cols,
-                             "rep_group",
-                             "g")
+                         sim_type_background,
+                         rep_cols,
+                         "rep_group",
+                         "g")
 
     result <-
       c(result,
@@ -324,7 +324,8 @@ sim_metrics_helper <-
                                     ) %>%
                                       dplyr::mutate(truth = as.factor(truth)) %>%
                                       dplyr::mutate(signal_probrank = rank(sim) / dplyr::n()) %>%
-                                      dplyr::select(-sim)
+                                      dplyr::select(-sim) %>%
+                                      dplyr::arrange(desc(signal_probrank))
                                   })) %>%
       dplyr::select(-data_background, -data_signal)
 
@@ -351,9 +352,10 @@ sim_metrics_helper <-
         dplyr::filter(truth == "signal") %>%
         nrow()
 
+      # df is already sorted by `desc(signal_probrank)` above
       true_positive <-
         df %>%
-        dplyr::slice_head(condition_positive) %>%
+        dplyr::slice_head(n = condition_positive) %>%
         dplyr::filter(truth == "signal") %>%
         nrow()
 
@@ -361,10 +363,10 @@ sim_metrics_helper <-
 
     }
 
-    # sim_signal_retrieval <-
-    #   sim_signal_retrieval %>%
-    #   dplyr::mutate(sim_retrieval_r_precision =
-    #                   purrr::map_dbl(data_retrieval, r_precision))
+    sim_signal_retrieval <-
+      sim_signal_retrieval %>%
+      dplyr::mutate(sim_retrieval_r_precision =
+                      purrr::map_dbl(data_retrieval, r_precision))
 
     sim_signal_retrieval <-
       sim_signal_retrieval %>%

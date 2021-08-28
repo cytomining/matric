@@ -79,10 +79,10 @@ test_that("`sim_metrics` works", {
         sim_median_i = 0.171754795930839,
         sim_mean_stat_ref_i = 0.101138990315028,
         sim_sd_stat_ref_i = 0.79702010493852,
-        sim_retrieval_average_precision_ref_i = 0.839614168724203
+        sim_retrieval_average_precision_ref_i = 0.839614168724203,
+        sim_retrieval_r_precision_ref_i = 0.206666666666667
       ),
-      row.names = c(NA,
-                    -1L),
+      row.names = c(NA, -1L),
       class = c("tbl_df", "tbl", "data.frame")
     )
 
@@ -110,7 +110,9 @@ test_that("`sim_metrics` works", {
         sim_sd_stat_ref_i_mean_i = 0.79702010493852,
         sim_sd_stat_ref_i_median_i = 0.80835316991924,
         sim_retrieval_average_precision_ref_i_mean_i = 0.839614168724203,
-        sim_retrieval_average_precision_ref_i_median_i = 0.836290914792196
+        sim_retrieval_average_precision_ref_i_median_i = 0.836290914792196,
+        sim_retrieval_r_precision_ref_i_mean_i = 0.206666666666667,
+        sim_retrieval_r_precision_ref_i_median_i = 0.173333333333333
       ),
       row.names = c(NA,
                     -1L),
@@ -133,10 +135,10 @@ test_that("`sim_metrics` works", {
         sim_median_g = 0.287140533081703,
         sim_mean_stat_ref_g = 0.101138990315028,
         sim_sd_stat_ref_g = 0.835088742570834,
-        sim_retrieval_average_precision_ref_g = 0.448707854167539
+        sim_retrieval_average_precision_ref_g = 0.448707854167539,
+        sim_retrieval_r_precision_ref_g = 0.577037037037037
       ),
-      row.names = c(NA,
-                    -1L),
+      row.names = c(NA, -1L),
       class = c("tbl_df", "tbl", "data.frame")
     )
 
