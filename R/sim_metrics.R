@@ -244,7 +244,11 @@ helper_scale_aggregate <-
     sim_stats <-
       sim_background %>%
       dplyr::group_by(dplyr::across(dplyr::all_of(summary_cols))) %>%
-      dplyr::summarise(dplyr::across(dplyr::all_of("sim"), list(mean = mean, sd = sd)),
+      dplyr::summarise(dplyr::across(dplyr::all_of("sim"),
+                                     list(
+                                       mean_stat = mean,
+                                       sd_stat = sd
+                                     )),
                        .groups = "keep") %>%
       dplyr::ungroup()
 
@@ -253,7 +257,7 @@ helper_scale_aggregate <-
     sim_signal_scaled <-
       sim_signal %>%
       dplyr::inner_join(sim_stats, by = summary_cols) %>%
-      dplyr::mutate(sim_scaled = (sim - sim_mean) / sim_sd)
+      dplyr::mutate(sim_scaled = (sim - sim_mean_stat) / sim_sd_stat)
 
     # ---- Rank with respect to background distribution ----
 
@@ -273,7 +277,7 @@ helper_scale_aggregate <-
     # `sim_signal_ranked` add extra columns to `sim_signal`, making the columns
     # of `sim_signal` common to the two)
 
-    sim_signal_tranformed <-
+    sim_signal_transformed <-
       dplyr::inner_join(sim_signal_scaled,
                         sim_signal_ranked,
                         by = colnames(sim_signal))
@@ -286,8 +290,8 @@ helper_scale_aggregate <-
     # - `sim_scaled` (centered and scaled similarities)
     # - `sim_ranked` (rank based transformations)
 
-    sim_signal_tranformed_agg <-
-      sim_signal_tranformed %>%
+    sim_signal_transformed_agg <-
+      sim_signal_transformed %>%
       dplyr::group_by(dplyr::across(dplyr::all_of(summary_cols))) %>%
       dplyr::summarise(dplyr::across(dplyr::any_of(
         c("sim_scaled", "sim_ranked_relrank", "sim")
@@ -295,24 +299,8 @@ helper_scale_aggregate <-
       list(mean = mean, median = median)),
       .groups = "keep")
 
-    # append background identifier to metrics
-    sim_signal_tranformed_agg <-
-      sim_signal_tranformed_agg %>%
-      dplyr::rename_with( ~ paste(., sim_type_background, sep = "_"),
-                          dplyr::starts_with("sim_scaled")) %>%
-      dplyr::rename_with(
-        ~ paste(., sim_type_background, sep = "_"),
-        dplyr::starts_with("sim_ranked_relrank")
-      ) %>%
-      dplyr::ungroup()
-
     # include stats columns
-    sim_stats <-
-      sim_stats %>%
-      dplyr::rename_with( ~ paste(., "stat", sim_type_background, sep = "_"),
-                          dplyr::starts_with("sim"))
-
-    sim_signal_tranformed_agg <- sim_signal_tranformed_agg %>%
+    sim_signal_transformed_agg <- sim_signal_transformed_agg %>%
       dplyr::inner_join(sim_stats,
                         by = summary_cols)
 
@@ -382,19 +370,30 @@ helper_scale_aggregate <-
       sim_signal_retrieval %>%
       dplyr::select(-data_retrieval)
 
-    # append background identifier to retrieval metrics
-    sim_signal_retrieval <-
-      sim_signal_retrieval %>%
-      dplyr::rename_with( ~ paste(., sim_type_background, sep = "_"),
-                          dplyr::starts_with("sim_retrieval"))
-
-
     # ---- Collate metrics ----
 
     sim_metrics_collated <-
-      dplyr::inner_join(sim_signal_tranformed_agg,
+      dplyr::inner_join(sim_signal_transformed_agg,
                         sim_signal_retrieval,
                         by = summary_cols)
+
+    # add a suffix to identify the background
+    sim_metrics_collated <-
+      sim_metrics_collated %>%
+      dplyr::rename_with(~ paste(., sim_type_background, sep = "_"),
+                         dplyr::starts_with("sim_mean_stat")) %>%
+      dplyr::rename_with(~ paste(., sim_type_background, sep = "_"),
+                         dplyr::starts_with("sim_sd_stat")) %>%
+      dplyr::rename_with(~ paste(., sim_type_background, sep = "_"),
+                         dplyr::starts_with("sim_retrieval")) %>%
+      dplyr::rename_with(~ paste(., sim_type_background, sep = "_"),
+                         dplyr::starts_with("sim_scaled")) %>%
+      dplyr::rename_with(
+        ~ paste(., sim_type_background, sep = "_"),
+        dplyr::starts_with("sim_ranked_relrank")
+      ) %>%
+      dplyr::ungroup()
+
 
     # add a suffix to identify the summary columns
     if (!is.null(identifier)) {
