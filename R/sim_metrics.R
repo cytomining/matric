@@ -161,7 +161,7 @@ sim_metrics <- function(collated_sim,
                      .groups = "keep") %>%
     dplyr::ungroup()
 
-  # append identified ("_i" for "individual")
+  # append identifier to summarized metrics ("_i" for "individual")
 
   sim_metrics_collated_agg <-
     sim_metrics_collated_agg %>%
@@ -295,6 +295,7 @@ helper_scale_aggregate <-
       list(mean = mean, median = median)),
       .groups = "keep")
 
+    # append background identifier to metrics
     sim_signal_tranformed_agg <-
       sim_signal_tranformed_agg %>%
       dplyr::rename_with( ~ paste(., sim_type_background, sep = "_"),
@@ -305,6 +306,7 @@ helper_scale_aggregate <-
       ) %>%
       dplyr::ungroup()
 
+    # include stats columns
     sim_stats <-
       sim_stats %>%
       dplyr::rename_with( ~ paste(., "stat", sim_type_background, sep = "_"),
@@ -314,7 +316,7 @@ helper_scale_aggregate <-
       dplyr::inner_join(sim_stats,
                         by = summary_cols)
 
-    # ---- Compute metrics that are calculated across the group ----
+    # ---- Compute retrieval metrics ----
 
     # The scale-based and rank-based metrics above are computed per row
     # and then aggregated by group.
@@ -338,6 +340,8 @@ helper_scale_aggregate <-
                                   })) %>%
       dplyr::select(-data_background, -data_signal)
 
+    # ---- Compute retrieval metrics: average_precision ----
+
     sim_signal_retrieval <-
       sim_signal_retrieval %>%
       dplyr::mutate(sim_retrieval_average_precision =
@@ -347,6 +351,8 @@ helper_scale_aggregate <-
                                          yardstick::average_precision(truth, signal_probrank) %>%
                                          dplyr::pull(.estimate)
                                      }))
+
+    # ---- Compute retrieval metrics: r_precision ----
 
     # Use nomenclature from
     # https://en.wikipedia.org/wiki/Precision_and_recall#Definition_(classification_context)
@@ -376,6 +382,7 @@ helper_scale_aggregate <-
       sim_signal_retrieval %>%
       dplyr::select(-data_retrieval)
 
+    # append background identifier to retrieval metrics
     sim_signal_retrieval <-
       sim_signal_retrieval %>%
       dplyr::rename_with( ~ paste(., sim_type_background, sep = "_"),
