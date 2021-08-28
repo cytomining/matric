@@ -130,10 +130,10 @@
     },
     "cli": {
       "Package": "cli",
-      "Version": "2.3.1",
+      "Version": "3.0.1",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "3e3f28efcadfda442cd18651fbcbbecf"
+      "Hash": "e3ae5d68dea0c55a12ea12a9fda02e61"
     },
     "clipr": {
       "Package": "clipr",
@@ -513,6 +513,13 @@
       "Repository": "CRAN",
       "Hash": "a399e4773075fc2375b71f45fca186c4"
     },
+    "pROC": {
+      "Package": "pROC",
+      "Version": "1.17.0.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "e25078f6e770b81121672874474f69c0"
+    },
     "pillar": {
       "Package": "pillar",
       "Version": "1.5.1",
@@ -547,6 +554,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "cb57de933545960a86f03513e4bd2911"
+    },
+    "plyr": {
+      "Package": "plyr",
+      "Version": "1.8.6",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "ec0e5ab4e5f851f6ef32cd1d1984957f"
     },
     "praise": {
       "Package": "praise",
@@ -848,6 +862,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "2826c5d9efb0a88f657c7a679c7106db"
+    },
+    "yardstick": {
+      "Package": "yardstick",
+      "Version": "0.0.8",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "b49509a72e4c99ef95036c061885ab07"
     },
     "zip": {
       "Package": "zip",

@@ -162,12 +162,28 @@ ggplot(cellhealthmetrics$level_1,
   theme(legend.position="none")
 ```
 
+```{r}
+ggplot(cellhealthmetrics$level_1_0,
+       aes(sim_retrieval_average_precision_ref_i, fill = Metadata_gene_name)) +
+  geom_histogram(binwidth = .01) +
+  facet_wrap( ~ Metadata_cell_line) +
+  theme(legend.position="none")
+```
+
 ## Per group (Level 2)
 
 ```{r}
 ggplot(cellhealthmetrics$level_2_1,
        aes(sim_scaled_mean_ref_g, fill = Metadata_gene_name)) +
   geom_histogram(binwidth = .1) +
+  facet_wrap( ~ Metadata_cell_line) +
+  theme(legend.position="none")
+```
+
+```{r}
+ggplot(cellhealthmetrics$level_2_1,
+       aes(sim_retrieval_average_precision_ref_g, fill = Metadata_gene_name)) +
+  geom_histogram(binwidth = .02) +
   facet_wrap( ~ Metadata_cell_line) +
   theme(legend.position="none")
 ```

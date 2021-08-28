@@ -26,6 +26,7 @@ reference:
 - contents:
   - get_annotation
   - drop_annotation
+  - sim_metrics_helper
 - title: "Datasets"
 - contents:
   - cellhealth

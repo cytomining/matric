@@ -1,10 +1,23 @@
-utils::globalVariables(c("type"))
+utils::globalVariables(
+  c(
+    "data_background",
+    "data_retrieval",
+    "data_signal",
+    "signal_probrank",
+    "sim_ranked_relrank",
+    "sim_mean_stat",
+    "sim_sd_stat",
+    "truth",
+    "type",
+    ".estimate"
+  )
+)
 #' Compute metrics.
 #'
 #' \code{sim_metrics} computes metrics.
 #'
 #' @param collated_sim output of \code{sim_collated}, which is a data.frame with some attributes.
-#' @param sim_type character string specifying the background distributions for computing scaled metrics. This must be one of the strings \code{"non_rep"} or \code{"ref"}.
+#' @param sim_type_background character string specifying the background distributions for computing scaled metrics. This must be one of the strings \code{"non_rep"} or \code{"ref"}.
 #' @param calculate_grouped optional boolean specifying whether to include grouped metrics.
 #' @param annotation_prefix optional character string specifying prefix for annotation columns (e.g. \code{"Metadata_"} (default)).
 #'
@@ -120,7 +133,7 @@ utils::globalVariables(c("type"))
 #'
 #' @export
 sim_metrics <- function(collated_sim,
-                        sim_type,
+                        sim_type_background,
                         calculate_grouped = FALSE,
                         annotation_prefix = "Metadata_") {
   if (!is.null(attr(collated_sim, "all_same_cols_rep", TRUE))) {
@@ -131,76 +144,20 @@ sim_metrics <- function(collated_sim,
       stringr::str_subset(colnames(collated_sim), pattern = annotation_prefix)
   }
 
-  helper_scale_aggregate <-
-    function(summary_cols,
-             sim_type_replication,
-             identifier = NULL) {
-      sim_stats <-
-        collated_sim %>%
-        dplyr::filter(type == sim_type) %>%
-        dplyr::group_by(dplyr::across(dplyr::all_of(summary_cols))) %>%
-        dplyr::summarise(dplyr::across(dplyr::all_of("sim"), list(mean = mean, sd = sd)),
-          .groups = "keep"
-        ) %>%
-        dplyr::ungroup()
-
-      # scale using mean and s.d. of the `sim_type` distribution
-
-      join_cols <-
-        intersect(colnames(collated_sim), colnames(sim_stats))
-
-      sim_norm <-
-        collated_sim %>%
-        dplyr::filter(type == sim_type_replication) %>%
-        dplyr::inner_join(sim_stats, by = join_cols) %>%
-        dplyr::mutate(sim_scaled = (sim - sim_mean) / sim_sd)
-
-      # get a summary per group
-      sim_norm_agg <-
-        sim_norm %>%
-        dplyr::group_by(dplyr::across(dplyr::all_of(summary_cols))) %>%
-        dplyr::summarise(dplyr::across(
-          dplyr::all_of(c(
-            "sim_scaled", "sim"
-          )),
-          list(mean = mean, median = median)
-        ),
-        .groups = "keep"
-        ) %>%
-        dplyr::rename_with(
-          ~ paste(., sim_type, sep = "_"),
-          dplyr::starts_with("sim_scaled")
-        ) %>%
-        dplyr::ungroup()
-
-      sim_norm_agg <- sim_norm_agg %>%
-        dplyr::inner_join(sim_stats %>%
-          dplyr::rename_with(
-            ~ paste(., "stat", sim_type, sep = "_"),
-            dplyr::starts_with("sim")
-          ),
-        by = join_cols
-        )
-
-      if (!is.null(identifier)) {
-        sim_norm_agg <- sim_norm_agg %>%
-          dplyr::rename_with(
-            ~ paste(., identifier, sep = "_"),
-            dplyr::starts_with("sim")
-          )
-      }
-
-      sim_norm_agg
-    }
-
   # ---- Replicates ----
-  sim_norm_agg <-
-    helper_scale_aggregate(c("id1", rep_cols), "rep", "i")
+  sim_metrics_collated <-
+    sim_metrics_helper(
+      collated_sim,
+      sim_type_background,
+      c("id1", rep_cols),
+      "rep",
+      "i"
+    )
 
   # get a summary per set
 
-  sim_norm_agg_agg <-
-    sim_norm_agg %>%
+  sim_metrics_collated_agg <-
+    sim_metrics_collated %>%
     dplyr::ungroup() %>%
     dplyr::group_by(dplyr::across(dplyr::all_of(c(rep_cols)))) %>%
     dplyr::summarise(dplyr::across(
@@ -211,9 +168,10 @@ sim_metrics <- function(collated_sim,
     ) %>%
     dplyr::ungroup()
 
-  # append identified ("_i" for "individual")
+  # append identifier to summarized metrics ("_i" for "individual")
 
-  sim_norm_agg_agg <- sim_norm_agg_agg %>%
+  sim_metrics_collated_agg <-
+    sim_metrics_collated_agg %>%
     dplyr::rename_with(
       ~ paste(., "i", sep = "_"),
       dplyr::starts_with("sim")
@@ -221,22 +179,257 @@ sim_metrics <- function(collated_sim,
 
   result <-
     list(
-      level_1_0 = sim_norm_agg,
-      level_1 = sim_norm_agg_agg
+      level_1_0 = sim_metrics_collated,
+      level_1 = sim_metrics_collated_agg
     )
 
   # ---- Group replicates  ----
 
   if (calculate_grouped) {
-    sim_norm_group_agg <-
-      helper_scale_aggregate(rep_cols, "rep_group", "g")
+    sim_metrics_group_collated <-
+      sim_metrics_helper(
+        collated_sim,
+        sim_type_background,
+        rep_cols,
+        "rep_group",
+        "g"
+      )
 
     result <-
       c(
         result,
-        list(level_2_1 = sim_norm_group_agg)
+        list(level_2_1 = sim_metrics_group_collated)
       )
   }
 
   result
 }
+
+#' Helper function to compute metrics.
+#'
+#' \code{sim_metrics_helper} helps compute metrics by agrregating and
+#' scaling.
+#'
+#' @param collated_sim output of \code{sim_collated}, which is a data.frame with some attributes.
+#' @param sim_type_background character string specifying the background distributions for computing scaled metrics. This must be one of the strings \code{"non_rep"} or \code{"ref"}.
+#' @param summary_cols character list specifying columns by which to group similarities.
+#' @param sim_type_replication character string specifying the type of replication being measured. This must be one of the strings \code{"rep"} or \code{"rep_group"}.
+#' @param identifier character string specifying the identifier to add as a suffix to the columns containing scaled-aggregated metrics.
+#'
+#' @return data.frame of metrics.
+sim_metrics_helper <-
+  function(collated_sim,
+           sim_type_background,
+           summary_cols,
+           sim_type_replication,
+           identifier = NULL) {
+    # ---- Get background and signal distributions ----
+
+    sim_background <-
+      collated_sim %>%
+      dplyr::filter(type == sim_type_background) %>%
+      dplyr::select(-type)
+
+    sim_signal <-
+      collated_sim %>%
+      dplyr::filter(type == sim_type_replication) %>%
+      dplyr::select(-type)
+
+    # ---- Get nested versions of background and signal distributions ----
+    sim_signal_nested <-
+      sim_signal %>%
+      dplyr::group_by(id1) %>%
+      dplyr::arrange(dplyr::desc(sim)) %>%
+      dplyr::ungroup() %>%
+      dplyr::select(dplyr::all_of(c(summary_cols, "sim"))) %>%
+      tidyr::nest(data_signal = c(sim))
+
+    sim_background_nested <-
+      sim_background %>%
+      dplyr::group_by(id1) %>%
+      dplyr::arrange(dplyr::desc(sim)) %>%
+      dplyr::ungroup() %>%
+      dplyr::select(dplyr::all_of(c(summary_cols, "sim"))) %>%
+      tidyr::nest(data_background = c(sim))
+
+    # ---- Scale with respect to background distribution ----
+
+    # Compute statistics (mean and s.d.) on background distribution defined by
+    # `sim_type_background`
+    sim_stats <-
+      sim_background %>%
+      dplyr::group_by(dplyr::across(dplyr::all_of(summary_cols))) %>%
+      dplyr::summarise(dplyr::across(
+        dplyr::all_of("sim"),
+        list(
+          mean_stat = mean,
+          sd_stat = sd
+        )
+      ),
+      .groups = "keep"
+      ) %>%
+      dplyr::ungroup()
+
+    # scale using mean and s.d. of the `sim_type_background` distribution
+
+    sim_signal_scaled <-
+      sim_signal %>%
+      dplyr::inner_join(sim_stats, by = summary_cols) %>%
+      dplyr::mutate(sim_scaled = (sim - sim_mean_stat) / sim_sd_stat)
+
+    # ---- Rank with respect to background distribution ----
+
+    sim_signal_ranked <-
+      sim_signal %>%
+      dplyr::inner_join(sim_background_nested, by = summary_cols) %>%
+      dplyr::mutate(sim_ranked_relrank = purrr::map2_dbl(sim, data_background, function(sim, df) {
+        which(sim >= df$sim)[1] / nrow(df)
+      })) %>%
+      dplyr::mutate(sim_ranked_relrank = tidyr::replace_na(sim_ranked_relrank, 1)) %>%
+      dplyr::select(-data_background)
+
+
+    # ---- Combine scale-based and rank-based metrics ----
+
+    # Use the columns of `sim_signal` to join (because `sim_signal_scaled` and
+    # `sim_signal_ranked` add extra columns to `sim_signal`, making the columns
+    # of `sim_signal` common to the two)
+
+    sim_signal_transformed <-
+      dplyr::inner_join(sim_signal_scaled,
+        sim_signal_ranked,
+        by = colnames(sim_signal)
+      )
+
+    # ---- Summarize transformed (scale-based and rank-based) metrics ----
+
+    # Get a summary per group (a group is defined by `summary_cols`)
+    # create summaries for all
+    # - `sim` (raw similarities)
+    # - `sim_scaled` (centered and scaled similarities)
+    # - `sim_ranked` (rank based transformations)
+
+    sim_signal_transformed_agg <-
+      sim_signal_transformed %>%
+      dplyr::group_by(dplyr::across(dplyr::all_of(summary_cols))) %>%
+      dplyr::summarise(dplyr::across(
+        dplyr::any_of(
+          c("sim_scaled", "sim_ranked_relrank", "sim")
+        ),
+        list(mean = mean, median = median)
+      ),
+      .groups = "keep"
+      )
+
+    # include stats columns
+    sim_signal_transformed_agg <- sim_signal_transformed_agg %>%
+      dplyr::inner_join(sim_stats,
+        by = summary_cols
+      )
+
+    # ---- Compute retrieval metrics ----
+
+    # The scale-based and rank-based metrics above are computed per row
+    # and then aggregated by group.
+    # The metrics in this section are computed across the whole group
+    # (and therefore don't need further summarizing)
+
+    sim_signal_retrieval <-
+      sim_signal_nested %>%
+      dplyr::inner_join(sim_background_nested, by = summary_cols) %>%
+      dplyr::mutate(
+        data_retrieval =
+          purrr::map2(
+            data_signal,
+            data_background,
+            function(signal, background) {
+              dplyr::bind_rows(
+                signal %>% dplyr::mutate(truth = "signal"),
+                background %>% dplyr::mutate(truth = "background")
+              ) %>%
+                dplyr::mutate(truth = as.factor(truth)) %>%
+                dplyr::mutate(signal_probrank = rank(sim) / dplyr::n()) %>%
+                dplyr::select(-sim) %>%
+                dplyr::arrange(dplyr::desc(signal_probrank))
+            }
+          )
+      ) %>%
+      dplyr::select(-data_background, -data_signal)
+
+    # ---- Compute retrieval metrics: average_precision ----
+
+    sim_signal_retrieval <-
+      sim_signal_retrieval %>%
+      dplyr::mutate(
+        sim_retrieval_average_precision =
+          purrr::map_dbl(
+            data_retrieval,
+            function(df) {
+              df %>%
+                yardstick::average_precision(truth, signal_probrank) %>%
+                dplyr::pull(.estimate)
+            }
+          )
+      )
+
+    # ---- Compute retrieval metrics: r_precision ----
+
+    # Use nomenclature from
+    # https://en.wikipedia.org/wiki/Precision_and_recall#Definition_(classification_context)
+
+    r_precision <- function(df) {
+      condition_positive <-
+        df %>%
+        dplyr::filter(truth == "signal") %>%
+        nrow()
+
+      # df is already sorted by `desc(signal_probrank)` above
+      true_positive <-
+        df %>%
+        dplyr::slice_head(n = condition_positive) %>%
+        dplyr::filter(truth == "signal") %>%
+        nrow()
+
+      true_positive / condition_positive
+    }
+
+    sim_signal_retrieval <-
+      sim_signal_retrieval %>%
+      dplyr::mutate(
+        sim_retrieval_r_precision =
+          purrr::map_dbl(data_retrieval, r_precision)
+      )
+
+    sim_signal_retrieval <-
+      sim_signal_retrieval %>%
+      dplyr::select(-data_retrieval)
+
+    # ---- Collate metrics ----
+
+    sim_metrics_collated <-
+      dplyr::inner_join(sim_signal_transformed_agg,
+        sim_signal_retrieval,
+        by = summary_cols
+      )
+
+    # add a suffix to identify the background
+    sim_metrics_collated <-
+      sim_metrics_collated %>%
+      dplyr::rename_with(
+        ~ paste(., sim_type_background, sep = "_"),
+        dplyr::matches("sim_.*_stat|sim_retrieval|sim_scaled|sim_ranked")
+      ) %>%
+      dplyr::ungroup()
+
+    # add a suffix to identify the summary columns
+    if (!is.null(identifier)) {
+      sim_metrics_collated <-
+        sim_metrics_collated %>%
+        dplyr::rename_with(
+          ~ paste(., identifier, sep = "_"),
+          dplyr::starts_with("sim")
+        )
+    }
+
+    sim_metrics_collated
+  }
