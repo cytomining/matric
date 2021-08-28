@@ -143,14 +143,14 @@ sim_metrics <- function(collated_sim,
   }
 
   # ---- Replicates ----
-  sim_norm_agg <-
+  sim_metrics_collated <-
     helper_scale_aggregate(collated_sim,
                            sim_type, c("id1", rep_cols), "rep", "i")
 
   # get a summary per set
 
-  sim_norm_agg_agg <-
-    sim_norm_agg %>%
+  sim_metrics_collated_agg <-
+    sim_metrics_collated %>%
     dplyr::ungroup() %>%
     dplyr::group_by(dplyr::across(dplyr::all_of(c(rep_cols)))) %>%
     dplyr::summarise(dplyr::across(-dplyr::all_of("id1"),
@@ -160,24 +160,25 @@ sim_metrics <- function(collated_sim,
 
   # append identified ("_i" for "individual")
 
-  sim_norm_agg_agg <- sim_norm_agg_agg %>%
+  sim_metrics_collated_agg <-
+    sim_metrics_collated_agg %>%
     dplyr::rename_with( ~ paste(., "i", sep = "_"),
                         dplyr::starts_with("sim"))
 
   result <-
-    list(level_1_0 = sim_norm_agg,
-         level_1 = sim_norm_agg_agg)
+    list(level_1_0 = sim_metrics_collated,
+         level_1 = sim_metrics_collated_agg)
 
   # ---- Group replicates  ----
 
   if (calculate_grouped) {
-    sim_norm_group_agg <-
+    sim_metrics_group_collated <-
       helper_scale_aggregate(collated_sim,
                              sim_type, rep_cols, "rep_group", "g")
 
     result <-
       c(result,
-        list(level_2_1 = sim_norm_group_agg))
+        list(level_2_1 = sim_metrics_group_collated))
   }
 
   result
@@ -337,7 +338,30 @@ helper_scale_aggregate <-
                                        df %>%
                                          yardstick::average_precision(truth, signal_probrank) %>%
                                          dplyr::pull(.estimate)
-                                     })) %>%
+                                     }))
+
+    # sim_signal_retrieval <-
+    #   sim_signal_retrieval %>%
+    #   dplyr::mutate(sim_retrieval_r_precision =
+    #                   purrr::map_dbl(data_retrieval,
+    #                                  function(df) {
+    #                                    signal_prevalence <-
+    #                                      df %>%
+    #                                      dplyr::filter(truth == "signal") %>%
+    #                                      nrow()
+    #
+    #                                    n_signal_top <-
+    #                                      df %>%
+    #                                      dplyr::slice_head(signal_prevalence) %>%
+    #                                      dplyr::filter(truth == "signal") %>%
+    #                                      nrow()
+    #
+    #                                    n_signal_top / signal_prevalence
+    #
+    #                                  }))
+
+    sim_signal_retrieval <-
+      sim_signal_retrieval %>%
       dplyr::select(-data_retrieval)
 
     sim_signal_retrieval <-
