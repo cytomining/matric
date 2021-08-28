@@ -23,7 +23,8 @@ Imports:
     purrr,
     ggplot2,
     stringr,
-    rlang
+    rlang,
+    yardstick
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 Suggests: 
