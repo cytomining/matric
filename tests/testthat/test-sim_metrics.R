@@ -79,7 +79,7 @@ test_that("`sim_metrics` works", {
         sim_median_i = 0.171754795930839,
         sim_mean_stat_ref_i = 0.101138990315028,
         sim_sd_stat_ref_i = 0.79702010493852,
-        sim_average_precision = 0.839614168724203
+        sim_retrieval_average_precision_ref_i = 0.839614168724203
       ),
       row.names = c(NA,
                     -1L),
@@ -109,8 +109,8 @@ test_that("`sim_metrics` works", {
         sim_mean_stat_ref_i_median_i = 0.161240002427761,
         sim_sd_stat_ref_i_mean_i = 0.79702010493852,
         sim_sd_stat_ref_i_median_i = 0.80835316991924,
-        sim_average_precision_mean_i = 0.839614168724203,
-        sim_average_precision_median_i = 0.836290914792196
+        sim_retrieval_average_precision_ref_i_mean_i = 0.839614168724203,
+        sim_retrieval_average_precision_ref_i_median_i = 0.836290914792196
       ),
       row.names = c(NA,
                     -1L),
@@ -133,7 +133,7 @@ test_that("`sim_metrics` works", {
         sim_median_g = 0.287140533081703,
         sim_mean_stat_ref_g = 0.101138990315028,
         sim_sd_stat_ref_g = 0.835088742570834,
-        sim_average_precision = 0.448707854167539
+        sim_retrieval_average_precision_ref_g = 0.448707854167539
       ),
       row.names = c(NA,
                     -1L),
