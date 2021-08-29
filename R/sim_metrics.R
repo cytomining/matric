@@ -347,6 +347,7 @@ sim_metrics_helper <-
                 signal %>% dplyr::mutate(truth = "signal"),
                 background %>% dplyr::mutate(truth = "background")
               ) %>%
+                # Note for yardstick: "signal" is the second factor level
                 dplyr::mutate(truth = as.factor(truth)) %>%
                 dplyr::mutate(signal_probrank = rank(sim) / dplyr::n()) %>%
                 dplyr::select(-sim) %>%
@@ -366,7 +367,11 @@ sim_metrics_helper <-
             data_retrieval,
             function(df) {
               df %>%
-                yardstick::average_precision(truth, signal_probrank) %>%
+                # Set `event_level` as "second" because "signal" is the second
+                # factor level in `truth`
+                yardstick::average_precision(truth,
+                                             signal_probrank,
+                                             event_level = "second") %>%
                 dplyr::pull(.estimate)
             }
           )
