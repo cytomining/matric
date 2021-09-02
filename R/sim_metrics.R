@@ -252,7 +252,9 @@ sim_metrics_helper <-
       dplyr::select(dplyr::all_of(c(summary_cols, "sim"))) %>%
       tidyr::nest(data_background = c(sim))
 
-    # ---- Scale with respect to background distribution ----
+    # ---- Compute transformed metrics ----
+    # ---- * Transform ----
+    # ---- ** Transform similarity: Scale with respect to background distribution ----
 
     # Compute statistics (mean and s.d.) on background distribution defined by
     # `sim_type_background`
@@ -277,7 +279,7 @@ sim_metrics_helper <-
       dplyr::inner_join(sim_stats, by = summary_cols) %>%
       dplyr::mutate(sim_scaled = (sim - sim_mean_stat) / sim_sd_stat)
 
-    # ---- Rank with respect to background distribution ----
+    # ---- ** Transform similarity: Rank with respect to background distribution ----
 
     sim_signal_ranked <-
       sim_signal %>%
@@ -289,7 +291,7 @@ sim_metrics_helper <-
       dplyr::select(-data_background)
 
 
-    # ---- Combine scale-based and rank-based metrics ----
+    # ---- * Collate transformed metrics ----
 
     # Use the columns of `sim_signal` to join (because `sim_signal_scaled` and
     # `sim_signal_ranked` add extra columns to `sim_signal`, making the columns
@@ -301,7 +303,7 @@ sim_metrics_helper <-
         by = colnames(sim_signal)
       )
 
-    # ---- Summarize transformed (scale-based and rank-based) metrics ----
+    # ---- * Summarize transformed metrics ----
 
     # Get a summary per group (a group is defined by `summary_cols`)
     # create summaries for all
@@ -357,7 +359,7 @@ sim_metrics_helper <-
       ) %>%
       dplyr::select(-data_background, -data_signal)
 
-    # ---- Compute retrieval metrics: average_precision ----
+    # ---- * Average Precision ----
 
     sim_signal_retrieval <-
       sim_signal_retrieval %>%
@@ -377,7 +379,7 @@ sim_metrics_helper <-
           )
       )
 
-    # ---- Compute retrieval metrics: r_precision ----
+    # ---- * R-Precision ----
 
     # Use nomenclature from
     # https://en.wikipedia.org/wiki/Precision_and_recall#Definition_(classification_context)
@@ -409,7 +411,7 @@ sim_metrics_helper <-
       sim_signal_retrieval %>%
       dplyr::select(-data_retrieval)
 
-    # ---- Collate metrics ----
+    # ---- Collate all metrics ----
 
     sim_metrics_collated <-
       dplyr::inner_join(sim_signal_transformed_agg,
