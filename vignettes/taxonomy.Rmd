@@ -80,7 +80,6 @@ Consider a list of vertices comprising
 | `sim_retrieval_average_precision_non_rep_i` | the [average precision](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Average_precision) reported on the list, with the replicates being the positive class |
 | `sim_retrieval_r_precision_non_rep_i`       | similarly, the [R-precision](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#R-precision) reported on the list                                                |
 
-
 Related:
 
 - `sim_ranked_relrank_median_non_rep_i` reports the median percentile instead of the mean percentile
@@ -125,6 +124,24 @@ Related:
 - `sim_scaled_median_non_rep_g` which scales `sim_median_g` instead of `sim_mean_g`
 - `sim_scaled_mean_ref_g` which scales `sim_mean_g` w.r.t. reference vertices (i.e. uses `sim_mean_stat_ref_g` and `sim_sd_stat_ref_g` – the mean and s.d. of similarity of vertices in a replicate set to the references vertices – to scale)
 - `sim_scaled_median_ref_i` which is the same as `sim_scaled_mean_ref_i` except that is scales  `sim_median_i` instead of `sim_mean_i`
+
+### Rank-based and retrieval-based metrics
+
+Consider a list of vertices comprising 
+
+- the vertices in a replicate set
+- the corresponding non-replicate (and non-group replicate) vertices
+
+We define metrics similar to the corresponding Level 1-0 metrics:
+
+- `sim_ranked_relrank_mean_non_rep_g`
+- `sim_ranked_relrank_median_non_rep_g`
+- `sim_retrieval_average_precision_non_rep_g`
+- `sim_retrieval_r_precision_non_rep_g`
+- `sim_ranked_relrank_median_ref_g`
+- `sim_ranked_relrank_median_ref_g`
+- `sim_retrieval_average_precision_ref_g`
+- `sim_retrieval_r_precision_ref_g`
 
 ### Level 2 aggregations of Level 2-1 metrics
 
