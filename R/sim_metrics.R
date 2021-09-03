@@ -142,30 +142,30 @@ sim_metrics <- function(collated_sim,
                         calculate_grouped = FALSE,
                         annotation_prefix = "Metadata_") {
   if (!is.null(attr(collated_sim, "all_same_cols_rep", TRUE))) {
-    rep_cols <- attr(collated_sim, "all_same_cols_rep", TRUE)
+    summary_cols <- attr(collated_sim, "all_same_cols_rep", TRUE)
   } else {
     message("Warning: Inferring columns specifying replicates from `sim_df`...")
-    rep_cols <-
+    summary_cols <-
       stringr::str_subset(colnames(collated_sim), pattern = annotation_prefix)
   }
 
-  # ---- Replicates ----
+  # ---- Level 1-0 ----
 
   sim_metrics_collated <-
     sim_metrics_helper(
       collated_sim,
       sim_type_background,
-      c("id1", rep_cols),
+      c("id1", summary_cols),
       "rep",
       "i"
     )
 
-  # get a summary per set
+  # ---- Level 1 (aggregations of Level 1-0) ----
 
   sim_metrics_collated_agg <-
     sim_metrics_collated %>%
     dplyr::ungroup() %>%
-    dplyr::group_by(dplyr::across(dplyr::all_of(c(rep_cols)))) %>%
+    dplyr::group_by(dplyr::across(dplyr::all_of(c(summary_cols)))) %>%
     dplyr::summarise(dplyr::across(
       -dplyr::all_of("id1"),
       list(mean = mean, median = median)
@@ -183,24 +183,29 @@ sim_metrics <- function(collated_sim,
       dplyr::starts_with("sim")
     )
 
-  result <-
-    list(
-      level_1_0 = sim_metrics_collated,
-      level_1 = sim_metrics_collated_agg
-    )
-
-  # ---- Group replicates  ----
+  # ---- Level 2  ----
 
   if (calculate_grouped) {
     sim_metrics_group_collated <-
       sim_metrics_helper(
         collated_sim,
         sim_type_background,
-        rep_cols,
+        summary_cols,
         "rep_group",
         "g"
       )
+  }
 
+  # ---- Collect metrics  ----
+
+  result <-
+    list(
+      level_1_0 = sim_metrics_collated,
+      level_1 = sim_metrics_collated_agg
+    )
+
+
+  if (calculate_grouped) {
     result <-
       c(
         result,
