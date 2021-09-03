@@ -126,7 +126,7 @@ Related:
 - `sim_scaled_mean_ref_g` which scales `sim_mean_g` w.r.t. reference vertices (i.e. uses `sim_mean_stat_ref_g` and `sim_sd_stat_ref_g` – the mean and s.d. of similarity of vertices in a replicate set to the references vertices – to scale)
 - `sim_scaled_median_ref_i` which is the same as `sim_scaled_mean_ref_i` except that is scales  `sim_median_i` instead of `sim_mean_i`
 
-### Level 2 aggregations Level 2-1 metrics
+### Level 2 aggregations of Level 2-1 metrics
 
 These are not implemented.
 
