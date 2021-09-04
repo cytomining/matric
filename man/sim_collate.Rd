@@ -26,17 +26,21 @@ sim_collate(
 
 \item{all_same_cols_rep}{optional character vector specifying columns.}
 
-\item{annotation_cols}{character vector specifying which columns from \code{metadata} to annotate the left index of the filtered \code{sim_df} with.}
+\item{annotation_cols}{character vector specifying which columns from
+\code{metadata} to annotate the left index of the filtered \code{sim_df}
+with.}
 
 \item{all_same_cols_ref}{optional character vector specifying columns.}
 
 \item{all_same_cols_rep_ref}{optional character vector specifying columns.}
 
-\item{any_different_cols_non_rep}{optional character vector specifying columns.}
+\item{any_different_cols_non_rep}{optional character vector specifying
+columns.}
 
 \item{all_same_cols_non_rep}{optional character vector specifying columns.}
 
-\item{all_different_cols_non_rep}{optional character vector specifying columns.}
+\item{all_different_cols_non_rep}{optional character vector specifying
+columns.}
 
 \item{any_different_cols_group}{optional character vector specifying columns.}
 
@@ -44,12 +48,16 @@ sim_collate(
 
 \item{reference}{optional character string specifying reference.}
 
-\item{drop_reference}{optional boolean specifying whether to filter (drop) pairs using \code{reference} on the left index.}
+\item{drop_reference}{optional boolean specifying whether to filter (drop)
+pairs using \code{reference} on the left index.}
 
-\item{drop_group}{optional tbl; rows that match on \code{drop_group} on the left or right index are dropped.}
+\item{drop_group}{optional tbl; rows that match on \code{drop_group} on the
+left or right index are dropped.}
 }
 \value{
-\code{metric_sim} object comprising a filtered \code{sim_df} with sets of pairs, preserving the same \code{metric_sim} attributes as \code{sim_df}.
+\code{metric_sim} object comprising a filtered \code{sim_df} with
+sets of pairs, preserving the same \code{metric_sim} attributes as
+\code{sim_df}.
 }
 \description{
 \code{sim_collate} collates several subsets of a melted simolarity matrix,
@@ -119,7 +127,8 @@ Do so for only those (a, b) pairs that
 \itemize{
 \item have \emph{same} values in \emph{all} columns of \code{all_same_cols_non_rep}
 \item have \emph{different} values in \emph{all} columns \code{all_different_cols_non_rep}
-\item have \emph{different} values in \emph{at least one} column of \code{any_different_cols_non_rep}
+\item have \emph{different} values in \emph{at least one} column of
+\code{any_different_cols_non_rep}
 }
 
 Keep, both, (a, b) and (b, a)
@@ -136,7 +145,8 @@ Fetch similarities between
 Do so for only those (a, b) pairs that
 \itemize{
 \item have \emph{same} values in \emph{all} columns of \code{all_same_cols_group}
-\item have \emph{different} values in \emph{at least one} column of \code{any_different_cols_group}
+\item have \emph{different} values in \emph{at least one} column of
+\code{any_different_cols_group}
 }
 
 Keep, both, (a, b) and (b, a)

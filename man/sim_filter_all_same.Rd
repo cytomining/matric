@@ -39,8 +39,8 @@ same values in \code{all_same_cols} columns are kept. Rows are annotated
 based on the first index, if specified.
 }
 \description{
-\code{sim_filter_all_same} filters a melted similarity matrix to keep pairs with the
-same values in specific columns.
+\code{sim_filter_all_same} filters a melted similarity matrix to keep pairs
+with the same values in specific columns.
 }
 \examples{
 suppressMessages(suppressWarnings(library(magrittr)))
