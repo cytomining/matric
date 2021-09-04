@@ -3,6 +3,7 @@
 export("%>%")
 export(drop_annotation)
 export(get_annotation)
+export(preprocess_data)
 export(sim_annotate)
 export(sim_calculate)
 export(sim_collate)

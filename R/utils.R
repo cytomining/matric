@@ -51,8 +51,6 @@ get_annotation <-
 #'
 #' @return data.frame with all columns except row annotations.
 #'
-#' @export
-#'
 #' @importFrom magrittr %>%
 #'
 #' @examples
@@ -72,4 +70,56 @@ drop_annotation <-
            annotation_prefix = "Metadata_") {
     population %>%
       dplyr::select(-dplyr::matches(annotation_prefix))
+  }
+
+#' Preprocess data.
+#' \code{preprocess_data} preprocesses data.
+#'
+#' @param population data.frame with annotations (a.k.a. metadata) and
+#' observation variables.
+#'
+#' @param annotation_prefix optional character string specifying prefix for
+#' annotation columns (e.g. \code{"Metadata_"} (default)).
+#'
+#' @return data.frame after preprocessing.
+#'
+#' @importFrom magrittr %>%
+#'
+#' @examples
+#' suppressMessages(suppressWarnings(library(magrittr)))
+#' population <- tibble::tibble(
+#'   AreaShape_Area = c(10, 12, 15, 16, 8, 8, 7, 7),
+#'   AreaShape_Compactness = c(10, 12, NA, 16, 8, 8, 7, 7)
+#' )
+#' matric::drop_annotation(population, annotation_prefix = "Metadata_")
+#' @export
+preprocess_data <-
+  function(population,
+           annotation_prefix = "Metadata_") {
+
+    drop_columns <-
+      population %>%
+      dplyr::summarise(across(!matches("Species"), ~sum(is.na(.)))) %>%
+      tidyr::pivot_longer(everything()) %>%
+      dplyr::filter(value != 0) %>%
+      purrr::pluck("name")
+
+    futile.logger::flog.debug(
+      glue::glue("Number of columns before NA filtering = {n}",
+                 n = ncol(population)
+      )
+    )
+
+    population <-
+      population %>%
+      dplyr::select(-any_of(drop_columns))
+
+    futile.logger::flog.debug(
+      glue::glue("Number of columns after NA filtering = {n}",
+                 n = ncol(population)
+      )
+    )
+
+    population
+
   }
