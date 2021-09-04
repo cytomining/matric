@@ -400,7 +400,8 @@ sim_collate <-
 
     if (fetch_rep_ref) {
       combined <- combined %>%
-        dplyr::bind_rows(rep_ref %>% dplyr::mutate(type = "rep")) # same tag as ref
+        # same tag as ref
+        dplyr::bind_rows(rep_ref %>% dplyr::mutate(type = "rep"))
     }
 
     if (fetch_non_rep) {
