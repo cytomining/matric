@@ -24,7 +24,8 @@ Imports:
     ggplot2,
     stringr,
     rlang,
-    yardstick
+    yardstick,
+    foreach
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 Suggests: 

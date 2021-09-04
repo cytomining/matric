@@ -1,4 +1,4 @@
-utils::globalVariables(c("id1", "id2"))
+utils::globalVariables(c("id1", "id2", "sim"))
 #' Calculate a melted similarity matrix.
 #'
 #' \code{sim_calculate} calculates a melted similarity matrix.
@@ -42,7 +42,6 @@ sim_calculate <-
            annotation_prefix = "Metadata_",
            strata = NULL,
            method = "pearson") {
-
     population <- preprocess_data(population)
 
     # calculate
@@ -54,7 +53,8 @@ sim_calculate <-
           method = method
         )
     } else {
-      population <- population %>% dplyr::arrange(across(all_of(strata))) # nolint
+      population <-
+        population %>% dplyr::arrange(across(all_of(strata))) # nolint
 
       reduct <- function(partition, partition_row_indices) {
         population_partition <-
@@ -74,18 +74,16 @@ sim_calculate <-
         population %>%
         dplyr::select(all_of(strata)) %>%
         dplyr::group_by(across(all_of(strata))) %>%
-        dplyr::summarise(reduct(
-          dplyr::cur_group(),
-          dplyr::cur_group_rows()
-        ),
-        .groups = "keep"
-        ) %>%
+        dplyr::summarise(reduct(dplyr::cur_group(),
+                                dplyr::cur_group_rows()),
+                         .groups = "keep") %>%
         dplyr::ungroup() %>%
         dplyr::select(id1, id2, sim)
     }
 
     # get metadata
-    row_metadata <- get_annotation(population, annotation_prefix) # nolint
+    row_metadata <-
+      get_annotation(population, annotation_prefix) # nolint
 
     # construct object
     sim_df <-
@@ -125,7 +123,8 @@ sim_calculate_helper <- function(population,
   stopifnot(method %in% c(distances, correlations, similarities))
 
   # get data matrix
-  data_matrix <- drop_annotation(population, annotation_prefix) # nolint
+  data_matrix <-
+    drop_annotation(population, annotation_prefix) # nolint
 
   if (method %in% distances) {
     sim_df <-
@@ -138,14 +137,13 @@ sim_calculate_helper <- function(population,
   } else if (method %in% correlations) {
     sim_df <-
       stats::cor(t(data_matrix),
-        method = method,
-        use = "pairwise.complete.obs"
-      )
+                 method = method,
+                 use = "pairwise.complete.obs")
   } else if (method %in% similarities) {
     if (method == "cosine") {
       data_matrix <-
         data_matrix / apply(data_matrix, 1, function(x) {
-          sqrt(sum(x^2, na.rm = TRUE))
+          sqrt(sum(x ^ 2, na.rm = TRUE))
         })
 
       sim_df <-
@@ -156,7 +154,7 @@ sim_calculate_helper <- function(population,
           upper = TRUE
         ))
 
-      sim_df <- 1 - (sim_df^2) / 2
+      sim_df <- 1 - (sim_df ^ 2) / 2
     }
   }
 
@@ -174,79 +172,97 @@ sim_calculate_helper <- function(population,
   sim_df
 }
 
-sim_fill <- function(collated_sim, population, method = "cosine") {
-  distances <- c("euclidean")
-  correlations <- c("pearson", "kendall", "spearman")
-  similarities <- c("cosine")
+#' Calculate similarities given pairs of rows
+#'
+#' \code{sim_calculate_ij} calculates similarities given pairs of rows.
+#'
+#' @param population data.frame with annotations (a.k.a. metadata) and
+#'   observation variables.
+#' @param rows data.frame with at least two columns \code{id1} and \code{id2}
+#'   specifying rows of `population`.
+#' @param annotation_prefix optional character string specifying prefix
+#'   for annotation columns.
+#' @param method optional character string specifying method for
+#'   to calculate similarity. Currently only \code{"cosine"} is implemented.
+#'
+#' @return \code{rows}, with new column `sim` containing similarities.
+#'
+#' @importFrom foreach %do%
+#'
+#' @examples
+#' suppressMessages(suppressWarnings(library(magrittr)))
+#' population <- tibble::tribble(
+#'   ~Metadata_group, ~x, ~y, ~z,
+#'   1, -1, 5, -5,
+#'   2, 0, 6, -4,
+#'   3, 7, -4, 3,
+#'   4, 14, -8, 6
+#' )
+#'
+#' n <- nrow(population)
+#'
+#' rows <- expand.grid(id1 = seq(n), id2 = seq(n))
+#'
+#' sim_cosine <- matric::sim_calculate_ij(population, rows, method = "cosine")
+#'
+#' sim_cosine
+#' @export
+sim_calculate_ij <-
+  function(population,
+           rows,
+           annotation_prefix = "Metadata_",
+           method = "cosine") {
+    similarities <- c("cosine")
 
-  stopifnot(is.data.frame(population))
+    stopifnot(is.data.frame(rows))
 
-  stopifnot(method %in% c(distances, correlations, similarities))
+    stopifnot(all(c("id1", "id2") %in% names(rows)))
 
-  # get data matrix
-  data_matrix <- drop_annotation(population, annotation_prefix) # nolint
+    stopifnot(is.data.frame(population))
 
-  # drop NA
-  # TODO:
-  #   - Handle this more elegantly
-  futile.logger::flog.debug(
-    glue::glue("Number of columns before NA filtering = {n}",
-      n = ncol(data_matrix)
-    )
-  )
+    stopifnot(method %in% c(similarities))
 
-  data_matrix <- Filter(function(x) {
-    !any(is.na(x))
-  }, data_matrix)
+    if ("sim" %in% names(rows)) {
+      rows <- rows %>% select(-sim)
 
-  futile.logger::flog.debug(
-    glue::glue("Number of columns after NA filtering = {n}",
-      n = ncol(data_matrix)
-    )
-  )
-
-  get_filter_row_ids <- function(filter_df) {
-    population %>%
-      dplyr::left_join(
-        filter_df %>%
-          dplyr::mutate(flag = TRUE)
-      ) %>%
-      tibble::rowid_to_column() %>%
-      dplyr::filter(flag) %>%
-      purrr::pluck("rowid")
-  }
-
-  row_ids_query <- get_filter_row_ids(query)
-
-  data_matrix_query <- data_matrix[row_ids_query, ]
-
-  row_ids_background <- get_filter_row_ids(background)
-
-  row_ids_combined <- c(row_ids_query, row_ids_background)
-
-  data_matrix_combined <- data_matrix[row_ids_combined, ]
-
-  if (method %in% similarities) {
-    if (method == "cosine") {
-      normalize <- function(X) X / sqrt(rowSums(X * X)) # nolint
-
-      sim_df <-
-        normalize(data_matrix_query) %*% t(normalize(data_matrix_combined))
     }
+
+    population <- preprocess_data(population)
+
+    # get data matrix
+    X <-
+      drop_annotation(population, annotation_prefix) %>%
+      as.matrix()
+
+    id1 <- rows$id1
+
+    id2 <- rows$id2
+
+    if (method %in% similarities) {
+      if (method == "cosine") {
+        X <- X / sqrt(rowSums(X * X))
+
+        S <-
+          foreach::foreach(i = seq_along(id1), .combine = "c") %do%
+          sum(X[id1[i],] * X[id2[i],])
+
+      }
+    }
+
+    sim_df <-
+      tibble::tibble(id1 = id1,
+                     id2 = id2,
+                     sim = as.vector(S))
+
+
+    if (!purrr::is_empty(setdiff(names(rows), c("id1", "id2")))) {
+      rows <-
+        rows %>%
+        dplyr::inner_join(sim_df, by = c("id1", "id2"))
+
+    } else {
+      rows <- sim_df
+    }
+
+    rows
   }
-
-  colnames(sim_df) <- row_ids_combined
-
-  rownames(sim_df) <- row_ids_query
-
-  sim_df <- sim_df %>%
-    tibble::as_tibble() %>%
-    tibble::rownames_to_column(var = "id1") %>%
-    tidyr::pivot_longer(-id1, names_to = "id2", values_to = "sim") %>%
-    dplyr::mutate(id2 = as.integer(id2)) %>%
-    dplyr::filter(id1 != id2) %>%
-    dplyr::mutate(id1 = id1 + starting_index - 1) %>%
-    dplyr::mutate(id2 = id2 + starting_index - 1)
-
-  sim_df
-}

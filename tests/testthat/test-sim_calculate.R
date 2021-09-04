@@ -274,7 +274,7 @@ test_that("stratified `sim_calculate` works", {
   ) %>%
     dplyr::arrange(across(all_of(strata)))
 
-  # ^^ sorting is needed for compariosn because the stratified version sorts
+  # ^^ sorting is needed for comparison because the stratified version sorts
   # the rows
 
   method <- "pearson"
@@ -325,4 +325,51 @@ test_that("stratified `sim_calculate` works", {
     row_metadata_s %>% dplyr::select(-id),
     population %>% dplyr::select(g1, g2)
   )
+})
+
+test_that("`sim_calculate_ij` works", {
+  population <- tibble::tribble(
+    ~Metadata_group, ~x, ~y, ~z,
+    1, -1, 5, -5,
+    2, 0, 6, -4,
+    3, 7, -4, 3,
+    4, 14, -8, 6,
+    5, -4, 1, -1,
+    6, 4, -1, 1
+  )
+
+  # ------ Cosine
+
+  n <- nrow(population)
+
+  rows <- expand.grid(id1 = seq(n), id2 = seq(n))
+
+  sim_df <- matric::sim_calculate_ij(population, rows, method = "cosine")
+
+  # expect_equal(
+  #   attr(sim_df, "row_metadata") %>% dplyr::select(-id),
+  #   population %>% dplyr::select(Metadata_group)
+  # )
+
+  expect_equal(
+    sim_df %>%
+      dplyr::filter(id1 == 1 & id2 == 2) %>%
+      dplyr::pull("sim"),
+    0.97091955
+  )
+
+  expect_equal(
+    sim_df %>%
+      dplyr::filter(id1 == 3 & id2 == 4) %>%
+      dplyr::pull("sim"),
+    1
+  )
+
+  expect_equal(
+    sim_df %>%
+      dplyr::filter(id1 == 5 & id2 == 6) %>%
+      dplyr::pull("sim"),
+    -1
+  )
+
 })
