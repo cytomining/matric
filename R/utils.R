@@ -1,4 +1,4 @@
-utils::globalVariables(c("id"))
+utils::globalVariables(c("id", "value"))
 #' Get row annotations.
 #'
 #' \code{get_annotation} gets row annotations.
@@ -84,6 +84,7 @@ drop_annotation <-
 #' @return data.frame after preprocessing.
 #'
 #' @importFrom magrittr %>%
+#' @importFrom dplyr across any_of matches everything
 #'
 #' @examples
 #' suppressMessages(suppressWarnings(library(magrittr)))
