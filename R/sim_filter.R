@@ -96,8 +96,8 @@ sim_filter_keep_or_drop_some <-
 #' Filter a melted similarity matrix to keep pairs with the same
 #' values in specific columns.
 #'
-#' \code{sim_filter_all_same} filters a melted similarity matrix to keep pairs with the
-#' same values in specific columns.
+#' \code{sim_filter_all_same} filters a melted similarity matrix to keep pairs
+#' with the same values in specific columns.
 #'
 #' @param sim_df data.frame with melted similarity matrix.
 #'
@@ -196,8 +196,8 @@ sim_filter_all_same <-
 #' Filter a melted similarity matrix to keep pairs with the same values in
 #' specific columns, and keep only some of these pairs.
 #'
-#' \code{sim_filter_all_same} filters a melted similarity matrix to keep pairs with
-#' the same values in specific columns, keeping only some of these pairs.
+#' \code{sim_filter_all_same} filters a melted similarity matrix to keep pairs
+#' with the same values in specific columns, keeping only some of these pairs.
 #'
 #' @param sim_df data.frame with melted similarity matrix.
 #'
@@ -240,7 +240,8 @@ sim_filter_all_same <-
 #' row_metadata <- attr(sim_df, "row_metadata")
 #' sim_df <- matric::sim_annotate(sim_df, row_metadata, annotation_cols)
 #' all_same_cols <- c("Metadata_group")
-#' filter_keep_right <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
+#' filter_keep_right <-
+#'   tibble::tibble(Metadata_group = "a", Metadata_type = "x")
 #' drop_reference <- FALSE
 #' matric::sim_filter_all_same_keep_some(
 #'   sim_df,
@@ -294,8 +295,9 @@ sim_filter_all_same_keep_some <-
 #' Filter a melted similarity matrix to keep pairs with the same
 #' values in specific columns, and other constraints.
 #'
-#' \code{sim_filter_some_different_drop_some} filters a melted similarity matrix to
-#' keep pairs with the same values in specific columns, and other constraints.
+#' \code{sim_filter_some_different_drop_some} filters a melted similarity matrix
+#' to keep pairs with the same values in specific columns, and other
+#' constraints.
 #'
 #' @param sim_df data.frame with melted similarity matrix.
 #'
@@ -345,8 +347,10 @@ sim_filter_all_same_keep_some <-
 #' all_same_cols <- c("Metadata_group")
 #' all_different_cols <- c("Metadata_type1")
 #' any_different_cols <- c("Metadata_type2")
-#' filter_drop_left <- tibble::tibble(Metadata_group = "a", Metadata_type1 = "x")
-#' filter_drop_right <- tibble::tibble(Metadata_group = "a", Metadata_type1 = "x")
+#' filter_drop_left <-
+#'   tibble::tibble(Metadata_group = "a", Metadata_type1 = "x")
+#' filter_drop_right <-
+#'   tibble::tibble(Metadata_group = "a", Metadata_type1 = "x")
 #' drop_reference <- FALSE
 #' matric::sim_filter_some_different_drop_some(
 #'   sim_df,
