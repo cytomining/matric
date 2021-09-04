@@ -42,6 +42,9 @@ sim_calculate <-
            annotation_prefix = "Metadata_",
            strata = NULL,
            method = "pearson") {
+
+    population <- preprocess_data(population)
+
     # calculate
     if (is.null(strata)) {
       sim_df <-
@@ -124,25 +127,6 @@ sim_calculate_helper <- function(population,
   # get data matrix
   data_matrix <- drop_annotation(population, annotation_prefix) # nolint
 
-  # drop NA
-  # TODO:
-  #   - Handle this more elegantly
-  futile.logger::flog.debug(
-    glue::glue("Number of columns before NA filtering = {n}",
-      n = ncol(data_matrix)
-    )
-  )
-
-  data_matrix <- Filter(function(x) {
-    !any(is.na(x))
-  }, data_matrix)
-
-  futile.logger::flog.debug(
-    glue::glue("Number of columns after NA filtering = {n}",
-      n = ncol(data_matrix)
-    )
-  )
-
   if (method %in% distances) {
     sim_df <-
       as.matrix(stats::dist(
@@ -181,6 +165,83 @@ sim_calculate_helper <- function(population,
   sim_df <- sim_df %>%
     tibble::as_tibble() %>%
     tibble::rowid_to_column(var = "id1") %>%
+    tidyr::pivot_longer(-id1, names_to = "id2", values_to = "sim") %>%
+    dplyr::mutate(id2 = as.integer(id2)) %>%
+    dplyr::filter(id1 != id2) %>%
+    dplyr::mutate(id1 = id1 + starting_index - 1) %>%
+    dplyr::mutate(id2 = id2 + starting_index - 1)
+
+  sim_df
+}
+
+sim_fill <- function(collated_sim, population, method = "cosine") {
+  distances <- c("euclidean")
+  correlations <- c("pearson", "kendall", "spearman")
+  similarities <- c("cosine")
+
+  stopifnot(is.data.frame(population))
+
+  stopifnot(method %in% c(distances, correlations, similarities))
+
+  # get data matrix
+  data_matrix <- drop_annotation(population, annotation_prefix) # nolint
+
+  # drop NA
+  # TODO:
+  #   - Handle this more elegantly
+  futile.logger::flog.debug(
+    glue::glue("Number of columns before NA filtering = {n}",
+      n = ncol(data_matrix)
+    )
+  )
+
+  data_matrix <- Filter(function(x) {
+    !any(is.na(x))
+  }, data_matrix)
+
+  futile.logger::flog.debug(
+    glue::glue("Number of columns after NA filtering = {n}",
+      n = ncol(data_matrix)
+    )
+  )
+
+  get_filter_row_ids <- function(filter_df) {
+    population %>%
+      dplyr::left_join(
+        filter_df %>%
+          dplyr::mutate(flag = TRUE)
+      ) %>%
+      tibble::rowid_to_column() %>%
+      dplyr::filter(flag) %>%
+      purrr::pluck("rowid")
+  }
+
+  row_ids_query <- get_filter_row_ids(query)
+
+  data_matrix_query <- data_matrix[row_ids_query, ]
+
+  row_ids_background <- get_filter_row_ids(background)
+
+  row_ids_combined <- c(row_ids_query, row_ids_background)
+
+  data_matrix_combined <- data_matrix[row_ids_combined, ]
+
+  if (method %in% similarities) {
+    if (method == "cosine") {
+      normalize <- function(X) X / sqrt(rowSums(X * X)) # nolint
+
+      sim_df <-
+        normalize(data_matrix_query) %*% t(normalize(data_matrix_combined))
+    }
+  }
+
+  colnames(sim_df) <- row_ids_combined
+
+  rownames(sim_df) <- row_ids_query
+
+  sim_df <- sim_df %>%
+    tibble::as_tibble() %>%
+    tibble::rownames_to_column(var = "id1") %>%
     tidyr::pivot_longer(-id1, names_to = "id2", values_to = "sim") %>%
     dplyr::mutate(id2 = as.integer(id2)) %>%
     dplyr::filter(id1 != id2) %>%
