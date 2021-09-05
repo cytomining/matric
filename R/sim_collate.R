@@ -206,6 +206,8 @@ sim_collate <-
 
     row_metadata <- attr(sim_df, "row_metadata")
 
+    sim_cols <- names(sim_df)
+
     # ---- 0. Filter out some rows ----
 
     if (!is.null(drop_group)) {
@@ -254,10 +256,11 @@ sim_collate <-
         sim_df %>%
         sim_filter_all_same_keep_some(
           row_metadata = row_metadata,
-          all_same_cols_ref,
+          all_same_cols = all_same_cols_ref,
           filter_keep_right = reference,
           drop_reference = drop_reference,
-          annotation_cols
+          annotation_cols = annotation_cols,
+          sim_cols = sim_cols
         )
     }
 
@@ -287,9 +290,10 @@ sim_collate <-
       ) %>%
       sim_filter_all_same(
         row_metadata = row_metadata,
-        all_same_cols_rep,
-        annotation_cols,
-        drop_lower = FALSE
+        all_same_cols = all_same_cols_rep,
+        annotation_cols = annotation_cols,
+        drop_lower = FALSE,
+        sim_cols = sim_cols
       )
 
     # ---- 3. Similarity to replicates (only references) ----
@@ -321,7 +325,8 @@ sim_collate <-
           row_metadata = row_metadata,
           all_same_cols = all_same_cols_rep_ref,
           annotation_cols = annotation_cols,
-          drop_lower = FALSE
+          drop_lower = FALSE,
+          sim_cols = sim_cols
         )
     }
 
@@ -356,7 +361,8 @@ sim_collate <-
           all_different_cols = all_different_cols_non_rep,
           filter_drop_left = reference_left,
           filter_drop_right = reference,
-          annotation_cols = annotation_cols
+          annotation_cols = annotation_cols,
+          sim_cols = sim_cols
         )
     }
 
@@ -389,7 +395,8 @@ sim_collate <-
           all_same_cols = all_same_cols_group,
           filter_drop_left = reference_both,
           filter_drop_right = reference_both,
-          annotation_cols = annotation_cols
+          annotation_cols = annotation_cols,
+          sim_cols = sim_cols
         )
     }
 

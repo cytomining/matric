@@ -13,7 +13,8 @@ sim_filter_some_different_drop_some(
   all_different_cols = NULL,
   filter_drop_left = NULL,
   filter_drop_right = NULL,
-  annotation_cols = NULL
+  annotation_cols = NULL,
+  sim_cols = c("id1", "id2", "sim")
 )
 }
 \arguments{
@@ -36,6 +37,9 @@ drop on the right index.}
 \item{annotation_cols}{optional character vector specifying which columns
 from \code{metadata} to annotate the left index of the filtered
 \code{sim_df} with.}
+
+\item{sim_cols}{optional character string specifying minimal set of columns
+for a similarity matrix}
 }
 \value{
 Filtered \code{sim_df} as a data.frame, keeping only pairs that have

@@ -11,7 +11,8 @@ sim_filter_all_same(
   all_same_cols,
   annotation_cols = NULL,
   include_group_tag = FALSE,
-  drop_lower = FALSE
+  drop_lower = FALSE,
+  sim_cols = c("id1", "id2", "sim")
 )
 }
 \arguments{
@@ -32,6 +33,9 @@ columns.}
 \item{drop_lower}{optional boolean specifying whether to drop the pairs
 where the first index is smaller than the second index. This is equivalent
 to dropping the lower triangular of  \code{sim_df}.}
+
+\item{sim_cols}{optional character string specifying minimal set of columns
+for a similarity matrix}
 }
 \value{
 Filtered \code{sim_df} as a data.frame, where only pairs with the

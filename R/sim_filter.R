@@ -117,6 +117,9 @@ sim_filter_keep_or_drop_some <-
 #' where the first index is smaller than the second index. This is equivalent
 #' to dropping the lower triangular of  \code{sim_df}.
 #'
+#' @param sim_cols optional character string specifying minimal set of columns
+#' for a similarity matrix
+#'
 #' @return Filtered \code{sim_df} as a data.frame, where only pairs with the
 #' same values in \code{all_same_cols} columns are kept. Rows are annotated
 #' based on the first index, if specified.
@@ -155,7 +158,8 @@ sim_filter_all_same <-
            all_same_cols,
            annotation_cols = NULL,
            include_group_tag = FALSE,
-           drop_lower = FALSE) {
+           drop_lower = FALSE,
+           sim_cols = c("id1", "id2", "sim")) {
     sim_df <- as.data.frame(sim_df)
 
     metadata_i <-
@@ -165,10 +169,9 @@ sim_filter_all_same <-
 
     ids <-
       dplyr::inner_join(metadata_i,
-        metadata_i,
-        by = "all_same_col",
-        suffix = c("1", "2")
-      )
+                        metadata_i,
+                        by = "all_same_col",
+                        suffix = c("1", "2"))
 
     if (include_group_tag) {
       ids <- ids %>% dplyr::select(id1, id2, group = all_same_col)
@@ -185,9 +188,11 @@ sim_filter_all_same <-
 
     if (!is.null(annotation_cols)) {
       sim_df <- sim_df %>%
-        sim_annotate(row_metadata, annotation_cols,
-          index = "left"
-        )
+        sim_annotate(
+          row_metadata = row_metadata,
+          annotation_cols = annotation_cols,
+          index = "left",
+          sim_cols = sim_cols)
     }
 
     sim_df
@@ -264,28 +269,27 @@ sim_filter_all_same_keep_some <-
 
     sim_df <- sim_df %>%
       sim_filter_all_same(row_metadata, all_same_cols) %>%
-      sim_filter_keep_or_drop_some(
-        row_metadata,
-        filter_keep = filter_keep_right,
-        filter_side = "right"
-      )
+      sim_filter_keep_or_drop_some(row_metadata,
+                                   filter_keep = filter_keep_right,
+                                   filter_side = "right")
 
     if (drop_reference) {
       filter_drop_left <- filter_keep_right
 
       sim_df <- sim_df %>%
-        sim_filter_keep_or_drop_some(
-          row_metadata,
-          filter_drop = filter_drop_left,
-          filter_side = "left"
-        )
+        sim_filter_keep_or_drop_some(row_metadata,
+                                     filter_drop = filter_drop_left,
+                                     filter_side = "left")
     }
 
     if (!is.null(annotation_cols)) {
       sim_df <- sim_df %>%
         dplyr::select(dplyr::all_of(sim_cols)) %>%
-        sim_annotate(row_metadata, annotation_cols,
-          index = "left"
+        sim_annotate(
+          row_metadata = row_metadata,
+          annotation_cols = annotation_cols,
+          index = "left",
+          sim_cols = sim_cols
         )
     }
 
@@ -318,6 +322,9 @@ sim_filter_all_same_keep_some <-
 #' @param annotation_cols optional character vector specifying which columns
 #' from \code{metadata} to annotate the left index of the filtered
 #' \code{sim_df} with.
+#'
+#' @param sim_cols optional character string specifying minimal set of columns
+#' for a similarity matrix
 #'
 #' @return Filtered \code{sim_df} as a data.frame, keeping only pairs that have
 #'   - same values in all columns of \code{all_same_cols},
@@ -371,7 +378,8 @@ sim_filter_some_different_drop_some <-
            all_different_cols = NULL,
            filter_drop_left = NULL,
            filter_drop_right = NULL,
-           annotation_cols = NULL) {
+           annotation_cols = NULL,
+           sim_cols = c("id1", "id2", "sim")) {
     sim_df <- as.data.frame(sim_df)
 
     stopifnot(!any(all_same_cols %in% all_different_cols))
@@ -435,33 +443,29 @@ sim_filter_some_different_drop_some <-
     # list of rows that should be the same (weak constraint)
     ids_all_same <-
       dplyr::inner_join(metadata_left,
-        metadata_right,
-        by = "all_same_col",
-        suffix = c("1", "2")
-      )
+                        metadata_right,
+                        by = "all_same_col",
+                        suffix = c("1", "2"))
 
     # list of rows that should be the different (strong constraint)
     ids_all_different <-
-      purrr::map_df(
-        all_different_cols,
-        function(all_different_col) {
-          dplyr::inner_join(
-            metadata_i %>% dplyr::select(id, dplyr::all_of(all_different_col)),
-            metadata_i %>% dplyr::select(id, dplyr::all_of(all_different_col)),
-            by = all_different_col,
-            suffix = c("1", "2")
-          ) %>%
-            dplyr::select(id1, id2)
-        }
-      ) %>%
+      purrr::map_df(all_different_cols,
+                    function(all_different_col) {
+                      dplyr::inner_join(
+                        metadata_i %>% dplyr::select(id, dplyr::all_of(all_different_col)),
+                        metadata_i %>% dplyr::select(id, dplyr::all_of(all_different_col)),
+                        by = all_different_col,
+                        suffix = c("1", "2")
+                      ) %>%
+                        dplyr::select(id1, id2)
+                    }) %>%
       dplyr::distinct()
 
     # impose strong constraint on weak constraint
     ids <-
       dplyr::anti_join(ids_all_same,
-        ids_all_different,
-        by = c("id1", "id2")
-      )
+                       ids_all_different,
+                       by = c("id1", "id2"))
 
     ids <- ids %>% dplyr::select(id1, id2)
 
@@ -472,9 +476,11 @@ sim_filter_some_different_drop_some <-
     # add annotations
     if (!is.null(annotation_cols)) {
       sim_df <- sim_df %>%
-        sim_annotate(row_metadata, annotation_cols,
-          index = "left"
-        )
+        sim_annotate(
+          row_metadata = row_metadata,
+          annotation_cols = annotation_cols,
+          index = "left",
+          sim_cols = sim_cols)
     }
 
     sim_df
