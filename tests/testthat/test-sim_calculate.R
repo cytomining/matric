@@ -223,7 +223,6 @@ test_that("stratified `sim_calculate` works", {
                -1)
 })
 
-
 test_that("stratified `sim_calculate` works", {
   n <- 100
   strata <- c("g1", "g2")
@@ -300,7 +299,7 @@ test_that("`sim_calculate_ij` works", {
 
   n <- nrow(population)
 
-  rows1 <- expand.grid(id1 = seq(n), id2 = seq(n))
+  rows1 <- expand.grid(id1 = seq(n), id2 = seq(n), KEEP.OUT.ATTRS = FALSE)
 
   rows2 <- matric::sim_calculate(
     population,
