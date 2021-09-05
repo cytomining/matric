@@ -25,9 +25,6 @@ for annotation columns.}
 
 \item{cores}{optional integer specifying number of CPU cores used for
 parallel computing using \code{doParallel}.}
-
-\item{method}{optional character string specifying method for
-to calculate similarity. Currently only \code{"cosine"} is implemented.}
 }
 \value{
 data.frame which is the same as \code{sim_df_lazy}, but with a new
