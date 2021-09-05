@@ -155,6 +155,11 @@ sim_calculate_helper <- function(population,
                    use = "pairwise.complete.obs")
     } else if (method %in% similarities) {
       if (method == "cosine") {
+
+        # X <- X / sqrt(rowSums(X * X))
+        #
+        # S <- X %*% t(X)
+
         X <-
           X / apply(X, 1, function(x) {
             sqrt(sum(x ^ 2, na.rm = TRUE))
@@ -198,7 +203,7 @@ sim_calculate_helper <- function(population,
 #'
 #' @return \code{rows}, with new column `sim` containing similarities.
 #'
-#' @importFrom foreach %do%
+#' @importFrom foreach %dopar%
 #'
 #' @examples
 #' suppressMessages(suppressWarnings(library(magrittr)))
@@ -222,7 +227,10 @@ sim_calculate_ij <-
   function(population,
            rows,
            annotation_prefix = "Metadata_",
-           method = "cosine") {
+           method = "cosine",
+           cores = 1) {
+    doParallel::registerDoParallel(cores = cores)
+
     similarities <- c("cosine")
 
     stopifnot(is.data.frame(rows))
@@ -254,7 +262,7 @@ sim_calculate_ij <-
         X <- X / sqrt(rowSums(X * X))
 
         S <-
-          foreach::foreach(i = seq_along(id1), .combine = "c") %do%
+          foreach::foreach(i = seq_along(id1), .combine = "c") %dopar%
           sum(X[id1[i],] * X[id2[i],])
 
       }

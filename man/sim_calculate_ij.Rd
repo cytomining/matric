@@ -8,7 +8,8 @@ sim_calculate_ij(
   population,
   rows,
   annotation_prefix = "Metadata_",
-  method = "cosine"
+  method = "cosine",
+  cores = 1
 )
 }
 \arguments{
@@ -42,7 +43,7 @@ population <- tibble::tribble(
 
 n <- nrow(population)
 
-rows <- expand.grid(id1 = seq(n), id2 = seq(n))
+rows <- expand.grid(id1 = seq(n), id2 = seq(n), KEEP.OUT.ATTRS = FALSE)
 
 sim_cosine <- matric::sim_calculate_ij(population, rows, method = "cosine")
 
