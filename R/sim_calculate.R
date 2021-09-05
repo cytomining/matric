@@ -134,7 +134,11 @@ sim_calculate_helper <- function(population,
   n_rows <- nrow(population)
 
   sim_df <-
-    expand.grid(id1 = seq(n_rows), id2 = seq(n_rows), KEEP.OUT.ATTRS = FALSE)
+    expand.grid(
+      id1 = seq(n_rows),
+      id2 = seq(n_rows),
+      KEEP.OUT.ATTRS = FALSE
+    )
 
   # get data matrix
   X <-
@@ -157,7 +161,6 @@ sim_calculate_helper <- function(population,
                    use = "pairwise.complete.obs")
     } else if (method %in% similarities) {
       if (method == "cosine") {
-
         X <- X / sqrt(rowSums(X * X))
 
         S <- X %*% t(X)
@@ -251,7 +254,7 @@ sim_calculate_ij <-
 
         S <-
           foreach::foreach(i = seq_along(id1), .combine = "c") %dopar%
-          sum(X[id1[i],] * X[id2[i],])
+          sum(X[id1[i], ] * X[id2[i], ])
 
       }
     }
@@ -261,14 +264,9 @@ sim_calculate_ij <-
                      id2 = id2,
                      sim = as.vector(S))
 
-    if (!purrr::is_empty(setdiff(names(rows), c("id1", "id2")))) {
-      rows <-
-        rows %>%
-        dplyr::inner_join(sim_df, by = c("id1", "id2"))
-
-    } else {
-      rows <- sim_df
-    }
+    rows <-
+      rows %>%
+      dplyr::inner_join(sim_df, by = c("id1", "id2"))
 
     rows
   }

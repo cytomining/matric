@@ -299,7 +299,9 @@ test_that("`sim_calculate_ij` works", {
 
   n <- nrow(population)
 
-  rows1 <- expand.grid(id1 = seq(n), id2 = seq(n), KEEP.OUT.ATTRS = FALSE)
+  rows1 <-
+    expand.grid(id1 = seq(n), id2 = seq(n), KEEP.OUT.ATTRS = FALSE) %>%
+    dplyr::filter(id1 != id2)
 
   rows2 <- matric::sim_calculate(
     population,
@@ -314,10 +316,10 @@ test_that("`sim_calculate_ij` works", {
   sim_df2 <-
     matric::sim_calculate_ij(population, rows2, method = "cosine")
 
-  # expect_equal(
-  #   attr(sim_df, "row_metadata") %>% dplyr::select(-id),
-  #   population %>% dplyr::select(Metadata_group)
-  # )
+  expect_equal(
+    attr(sim_df2, "row_metadata") %>% dplyr::select(-id),
+    population %>% dplyr::select(Metadata_group)
+  )
 
   expect_equal(sim_df1 %>%
                  dplyr::filter(id1 == 1 & id2 == 2) %>%
@@ -333,5 +335,8 @@ test_that("`sim_calculate_ij` works", {
                  dplyr::filter(id1 == 5 & id2 == 6) %>%
                  dplyr::pull("sim"),
                -1)
+
+  # needs `ignore_attr = TRUE` because `sim_df1` was constructed by hand
+  expect_equal(sim_df1, sim_df2, ignore_attr = TRUE)
 
 })
