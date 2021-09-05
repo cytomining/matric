@@ -82,29 +82,6 @@ test_that("`sim_metrics` works", {
   metrics <-
     matric::sim_metrics(collated_sim, "ref", calculate_grouped = TRUE)
 
-  sim_df_lazy <- matric::sim_calculate(matric::cellhealth, lazy = TRUE)
-
-  collated_sim_lazy <-
-    matric::sim_collate(
-      sim_df_lazy,
-      reference,
-      all_same_cols_rep = all_same_cols_rep,
-      all_same_cols_rep_ref = all_same_cols_rep_ref,
-      all_same_cols_ref = all_same_cols_ref,
-      any_different_cols_non_rep = any_different_cols_non_rep,
-      all_same_cols_non_rep = all_same_cols_non_rep,
-      all_different_cols_non_rep = all_different_cols_non_rep,
-      any_different_cols_group = any_different_cols_group,
-      all_same_cols_group = all_same_cols_group,
-      annotation_cols = annotation_cols,
-      drop_group = drop_group
-    )
-
-  # collated_sim_lazy <- sim_calculate_ij(matric::cellhealth, collated_sim_lazy)
-
-  # metrics_lazy <-
-  #   matric::sim_metrics(collated_sim_lazy, "ref", calculate_grouped = TRUE)
-
   answer <-
     structure(
       list(
