@@ -1,4 +1,4 @@
-utils::globalVariables(c("id1", "id2", "sim"))
+utils::globalVariables(c("id1", "id2", "i", "sim"))
 #' Calculate a melted similarity matrix.
 #'
 #' \code{sim_calculate} calculates a melted similarity matrix.
@@ -12,6 +12,8 @@ utils::globalVariables(c("id1", "id2", "sim"))
 #'   to calculate similarity. This must be one of the
 #'   strings \code{"pearson"} (default), \code{"kendall"}, \code{"spearman"},
 #'   \code{"euclidean"}, \code{"cosine"}.
+#' @param lazy optional boolean specifying whether to lazily evaluate
+#'   similarity.
 #'
 #' @return \code{metric_sim} object, with similarity matrix and related metadata
 #'
@@ -41,13 +43,20 @@ sim_calculate <-
   function(population,
            annotation_prefix = "Metadata_",
            strata = NULL,
-           method = "pearson") {
+           method = "pearson",
+           lazy = FALSE) {
     population <- preprocess_data(population)
+
+    if (lazy) {
+      helper <- sim_calculate_helper_lazy
+    } else {
+      helper <- sim_calculate_helper
+    }
 
     # calculate
     if (is.null(strata)) {
       sim_df <-
-        sim_calculate_helper(
+        helper(
           population = population,
           annotation_prefix = annotation_prefix,
           method = method
@@ -62,7 +71,7 @@ sim_calculate <-
 
         starting_index <- min(partition_row_indices)
 
-        sim_calculate_helper(
+        helper(
           population = population_partition,
           annotation_prefix = annotation_prefix,
           method = method,
@@ -172,6 +181,37 @@ sim_calculate_helper <- function(population,
   sim_df
 }
 
+#' Helper function to calculate a melted similarity matrix.
+#'
+#' \code{sim_calculate_helper_lazy} helps calculate a melted similarity matrix.
+#'
+#' @param population data.frame with annotations (a.k.a. metadata) and
+#'   observation variables.
+#' @param starting_index optional integer specifying starting index.
+#'
+#' @return \code{metric_sim} object, with similarity matrix and related metadata
+#' @noRd
+sim_calculate_helper_lazy <- function(population,
+                                      annotation_prefix = "Metadata_",
+                                      method = "pearson",
+                                      starting_index = 1) {
+  futile.logger::flog.debug(glue::glue("starting_index = {starting_index}"))
+
+  stopifnot(is.data.frame(population))
+
+  n_rows <- nrow(population)
+
+  sim_df <- expand.grid(id1 = seq(n_rows), id2 = seq(n_rows))
+
+  sim_df <- sim_df %>%
+    dplyr::filter(id1 != id2) %>%
+    dplyr::mutate(id1 = id1 + starting_index - 1) %>%
+    dplyr::mutate(id2 = id2 + starting_index - 1) %>%
+    dplyr::mutate(sim = NA)
+
+  sim_df
+}
+
 #' Calculate similarities given pairs of rows
 #'
 #' \code{sim_calculate_ij} calculates similarities given pairs of rows.
@@ -223,7 +263,7 @@ sim_calculate_ij <-
     stopifnot(method %in% c(similarities))
 
     if ("sim" %in% names(rows)) {
-      rows <- rows %>% select(-sim)
+      rows <- rows %>% dplyr::select(-sim)
 
     }
 
@@ -244,7 +284,7 @@ sim_calculate_ij <-
 
         S <-
           foreach::foreach(i = seq_along(id1), .combine = "c") %do%
-          sum(X[id1[i],] * X[id2[i],])
+          sum(X[id1[i], ] * X[id2[i], ])
 
       }
     }

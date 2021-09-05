@@ -8,7 +8,8 @@ sim_calculate(
   population,
   annotation_prefix = "Metadata_",
   strata = NULL,
-  method = "pearson"
+  method = "pearson",
+  lazy = FALSE
 )
 }
 \arguments{
@@ -24,6 +25,9 @@ for annotation columns.}
 to calculate similarity. This must be one of the
 strings \code{"pearson"} (default), \code{"kendall"}, \code{"spearman"},
 \code{"euclidean"}, \code{"cosine"}.}
+
+\item{lazy}{optional boolean specifying whether to lazily evaluate
+similarity.}
 }
 \value{
 \code{metric_sim} object, with similarity matrix and related metadata
