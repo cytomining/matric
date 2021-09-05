@@ -218,7 +218,7 @@ sim_calculate_ij <-
   function(population,
            rows,
            annotation_prefix = "Metadata_",
-           method = "cosine",
+           method = "pearson",
            cores = 1) {
     doParallel::registerDoParallel(cores = cores)
 

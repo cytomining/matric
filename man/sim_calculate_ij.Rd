@@ -8,7 +8,7 @@ sim_calculate_ij(
   population,
   rows,
   annotation_prefix = "Metadata_",
-  method = "cosine",
+  method = "pearson",
   cores = 1
 )
 }

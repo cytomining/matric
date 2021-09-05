@@ -197,8 +197,26 @@ test_that("`sim_collate` works", {
   expect_equal(mean(collated_sim$sim), 0.103919374)
 
 
+  sim_df <- sim_calculate(cellhealth, method = "cosine")
+
+  collated_sim <-
+    sim_collate(
+      sim_df,
+      reference,
+      all_same_cols_rep = all_same_cols_rep,
+      all_same_cols_rep_ref = all_same_cols_rep_ref,
+      all_same_cols_ref = all_same_cols_ref,
+      any_different_cols_non_rep = any_different_cols_non_rep,
+      all_same_cols_non_rep = all_same_cols_non_rep,
+      all_different_cols_non_rep = all_different_cols_non_rep,
+      any_different_cols_group = any_different_cols_group,
+      all_same_cols_group = all_same_cols_group,
+      annotation_cols = annotation_cols,
+      drop_group = drop_group
+    )
+
   sim_df_lazy <-
-    matric::sim_calculate(matric::cellhealth, lazy = TRUE)
+    matric::sim_calculate(matric::cellhealth, method = "cosine", lazy = TRUE)
 
   collated_sim_lazy <-
     matric::sim_collate(
@@ -217,22 +235,19 @@ test_that("`sim_collate` works", {
     )
 
   collated_sim_lazy <-
-    sim_calculate_ij(matric::cellhealth, collated_sim_lazy)
+    sim_calculate_ij(matric::cellhealth, collated_sim_lazy, method = "cosine")
 
   col_names <- names(collated_sim_lazy)
 
   collated_sim <-
     collated_sim %>%
-    arrange(across(-sim)) %>%
+    dplyr::arrange(across(-sim)) %>%
     dplyr::select(col_names)
 
   collated_sim_lazy <-
     collated_sim_lazy %>%
-    arrange(across(-sim)) %>%
+    dplyr::arrange(across(-sim)) %>%
     dplyr::select(col_names)
-
-  expect_equal(collated_sim %>% dplyr::select(-sim),
-               collated_sim_lazy %>% dplyr::select(-sim))
 
   expect_equal(collated_sim, collated_sim_lazy)
 
