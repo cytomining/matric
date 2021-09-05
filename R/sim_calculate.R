@@ -137,7 +137,9 @@ sim_calculate_helper <- function(population,
     expand.grid(id1 = seq(n_rows), id2 = seq(n_rows), KEEP.OUT.ATTRS = FALSE)
 
   # get data matrix
-  X <- drop_annotation(population, annotation_prefix)
+  X <-
+    drop_annotation(population, annotation_prefix) %>%
+    as.matrix()
 
   if (!lazy) {
     if (method %in% distances) {
@@ -156,24 +158,10 @@ sim_calculate_helper <- function(population,
     } else if (method %in% similarities) {
       if (method == "cosine") {
 
-        # X <- X / sqrt(rowSums(X * X))
-        #
-        # S <- X %*% t(X)
+        X <- X / sqrt(rowSums(X * X))
 
-        X <-
-          X / apply(X, 1, function(x) {
-            sqrt(sum(x ^ 2, na.rm = TRUE))
-          })
+        S <- X %*% t(X)
 
-        S <-
-          as.matrix(stats::dist(
-            X,
-            method = "euclidean",
-            diag = TRUE,
-            upper = TRUE
-          ))
-
-        S <- 1 - (S ^ 2) / 2
       }
     }
 
@@ -272,7 +260,6 @@ sim_calculate_ij <-
       tibble::tibble(id1 = id1,
                      id2 = id2,
                      sim = as.vector(S))
-
 
     if (!purrr::is_empty(setdiff(names(rows), c("id1", "id2")))) {
       rows <-
