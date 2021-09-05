@@ -136,6 +136,8 @@ test_that("`sim_collate` works", {
       "Metadata_gene_name",
       "Metadata_pert_name")
 
+  # --- Test sim_collate with an eager sim_df ----
+
   sim_df <- sim_calculate(cellhealth)
 
   collated_sim <-
@@ -196,6 +198,7 @@ test_that("`sim_collate` works", {
 
   expect_equal(mean(collated_sim$sim), 0.103919374)
 
+  # ---- Test sim_collate with a lazy sim_df ----
 
   sim_df <- sim_calculate(cellhealth, method = "cosine")
 
@@ -250,5 +253,47 @@ test_that("`sim_collate` works", {
     dplyr::select(col_names)
 
   expect_equal(collated_sim, collated_sim_lazy)
+
+  # ---- Test sim_collate with a lazy sim_df without non_reps, group_reps ----
+
+  sim_df_lazy <-
+    matric::sim_calculate(matric::cellhealth, method = "cosine", lazy = TRUE)
+
+  collated_sim_lazy <-
+    matric::sim_collate(
+      sim_df_lazy,
+      reference,
+      all_same_cols_rep = all_same_cols_rep,
+      all_same_cols_rep_ref = all_same_cols_rep_ref,
+      all_same_cols_ref = all_same_cols_ref,
+      any_different_cols_non_rep = NULL,
+      all_same_cols_non_rep = NULL,
+      all_different_cols_non_rep = NULL,
+      any_different_cols_group = NULL,
+      all_same_cols_group = NULL,
+      annotation_cols = annotation_cols,
+      drop_group = drop_group
+    )
+
+  collated_sim_lazy <-
+    sim_calculate_ij(matric::cellhealth, collated_sim_lazy)
+
+  type_df <- data.frame(type = c("rep", "ref"))
+
+  col_names <- names(collated_sim_lazy)
+
+  collated_sim <-
+    collated_sim %>%
+    dplyr::arrange(across(-sim)) %>%
+    dplyr::select(col_names) %>%
+    dplyr::inner_join(type_df, by = "type")
+
+  collated_sim_lazy <-
+    collated_sim_lazy %>%
+    dplyr::arrange(across(-sim)) %>%
+    dplyr::select(col_names) %>%
+    dplyr::inner_join(type_df, by = "type")
+
+  expect_equal(collated_sim, collated_sim_lazy, ignore_attr = TRUE)
 
 })
