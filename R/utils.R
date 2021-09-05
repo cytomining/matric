@@ -97,17 +97,16 @@ drop_annotation <-
 preprocess_data <-
   function(population,
            annotation_prefix = "Metadata_") {
-
     drop_columns <-
       population %>%
-      dplyr::summarise(across(!matches("Species"), ~sum(is.na(.)))) %>%
+      dplyr::summarise(across(!matches("Species"), ~ sum(is.na(.)))) %>%
       tidyr::pivot_longer(everything()) %>%
       dplyr::filter(value != 0) %>%
       purrr::pluck("name")
 
     futile.logger::flog.debug(
       glue::glue("Number of columns before NA filtering = {n}",
-                 n = ncol(population)
+        n = ncol(population)
       )
     )
 
@@ -117,10 +116,9 @@ preprocess_data <-
 
     futile.logger::flog.debug(
       glue::glue("Number of columns after NA filtering = {n}",
-                 n = ncol(population)
+        n = ncol(population)
       )
     )
 
     population
-
   }

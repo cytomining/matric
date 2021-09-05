@@ -20,20 +20,26 @@ test_that("`sim_calculate` works", {
     population %>% dplyr::select(Metadata_group)
   )
 
-  expect_equal(sim_df %>%
-                 dplyr::filter(id1 == 1 & id2 == 2) %>%
-                 dplyr::pull("sim"),
-               1)
+  expect_equal(
+    sim_df %>%
+      dplyr::filter(id1 == 1 & id2 == 2) %>%
+      dplyr::pull("sim"),
+    1
+  )
 
-  expect_equal(sim_df %>%
-                 dplyr::filter(id1 == 3 & id2 == 4) %>%
-                 dplyr::pull("sim"),
-               1)
+  expect_equal(
+    sim_df %>%
+      dplyr::filter(id1 == 3 & id2 == 4) %>%
+      dplyr::pull("sim"),
+    1
+  )
 
-  expect_equal(sim_df %>%
-                 dplyr::filter(id1 == 5 & id2 == 6) %>%
-                 dplyr::pull("sim"),
-               -1)
+  expect_equal(
+    sim_df %>%
+      dplyr::filter(id1 == 5 & id2 == 6) %>%
+      dplyr::pull("sim"),
+    -1
+  )
 
   # ------ Cosine
 
@@ -44,20 +50,26 @@ test_that("`sim_calculate` works", {
     population %>% dplyr::select(Metadata_group)
   )
 
-  expect_equal(sim_df %>%
-                 dplyr::filter(id1 == 1 & id2 == 2) %>%
-                 dplyr::pull("sim"),
-               0.97091955)
+  expect_equal(
+    sim_df %>%
+      dplyr::filter(id1 == 1 & id2 == 2) %>%
+      dplyr::pull("sim"),
+    0.97091955
+  )
 
-  expect_equal(sim_df %>%
-                 dplyr::filter(id1 == 3 & id2 == 4) %>%
-                 dplyr::pull("sim"),
-               1)
+  expect_equal(
+    sim_df %>%
+      dplyr::filter(id1 == 3 & id2 == 4) %>%
+      dplyr::pull("sim"),
+    1
+  )
 
-  expect_equal(sim_df %>%
-                 dplyr::filter(id1 == 5 & id2 == 6) %>%
-                 dplyr::pull("sim"),
-               -1)
+  expect_equal(
+    sim_df %>%
+      dplyr::filter(id1 == 5 & id2 == 6) %>%
+      dplyr::pull("sim"),
+    -1
+  )
 
   # ------ Euclidean
 
@@ -68,20 +80,26 @@ test_that("`sim_calculate` works", {
     population %>% dplyr::select(Metadata_group)
   )
 
-  expect_equal(sim_df %>%
-                 dplyr::filter(id1 == 1 & id2 == 2) %>%
-                 dplyr::pull("sim"),
-               sqrt(3))
+  expect_equal(
+    sim_df %>%
+      dplyr::filter(id1 == 1 & id2 == 2) %>%
+      dplyr::pull("sim"),
+    sqrt(3)
+  )
 
-  expect_equal(sim_df %>%
-                 dplyr::filter(id1 == 3 & id2 == 4) %>%
-                 dplyr::pull("sim"),
-               sqrt(sum(c(7, -4, 3) ^ 2)))
+  expect_equal(
+    sim_df %>%
+      dplyr::filter(id1 == 3 & id2 == 4) %>%
+      dplyr::pull("sim"),
+    sqrt(sum(c(7, -4, 3)^2))
+  )
 
-  expect_equal(sim_df %>%
-                 dplyr::filter(id1 == 5 & id2 == 6) %>%
-                 dplyr::pull("sim"),
-               2 * sqrt(sum(c(-4, 1, -1) ^ 2)))
+  expect_equal(
+    sim_df %>%
+      dplyr::filter(id1 == 5 & id2 == 6) %>%
+      dplyr::pull("sim"),
+    2 * sqrt(sum(c(-4, 1, -1)^2))
+  )
 })
 
 test_that("`sim_calculate` handles `NA`s", {
@@ -98,17 +116,20 @@ test_that("`sim_calculate` handles `NA`s", {
   test_na <- function(method) {
     sim_df <-
       matric::sim_calculate(population,
-                            method = method)
+        method = method
+      )
 
     sim_df1 <-
       matric::sim_calculate(population %>%
-                              dplyr::select(-b),
-                            method = method)
+        dplyr::select(-b),
+      method = method
+      )
 
     sim_df2 <-
       matric::sim_calculate(population %>%
-                              dplyr::filter(Metadata_batch == 2),
-                            method = method)
+        dplyr::filter(Metadata_batch == 2),
+      method = method
+      )
 
     expect_equal(
       sim_df %>%
@@ -156,28 +177,36 @@ test_that("stratified `sim_calculate` works", {
 
   sim_df <-
     matric::sim_calculate(population,
-                          method = "pearson")
+      method = "pearson"
+    )
 
   row_metadata <- attr(sim_df, "row_metadata")
 
   sim_df <- sim_df %>%
     sim_annotate(row_metadata,
-                 annotation_cols =
-                   c("Metadata_batch",
-                     "Metadata_group"))
+      annotation_cols =
+        c(
+          "Metadata_batch",
+          "Metadata_group"
+        )
+    )
 
   sim_df_s <-
     matric::sim_calculate(population,
-                          method = "pearson",
-                          strata = c("Metadata_batch"))
+      method = "pearson",
+      strata = c("Metadata_batch")
+    )
 
   row_metadata_s <- attr(sim_df_s, "row_metadata")
 
   sim_df_s <- sim_df_s %>%
     sim_annotate(row_metadata_s,
-                 annotation_cols =
-                   c("Metadata_batch",
-                     "Metadata_group"))
+      annotation_cols =
+        c(
+          "Metadata_batch",
+          "Metadata_group"
+        )
+    )
 
   expect_equal(
     dplyr::anti_join(
@@ -196,31 +225,41 @@ test_that("stratified `sim_calculate` works", {
     0
   )
 
-  expect_equal(row_metadata,
-               row_metadata_s)
+  expect_equal(
+    row_metadata,
+    row_metadata_s
+  )
 
   expect_equal(
     row_metadata_s %>% dplyr::select(-id),
     population %>% dplyr::select(Metadata_batch, Metadata_group)
   )
 
-  expect_equal(sim_df_s %>%
-                 dplyr::filter(id1 == 1 & id2 == 2) %>%
-                 dplyr::pull("sim"),
-               1)
+  expect_equal(
+    sim_df_s %>%
+      dplyr::filter(id1 == 1 & id2 == 2) %>%
+      dplyr::pull("sim"),
+    1
+  )
 
-  expect_equal(nrow(sim_df_s),
-               12)
+  expect_equal(
+    nrow(sim_df_s),
+    12
+  )
 
-  expect_equal(sim_df_s %>%
-                 dplyr::filter(id1 == 3 & id2 == 4) %>%
-                 nrow(),
-               0)
+  expect_equal(
+    sim_df_s %>%
+      dplyr::filter(id1 == 3 & id2 == 4) %>%
+      nrow(),
+    0
+  )
 
-  expect_equal(sim_df_s %>%
-                 dplyr::filter(id1 == 5 & id2 == 6) %>%
-                 dplyr::pull("sim"),
-               -1)
+  expect_equal(
+    sim_df_s %>%
+      dplyr::filter(id1 == 5 & id2 == 6) %>%
+      dplyr::pull("sim"),
+    -1
+  )
 })
 
 test_that("stratified `sim_calculate` works", {
@@ -244,8 +283,9 @@ test_that("stratified `sim_calculate` works", {
 
   sim_df <-
     matric::sim_calculate(population,
-                          annotation_prefix = "g",
-                          method = method)
+      annotation_prefix = "g",
+      method = method
+    )
 
   row_metadata <- attr(sim_df, "row_metadata")
 
@@ -269,19 +309,25 @@ test_that("stratified `sim_calculate` works", {
     dplyr::anti_join(
       sim_df_s %>% dplyr::select(-sim),
       sim_df %>% dplyr::select(-sim),
-      by = c("id1", "id2",
-             "g11", "g21",
-             "g12", "g22")
+      by = c(
+        "id1", "id2",
+        "g11", "g21",
+        "g12", "g22"
+      )
     ) %>%
       nrow(),
     0
   )
 
-  expect_equal(row_metadata,
-               row_metadata_s)
+  expect_equal(
+    row_metadata,
+    row_metadata_s
+  )
 
-  expect_equal(row_metadata_s %>% dplyr::select(-id),
-               population %>% dplyr::select(g1, g2))
+  expect_equal(
+    row_metadata_s %>% dplyr::select(-id),
+    population %>% dplyr::select(g1, g2)
+  )
 })
 
 test_that("`sim_calculate_ij` works", {
@@ -331,6 +377,4 @@ test_that("`sim_calculate_ij` works", {
   expect_equal(sim_df1, sim_df2, ignore_attr = TRUE)
 
   expect_equal(sim_df1, sim_df3, ignore_attr = TRUE)
-
-
 })

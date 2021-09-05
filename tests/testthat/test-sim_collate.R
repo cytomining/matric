@@ -22,8 +22,10 @@ test_that("`sim_collate` works", {
     data.frame(Metadata_gene_name = c("Chr2"))
 
   all_same_cols_ref <-
-    c("Metadata_cell_line",
-      "Metadata_Plate")
+    c(
+      "Metadata_cell_line",
+      "Metadata_Plate"
+    )
 
   ## 2. Similarity to replicates (no references)
 
@@ -42,9 +44,11 @@ test_that("`sim_collate` works", {
   # Keep, both, (a, b) and (b, a)
 
   all_same_cols_rep <-
-    c("Metadata_cell_line",
+    c(
+      "Metadata_cell_line",
       "Metadata_gene_name",
-      "Metadata_pert_name")
+      "Metadata_pert_name"
+    )
 
   ## 3. Similarity to replicates (only references)
 
@@ -91,13 +95,17 @@ test_that("`sim_collate` works", {
   # Keep, both, (a, b) and (b, a)
 
   any_different_cols_non_rep <-
-    c("Metadata_cell_line",
+    c(
+      "Metadata_cell_line",
       "Metadata_gene_name",
-      "Metadata_pert_name")
+      "Metadata_pert_name"
+    )
 
   all_same_cols_non_rep <-
-    c("Metadata_cell_line",
-      "Metadata_Plate")
+    c(
+      "Metadata_cell_line",
+      "Metadata_Plate"
+    )
 
   all_different_cols_non_rep <-
     c("Metadata_gene_name")
@@ -120,20 +128,26 @@ test_that("`sim_collate` works", {
   # - have *different* values in *at least one* column of `any_different_cols_group`
 
   all_same_cols_group <-
-    c("Metadata_cell_line",
-      "Metadata_gene_name")
+    c(
+      "Metadata_cell_line",
+      "Metadata_gene_name"
+    )
 
   any_different_cols_group <-
-    c("Metadata_cell_line",
+    c(
+      "Metadata_cell_line",
       "Metadata_gene_name",
-      "Metadata_pert_name")
+      "Metadata_pert_name"
+    )
 
   ## Combine all and annotate the similarity matrix
 
   annotation_cols <-
-    c("Metadata_cell_line",
+    c(
+      "Metadata_cell_line",
       "Metadata_gene_name",
-      "Metadata_pert_name")
+      "Metadata_pert_name"
+    )
 
   # --- Test sim_collate with an eager sim_df ----
 
@@ -162,19 +176,23 @@ test_that("`sim_collate` works", {
         n = c(48L, 144L, 60L, 72L)
       ),
       row.names = c(NA, -4L),
-      class = c("tbl_df",
-                "tbl", "data.frame")
+      class = c(
+        "tbl_df",
+        "tbl", "data.frame"
+      )
     )
 
   expect_equal(
     answer,
     collated_sim %>%
-      dplyr::group_by(Metadata_cell_line,
-                      Metadata_gene_name,
-                      type) %>%
+      dplyr::group_by(
+        Metadata_cell_line,
+        Metadata_gene_name,
+        type
+      ) %>%
       dplyr::tally() %>%
       dplyr::filter(Metadata_gene_name == "AKT1" &
-                      Metadata_cell_line == "A549") %>%
+        Metadata_cell_line == "A549") %>%
       dplyr::ungroup() %>%
       dplyr::select(type, n)
   )
@@ -186,14 +204,18 @@ test_that("`sim_collate` works", {
         n = c(1152L, 2052L, 468L, 3672L)
       ),
       row.names = c(NA, -4L),
-      class = c("tbl_df",
-                "tbl", "data.frame")
+      class = c(
+        "tbl_df",
+        "tbl", "data.frame"
+      )
     )
 
-  expect_equal(answer,
-               collated_sim %>%
-                 dplyr::group_by(type) %>%
-                 dplyr::tally())
+  expect_equal(
+    answer,
+    collated_sim %>%
+      dplyr::group_by(type) %>%
+      dplyr::tally()
+  )
 
   expect_equal(mean(collated_sim$sim), 0.103919374)
 
@@ -308,5 +330,4 @@ test_that("`sim_collate` works", {
     dplyr::inner_join(type_df, by = "type")
 
   expect_equal(collated_sim, collated_sim_lazy, ignore_attr = TRUE)
-
 })

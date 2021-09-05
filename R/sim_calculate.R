@@ -79,9 +79,12 @@ sim_calculate <-
         population %>%
         dplyr::select(all_of(strata)) %>%
         dplyr::group_by(across(all_of(strata))) %>%
-        dplyr::summarise(reduct(dplyr::cur_group(),
-                                dplyr::cur_group_rows()),
-                         .groups = "keep") %>%
+        dplyr::summarise(reduct(
+          dplyr::cur_group(),
+          dplyr::cur_group_rows()
+        ),
+        .groups = "keep"
+        ) %>%
         dplyr::ungroup() %>%
         dplyr::select(id1, id2, sim)
     }
@@ -157,14 +160,14 @@ sim_calculate_helper <- function(population,
     } else if (method %in% correlations) {
       S <-
         stats::cor(t(X),
-                   method = method,
-                   use = "pairwise.complete.obs")
+          method = method,
+          use = "pairwise.complete.obs"
+        )
     } else if (method %in% similarities) {
       if (method == "cosine") {
         X <- X / sqrt(rowSums(X * X))
 
         S <- X %*% t(X)
-
       }
     }
 
@@ -245,7 +248,6 @@ sim_calculate_ij <-
 
     if ("sim" %in% names(sim_df_lazy)) {
       sim_df_lazy <- sim_df_lazy %>% dplyr::select(-sim)
-
     }
 
     sim_df_lazy_distinct <-
@@ -271,14 +273,15 @@ sim_calculate_ij <-
         S <-
           foreach::foreach(i = seq_along(id1), .combine = "c") %dopar%
           sum(X[id1[i], ] * X[id2[i], ])
-
       }
     }
 
     sim_df <-
-      tibble::tibble(id1 = id1,
-                     id2 = id2,
-                     sim = as.vector(S))
+      tibble::tibble(
+        id1 = id1,
+        id2 = id2,
+        sim = as.vector(S)
+      )
 
     sim_df_lazy <-
       sim_df_lazy %>%

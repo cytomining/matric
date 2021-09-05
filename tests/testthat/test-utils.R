@@ -57,5 +57,4 @@ test_that("`preprocess_data works", {
     matric::preprocess_data(population, annotation_prefix = "Metadata_"),
     population %>% dplyr::select(-AreaShape_Compactness)
   )
-
 })
