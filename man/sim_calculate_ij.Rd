@@ -24,6 +24,9 @@ for annotation columns.}
 
 \item{method}{optional character string specifying method for
 to calculate similarity. Currently only \code{"cosine"} is implemented.}
+
+\item{cores}{optional integer specifying number of CPU cores used for
+parallel computing using \code{doParallel}.}
 }
 \value{
 \code{rows}, with new column \code{sim} containing similarities.

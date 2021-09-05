@@ -191,6 +191,8 @@ sim_calculate_helper <- function(population,
 #'   for annotation columns.
 #' @param method optional character string specifying method for
 #'   to calculate similarity. Currently only \code{"cosine"} is implemented.
+#' @param cores optional integer specifying number of CPU cores used for
+#'   parallel computing using \code{doParallel}.
 #'
 #' @return \code{rows}, with new column `sim` containing similarities.
 #'
