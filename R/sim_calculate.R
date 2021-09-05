@@ -237,6 +237,11 @@ sim_calculate_ij <-
 
     }
 
+    rows_distinct <-
+      rows %>%
+      dplyr::select(id1, id2) %>%
+      dplyr::distinct()
+
     population <- preprocess_data(population)
 
     # get data matrix
@@ -244,9 +249,9 @@ sim_calculate_ij <-
       drop_annotation(population, annotation_prefix) %>%
       as.matrix()
 
-    id1 <- rows$id1
+    id1 <- rows_distinct$id1
 
-    id2 <- rows$id2
+    id2 <- rows_distinct$id2
 
     if (method %in% similarities) {
       if (method == "cosine") {
