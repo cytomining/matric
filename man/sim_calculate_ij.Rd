@@ -6,9 +6,8 @@
 \usage{
 sim_calculate_ij(
   population,
-  rows,
+  sim_df_lazy,
   annotation_prefix = "Metadata_",
-  method = "pearson",
   cores = 1
 )
 }
@@ -16,20 +15,23 @@ sim_calculate_ij(
 \item{population}{data.frame with annotations (a.k.a. metadata) and
 observation variables.}
 
-\item{rows}{data.frame with at least two columns \code{id1} and \code{id2}
-specifying rows of \code{population}.}
+\item{sim_df_lazy}{data.frame with at least two columns \code{id1} and
+\code{id2} specifying rows of \code{population}, and an attribute
+\code{method}, which is a character string specifying method for to
+calculate similarity. Currently only \code{"cosine"} is implemented.}
 
 \item{annotation_prefix}{optional character string specifying prefix
 for annotation columns.}
 
-\item{method}{optional character string specifying method for
-to calculate similarity. Currently only \code{"cosine"} is implemented.}
-
 \item{cores}{optional integer specifying number of CPU cores used for
 parallel computing using \code{doParallel}.}
+
+\item{method}{optional character string specifying method for
+to calculate similarity. Currently only \code{"cosine"} is implemented.}
 }
 \value{
-\code{rows}, with new column \code{sim} containing similarities.
+data.frame which is the same as \code{sim_df_lazy}, but with a new
+column \code{sim} containing similarities.
 }
 \description{
 \code{sim_calculate_ij} calculates similarities given pairs of rows.
@@ -46,9 +48,12 @@ population <- tibble::tribble(
 
 n <- nrow(population)
 
-rows <- expand.grid(id1 = seq(n), id2 = seq(n), KEEP.OUT.ATTRS = FALSE)
+sim_df_lazy <-
+  expand.grid(id1 = seq(n), id2 = seq(n), KEEP.OUT.ATTRS = FALSE)
 
-sim_cosine <- matric::sim_calculate_ij(population, rows, method = "cosine")
+attr(sim_df_lazy, "metric_metadata") <- list(method = "cosine")
+
+sim_cosine <- matric::sim_calculate_ij(population, sim_df_lazy)
 
 sim_cosine
 }

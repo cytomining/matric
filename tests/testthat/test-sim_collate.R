@@ -235,7 +235,7 @@ test_that("`sim_collate` works", {
     )
 
   collated_sim_lazy <-
-    sim_calculate_ij(matric::cellhealth, collated_sim_lazy, method = "cosine")
+    sim_calculate_ij(matric::cellhealth, collated_sim_lazy)
 
   col_names <- names(collated_sim_lazy)
 
