@@ -273,7 +273,6 @@ sim_calculate_ij <-
         S <-
           foreach::foreach(i = seq_along(id1), .combine = "c") %dopar%
           sum(X[id1[i], ] * X[id2[i], ])
-
       }
     }
 
@@ -290,4 +289,3 @@ sim_calculate_ij <-
 
     index
   }
-
