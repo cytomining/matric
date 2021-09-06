@@ -200,12 +200,32 @@ sim_calculate_helper <- function(population,
 
   } else {
 
-    sim_df <-
-      expand.grid(
-        id1 = seq(n_rows),
-        id2 = seq(n_rows),
-        KEEP.OUT.ATTRS = FALSE
-      )
+    calculate_optimal_lazy <-
+      !is.null(all_same_cols_rep_or_group) &
+      !is.null(all_same_cols_ref) &
+      !is.null(reference)
+
+    if(!calculate_optimal_lazy) {
+      sim_df <-
+        expand.grid(
+          id1 = seq(n_rows),
+          id2 = seq(n_rows),
+          KEEP.OUT.ATTRS = FALSE
+        )
+    } else {
+      #TODO: Write this
+      sim_df <-
+        expand.grid(
+          id1 = seq(n_rows),
+          id2 = seq(n_rows),
+          KEEP.OUT.ATTRS = FALSE
+        )
+
+      # metadata <- get_annotation(population, annotation_prefix)
+
+      # metadata %>%
+      #   group_by(across(all_of(all_same_cols_rep_or_group)))
+    }
 
   }
 
