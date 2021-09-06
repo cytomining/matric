@@ -79,9 +79,12 @@ sim_calculate <-
         population %>%
         dplyr::select(all_of(strata)) %>%
         dplyr::group_by(across(all_of(strata))) %>%
-        dplyr::summarise(reduct(dplyr::cur_group(),
-                                dplyr::cur_group_rows()),
-                         .groups = "keep") %>%
+        dplyr::summarise(reduct(
+          dplyr::cur_group(),
+          dplyr::cur_group_rows()
+        ),
+        .groups = "keep"
+        ) %>%
         dplyr::ungroup() %>%
         dplyr::select(id1, id2, sim)
     }
@@ -157,8 +160,9 @@ sim_calculate_helper <- function(population,
     } else if (method %in% correlations) {
       S <-
         stats::cor(t(X),
-                   method = method,
-                   use = "pairwise.complete.obs")
+          method = method,
+          use = "pairwise.complete.obs"
+        )
     } else if (method %in% similarities) {
       if (method == "cosine") {
         X <- X / sqrt(rowSums(X * X))
@@ -293,7 +297,7 @@ cosine <- function(X, index) {
 
   S <-
     foreach::foreach(i = seq_along(id1), .combine = "c") %dopar%
-    sum(X[id1[i],] * X[id2[i],])
+    sum(X[id1[i], ] * X[id2[i], ])
 
   S <- as.vector(S)
 
@@ -317,7 +321,7 @@ cosine <- function(X, index) {
 #' @examples
 #'
 #' set.seed(42)
-#' X <- matrix(rnorm(5*3), 5, 3)
+#' X <- matrix(rnorm(5 * 3), 5, 3)
 #'
 #' id1 <- c(1, 3)
 #' id2 <- c(5, 4)
@@ -329,8 +333,8 @@ cosine <- function(X, index) {
 #' all.equal(s1, s2)
 #' @noRd
 tcrossprod_ij <- function(X, id1, id2) {
-  X1 <- X[id1,]
-  X2 <- X[id2,]
+  X1 <- X[id1, ]
+  X2 <- X[id2, ]
   n1 <- length(id1)
   n2 <- length(id2)
   n <- ncol(X)
@@ -341,7 +345,6 @@ tcrossprod_ij <- function(X, id1, id2) {
     X2 <- matrix(X2, 1, n)
   }
   tcrossprod(X1, X2)
-
 }
 
 #' Compute cosine similarity between pairs of rows of a matrix
@@ -362,7 +365,7 @@ tcrossprod_ij <- function(X, id1, id2) {
 #' @examples
 #'
 #' set.seed(42)
-#' X <- matrix(rnorm(5*3), 5, 3)
+#' X <- matrix(rnorm(5 * 3), 5, 3)
 #'
 #' id1 <- c(1, 3)
 #' id2 <- c(5, 4)
@@ -390,7 +393,7 @@ cosine_sparse <- function(X, id1, id2) {
   X <- X / sqrt(rowSums(X * X))
 
   index_nest <-
-    data.frame(id1, id2)  %>%
+    data.frame(id1, id2) %>%
     dplyr::arrange(id1, id2) %>%
     dplyr::group_by(id1) %>%
     tidyr::nest(id2_l = c(id2)) %>%
@@ -398,22 +401,25 @@ cosine_sparse <- function(X, id1, id2) {
     tidyr::nest(id1_l = c(id1))
 
   sim_df <-
-    purrr::map2_dfr(index_nest$id1_l,
-                    index_nest$id2_l,
-                    function(l1, l2)  {
-                      index_sub <-
-                        expand.grid(id1 = l1[[1]],
-                                    id2 = l2[[1]],
-                                    KEEP.OUT.ATTRS = FALSE)
+    purrr::map2_dfr(
+      index_nest$id1_l,
+      index_nest$id2_l,
+      function(l1, l2) {
+        index_sub <-
+          expand.grid(
+            id1 = l1[[1]],
+            id2 = l2[[1]],
+            KEEP.OUT.ATTRS = FALSE
+          )
 
-                      S <-
-                        as.vector(tcrossprod_ij(X, l1[[1]], l2[[1]]))
+        S <-
+          as.vector(tcrossprod_ij(X, l1[[1]], l2[[1]]))
 
-                      index_sub <- index_sub %>% dplyr::mutate(sim = S)
+        index_sub <- index_sub %>% dplyr::mutate(sim = S)
 
-                      index_sub
-
-                    }) %>%
+        index_sub
+      }
+    ) %>%
     dplyr::arrange(id1, id2)
 
   sim_df
