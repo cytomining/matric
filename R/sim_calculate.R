@@ -222,6 +222,7 @@ sim_calculate_helper <- function(population,
 #' sim_cosine <- matric::sim_calculate_ij(population, index)
 #'
 #' sim_cosine
+#'
 #' @export
 sim_calculate_ij <-
   function(population,
@@ -276,34 +277,6 @@ sim_calculate_ij <-
     index
   }
 
-#' Calculate cosine similarity between rows of matrix
-#'
-#' \code{cosine} calculates cosine similarity between rows of matrix.
-#'
-#' @param X matrix
-#' @param index data.frame with at least two columns \code{id1} and
-#'   \code{id2} specifying rows of \code{X}.
-#'
-#' @return vector containing cosine similarities such that
-#'   S[i] == dot(X[id1[i],:], X[id2[i],:])
-#'
-#' @noRd
-cosine <- function(X, index) {
-  X <- X / sqrt(rowSums(X * X))
-
-  id1 <- index$id1
-
-  id2 <- index$id2
-
-  S <-
-    foreach::foreach(i = seq_along(id1), .combine = "c") %dopar%
-    sum(X[id1[i], ] * X[id2[i], ])
-
-  S <- as.vector(S)
-
-  S
-}
-
 #' Compute cross product between two sets of rows of a matrix.
 #'
 #' \code{tcrossprod_ij} computes cross product between two sets of rows of a
@@ -328,7 +301,7 @@ cosine <- function(X, index) {
 #'
 #' (s1 <- matric::tcrossprod_ij(X, id1, id2))
 #'
-#' (s2 <- matric::tcrossprod(X)[id1, id2])
+#' (s2 <- tcrossprod(X)[id1, id2])
 #'
 #' all.equal(s1, s2)
 #'
@@ -361,7 +334,7 @@ tcrossprod_ij <- function(X, id1, id2) {
 #'
 #' @return data.frame with the same number of rows as the length of \code{id1}
 #'   (and \code{id2}) containing the cosine similarity between the pairs of rows
-#'   of \code{X}. sim[i] == cosine(X[id1[i], ], X[id2[i], ]).
+#'   of \code{X}. \code{sim[i] == cosine(X[id1[i], ], X[id2[i], ])}.
 #'
 #' @examples
 #'
@@ -390,7 +363,6 @@ tcrossprod_ij <- function(X, id1, id2) {
 #' s1
 #'
 #' all.equal(s1, s2)
-#'
 #' @export
 cosine_sparse <- function(X, id1, id2) {
   X <- X / sqrt(rowSums(X * X))

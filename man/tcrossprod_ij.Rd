@@ -33,7 +33,7 @@ id2 <- c(5, 4)
 
 (s1 <- matric::tcrossprod_ij(X, id1, id2))
 
-(s2 <- matric::tcrossprod(X)[id1, id2])
+(s2 <- tcrossprod(X)[id1, id2])
 
 all.equal(s1, s2)
 

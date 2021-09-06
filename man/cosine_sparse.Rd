@@ -18,7 +18,7 @@ cosine_sparse(X, id1, id2)
 \value{
 data.frame with the same number of rows as the length of \code{id1}
 (and \code{id2}) containing the cosine similarity between the pairs of rows
-of \code{X}. sim\link{i} == cosine(X[id1\link{i}, ], X[id2\link{i}, ]).
+of \code{X}. \code{sim[i] == cosine(X[id1[i], ], X[id2[i], ])}.
 }
 \description{
 \code{cosine_sparse} computes cosine similarity between pairs of rows of a
@@ -51,5 +51,4 @@ s2 <-
 s1
 
 all.equal(s1, s2)
-
 }
