@@ -197,15 +197,13 @@ sim_calculate_helper <- function(population,
     # if lazy then filter out diagonal in `sim_calculate_ij`
     sim_df <- sim_df %>%
       dplyr::filter(id1 != id2)
-
   } else {
-
     calculate_optimal_lazy <-
       !is.null(all_same_cols_rep_or_group) &
-      !is.null(all_same_cols_ref) &
-      !is.null(reference)
+        !is.null(all_same_cols_ref) &
+        !is.null(reference)
 
-    if(!calculate_optimal_lazy) {
+    if (!calculate_optimal_lazy) {
       sim_df <-
         expand.grid(
           id1 = seq(n_rows),
@@ -213,7 +211,7 @@ sim_calculate_helper <- function(population,
           KEEP.OUT.ATTRS = FALSE
         )
     } else {
-      #TODO: Write this
+      # TODO: Write this
       sim_df <-
         expand.grid(
           id1 = seq(n_rows),
@@ -226,7 +224,6 @@ sim_calculate_helper <- function(population,
       # metadata %>%
       #   group_by(across(all_of(all_same_cols_rep_or_group)))
     }
-
   }
 
   sim_df <- sim_df %>%
@@ -279,7 +276,6 @@ sim_calculate_helper <- function(population,
 #' sim_cosine <- matric::sim_calculate_ij(population, index)
 #'
 #' sim_cosine
-#'
 #' @export
 sim_calculate_ij <-
   function(population,
@@ -365,7 +361,6 @@ sim_calculate_ij <-
 #' (s2 <- tcrossprod(X)[id1, id2])
 #'
 #' all.equal(s1, s2)
-#'
 #' @export
 tcrossprod_ij <- function(X, id1, id2) {
   X1 <- X[id1, ]
