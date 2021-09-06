@@ -79,12 +79,9 @@ sim_calculate <-
         population %>%
         dplyr::select(all_of(strata)) %>%
         dplyr::group_by(across(all_of(strata))) %>%
-        dplyr::summarise(reduct(
-          dplyr::cur_group(),
-          dplyr::cur_group_rows()
-        ),
-        .groups = "keep"
-        ) %>%
+        dplyr::summarise(reduct(dplyr::cur_group(),
+                                dplyr::cur_group_rows()),
+                         .groups = "keep") %>%
         dplyr::ungroup() %>%
         dplyr::select(id1, id2, sim)
     }
@@ -160,9 +157,8 @@ sim_calculate_helper <- function(population,
     } else if (method %in% correlations) {
       S <-
         stats::cor(t(X),
-          method = method,
-          use = "pairwise.complete.obs"
-        )
+                   method = method,
+                   use = "pairwise.complete.obs")
     } else if (method %in% similarities) {
       if (method == "cosine") {
         X <- X / sqrt(rowSums(X * X))
@@ -250,6 +246,7 @@ sim_calculate_ij <-
       index <- index %>% dplyr::select(-sim)
     }
 
+    # remove duplicates because it will be inner joined back anyway
     index_distinct <-
       index %>%
       dplyr::select(id1, id2) %>%
@@ -262,30 +259,34 @@ sim_calculate_ij <-
       drop_annotation(population, annotation_prefix) %>%
       as.matrix()
 
-    id1 <- index_distinct$id1
-
-    id2 <- index_distinct$id2
-
     if (method %in% similarities) {
       if (method == "cosine") {
-        X <- X / sqrt(rowSums(X * X))
-
-        S <-
-          foreach::foreach(i = seq_along(id1), .combine = "c") %dopar%
-          sum(X[id1[i], ] * X[id2[i], ])
+        S <- cosine(X, index_distinct)
       }
     }
 
-    sim_df <-
-      tibble::tibble(
-        id1 = id1,
-        id2 = id2,
-        sim = as.vector(S)
-      )
-
     index <-
       index %>%
-      dplyr::inner_join(sim_df, by = c("id1", "id2"))
+      dplyr::inner_join(index_distinct %>%
+                          dplyr::mutate(sim = S),
+                        by = c("id1", "id2"))
 
     index
   }
+
+cosine <- function(X, index) {
+  X <- X / sqrt(rowSums(X * X))
+
+  id1 <- index$id1
+
+  id2 <- index$id2
+
+  S <-
+    foreach::foreach(i = seq_along(id1), .combine = "c") %dopar%
+    sum(X[id1[i], ] * X[id2[i], ])
+
+  S <- as.vector(S)
+
+  S
+
+}
