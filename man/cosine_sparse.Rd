@@ -27,7 +27,7 @@ matrix.
 \examples{
 
 set.seed(42)
-X <- matrix(rnorm(5*3), 5, 3)
+X <- matrix(rnorm(5 * 3), 5, 3)
 
 id1 <- c(1, 3)
 id2 <- c(5, 4)
