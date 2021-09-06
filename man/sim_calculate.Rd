@@ -9,7 +9,10 @@ sim_calculate(
   annotation_prefix = "Metadata_",
   strata = NULL,
   method = "pearson",
-  lazy = FALSE
+  lazy = FALSE,
+  all_same_cols_rep_or_group = NULL,
+  all_same_cols_ref = NULL,
+  reference = NULL
 )
 }
 \arguments{
@@ -28,6 +31,13 @@ strings \code{"pearson"} (default), \code{"kendall"}, \code{"spearman"},
 
 \item{lazy}{optional boolean specifying whether to lazily evaluate
 similarity.}
+
+\item{all_same_cols_rep_or_group}{optional character vector specifying
+columns.}
+
+\item{all_same_cols_ref}{optional character vector specifying columns.}
+
+\item{reference}{optional character string specifying reference.}
 }
 \value{
 \code{metric_sim} object, with similarity matrix and related metadata

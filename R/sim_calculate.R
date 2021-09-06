@@ -14,6 +14,10 @@ utils::globalVariables(c("id1", "id2", "id1_l", "id2_l", "i", "sim"))
 #'   \code{"euclidean"}, \code{"cosine"}.
 #' @param lazy optional boolean specifying whether to lazily evaluate
 #'   similarity.
+#' @param all_same_cols_rep_or_group optional character vector specifying
+#'   columns.
+#' @param all_same_cols_ref optional character vector specifying columns.
+#' @param reference optional character string specifying reference.
 #'
 #' @return \code{metric_sim} object, with similarity matrix and related metadata
 #'
@@ -44,7 +48,10 @@ sim_calculate <-
            annotation_prefix = "Metadata_",
            strata = NULL,
            method = "pearson",
-           lazy = FALSE) {
+           lazy = FALSE,
+           all_same_cols_rep_or_group = NULL,
+           all_same_cols_ref = NULL,
+           reference = NULL) {
     population <- preprocess_data(population)
 
     # calculate
@@ -71,7 +78,10 @@ sim_calculate <-
           annotation_prefix = annotation_prefix,
           method = method,
           starting_index = starting_index,
-          lazy = lazy
+          lazy = lazy,
+          all_same_cols_rep_or_group = all_same_cols_rep_or_group,
+          all_same_cols_ref = all_same_cols_ref,
+          reference = reference
         )
       }
 
@@ -112,9 +122,13 @@ sim_calculate <-
 #'   to calculate similarity. This must be one of the
 #'   strings \code{"pearson"} (default), \code{"kendall"}, \code{"spearman"},
 #'   \code{"euclidean"}, \code{"cosine"}.
-#' @param lazy optional boolean specifying whether to lazily evaluate
-#'   similarity.
 #' @param starting_index optional integer specifying starting index.
+#' @param lazy opational boolean specifying whether to lazily evaluate
+#'   similarity.
+#' @param all_same_cols_rep_or_group optional character vector specifying
+#'   columns.
+#' @param all_same_cols_ref optional character vector specifying columns.
+#' @param reference optional character string specifying reference.
 #'
 #' @return \code{metric_sim} object, with similarity matrix and related metadata
 #' @noRd
@@ -122,7 +136,10 @@ sim_calculate_helper <- function(population,
                                  annotation_prefix = "Metadata_",
                                  method = "pearson",
                                  starting_index = 1,
-                                 lazy = FALSE) {
+                                 lazy = FALSE,
+                                 all_same_cols_rep_or_group = NULL,
+                                 all_same_cols_ref = NULL,
+                                 reference = NULL) {
   futile.logger::flog.debug(glue::glue("starting_index = {starting_index}"))
 
   distances <- c("euclidean")
@@ -134,21 +151,22 @@ sim_calculate_helper <- function(population,
   stopifnot(method %in% c(distances, correlations, similarities))
 
   # setup similarity dataframe
+
   n_rows <- nrow(population)
 
-  sim_df <-
-    expand.grid(
-      id1 = seq(n_rows),
-      id2 = seq(n_rows),
-      KEEP.OUT.ATTRS = FALSE
-    )
-
-  # get data matrix
-  X <-
-    drop_annotation(population, annotation_prefix) %>%
-    as.matrix()
-
   if (!lazy) {
+    sim_df <-
+      expand.grid(
+        id1 = seq(n_rows),
+        id2 = seq(n_rows),
+        KEEP.OUT.ATTRS = FALSE
+      )
+
+    # get data matrix
+    X <-
+      drop_annotation(population, annotation_prefix) %>%
+      as.matrix()
+
     if (method %in% distances) {
       S <-
         as.matrix(stats::dist(
@@ -171,11 +189,27 @@ sim_calculate_helper <- function(population,
       }
     }
 
-    sim_df <- sim_df %>% dplyr::mutate(sim = as.vector(S))
+    sim_df <-
+      sim_df %>%
+      dplyr::mutate(sim = as.vector(S))
+
+    # filter out diagonal here only if not lazy
+    # if lazy then filter out diagonal in `sim_calculate_ij`
+    sim_df <- sim_df %>%
+      dplyr::filter(id1 != id2)
+
+  } else {
+
+    sim_df <-
+      expand.grid(
+        id1 = seq(n_rows),
+        id2 = seq(n_rows),
+        KEEP.OUT.ATTRS = FALSE
+      )
+
   }
 
   sim_df <- sim_df %>%
-    dplyr::filter(id1 != id2) %>%
     dplyr::mutate(id1 = id1 + starting_index - 1) %>%
     dplyr::mutate(id2 = id2 + starting_index - 1)
 
@@ -192,13 +226,16 @@ sim_calculate_helper <- function(population,
 #'   \code{id2} specifying rows of \code{population}, and an attribute
 #'   \code{method}, which is a character string specifying method for to
 #'   calculate similarity. Currently only \code{"cosine"} is implemented.
+#'   Preserve the diagonal entries when constructing \code{index} to allow for
+#'   optimizations. \code{sim_calculate_ij} filters out the diagonal in the
+#'   result.
 #' @param annotation_prefix optional character string specifying prefix
 #'   for annotation columns.
 #' @param cores optional integer specifying number of CPU cores used for
 #'   parallel computing using \code{doParallel}.
 #'
 #' @return data.frame which is the same as \code{index}, but with a new
-#'   column `sim` containing similarities.
+#'   column `sim` containing similarities, and with the diagonals filtered out.
 #'
 #' @importFrom foreach %dopar%
 #'
@@ -269,6 +306,10 @@ sim_calculate_ij <-
         sim_df <- cosine_sparse(X, index_distinct$id1, index_distinct$id2)
       }
     }
+
+    # filter out diagonal here
+    sim_df <- sim_df %>%
+      dplyr::filter(id1 != id2)
 
     index <-
       index %>%

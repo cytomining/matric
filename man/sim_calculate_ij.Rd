@@ -13,7 +13,10 @@ observation variables.}
 \item{index}{data.frame with at least two columns \code{id1} and
 \code{id2} specifying rows of \code{population}, and an attribute
 \code{method}, which is a character string specifying method for to
-calculate similarity. Currently only \code{"cosine"} is implemented.}
+calculate similarity. Currently only \code{"cosine"} is implemented.
+Preserve the diagonal entries when constructing \code{index} to allow for
+optimizations. \code{sim_calculate_ij} filters out the diagonal in the
+result.}
 
 \item{annotation_prefix}{optional character string specifying prefix
 for annotation columns.}
@@ -23,7 +26,7 @@ parallel computing using \code{doParallel}.}
 }
 \value{
 data.frame which is the same as \code{index}, but with a new
-column \code{sim} containing similarities.
+column \code{sim} containing similarities, and with the diagonals filtered out.
 }
 \description{
 \code{sim_calculate_ij} calculates similarities given pairs of rows.
