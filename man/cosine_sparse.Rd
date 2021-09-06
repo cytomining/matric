@@ -32,7 +32,7 @@ X <- matrix(rnorm(5 * 3), 5, 3)
 id1 <- c(1, 3)
 id2 <- c(5, 4)
 
-s1 <- cosine_sparse(X, id1, id2) \%>\% dplyr::arrange(id1, id2)
+s1 <- matric::cosine_sparse(X, id1, id2) \%>\% dplyr::arrange(id1, id2)
 
 Xn <- X / sqrt(rowSums(X * X))
 
@@ -51,4 +51,5 @@ s2 <-
 s1
 
 all.equal(s1, s2)
+
 }

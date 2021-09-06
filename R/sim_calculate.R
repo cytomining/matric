@@ -1,4 +1,4 @@
-utils::globalVariables(c("id1", "id2", "i", "sim"))
+utils::globalVariables(c("id1", "id2", "id1_l", "id2_l", "i", "sim"))
 #' Calculate a melted similarity matrix.
 #'
 #' \code{sim_calculate} calculates a melted similarity matrix.
@@ -326,12 +326,13 @@ cosine <- function(X, index) {
 #' id1 <- c(1, 3)
 #' id2 <- c(5, 4)
 #'
-#' (s1 <- tcrossprod_ij(X, id1, id2))
+#' (s1 <- matric::tcrossprod_ij(X, id1, id2))
 #'
-#' (s2 <- tcrossprod(X)[id1, id2])
+#' (s2 <- matric::tcrossprod(X)[id1, id2])
 #'
 #' all.equal(s1, s2)
-#' @noRd
+#'
+#' @export
 tcrossprod_ij <- function(X, id1, id2) {
   X1 <- X[id1, ]
   X2 <- X[id2, ]
@@ -370,7 +371,7 @@ tcrossprod_ij <- function(X, id1, id2) {
 #' id1 <- c(1, 3)
 #' id2 <- c(5, 4)
 #'
-#' s1 <- cosine_sparse(X, id1, id2) %>% dplyr::arrange(id1, id2)
+#' s1 <- matric::cosine_sparse(X, id1, id2) %>% dplyr::arrange(id1, id2)
 #'
 #' Xn <- X / sqrt(rowSums(X * X))
 #'
@@ -389,6 +390,8 @@ tcrossprod_ij <- function(X, id1, id2) {
 #' s1
 #'
 #' all.equal(s1, s2)
+#'
+#' @export
 cosine_sparse <- function(X, id1, id2) {
   X <- X / sqrt(rowSums(X * X))
 
