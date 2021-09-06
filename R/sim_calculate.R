@@ -79,9 +79,12 @@ sim_calculate <-
         population %>%
         dplyr::select(all_of(strata)) %>%
         dplyr::group_by(across(all_of(strata))) %>%
-        dplyr::summarise(reduct(dplyr::cur_group(),
-                                dplyr::cur_group_rows()),
-                         .groups = "keep") %>%
+        dplyr::summarise(reduct(
+          dplyr::cur_group(),
+          dplyr::cur_group_rows()
+        ),
+        .groups = "keep"
+        ) %>%
         dplyr::ungroup() %>%
         dplyr::select(id1, id2, sim)
     }
@@ -157,8 +160,9 @@ sim_calculate_helper <- function(population,
     } else if (method %in% correlations) {
       S <-
         stats::cor(t(X),
-                   method = method,
-                   use = "pairwise.complete.obs")
+          method = method,
+          use = "pairwise.complete.obs"
+        )
     } else if (method %in% similarities) {
       if (method == "cosine") {
         X <- X / sqrt(rowSums(X * X))
@@ -268,12 +272,25 @@ sim_calculate_ij <-
     index <-
       index %>%
       dplyr::inner_join(index_distinct %>%
-                          dplyr::mutate(sim = S),
-                        by = c("id1", "id2"))
+        dplyr::mutate(sim = S),
+      by = c("id1", "id2")
+      )
 
     index
   }
 
+#' Calculate cosine similarity between rows of matrix
+#'
+#' \code{cosine} calculates cosine similarity between rows of matrix.
+#'
+#' @param X matrix
+#' @param index data.frame with at least two columns \code{id1} and
+#'   \code{id2} specifying rows of \code{X}.
+#'
+#' @return vector containing cosine similarities such that
+#'   S[i] == dot(X[id1[i],:], X[id2[i],:])
+#'
+#' @noRd
 cosine <- function(X, index) {
   X <- X / sqrt(rowSums(X * X))
 
@@ -288,5 +305,4 @@ cosine <- function(X, index) {
   S <- as.vector(S)
 
   S
-
 }
