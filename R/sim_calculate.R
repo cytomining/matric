@@ -79,12 +79,9 @@ sim_calculate <-
         population %>%
         dplyr::select(all_of(strata)) %>%
         dplyr::group_by(across(all_of(strata))) %>%
-        dplyr::summarise(reduct(
-          dplyr::cur_group(),
-          dplyr::cur_group_rows()
-        ),
-        .groups = "keep"
-        ) %>%
+        dplyr::summarise(reduct(dplyr::cur_group(),
+                                dplyr::cur_group_rows()),
+                         .groups = "keep") %>%
         dplyr::ungroup() %>%
         dplyr::select(id1, id2, sim)
     }
@@ -160,9 +157,8 @@ sim_calculate_helper <- function(population,
     } else if (method %in% correlations) {
       S <-
         stats::cor(t(X),
-          method = method,
-          use = "pairwise.complete.obs"
-        )
+                   method = method,
+                   use = "pairwise.complete.obs")
     } else if (method %in% similarities) {
       if (method == "cosine") {
         X <- X / sqrt(rowSums(X * X))
@@ -250,7 +246,7 @@ sim_calculate_ij <-
       index <- index %>% dplyr::select(-sim)
     }
 
-    # remove duplicates because it will be inner joined back anyway
+    # remove duplicates because it will be inner joined back later
     index_distinct <-
       index %>%
       dplyr::select(id1, id2) %>%
@@ -265,16 +261,13 @@ sim_calculate_ij <-
 
     if (method %in% similarities) {
       if (method == "cosine") {
-        S <- cosine(X, index_distinct)
+        sim_df <- cosine_sparse(X, index_distinct$id1, index_distinct$id2)
       }
     }
 
     index <-
       index %>%
-      dplyr::inner_join(index_distinct %>%
-        dplyr::mutate(sim = S),
-      by = c("id1", "id2")
-      )
+      dplyr::inner_join(sim_df, by = c("id1", "id2"))
 
     index
   }
@@ -300,7 +293,7 @@ cosine <- function(X, index) {
 
   S <-
     foreach::foreach(i = seq_along(id1), .combine = "c") %dopar%
-    sum(X[id1[i], ] * X[id2[i], ])
+    sum(X[id1[i],] * X[id2[i],])
 
   S <- as.vector(S)
 
@@ -336,8 +329,8 @@ cosine <- function(X, index) {
 #' all.equal(s1, s2)
 #' @noRd
 tcrossprod_ij <- function(X, id1, id2) {
-  X1 <- X[id1, ]
-  X2 <- X[id2, ]
+  X1 <- X[id1,]
+  X2 <- X[id2,]
   n1 <- length(id1)
   n2 <- length(id2)
   n <- ncol(X)
@@ -413,9 +406,10 @@ cosine_sparse <- function(X, id1, id2) {
                                     id2 = l2[[1]],
                                     KEEP.OUT.ATTRS = FALSE)
 
-                      S <- as.vector(tcrossprod_ij(Xn, l1[[1]], l2[[1]]))
+                      S <-
+                        as.vector(tcrossprod_ij(X, l1[[1]], l2[[1]]))
 
-                      index_sub <- index_sub %>% mutate(sim = S)
+                      index_sub <- index_sub %>% dplyr::mutate(sim = S)
 
                       index_sub
 
@@ -424,4 +418,3 @@ cosine_sparse <- function(X, id1, id2) {
 
   sim_df
 }
-
