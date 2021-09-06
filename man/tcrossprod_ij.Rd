@@ -36,5 +36,4 @@ id2 <- c(5, 4)
 (s2 <- tcrossprod(X)[id1, id2])
 
 all.equal(s1, s2)
-
 }
