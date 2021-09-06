@@ -345,13 +345,13 @@ test_that("`sim_calculate_ij` works", {
 
   n <- nrow(population)
 
-  sim_df_lazy1 <-
+  index1 <-
     expand.grid(id1 = seq(n), id2 = seq(n), KEEP.OUT.ATTRS = FALSE) %>%
     dplyr::filter(id1 != id2)
 
-  attr(sim_df_lazy1, "metric_metadata") <- list(method = "cosine")
+  attr(index1, "metric_metadata") <- list(method = "cosine")
 
-  sim_df_lazy2 <- matric::sim_calculate(
+  index2 <- matric::sim_calculate(
     population,
     annotation_prefix = "g",
     method = "cosine",
@@ -359,10 +359,10 @@ test_that("`sim_calculate_ij` works", {
   )
 
   sim_df1 <-
-    matric::sim_calculate_ij(population, sim_df_lazy1)
+    matric::sim_calculate_ij(population, index1)
 
   sim_df2 <-
-    matric::sim_calculate_ij(population, sim_df_lazy2)
+    matric::sim_calculate_ij(population, index2)
 
   sim_df3 <-
     matric::sim_calculate(population, method = "cosine")

@@ -239,12 +239,12 @@ test_that("`sim_collate` works", {
       drop_group = drop_group
     )
 
-  sim_df_lazy <-
+  index <-
     matric::sim_calculate(matric::cellhealth, method = "cosine", lazy = TRUE)
 
   collated_sim_lazy <-
     matric::sim_collate(
-      sim_df_lazy,
+      index,
       reference,
       all_same_cols_rep = all_same_cols_rep,
       all_same_cols_rep_ref = all_same_cols_rep_ref,
@@ -296,7 +296,7 @@ test_that("`sim_collate` works", {
 
   collated_sim_lazy <-
     matric::sim_collate(
-      sim_df_lazy,
+      index,
       reference,
       all_same_cols_rep = all_same_cols_rep,
       all_same_cols_rep_ref = all_same_cols_rep,

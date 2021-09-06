@@ -193,14 +193,14 @@ test_that("`sim_metrics` works", {
   metrics <-
     matric::sim_metrics(collated_sim, "ref", calculate_grouped = TRUE)
 
-  sim_df_lazy <- matric::sim_calculate(matric::cellhealth,
+  index <- matric::sim_calculate(matric::cellhealth,
     method = "cosine",
     lazy = TRUE
   )
 
   collated_sim_lazy <-
     matric::sim_collate(
-      sim_df_lazy,
+      index,
       reference,
       all_same_cols_rep = all_same_cols_rep,
       all_same_cols_rep_ref = all_same_cols_rep,

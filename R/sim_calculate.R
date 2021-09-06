@@ -188,7 +188,7 @@ sim_calculate_helper <- function(population,
 #'
 #' @param population data.frame with annotations (a.k.a. metadata) and
 #'   observation variables.
-#' @param sim_df_lazy data.frame with at least two columns \code{id1} and
+#' @param index data.frame with at least two columns \code{id1} and
 #'   \code{id2} specifying rows of \code{population}, and an attribute
 #'   \code{method}, which is a character string specifying method for to
 #'   calculate similarity. Currently only \code{"cosine"} is implemented.
@@ -197,7 +197,7 @@ sim_calculate_helper <- function(population,
 #' @param cores optional integer specifying number of CPU cores used for
 #'   parallel computing using \code{doParallel}.
 #'
-#' @return data.frame which is the same as \code{sim_df_lazy}, but with a new
+#' @return data.frame which is the same as \code{index}, but with a new
 #'   column `sim` containing similarities.
 #'
 #' @importFrom foreach %dopar%
@@ -214,44 +214,44 @@ sim_calculate_helper <- function(population,
 #'
 #' n <- nrow(population)
 #'
-#' sim_df_lazy <-
+#' index <-
 #'   expand.grid(id1 = seq(n), id2 = seq(n), KEEP.OUT.ATTRS = FALSE)
 #'
-#' attr(sim_df_lazy, "metric_metadata") <- list(method = "cosine")
+#' attr(index, "metric_metadata") <- list(method = "cosine")
 #'
-#' sim_cosine <- matric::sim_calculate_ij(population, sim_df_lazy)
+#' sim_cosine <- matric::sim_calculate_ij(population, index)
 #'
 #' sim_cosine
 #' @export
 sim_calculate_ij <-
   function(population,
-           sim_df_lazy,
+           index,
            annotation_prefix = "Metadata_",
            cores = 1) {
     doParallel::registerDoParallel(cores = cores)
 
     similarities <- c("cosine")
 
-    stopifnot(is.data.frame(sim_df_lazy))
+    stopifnot(is.data.frame(index))
 
-    stopifnot(!is.null(attr(sim_df_lazy, "metric_metadata")))
+    stopifnot(!is.null(attr(index, "metric_metadata")))
 
-    stopifnot(!is.null(attr(sim_df_lazy, "metric_metadata")$method))
+    stopifnot(!is.null(attr(index, "metric_metadata")$method))
 
-    method <- attr(sim_df_lazy, "metric_metadata")$method
+    method <- attr(index, "metric_metadata")$method
 
-    stopifnot(all(c("id1", "id2") %in% names(sim_df_lazy)))
+    stopifnot(all(c("id1", "id2") %in% names(index)))
 
     stopifnot(is.data.frame(population))
 
     stopifnot(method %in% c(similarities))
 
-    if ("sim" %in% names(sim_df_lazy)) {
-      sim_df_lazy <- sim_df_lazy %>% dplyr::select(-sim)
+    if ("sim" %in% names(index)) {
+      index <- index %>% dplyr::select(-sim)
     }
 
-    sim_df_lazy_distinct <-
-      sim_df_lazy %>%
+    index_distinct <-
+      index %>%
       dplyr::select(id1, id2) %>%
       dplyr::distinct()
 
@@ -262,9 +262,9 @@ sim_calculate_ij <-
       drop_annotation(population, annotation_prefix) %>%
       as.matrix()
 
-    id1 <- sim_df_lazy_distinct$id1
+    id1 <- index_distinct$id1
 
-    id2 <- sim_df_lazy_distinct$id2
+    id2 <- index_distinct$id2
 
     if (method %in% similarities) {
       if (method == "cosine") {
@@ -273,6 +273,7 @@ sim_calculate_ij <-
         S <-
           foreach::foreach(i = seq_along(id1), .combine = "c") %dopar%
           sum(X[id1[i], ] * X[id2[i], ])
+
       }
     }
 
@@ -283,9 +284,10 @@ sim_calculate_ij <-
         sim = as.vector(S)
       )
 
-    sim_df_lazy <-
-      sim_df_lazy %>%
+    index <-
+      index %>%
       dplyr::inner_join(sim_df, by = c("id1", "id2"))
 
-    sim_df_lazy
+    index
   }
+
