@@ -12,6 +12,7 @@ sim_calculate(
   lazy = FALSE,
   all_same_cols_rep_or_group = NULL,
   all_same_cols_ref = NULL,
+  all_same_cols_rep_ref = NULL,
   reference = NULL
 )
 }
@@ -36,6 +37,8 @@ similarity.}
 columns.}
 
 \item{all_same_cols_ref}{optional character vector specifying columns.}
+
+\item{all_same_cols_rep_ref}{optional character vector specifying columns.}
 
 \item{reference}{optional character string specifying reference.}
 }
