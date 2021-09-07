@@ -205,9 +205,9 @@ sim_calculate_helper <- function(population,
   } else {
     calculate_optimal_lazy <-
       !is.null(all_same_cols_rep_or_group) |
-      !is.null(all_same_cols_ref) |
-      !is.null(all_same_cols_rep_ref) |
-      !is.null(reference)
+        !is.null(all_same_cols_ref) |
+        !is.null(all_same_cols_rep_ref) |
+        !is.null(reference)
 
     if (!calculate_optimal_lazy) {
       sim_df <-

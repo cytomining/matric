@@ -107,7 +107,6 @@ cosine_sparse <- function(X, id1, id2) {
 #'   of \code{X}. \code{sim[i] == pairwise_function(X[id1[i], ], X[id2[i], ])}.
 #'
 sparse_pairwise <- function(X, id1, id2, pairwise_function) {
-
   index_nest <-
     data.frame(id1, id2) %>%
     dplyr::arrange(id1, id2) %>%
