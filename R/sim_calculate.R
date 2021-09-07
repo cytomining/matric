@@ -48,30 +48,33 @@ utils::globalVariables(c("id1", "id2", "id1_l", "id2_l", "i", "sim"))
 #'
 #' sim_cosine <-
 #'   matric::sim_calculate(population,
-#'                         strata = "Metadata_group1",
-#'                         method = "cosine",
-#'                         lazy = TRUE)
+#'     strata = "Metadata_group1",
+#'     method = "cosine",
+#'     lazy = TRUE
+#'   )
 #'
 #' matric::sim_calculate(population,
-#'                         method = "cosine",
-#'                         lazy = TRUE,
-#'                         all_same_cols_rep_or_group = c("Metadata_group2"))
+#'   method = "cosine",
+#'   lazy = TRUE,
+#'   all_same_cols_rep_or_group = c("Metadata_group2")
+#' )
 #'
 #' matric::sim_calculate(population,
-#'                         method = "cosine",
-#'                         lazy = TRUE,
-#'                         all_same_cols_rep_or_group = c("Metadata_group2"),
-#'                         all_same_cols_ref = c("Metadata_group1"),
-#'                         reference = data.frame(Metadata_group2 = 2))
+#'   method = "cosine",
+#'   lazy = TRUE,
+#'   all_same_cols_rep_or_group = c("Metadata_group2"),
+#'   all_same_cols_ref = c("Metadata_group1"),
+#'   reference = data.frame(Metadata_group2 = 2)
+#' )
 #'
 #' matric::sim_calculate(population,
-#'                         method = "cosine",
-#'                         lazy = TRUE,
-#'                         all_same_cols_rep_or_group = c("Metadata_group2"),
-#'                         all_same_cols_ref = c("Metadata_group1"),
-#'                         all_same_cols_rep_ref = c("Metadata_group2"),
-#'                         reference = data.frame(Metadata_group2 = 2))
-#'
+#'   method = "cosine",
+#'   lazy = TRUE,
+#'   all_same_cols_rep_or_group = c("Metadata_group2"),
+#'   all_same_cols_ref = c("Metadata_group1"),
+#'   all_same_cols_rep_ref = c("Metadata_group2"),
+#'   reference = data.frame(Metadata_group2 = 2)
+#' )
 #' @export
 sim_calculate <-
   function(population,
@@ -125,23 +128,23 @@ sim_calculate <-
         population %>%
         dplyr::select(all_of(strata)) %>%
         dplyr::group_by(across(all_of(strata))) %>%
-        dplyr::summarise(reduct(dplyr::cur_group(),
-                                dplyr::cur_group_rows()),
-                         .groups = "keep") %>%
+        dplyr::summarise(reduct(
+          dplyr::cur_group(),
+          dplyr::cur_group_rows()
+        ),
+        .groups = "keep"
+        ) %>%
         dplyr::ungroup()
 
       if (lazy) {
         sim_df <-
           sim_df %>%
           dplyr::select(id1, id2)
-
       } else {
         sim_df <-
           sim_df %>%
           dplyr::select(id1, id2, sim)
-
       }
-
     }
 
     # get metadata
@@ -225,8 +228,9 @@ sim_calculate_helper <- function(population,
     } else if (method %in% correlations) {
       S <-
         stats::cor(t(X),
-                   method = method,
-                   use = "pairwise.complete.obs")
+          method = method,
+          use = "pairwise.complete.obs"
+        )
     } else if (method %in% similarities) {
       if (method == "cosine") {
         X <- X / sqrt(rowSums(X * X))
@@ -243,13 +247,12 @@ sim_calculate_helper <- function(population,
     # if lazy then filter out diagonal in `sim_calculate_ij`
     sim_df <- sim_df %>%
       dplyr::filter(id1 != id2)
-
   } else {
     calculate_optimal_lazy <-
       !is.null(all_same_cols_rep_or_group) |
-      !is.null(all_same_cols_ref) |
-      !is.null(all_same_cols_rep_ref) |
-      !is.null(reference)
+        !is.null(all_same_cols_ref) |
+        !is.null(all_same_cols_rep_ref) |
+        !is.null(reference)
 
     if (!calculate_optimal_lazy) {
       sim_df <-
@@ -258,7 +261,6 @@ sim_calculate_helper <- function(population,
           id2 = seq(n_rows),
           KEEP.OUT.ATTRS = FALSE
         )
-
     } else {
       metadata <- get_annotation(population, annotation_prefix)
 
@@ -277,67 +279,79 @@ sim_calculate_helper <- function(population,
         reduct <- function(partition) {
           id_partition <-
             dplyr::inner_join(metadata_filtered,
-                              partition, by = names(partition)) %>%
+              partition,
+              by = names(partition)
+            ) %>%
             purrr::pluck("id")
 
-          expand.grid(id1 = id_partition,
-                      id2 = id_partition,
-                      KEEP.OUT.ATTRS = FALSE)
-
+          expand.grid(
+            id1 = id_partition,
+            id2 = id_partition,
+            KEEP.OUT.ATTRS = FALSE
+          )
         }
 
         if (!is.null(reference)) {
           metadata_filtered <-
             metadata %>%
             dplyr::anti_join(reference, by = names(reference))
-
         } else {
           metadata_filtered <- metadata
         }
 
         sim_df <-
           dplyr::bind_rows(sim_df, mapper(all_same_cols_rep_or_group, reduct))
-
       }
 
       if (!is.null(all_same_cols_ref) & !is.null(reference)) {
         reduct <- function(partition) {
           metadata_partition <-
             dplyr::inner_join(metadata,
-                              partition, by = names(partition))
+              partition,
+              by = names(partition)
+            )
 
           id_reference <-
             dplyr::inner_join(metadata_partition,
-                              reference, by = names(reference)) %>%
+              reference,
+              by = names(reference)
+            ) %>%
             purrr::pluck("id")
 
           id_non_reference <-
             dplyr::anti_join(metadata_partition,
-                             reference, by = names(reference)) %>%
+              reference,
+              by = names(reference)
+            ) %>%
             purrr::pluck("id")
 
           sim_df_ref <-
-            expand.grid(id1 = id_non_reference,
-                        id2 = id_reference,
-                        KEEP.OUT.ATTRS = FALSE)
+            expand.grid(
+              id1 = id_non_reference,
+              id2 = id_reference,
+              KEEP.OUT.ATTRS = FALSE
+            )
         }
 
         sim_df <-
           dplyr::bind_rows(sim_df, mapper(all_same_cols_ref, reduct))
-
       }
 
       if (!is.null(all_same_cols_rep_ref) & !is.null(reference)) {
         reduct <- function(partition) {
           id_reference <-
             dplyr::inner_join(metadata_filtered,
-                              partition, by = names(partition)) %>%
+              partition,
+              by = names(partition)
+            ) %>%
             purrr::pluck("id")
 
           sim_df_ref <-
-            expand.grid(id1 = id_reference,
-                        id2 = id_reference,
-                        KEEP.OUT.ATTRS = FALSE)
+            expand.grid(
+              id1 = id_reference,
+              id2 = id_reference,
+              KEEP.OUT.ATTRS = FALSE
+            )
         }
 
         metadata_filtered <-
@@ -346,7 +360,6 @@ sim_calculate_helper <- function(population,
 
         sim_df <-
           dplyr::bind_rows(sim_df, mapper(all_same_cols_rep_ref, reduct))
-
       }
     }
   }

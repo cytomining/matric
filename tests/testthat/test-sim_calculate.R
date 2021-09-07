@@ -378,7 +378,6 @@ test_that("`sim_calculate_ij` works", {
 })
 
 test_that("`sim_calculate` works in lazy mode with optimizations", {
-
   population <- tibble::tribble(
     ~Metadata_group1, ~Metadata_group2, ~x, ~y, ~z,
     1, 1, -1, 5, -5,
@@ -391,9 +390,10 @@ test_that("`sim_calculate` works in lazy mode with optimizations", {
 
   index <-
     matric::sim_calculate(population,
-                          strata = "Metadata_group1",
-                          method = "cosine",
-                          lazy = TRUE)
+      strata = "Metadata_group1",
+      method = "cosine",
+      lazy = TRUE
+    )
 
   index <-
     matric::sim_calculate(
@@ -406,23 +406,27 @@ test_that("`sim_calculate` works in lazy mode with optimizations", {
 
   answer <-
     data.frame(
-      id1 = c(1, 3, 5, 1, 3, 5, 1, 3, 5, 2, 4, 6, 2,
-              4, 6, 2, 4, 6),
-      id2 = c(1, 1, 1, 3, 3, 3, 5, 5, 5, 2, 2, 2, 4,
-              4, 4, 6, 6, 6)
+      id1 = c(
+        1, 3, 5, 1, 3, 5, 1, 3, 5, 2, 4, 6, 2,
+        4, 6, 2, 4, 6
+      ),
+      id2 = c(
+        1, 1, 1, 3, 3, 3, 5, 5, 5, 2, 2, 2, 4,
+        4, 4, 6, 6, 6
+      )
     )
 
   expect_equal(index, answer, ignore_attr = TRUE)
 
   index <-
     matric::sim_calculate(
-    population,
-    method = "cosine",
-    lazy = TRUE,
-    all_same_cols_rep_or_group = c("Metadata_group2"),
-    all_same_cols_ref = c("Metadata_group1"),
-    reference = data.frame(Metadata_group2 = 2)
-  )  %>%
+      population,
+      method = "cosine",
+      lazy = TRUE,
+      all_same_cols_rep_or_group = c("Metadata_group2"),
+      all_same_cols_ref = c("Metadata_group1"),
+      reference = data.frame(Metadata_group2 = 2)
+    ) %>%
     as.data.frame()
 
   answer <-
@@ -435,20 +439,23 @@ test_that("`sim_calculate` works in lazy mode with optimizations", {
 
   index <-
     matric::sim_calculate(
-    population,
-    method = "cosine",
-    lazy = TRUE,
-    all_same_cols_rep_or_group = c("Metadata_group2"),
-    all_same_cols_ref = c("Metadata_group1"),
-    all_same_cols_rep_ref = c("Metadata_group2"),
-    reference = data.frame(Metadata_group2 = 2)
-  ) %>%
+      population,
+      method = "cosine",
+      lazy = TRUE,
+      all_same_cols_rep_or_group = c("Metadata_group2"),
+      all_same_cols_ref = c("Metadata_group1"),
+      all_same_cols_rep_ref = c("Metadata_group2"),
+      reference = data.frame(Metadata_group2 = 2)
+    ) %>%
     as.data.frame()
 
-  answer <- data.frame(id1 = c(1, 3, 5, 1, 3, 5, 1, 3, 5, 1, 3, 5, 2,
-                               4, 6, 2, 4, 6, 2, 4, 6), id2 = c(1, 1, 1, 3, 3, 3, 5, 5, 5, 2,
-                                                                4, 6, 2, 2, 2, 4, 4, 4, 6, 6, 6))
+  answer <- data.frame(id1 = c(
+    1, 3, 5, 1, 3, 5, 1, 3, 5, 1, 3, 5, 2,
+    4, 6, 2, 4, 6, 2, 4, 6
+  ), id2 = c(
+    1, 1, 1, 3, 3, 3, 5, 5, 5, 2,
+    4, 6, 2, 2, 2, 4, 4, 4, 6, 6, 6
+  ))
 
   expect_equal(index, answer, ignore_attr = TRUE)
-
 })
