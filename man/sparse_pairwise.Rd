@@ -14,6 +14,10 @@ sparse_pairwise(X, id1, id2, pairwise_function)
 
 \item{id2}{vector of integers specifying the list of rows of \code{X},
 (second set), same length as \code{id1}.}
+
+\item{pairwise_function}{function that takes a matrix and a pair of indices
+specifying rows of the matrix, and computes an operation of each pair of
+rows}
 }
 \value{
 data.frame with the same number of rows as the length of \code{id1}
