@@ -78,9 +78,24 @@ sim_cosine <-
                         method = "cosine",
                         lazy = TRUE)
 
-sim_cosine <-
-  matric::sim_calculate(population,
+matric::sim_calculate(population,
                         method = "cosine",
                         lazy = TRUE,
                         all_same_cols_rep_or_group = c("Metadata_group2"))
+
+matric::sim_calculate(population,
+                        method = "cosine",
+                        lazy = TRUE,
+                        all_same_cols_rep_or_group = c("Metadata_group2"),
+                        all_same_cols_ref = c("Metadata_group1"),
+                        reference = data.frame(Metadata_group2 = 2))
+
+matric::sim_calculate(population,
+                        method = "cosine",
+                        lazy = TRUE,
+                        all_same_cols_rep_or_group = c("Metadata_group2"),
+                        all_same_cols_ref = c("Metadata_group1"),
+                        all_same_cols_rep_ref = c("Metadata_group2"),
+                        reference = data.frame(Metadata_group2 = 2))
+
 }

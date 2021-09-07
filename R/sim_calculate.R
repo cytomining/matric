@@ -52,11 +52,26 @@ utils::globalVariables(c("id1", "id2", "id1_l", "id2_l", "i", "sim"))
 #'                         method = "cosine",
 #'                         lazy = TRUE)
 #'
-#' sim_cosine <-
-#'   matric::sim_calculate(population,
+#' matric::sim_calculate(population,
 #'                         method = "cosine",
 #'                         lazy = TRUE,
 #'                         all_same_cols_rep_or_group = c("Metadata_group2"))
+#'
+#' matric::sim_calculate(population,
+#'                         method = "cosine",
+#'                         lazy = TRUE,
+#'                         all_same_cols_rep_or_group = c("Metadata_group2"),
+#'                         all_same_cols_ref = c("Metadata_group1"),
+#'                         reference = data.frame(Metadata_group2 = 2))
+#'
+#' matric::sim_calculate(population,
+#'                         method = "cosine",
+#'                         lazy = TRUE,
+#'                         all_same_cols_rep_or_group = c("Metadata_group2"),
+#'                         all_same_cols_ref = c("Metadata_group1"),
+#'                         all_same_cols_rep_ref = c("Metadata_group2"),
+#'                         reference = data.frame(Metadata_group2 = 2))
+#'
 #' @export
 sim_calculate <-
   function(population,
@@ -259,10 +274,10 @@ sim_calculate_helper <- function(population,
       sim_df <- data.frame()
 
       if (!is.null(all_same_cols_rep_or_group)) {
-
         reduct <- function(partition) {
           id_partition <-
-            dplyr::inner_join(metadata, partition, by = names(partition)) %>%
+            dplyr::inner_join(metadata_filtered,
+                              partition, by = names(partition)) %>%
             purrr::pluck("id")
 
           expand.grid(id1 = id_partition,
@@ -271,20 +286,34 @@ sim_calculate_helper <- function(population,
 
         }
 
-        strata <- c("id", all_same_cols_rep_or_group)
+        if (!is.null(reference)) {
+          metadata_filtered <-
+            metadata %>%
+            dplyr::anti_join(reference, by = names(reference))
 
-        sim_df <- dplyr::bind_rows(sim_df, mapper(strata, reduct))
+        } else {
+          metadata_filtered <- metadata
+        }
+
+        sim_df <-
+          dplyr::bind_rows(sim_df, mapper(all_same_cols_rep_or_group, reduct))
 
       }
 
       if (!is.null(all_same_cols_ref) & !is.null(reference)) {
         reduct <- function(partition) {
+          metadata_partition <-
+            dplyr::inner_join(metadata,
+                              partition, by = names(partition))
+
           id_reference <-
-            dplyr::inner_join(metadata, reference, by = names(reference)) %>%
+            dplyr::inner_join(metadata_partition,
+                              reference, by = names(reference)) %>%
             purrr::pluck("id")
 
           id_non_reference <-
-            dplyr::anti_join(metadata, reference, by = names(reference)) %>%
+            dplyr::anti_join(metadata_partition,
+                             reference, by = names(reference)) %>%
             purrr::pluck("id")
 
           sim_df_ref <-
@@ -293,16 +322,16 @@ sim_calculate_helper <- function(population,
                         KEEP.OUT.ATTRS = FALSE)
         }
 
-        strata <- c("id", all_same_cols_ref)
-
-        sim_df <- dplyr::bind_rows(sim_df, mapper(strata, reduct))
+        sim_df <-
+          dplyr::bind_rows(sim_df, mapper(all_same_cols_ref, reduct))
 
       }
 
       if (!is.null(all_same_cols_rep_ref) & !is.null(reference)) {
         reduct <- function(partition) {
           id_reference <-
-            dplyr::inner_join(metadata, reference, by = names(reference)) %>%
+            dplyr::inner_join(metadata_filtered,
+                              partition, by = names(partition)) %>%
             purrr::pluck("id")
 
           sim_df_ref <-
@@ -311,9 +340,12 @@ sim_calculate_helper <- function(population,
                         KEEP.OUT.ATTRS = FALSE)
         }
 
-        strata <- c("id", all_same_cols_rep_ref)
+        metadata_filtered <-
+          metadata %>%
+          dplyr::inner_join(reference, by = names(reference))
 
-        sim_df <- dplyr::bind_rows(sim_df, mapper(strata, reduct))
+        sim_df <-
+          dplyr::bind_rows(sim_df, mapper(all_same_cols_rep_ref, reduct))
 
       }
     }
