@@ -58,5 +58,4 @@ matric::sim_calculate_ij(population, index, method = "cosine")
 attr(index, "metric_metadata") <- list(method = "cosine")
 
 matric::sim_calculate_ij(population, index)
-
 }
