@@ -395,8 +395,10 @@ test_that("`sim_collate` works", {
     )
 
   collated_sim_optimized_lazy_filled <-
-    sim_calculate_ij(cellhealth,
-                     collated_sim_optimized_lazy)
+    sim_calculate_ij(
+      cellhealth,
+      collated_sim_optimized_lazy
+    )
 
   expect_equal(
     collated_sim_optimized %>%
@@ -418,5 +420,4 @@ test_that("`sim_collate` works", {
       dplyr::select(all_of(col_names)),
     ignore_attr = TRUE
   )
-
 })

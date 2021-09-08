@@ -203,8 +203,8 @@ sim_calculate <-
 
           id_reference <-
             dplyr::inner_join(metadata_partition,
-                              reference,
-                              by = names(reference)
+              reference,
+              by = names(reference)
             ) %>%
             purrr::pluck("id")
 
