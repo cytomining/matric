@@ -63,5 +63,4 @@ s3 <- matric::cosine_sparse(Xm, id1, id2) \%>\% dplyr::arrange(id1, id2)
 s4 <- matric::pearson_sparse(X, id1, id2) \%>\% dplyr::arrange(id1, id2)
 
 all.equal(s3, s4)
-
 }
