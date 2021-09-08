@@ -42,8 +42,8 @@ values in specific columns. — sim_filter_all_same • matric</title>
 
 <meta property="og:title" content="Filter a melted similarity matrix to keep pairs with the same
 values in specific columns. — sim_filter_all_same" />
-<meta property="og:description" content="sim_filter_all_same filters a melted similarity matrix to keep pairs with the
-same values in specific columns." />
+<meta property="og:description" content="sim_filter_all_same filters a melted similarity matrix to keep pairs
+with the same values in specific columns." />
 
 
 
@@ -133,8 +133,8 @@ values in specific columns.</h1>
     </div>
 
     <div class="ref-description">
-    <p><code>sim_filter_all_same</code> filters a melted similarity matrix to keep pairs with the
-same values in specific columns.</p>
+    <p><code>sim_filter_all_same</code> filters a melted similarity matrix to keep pairs
+with the same values in specific columns.</p>
     </div>
 
     <pre class="usage"><span class='fu'>sim_filter_all_same</span><span class='op'>(</span>
@@ -143,7 +143,8 @@ same values in specific columns.</p>
   <span class='va'>all_same_cols</span>,
   annotation_cols <span class='op'>=</span> <span class='cn'>NULL</span>,
   include_group_tag <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  drop_lower <span class='op'>=</span> <span class='cn'>FALSE</span>
+  drop_lower <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  sim_cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"id1"</span>, <span class='st'>"id2"</span>, <span class='st'>"sim"</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -179,6 +180,11 @@ columns.</p></td>
 where the first index is smaller than the second index. This is equivalent
 to dropping the lower triangular of  <code>sim_df</code>.</p></td>
     </tr>
+    <tr>
+      <th>sim_cols</th>
+      <td><p>optional character string specifying minimal set of columns
+for a similarity matrix</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -213,14 +219,14 @@ based on the first index, if specified.</p>
   <span class='va'>drop_lower</span>
 <span class='op'>)</span>
 </div><div class='output co'>#&gt;   id1 id2        sim Metadata_group Metadata_type
-#&gt; 1   1   2  0.1918830              b             y
-#&gt; 2   1   3  0.9856017              b             y
-#&gt; 3   2   1  0.1918830              b             x
-#&gt; 4   2   3  0.3550619              b             x
-#&gt; 5   3   1  0.9856017              b             x
-#&gt; 6   3   2  0.3550619              b             x
-#&gt; 7   4   5 -0.9999817              a             y
-#&gt; 8   5   4 -0.9999817              a             x</div></pre>
+#&gt; 1   2   1  0.1918830              b             x
+#&gt; 2   3   1  0.9856017              b             x
+#&gt; 3   1   2  0.1918830              b             y
+#&gt; 4   3   2  0.3550619              b             x
+#&gt; 5   1   3  0.9856017              b             y
+#&gt; 6   2   3  0.3550619              b             x
+#&gt; 7   5   4 -0.9999817              a             x
+#&gt; 8   4   5 -0.9999817              a             y</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

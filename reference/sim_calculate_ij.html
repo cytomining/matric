@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read similarity matrix. — sim_read • matric</title>
+<title>Calculate similarities given pairs of rows — sim_calculate_ij • matric</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Read similarity matrix. — sim_read" />
-<meta property="og:description" content="sim_read reads similarity matrix." />
+<meta property="og:title" content="Calculate similarities given pairs of rows — sim_calculate_ij" />
+<meta property="og:description" content="sim_calculate_ij calculates similarities given pairs of rows." />
 
 
 
@@ -123,57 +123,106 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read similarity matrix.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/shntnu/matric/blob/master/R/sim_read-write.R'><code>R/sim_read-write.R</code></a></small>
-    <div class="hidden name"><code>sim_read.Rd</code></div>
+    <h1>Calculate similarities given pairs of rows</h1>
+    <small class="dont-index">Source: <a href='https://github.com/shntnu/matric/blob/master/R/sim_calculate.R'><code>R/sim_calculate.R</code></a></small>
+    <div class="hidden name"><code>sim_calculate_ij.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>sim_read</code> reads similarity matrix.</p>
+    <p><code>sim_calculate_ij</code> calculates similarities given pairs of rows.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sim_read</span><span class='op'>(</span><span class='va'>input</span>, file_format <span class='op'>=</span> <span class='st'>"parquet"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>sim_calculate_ij</span><span class='op'>(</span>
+  <span class='va'>population</span>,
+  <span class='va'>index</span>,
+  method <span class='op'>=</span> <span class='cn'>NULL</span>,
+  annotation_prefix <span class='op'>=</span> <span class='st'>"Metadata_"</span>,
+  cores <span class='op'>=</span> <span class='fl'>1</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>input</th>
-      <td><p>character string specifying the input filename or directory.</p></td>
+      <th>population</th>
+      <td><p>data.frame with annotations (a.k.a. metadata) and
+observation variables.</p></td>
     </tr>
     <tr>
-      <th>file_format</th>
-      <td><p>character string specify file format. This must be one of <code>csv</code> or <code>parquet</code>(default).</p></td>
+      <th>index</th>
+      <td><p>data.frame with at least two columns <code>id1</code> and
+<code>id2</code> specifying rows of <code>population</code>, and an optional attribute
+<code>metric_metadata$method</code>, which is a character string specifying
+implemented. Preserve the diagonal entries when constructing <code>index</code></p></td>
+    </tr>
+    <tr>
+      <th>method</th>
+      <td><p>optional character string specifying method for
+to calculate similarity. <code>method</code>, if specified, overrides
+<code>attr(index, "metric_metadata")$method</code>.</p></td>
+    </tr>
+    <tr>
+      <th>annotation_prefix</th>
+      <td><p>optional character string specifying prefix
+for annotation columns.</p></td>
+    </tr>
+    <tr>
+      <th>cores</th>
+      <td><p>optional integer specifying number of CPU cores used for
+parallel computing using <code>doParallel</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>metric_sim</code> object.</p>
+    <p>data.frame which is the same as <code>index</code>, but with a new
+column <code>sim</code> containing similarities, and with the diagonals filtered out.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/message.html'>suppressMessages</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span><span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://magrittr.tidyverse.org'>magrittr</a></span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>population</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>
-  Metadata_group <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"a"</span>, <span class='st'>"b"</span><span class='op'>)</span>, <span class='fl'>4</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
-  x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>4</span><span class='op'>)</span>,
-  y <span class='op'>=</span> <span class='va'>x</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>4</span><span class='op'>)</span> <span class='op'>/</span> <span class='fl'>100</span>,
-  z <span class='op'>=</span> <span class='va'>y</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>4</span><span class='op'>)</span> <span class='op'>/</span> <span class='fl'>1000</span>
+<span class='va'>population</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span>
+  <span class='op'>~</span><span class='va'>Metadata_group</span>, <span class='op'>~</span><span class='va'>x</span>, <span class='op'>~</span><span class='va'>y</span>, <span class='op'>~</span><span class='va'>z</span>,
+  <span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>1</span>, <span class='fl'>5</span>, <span class='op'>-</span><span class='fl'>5</span>,
+  <span class='fl'>2</span>, <span class='fl'>0</span>, <span class='fl'>6</span>, <span class='op'>-</span><span class='fl'>4</span>,
+  <span class='fl'>3</span>, <span class='fl'>7</span>, <span class='op'>-</span><span class='fl'>4</span>, <span class='fl'>3</span>,
+  <span class='fl'>4</span>, <span class='fl'>14</span>, <span class='op'>-</span><span class='fl'>8</span>, <span class='fl'>6</span>
 <span class='op'>)</span>
-<span class='va'>sim_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sim_calculate.html'>sim_calculate</a></span><span class='op'>(</span><span class='va'>population</span>, method <span class='op'>=</span> <span class='st'>"pearson"</span><span class='op'>)</span>
-<span class='va'>sim_df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='sim_write.html'>sim_write</a></span><span class='op'>(</span><span class='st'>"/tmp/test"</span>, file_format <span class='op'>=</span> <span class='st'>"csv"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; INFO [2021-09-08 20:50:58] Creating /tmp/test ...
-#&gt; INFO [2021-09-08 20:50:58] Writing /tmp/test/test.csv ...
-#&gt; INFO [2021-09-08 20:50:58] Writing /tmp/test/test_metadata.csv ...
-#&gt; INFO [2021-09-08 20:50:58] Writing /tmp/test/test_metadata.json ...</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='va'>sim_df_csv</span> <span class='op'>&lt;-</span> <span class='fu'>sim_read</span><span class='op'>(</span><span class='st'>"/tmp/test"</span>, file_format <span class='op'>=</span> <span class='st'>"csv"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; INFO [2021-09-08 20:50:58] Reading /tmp/test/test.csv ...
-#&gt; INFO [2021-09-08 20:50:58] Reading /tmp/test/test_metadata.csv ...
-#&gt; INFO [2021-09-08 20:50:58] Reading /tmp/test/test_metadata.json ...</div><div class='input'><span class='va'>sim_df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='sim_write.html'>sim_write</a></span><span class='op'>(</span><span class='st'>"/tmp/test.parquet"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; INFO [2021-09-08 20:50:58] Writing /tmp/test.parquet ...</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='va'>sim_df_parquet1</span> <span class='op'>&lt;-</span> <span class='fu'>sim_read</span><span class='op'>(</span><span class='st'>"/tmp/test.parquet"</span><span class='op'>)</span>
-<span class='va'>sim_df</span> <span class='op'>%&gt;%</span> <span class='fu'>arrow</span><span class='fu'>::</span><span class='fu'><a href='https://arrow.apache.org/docs/r//reference/write_parquet.html'>write_parquet</a></span><span class='op'>(</span><span class='st'>"/tmp/test.parquet"</span><span class='op'>)</span>
-<span class='va'>sim_df_parquet2</span> <span class='op'>&lt;-</span> <span class='fu'>arrow</span><span class='fu'>::</span><span class='fu'><a href='https://arrow.apache.org/docs/r//reference/read_parquet.html'>read_parquet</a></span><span class='op'>(</span><span class='st'>"/tmp/test.parquet"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='va'>sim_df_parquet1</span> <span class='op'>==</span> <span class='va'>sim_df_parquet2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='va'>sim_df_parquet1</span> <span class='op'>==</span> <span class='va'>sim_df_csv</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] FALSE</div></pre>
+
+<span class='va'>n</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>population</span><span class='op'>)</span>
+
+<span class='va'>index</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/expand.grid.html'>expand.grid</a></span><span class='op'>(</span>id1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span>, id2 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span>, KEEP.OUT.ATTRS <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+
+<span class='fu'>matric</span><span class='fu'>::</span><span class='fu'>sim_calculate_ij</span><span class='op'>(</span><span class='va'>population</span>, <span class='va'>index</span>, method <span class='op'>=</span> <span class='st'>"cosine"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    id1 id2        sim
+#&gt; 1    2   1  0.9709195
+#&gt; 2    3   1 -0.6836729
+#&gt; 3    4   1 -0.6836729
+#&gt; 4    1   2  0.9709195
+#&gt; 5    3   2 -0.5803433
+#&gt; 6    4   2 -0.5803433
+#&gt; 7    1   3 -0.6836729
+#&gt; 8    2   3 -0.5803433
+#&gt; 9    4   3  1.0000000
+#&gt; 10   1   4 -0.6836729
+#&gt; 11   2   4 -0.5803433
+#&gt; 12   3   4  1.0000000</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span><span class='op'>(</span><span class='va'>index</span>, <span class='st'>"metric_metadata"</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"cosine"</span><span class='op'>)</span>
+
+<span class='fu'>matric</span><span class='fu'>::</span><span class='fu'>sim_calculate_ij</span><span class='op'>(</span><span class='va'>population</span>, <span class='va'>index</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    id1 id2        sim
+#&gt; 1    2   1  0.9709195
+#&gt; 2    3   1 -0.6836729
+#&gt; 3    4   1 -0.6836729
+#&gt; 4    1   2  0.9709195
+#&gt; 5    3   2 -0.5803433
+#&gt; 6    4   2 -0.5803433
+#&gt; 7    1   3 -0.6836729
+#&gt; 8    2   3 -0.5803433
+#&gt; 9    4   3  1.0000000
+#&gt; 10   1   4 -0.6836729
+#&gt; 11   2   4 -0.5803433
+#&gt; 12   3   4  1.0000000</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

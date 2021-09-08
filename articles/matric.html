@@ -271,6 +271,89 @@
 <p><img src="matric_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 </div>
 </div>
+<div id="calculate-similarity-in-a-lazy-manner-and-evaluate-metrics" class="section level1">
+<h1 class="hasAnchor">
+<a href="#calculate-similarity-in-a-lazy-manner-and-evaluate-metrics" class="anchor"></a>Calculate similarity in a lazy manner and evaluate metrics</h1>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sim_df_lazy</span> <span class="op">&lt;-</span>
+  <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_calculate.html">sim_calculate</a></span><span class="op">(</span>
+    <span class="va">cellhealth</span>,
+    lazy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+
+<span class="va">collated_sim_lazy</span> <span class="op">&lt;-</span>
+  <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_collate.html">sim_collate</a></span><span class="op">(</span>
+    <span class="va">sim_df_lazy</span>,
+    <span class="va">reference</span>,
+    all_same_cols_rep <span class="op">=</span> <span class="va">all_same_cols_rep</span>,
+    all_same_cols_rep_ref <span class="op">=</span> <span class="va">all_same_cols_rep_ref</span>,
+    all_same_cols_ref <span class="op">=</span> <span class="va">all_same_cols_ref</span>,
+    any_different_cols_non_rep <span class="op">=</span> <span class="va">any_different_cols_non_rep</span>,
+    all_same_cols_non_rep <span class="op">=</span> <span class="va">all_same_cols_non_rep</span>,
+    all_different_cols_non_rep <span class="op">=</span> <span class="va">all_different_cols_non_rep</span>,
+    any_different_cols_group <span class="op">=</span> <span class="va">any_different_cols_group</span>,
+    all_same_cols_group <span class="op">=</span> <span class="va">all_same_cols_group</span>,
+    annotation_cols <span class="op">=</span> <span class="va">annotation_cols</span>,
+    drop_group <span class="op">=</span> <span class="va">drop_group</span>
+  <span class="op">)</span>
+
+<span class="va">collated_sim_lazy</span> <span class="op">&lt;-</span>
+  <span class="fu"><a href="../reference/sim_calculate_ij.html">sim_calculate_ij</a></span><span class="op">(</span><span class="va">cellhealth</span>, <span class="va">collated_sim_lazy</span><span class="op">)</span>
+
+<span class="va">metrics_lazy</span> <span class="op">&lt;-</span>
+  <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_metrics.html">sim_metrics</a></span><span class="op">(</span><span class="va">collated_sim_lazy</span>, <span class="st">"ref"</span>, calculate_grouped <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="va">metrics_lazy</span>,
+          <span class="va">metrics</span><span class="op">)</span>
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+</div>
+<div id="calculate-similarity-in-a-lazy-optimized-manner-and-evaluate-metrics" class="section level1">
+<h1 class="hasAnchor">
+<a href="#calculate-similarity-in-a-lazy-optimized-manner-and-evaluate-metrics" class="anchor"></a>Calculate similarity in a lazy, optimized manner and evaluate metrics</h1>
+<p>The optimizations are useful only if you are not calculating non-replicate metrics and if the group replicates are not computed on references</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sim_df_optimized_lazy</span> <span class="op">&lt;-</span>
+  <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_calculate.html">sim_calculate</a></span><span class="op">(</span>
+    <span class="va">cellhealth</span>,
+    lazy <span class="op">=</span> <span class="cn">TRUE</span>,
+    all_same_cols_rep_or_group <span class="op">=</span> <span class="va">all_same_cols_group</span>,
+    all_same_cols_rep_ref <span class="op">=</span> <span class="va">all_same_cols_rep_ref</span>,
+    all_same_cols_ref <span class="op">=</span> <span class="va">all_same_cols_ref</span>,
+    reference <span class="op">=</span> <span class="va">reference</span>
+  <span class="op">)</span>
+
+<span class="va">collated_sim_optimized_lazy</span> <span class="op">&lt;-</span>
+  <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_collate.html">sim_collate</a></span><span class="op">(</span>
+    <span class="va">sim_df_optimized_lazy</span>,
+    <span class="va">reference</span>,
+    all_same_cols_rep <span class="op">=</span> <span class="va">all_same_cols_rep</span>,
+    all_same_cols_rep_ref <span class="op">=</span> <span class="va">all_same_cols_rep_ref</span>,
+    all_same_cols_ref <span class="op">=</span> <span class="va">all_same_cols_ref</span>,
+    any_different_cols_non_rep <span class="op">=</span> <span class="cn">NULL</span>,
+    all_same_cols_non_rep <span class="op">=</span> <span class="cn">NULL</span>,
+    all_different_cols_non_rep <span class="op">=</span> <span class="cn">NULL</span>,
+    any_different_cols_group <span class="op">=</span> <span class="cn">NULL</span>,
+    all_same_cols_group <span class="op">=</span> <span class="cn">NULL</span>,
+    annotation_cols <span class="op">=</span> <span class="va">annotation_cols</span>,
+    drop_group <span class="op">=</span> <span class="va">drop_group</span>
+  <span class="op">)</span>
+
+<span class="va">collated_sim_optimized_lazy</span> <span class="op">&lt;-</span>
+  <span class="fu"><a href="../reference/sim_calculate_ij.html">sim_calculate_ij</a></span><span class="op">(</span><span class="va">cellhealth</span>, <span class="va">collated_sim_optimized_lazy</span><span class="op">)</span>
+
+<span class="va">metrics_optimized_lazy</span> <span class="op">&lt;-</span>
+  <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_metrics.html">sim_metrics</a></span><span class="op">(</span>
+    <span class="va">collated_sim_optimized_lazy</span>, <span class="st">"ref"</span>, calculate_grouped <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span>
+  <span class="va">metrics_optimized_lazy</span><span class="op">$</span><span class="va">level_1_0</span>, 
+  <span class="va">metrics</span><span class="op">$</span><span class="va">level_1_0</span><span class="op">)</span>
+<span class="co">#&gt; [1] TRUE</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span>
+  <span class="va">metrics_optimized_lazy</span><span class="op">$</span><span class="va">level_1</span>, 
+  <span class="va">metrics</span><span class="op">$</span><span class="va">level_1</span><span class="op">)</span>
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

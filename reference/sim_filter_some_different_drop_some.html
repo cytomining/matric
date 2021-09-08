@@ -42,8 +42,9 @@ values in specific columns, and other constraints. — sim_filter_some_different
 
 <meta property="og:title" content="Filter a melted similarity matrix to keep pairs with the same
 values in specific columns, and other constraints. — sim_filter_some_different_drop_some" />
-<meta property="og:description" content="sim_filter_some_different_drop_some filters a melted similarity matrix to
-keep pairs with the same values in specific columns, and other constraints." />
+<meta property="og:description" content="sim_filter_some_different_drop_some filters a melted similarity matrix
+to keep pairs with the same values in specific columns, and other
+constraints." />
 
 
 
@@ -133,8 +134,9 @@ values in specific columns, and other constraints.</h1>
     </div>
 
     <div class="ref-description">
-    <p><code>sim_filter_some_different_drop_some</code> filters a melted similarity matrix to
-keep pairs with the same values in specific columns, and other constraints.</p>
+    <p><code>sim_filter_some_different_drop_some</code> filters a melted similarity matrix
+to keep pairs with the same values in specific columns, and other
+constraints.</p>
     </div>
 
     <pre class="usage"><span class='fu'>sim_filter_some_different_drop_some</span><span class='op'>(</span>
@@ -145,7 +147,8 @@ keep pairs with the same values in specific columns, and other constraints.</p>
   all_different_cols <span class='op'>=</span> <span class='cn'>NULL</span>,
   filter_drop_left <span class='op'>=</span> <span class='cn'>NULL</span>,
   filter_drop_right <span class='op'>=</span> <span class='cn'>NULL</span>,
-  annotation_cols <span class='op'>=</span> <span class='cn'>NULL</span>
+  annotation_cols <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sim_cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"id1"</span>, <span class='st'>"id2"</span>, <span class='st'>"sim"</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -187,6 +190,11 @@ drop on the right index.</p></td>
 from <code>metadata</code> to annotate the left index of the filtered
 <code>sim_df</code> with.</p></td>
     </tr>
+    <tr>
+      <th>sim_cols</th>
+      <td><p>optional character string specifying minimal set of columns
+for a similarity matrix</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -218,8 +226,10 @@ if specified.</p>
 <span class='va'>all_same_cols</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Metadata_group"</span><span class='op'>)</span>
 <span class='va'>all_different_cols</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Metadata_type1"</span><span class='op'>)</span>
 <span class='va'>any_different_cols</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Metadata_type2"</span><span class='op'>)</span>
-<span class='va'>filter_drop_left</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>Metadata_group <span class='op'>=</span> <span class='st'>"a"</span>, Metadata_type1 <span class='op'>=</span> <span class='st'>"x"</span><span class='op'>)</span>
-<span class='va'>filter_drop_right</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>Metadata_group <span class='op'>=</span> <span class='st'>"a"</span>, Metadata_type1 <span class='op'>=</span> <span class='st'>"x"</span><span class='op'>)</span>
+<span class='va'>filter_drop_left</span> <span class='op'>&lt;-</span>
+  <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>Metadata_group <span class='op'>=</span> <span class='st'>"a"</span>, Metadata_type1 <span class='op'>=</span> <span class='st'>"x"</span><span class='op'>)</span>
+<span class='va'>filter_drop_right</span> <span class='op'>&lt;-</span>
+  <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>Metadata_group <span class='op'>=</span> <span class='st'>"a"</span>, Metadata_type1 <span class='op'>=</span> <span class='st'>"x"</span><span class='op'>)</span>
 <span class='va'>drop_reference</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
 <span class='fu'>matric</span><span class='fu'>::</span><span class='fu'>sim_filter_some_different_drop_some</span><span class='op'>(</span>
   <span class='va'>sim_df</span>,

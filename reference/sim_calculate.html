@@ -136,7 +136,12 @@
   <span class='va'>population</span>,
   annotation_prefix <span class='op'>=</span> <span class='st'>"Metadata_"</span>,
   strata <span class='op'>=</span> <span class='cn'>NULL</span>,
-  method <span class='op'>=</span> <span class='st'>"pearson"</span>
+  method <span class='op'>=</span> <span class='st'>"pearson"</span>,
+  lazy <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  all_same_cols_rep_or_group <span class='op'>=</span> <span class='cn'>NULL</span>,
+  all_same_cols_ref <span class='op'>=</span> <span class='cn'>NULL</span>,
+  all_same_cols_rep_ref <span class='op'>=</span> <span class='cn'>NULL</span>,
+  reference <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -163,6 +168,28 @@ to calculate similarity. This must be one of the
 strings <code>"pearson"</code> (default), <code>"kendall"</code>, <code>"spearman"</code>,
 <code>"euclidean"</code>, <code>"cosine"</code>.</p></td>
     </tr>
+    <tr>
+      <th>lazy</th>
+      <td><p>optional boolean specifying whether to lazily evaluate
+similarity.</p></td>
+    </tr>
+    <tr>
+      <th>all_same_cols_rep_or_group</th>
+      <td><p>optional character vector specifying
+columns.</p></td>
+    </tr>
+    <tr>
+      <th>all_same_cols_ref</th>
+      <td><p>optional character vector specifying columns.</p></td>
+    </tr>
+    <tr>
+      <th>all_same_cols_rep_ref</th>
+      <td><p>optional character vector specifying columns.</p></td>
+    </tr>
+    <tr>
+      <th>reference</th>
+      <td><p>optional character string specifying reference.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -172,11 +199,13 @@ strings <code>"pearson"</code> (default), <code>"kendall"</code>, <code>"spearma
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/message.html'>suppressMessages</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span><span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://magrittr.tidyverse.org'>magrittr</a></span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>population</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span>
-  <span class='op'>~</span><span class='va'>Metadata_group</span>, <span class='op'>~</span><span class='va'>x</span>, <span class='op'>~</span><span class='va'>y</span>, <span class='op'>~</span><span class='va'>z</span>,
-  <span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>1</span>, <span class='fl'>5</span>, <span class='op'>-</span><span class='fl'>5</span>,
-  <span class='fl'>2</span>, <span class='fl'>0</span>, <span class='fl'>6</span>, <span class='op'>-</span><span class='fl'>4</span>,
-  <span class='fl'>3</span>, <span class='fl'>7</span>, <span class='op'>-</span><span class='fl'>4</span>, <span class='fl'>3</span>,
-  <span class='fl'>4</span>, <span class='fl'>14</span>, <span class='op'>-</span><span class='fl'>8</span>, <span class='fl'>6</span>
+  <span class='op'>~</span><span class='va'>Metadata_group1</span>, <span class='op'>~</span><span class='va'>Metadata_group2</span>, <span class='op'>~</span><span class='va'>x</span>, <span class='op'>~</span><span class='va'>y</span>, <span class='op'>~</span><span class='va'>z</span>,
+  <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>1</span>, <span class='fl'>5</span>, <span class='op'>-</span><span class='fl'>5</span>,
+  <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='op'>-</span><span class='fl'>1.2</span>, <span class='fl'>5.1</span>, <span class='op'>-</span><span class='fl'>5.2</span>,
+  <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>6</span>, <span class='op'>-</span><span class='fl'>4</span>,
+  <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>0.3</span>, <span class='fl'>6.2</span>, <span class='op'>-</span><span class='fl'>4.4</span>,
+  <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>7</span>, <span class='op'>-</span><span class='fl'>4</span>, <span class='fl'>3</span>,
+  <span class='fl'>3</span>, <span class='fl'>2</span>, <span class='fl'>7.2</span>, <span class='op'>-</span><span class='fl'>4.1</span>, <span class='fl'>3.7</span>
 <span class='op'>)</span>
 <span class='va'>sim_pearson</span> <span class='op'>&lt;-</span> <span class='fu'>matric</span><span class='fu'>::</span><span class='fu'>sim_calculate</span><span class='op'>(</span><span class='va'>population</span>, method <span class='op'>=</span> <span class='st'>"pearson"</span><span class='op'>)</span>
 <span class='va'>sim_cosine</span> <span class='op'>&lt;-</span> <span class='fu'>matric</span><span class='fu'>::</span><span class='fu'>sim_calculate</span><span class='op'>(</span><span class='va'>population</span>, method <span class='op'>=</span> <span class='st'>"cosine"</span><span class='op'>)</span>
@@ -190,21 +219,100 @@ strings <code>"pearson"</code> (default), <code>"kendall"</code>, <code>"spearma
   <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>inner_join</a></span><span class='op'>(</span><span class='va'>sim_euclidean</span> <span class='op'>%&gt;%</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span>sim_euclidean <span class='op'>=</span> <span class='va'>sim</span><span class='op'>)</span>,
     by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"id1"</span>, <span class='st'>"id2"</span><span class='op'>)</span>
   <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 12 × 5</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 30 × 5</span>
 #&gt;      id1   id2 sim_pearson sim_cosine sim_euclidean
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span>     1     2       1          0.971          1.73
-#&gt; <span style='color: #BCBCBC;'> 2</span>     1     3      -<span style='color: #BB0000;'>0.714</span>     -<span style='color: #BB0000;'>0.684</span>         14.5 
-#&gt; <span style='color: #BCBCBC;'> 3</span>     1     4      -<span style='color: #BB0000;'>0.714</span>     -<span style='color: #BB0000;'>0.684</span>         22.7 
-#&gt; <span style='color: #BCBCBC;'> 4</span>     2     1       1          0.971          1.73
-#&gt; <span style='color: #BCBCBC;'> 5</span>     2     3      -<span style='color: #BB0000;'>0.714</span>     -<span style='color: #BB0000;'>0.580</span>         14.1 
-#&gt; <span style='color: #BCBCBC;'> 6</span>     2     4      -<span style='color: #BB0000;'>0.714</span>     -<span style='color: #BB0000;'>0.580</span>         22.2 
-#&gt; <span style='color: #BCBCBC;'> 7</span>     3     1      -<span style='color: #BB0000;'>0.714</span>     -<span style='color: #BB0000;'>0.684</span>         14.5 
-#&gt; <span style='color: #BCBCBC;'> 8</span>     3     2      -<span style='color: #BB0000;'>0.714</span>     -<span style='color: #BB0000;'>0.580</span>         14.1 
-#&gt; <span style='color: #BCBCBC;'> 9</span>     3     4       1          1              8.60
-#&gt; <span style='color: #BCBCBC;'>10</span>     4     1      -<span style='color: #BB0000;'>0.714</span>     -<span style='color: #BB0000;'>0.684</span>         22.7 
-#&gt; <span style='color: #BCBCBC;'>11</span>     4     2      -<span style='color: #BB0000;'>0.714</span>     -<span style='color: #BB0000;'>0.580</span>         22.2 
-#&gt; <span style='color: #BCBCBC;'>12</span>     4     3       1          1              8.60</div></pre>
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span>     2     1       1.00       1.00           0.3 
+#&gt; <span style='color: #BCBCBC;'> 2</span>     3     1       1          0.971          1.73
+#&gt; <span style='color: #BCBCBC;'> 3</span>     4     1       0.999      0.970          1.87
+#&gt; <span style='color: #BCBCBC;'> 4</span>     5     1      -<span style='color: #BB0000;'>0.714</span>     -<span style='color: #BB0000;'>0.684</span>         14.5 
+#&gt; <span style='color: #BCBCBC;'> 5</span>     6     1      -<span style='color: #BB0000;'>0.754</span>     -<span style='color: #BB0000;'>0.713</span>         15.0 
+#&gt; <span style='color: #BCBCBC;'> 6</span>     1     2       1.00       1.00           0.3 
+#&gt; <span style='color: #BCBCBC;'> 7</span>     3     2       1.00       0.966          1.92
+#&gt; <span style='color: #BCBCBC;'> 8</span>     4     2       0.998      0.964          2.02
+#&gt; <span style='color: #BCBCBC;'> 9</span>     5     2      -<span style='color: #BB0000;'>0.723</span>     -<span style='color: #BB0000;'>0.699</span>         14.7 
+#&gt; <span style='color: #BCBCBC;'>10</span>     6     2      -<span style='color: #BB0000;'>0.763</span>     -<span style='color: #BB0000;'>0.728</span>         15.3 
+#&gt; <span style='color: #949494;'># … with 20 more rows</span></div><div class='input'>
+<span class='va'>sim_cosine</span> <span class='op'>&lt;-</span>
+  <span class='fu'>matric</span><span class='fu'>::</span><span class='fu'>sim_calculate</span><span class='op'>(</span><span class='va'>population</span>,
+    strata <span class='op'>=</span> <span class='st'>"Metadata_group1"</span>,
+    method <span class='op'>=</span> <span class='st'>"cosine"</span>,
+    lazy <span class='op'>=</span> <span class='cn'>TRUE</span>
+  <span class='op'>)</span>
+
+<span class='fu'>matric</span><span class='fu'>::</span><span class='fu'>sim_calculate</span><span class='op'>(</span><span class='va'>population</span>,
+  method <span class='op'>=</span> <span class='st'>"cosine"</span>,
+  lazy <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  all_same_cols_rep_or_group <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Metadata_group2"</span><span class='op'>)</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 18 × 2</span>
+#&gt;      id1   id2
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span>     1     1
+#&gt; <span style='color: #BCBCBC;'> 2</span>     3     1
+#&gt; <span style='color: #BCBCBC;'> 3</span>     5     1
+#&gt; <span style='color: #BCBCBC;'> 4</span>     1     3
+#&gt; <span style='color: #BCBCBC;'> 5</span>     3     3
+#&gt; <span style='color: #BCBCBC;'> 6</span>     5     3
+#&gt; <span style='color: #BCBCBC;'> 7</span>     1     5
+#&gt; <span style='color: #BCBCBC;'> 8</span>     3     5
+#&gt; <span style='color: #BCBCBC;'> 9</span>     5     5
+#&gt; <span style='color: #BCBCBC;'>10</span>     2     2
+#&gt; <span style='color: #BCBCBC;'>11</span>     4     2
+#&gt; <span style='color: #BCBCBC;'>12</span>     6     2
+#&gt; <span style='color: #BCBCBC;'>13</span>     2     4
+#&gt; <span style='color: #BCBCBC;'>14</span>     4     4
+#&gt; <span style='color: #BCBCBC;'>15</span>     6     4
+#&gt; <span style='color: #BCBCBC;'>16</span>     2     6
+#&gt; <span style='color: #BCBCBC;'>17</span>     4     6
+#&gt; <span style='color: #BCBCBC;'>18</span>     6     6</div><div class='input'>
+<span class='fu'>matric</span><span class='fu'>::</span><span class='fu'>sim_calculate</span><span class='op'>(</span><span class='va'>population</span>,
+  method <span class='op'>=</span> <span class='st'>"cosine"</span>,
+  lazy <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  all_same_cols_rep_or_group <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Metadata_group2"</span><span class='op'>)</span>,
+  all_same_cols_ref <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Metadata_group1"</span><span class='op'>)</span>,
+  reference <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>Metadata_group2 <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 15 × 2</span>
+#&gt;      id1   id2
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span>     1     1
+#&gt; <span style='color: #BCBCBC;'> 2</span>     3     1
+#&gt; <span style='color: #BCBCBC;'> 3</span>     5     1
+#&gt; <span style='color: #BCBCBC;'> 4</span>     1     3
+#&gt; <span style='color: #BCBCBC;'> 5</span>     3     3
+#&gt; <span style='color: #BCBCBC;'> 6</span>     5     3
+#&gt; <span style='color: #BCBCBC;'> 7</span>     1     5
+#&gt; <span style='color: #BCBCBC;'> 8</span>     3     5
+#&gt; <span style='color: #BCBCBC;'> 9</span>     5     5
+#&gt; <span style='color: #BCBCBC;'>10</span>     1     2
+#&gt; <span style='color: #BCBCBC;'>11</span>     2     2
+#&gt; <span style='color: #BCBCBC;'>12</span>     3     4
+#&gt; <span style='color: #BCBCBC;'>13</span>     4     4
+#&gt; <span style='color: #BCBCBC;'>14</span>     5     6
+#&gt; <span style='color: #BCBCBC;'>15</span>     6     6</div><div class='input'>
+<span class='fu'>matric</span><span class='fu'>::</span><span class='fu'>sim_calculate</span><span class='op'>(</span><span class='va'>population</span>,
+  method <span class='op'>=</span> <span class='st'>"cosine"</span>,
+  lazy <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  all_same_cols_rep_or_group <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Metadata_group2"</span><span class='op'>)</span>,
+  all_same_cols_ref <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Metadata_group1"</span><span class='op'>)</span>,
+  all_same_cols_rep_ref <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Metadata_group2"</span><span class='op'>)</span>,
+  reference <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>Metadata_group2 <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 21 × 2</span>
+#&gt;      id1   id2
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span>     1     1
+#&gt; <span style='color: #BCBCBC;'> 2</span>     3     1
+#&gt; <span style='color: #BCBCBC;'> 3</span>     5     1
+#&gt; <span style='color: #BCBCBC;'> 4</span>     1     3
+#&gt; <span style='color: #BCBCBC;'> 5</span>     3     3
+#&gt; <span style='color: #BCBCBC;'> 6</span>     5     3
+#&gt; <span style='color: #BCBCBC;'> 7</span>     1     5
+#&gt; <span style='color: #BCBCBC;'> 8</span>     3     5
+#&gt; <span style='color: #BCBCBC;'> 9</span>     5     5
+#&gt; <span style='color: #BCBCBC;'>10</span>     1     2
+#&gt; <span style='color: #949494;'># … with 11 more rows</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

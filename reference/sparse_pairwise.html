@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Helper function to compute metrics. — sim_metrics_helper • matric</title>
+<title>Compute similarity between pairs of rows of a matrix — sparse_pairwise • matric</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Helper function to compute metrics. — sim_metrics_helper" />
-<meta property="og:description" content="sim_metrics_helper helps compute metrics by agrregating and
-scaling." />
+<meta property="og:title" content="Compute similarity between pairs of rows of a matrix — sparse_pairwise" />
+<meta property="og:description" content="sparse_pairwise computes similarity between pairs of rows of a
+matrix." />
 
 
 
@@ -124,59 +124,48 @@ scaling." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Helper function to compute metrics.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/shntnu/matric/blob/master/R/sim_metrics.R'><code>R/sim_metrics.R</code></a></small>
-    <div class="hidden name"><code>sim_metrics_helper.Rd</code></div>
+    <h1>Compute similarity between pairs of rows of a matrix</h1>
+    <small class="dont-index">Source: <a href='https://github.com/shntnu/matric/blob/master/R/sparse.R'><code>R/sparse.R</code></a></small>
+    <div class="hidden name"><code>sparse_pairwise.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>sim_metrics_helper</code> helps compute metrics by agrregating and
-scaling.</p>
+    <p><code>sparse_pairwise</code> computes similarity between pairs of rows of a
+matrix.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sim_metrics_helper</span><span class='op'>(</span>
-  <span class='va'>collated_sim</span>,
-  <span class='va'>sim_type_background</span>,
-  <span class='va'>summary_cols</span>,
-  <span class='va'>sim_type_replication</span>,
-  identifier <span class='op'>=</span> <span class='cn'>NULL</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>sparse_pairwise</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>id1</span>, <span class='va'>id2</span>, <span class='va'>pairwise_function</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>collated_sim</th>
-      <td><p>output of <code>sim_collated</code>, which is a data.frame with
-some attributes.</p></td>
+      <th>X</th>
+      <td><p>matrix</p></td>
     </tr>
     <tr>
-      <th>sim_type_background</th>
-      <td><p>character string specifying the background
-distributions for computing scaled metrics. This must be one of the
-strings <code>"non_rep"</code> or <code>"ref"</code>.</p></td>
+      <th>id1</th>
+      <td><p>vector of integers specifying the list of rows of <code>X</code>
+(first set)</p></td>
     </tr>
     <tr>
-      <th>summary_cols</th>
-      <td><p>character list specifying columns by which to group
-similarities.</p></td>
+      <th>id2</th>
+      <td><p>vector of integers specifying the list of rows of <code>X</code>,
+(second set), same length as <code>id1</code>.</p></td>
     </tr>
     <tr>
-      <th>sim_type_replication</th>
-      <td><p>character string specifying the type of
-replication being measured. This must be one of the strings <code>"rep"</code>
-or <code>"rep_group"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>identifier</th>
-      <td><p>character string specifying the identifier to add as a
-suffix to the columns containing scaled-aggregated metrics.</p></td>
+      <th>pairwise_function</th>
+      <td><p>function that takes a matrix and a pair of indices
+specifying rows of the matrix, and computes an operation of each pair of
+rows</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame of metrics.</p>
+    <p>data.frame with the same number of rows as the length of <code>id1</code>
+(and <code>id2</code>) containing the similarity between the pairs of rows
+of <code>X</code>. <code>sim[i] == pairwise_function(X[id1[i], ], X[id2[i], ])</code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

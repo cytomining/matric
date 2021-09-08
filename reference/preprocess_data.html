@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read similarity matrix. — sim_read • matric</title>
+<title>Preprocess data.
+preprocess_data preprocesses data. — preprocess_data • matric</title>
 
 
 <!-- jquery -->
@@ -39,8 +40,10 @@
 
 
 
-<meta property="og:title" content="Read similarity matrix. — sim_read" />
-<meta property="og:description" content="sim_read reads similarity matrix." />
+<meta property="og:title" content="Preprocess data.
+preprocess_data preprocesses data. — preprocess_data" />
+<meta property="og:description" content="Preprocess data.
+preprocess_data preprocesses data." />
 
 
 
@@ -123,57 +126,56 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read similarity matrix.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/shntnu/matric/blob/master/R/sim_read-write.R'><code>R/sim_read-write.R</code></a></small>
-    <div class="hidden name"><code>sim_read.Rd</code></div>
+    <h1>Preprocess data.
+<code>preprocess_data</code> preprocesses data.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/shntnu/matric/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
+    <div class="hidden name"><code>preprocess_data.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>sim_read</code> reads similarity matrix.</p>
+    <p>Preprocess data.
+<code>preprocess_data</code> preprocesses data.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sim_read</span><span class='op'>(</span><span class='va'>input</span>, file_format <span class='op'>=</span> <span class='st'>"parquet"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>preprocess_data</span><span class='op'>(</span><span class='va'>population</span>, annotation_prefix <span class='op'>=</span> <span class='st'>"Metadata_"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>input</th>
-      <td><p>character string specifying the input filename or directory.</p></td>
+      <th>population</th>
+      <td><p>data.frame with annotations (a.k.a. metadata) and
+observation variables.</p></td>
     </tr>
     <tr>
-      <th>file_format</th>
-      <td><p>character string specify file format. This must be one of <code>csv</code> or <code>parquet</code>(default).</p></td>
+      <th>annotation_prefix</th>
+      <td><p>optional character string specifying prefix for
+annotation columns (e.g. <code>"Metadata_"</code> (default)).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>metric_sim</code> object.</p>
+    <p>data.frame after preprocessing.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/message.html'>suppressMessages</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span><span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://magrittr.tidyverse.org'>magrittr</a></span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>population</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>
-  Metadata_group <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"a"</span>, <span class='st'>"b"</span><span class='op'>)</span>, <span class='fl'>4</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
-  x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>4</span><span class='op'>)</span>,
-  y <span class='op'>=</span> <span class='va'>x</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>4</span><span class='op'>)</span> <span class='op'>/</span> <span class='fl'>100</span>,
-  z <span class='op'>=</span> <span class='va'>y</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>4</span><span class='op'>)</span> <span class='op'>/</span> <span class='fl'>1000</span>
+  AreaShape_Area <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>12</span>, <span class='fl'>15</span>, <span class='fl'>16</span>, <span class='fl'>8</span>, <span class='fl'>8</span>, <span class='fl'>7</span>, <span class='fl'>7</span><span class='op'>)</span>,
+  AreaShape_Compactness <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>12</span>, <span class='cn'>NA</span>, <span class='fl'>16</span>, <span class='fl'>8</span>, <span class='fl'>8</span>, <span class='fl'>7</span>, <span class='fl'>7</span><span class='op'>)</span>
 <span class='op'>)</span>
-<span class='va'>sim_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sim_calculate.html'>sim_calculate</a></span><span class='op'>(</span><span class='va'>population</span>, method <span class='op'>=</span> <span class='st'>"pearson"</span><span class='op'>)</span>
-<span class='va'>sim_df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='sim_write.html'>sim_write</a></span><span class='op'>(</span><span class='st'>"/tmp/test"</span>, file_format <span class='op'>=</span> <span class='st'>"csv"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; INFO [2021-09-08 20:50:58] Creating /tmp/test ...
-#&gt; INFO [2021-09-08 20:50:58] Writing /tmp/test/test.csv ...
-#&gt; INFO [2021-09-08 20:50:58] Writing /tmp/test/test_metadata.csv ...
-#&gt; INFO [2021-09-08 20:50:58] Writing /tmp/test/test_metadata.json ...</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='va'>sim_df_csv</span> <span class='op'>&lt;-</span> <span class='fu'>sim_read</span><span class='op'>(</span><span class='st'>"/tmp/test"</span>, file_format <span class='op'>=</span> <span class='st'>"csv"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; INFO [2021-09-08 20:50:58] Reading /tmp/test/test.csv ...
-#&gt; INFO [2021-09-08 20:50:58] Reading /tmp/test/test_metadata.csv ...
-#&gt; INFO [2021-09-08 20:50:58] Reading /tmp/test/test_metadata.json ...</div><div class='input'><span class='va'>sim_df</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='sim_write.html'>sim_write</a></span><span class='op'>(</span><span class='st'>"/tmp/test.parquet"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; INFO [2021-09-08 20:50:58] Writing /tmp/test.parquet ...</div><div class='output co'>#&gt; NULL</div><div class='input'><span class='va'>sim_df_parquet1</span> <span class='op'>&lt;-</span> <span class='fu'>sim_read</span><span class='op'>(</span><span class='st'>"/tmp/test.parquet"</span><span class='op'>)</span>
-<span class='va'>sim_df</span> <span class='op'>%&gt;%</span> <span class='fu'>arrow</span><span class='fu'>::</span><span class='fu'><a href='https://arrow.apache.org/docs/r//reference/write_parquet.html'>write_parquet</a></span><span class='op'>(</span><span class='st'>"/tmp/test.parquet"</span><span class='op'>)</span>
-<span class='va'>sim_df_parquet2</span> <span class='op'>&lt;-</span> <span class='fu'>arrow</span><span class='fu'>::</span><span class='fu'><a href='https://arrow.apache.org/docs/r//reference/read_parquet.html'>read_parquet</a></span><span class='op'>(</span><span class='st'>"/tmp/test.parquet"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='va'>sim_df_parquet1</span> <span class='op'>==</span> <span class='va'>sim_df_parquet2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='va'>sim_df_parquet1</span> <span class='op'>==</span> <span class='va'>sim_df_csv</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] FALSE</div></pre>
+<span class='fu'>matric</span><span class='fu'>::</span><span class='fu'><a href='drop_annotation.html'>drop_annotation</a></span><span class='op'>(</span><span class='va'>population</span>, annotation_prefix <span class='op'>=</span> <span class='st'>"Metadata_"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 8 × 2</span>
+#&gt;   AreaShape_Area AreaShape_Compactness
+#&gt;            <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>                 <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span>             10                    10
+#&gt; <span style='color: #BCBCBC;'>2</span>             12                    12
+#&gt; <span style='color: #BCBCBC;'>3</span>             15                    <span style='color: #BB0000;'>NA</span>
+#&gt; <span style='color: #BCBCBC;'>4</span>             16                    16
+#&gt; <span style='color: #BCBCBC;'>5</span>              8                     8
+#&gt; <span style='color: #BCBCBC;'>6</span>              8                     8
+#&gt; <span style='color: #BCBCBC;'>7</span>              7                     7
+#&gt; <span style='color: #BCBCBC;'>8</span>              7                     7</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
