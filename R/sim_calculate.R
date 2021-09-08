@@ -104,9 +104,9 @@ sim_calculate <-
     # ---- Setup ----
     calculate_optimized <-
       !is.null(all_same_cols_rep_or_group) |
-      !is.null(all_same_cols_ref) |
-      !is.null(all_same_cols_rep_ref) |
-      !is.null(reference)
+        !is.null(all_same_cols_ref) |
+        !is.null(all_same_cols_rep_ref) |
+        !is.null(reference)
 
     sim_calculate_cases <- function(X) {
       if (method %in% distances) {
@@ -156,9 +156,7 @@ sim_calculate <-
           sim_df %>%
           dplyr::mutate(sim = as.vector(S)) %>%
           dplyr::filter(id1 != id2)
-
       }
-
     } else {
       # ---- * Some pairs  ----
 
@@ -179,51 +177,61 @@ sim_calculate <-
         function(partition, metadata_subset) {
           id_partition <-
             dplyr::inner_join(metadata_subset,
-                              partition,
-                              by = names(partition)) %>%
+              partition,
+              by = names(partition)
+            ) %>%
             purrr::pluck("id")
 
-          expand.grid(id1 = id_partition,
-                      id2 = id_partition,
-                      KEEP.OUT.ATTRS = FALSE)
+          expand.grid(
+            id1 = id_partition,
+            id2 = id_partition,
+            KEEP.OUT.ATTRS = FALSE
+          )
         }
 
       reduct_all_same_cols_ref <-
         function(partition, metadata_subset) {
           metadata_partition <-
             dplyr::inner_join(metadata_subset,
-                              partition,
-                              by = names(partition))
+              partition,
+              by = names(partition)
+            )
 
           id_reference <-
             dplyr::inner_join(metadata_partition,
-                              reference,
-                              by = names(reference)) %>%
+              reference,
+              by = names(reference)
+            ) %>%
             purrr::pluck("id")
 
           id_non_reference <-
             dplyr::anti_join(metadata_partition,
-                             reference,
-                             by = names(reference)) %>%
+              reference,
+              by = names(reference)
+            ) %>%
             purrr::pluck("id")
 
-          expand.grid(id1 = id_non_reference,
-                      id2 = id_reference,
-                      KEEP.OUT.ATTRS = FALSE)
-
+          expand.grid(
+            id1 = id_non_reference,
+            id2 = id_reference,
+            KEEP.OUT.ATTRS = FALSE
+          )
         }
 
       reduct_all_same_cols_rep_ref <-
         function(partition, metadata_subset) {
           id_reference <-
             dplyr::inner_join(metadata_subset,
-                              partition,
-                              by = names(partition)) %>%
+              partition,
+              by = names(partition)
+            ) %>%
             purrr::pluck("id")
 
-          expand.grid(id1 = id_reference,
-                      id2 = id_reference,
-                      KEEP.OUT.ATTRS = FALSE)
+          expand.grid(
+            id1 = id_reference,
+            id2 = id_reference,
+            KEEP.OUT.ATTRS = FALSE
+          )
         }
 
       # ---- ** Calculate  ----
@@ -279,7 +287,6 @@ sim_calculate <-
               metadata_subset
             )
           )
-
       }
 
       if (!lazy) {
@@ -287,7 +294,6 @@ sim_calculate <-
       }
 
       sim_df
-
     }
 
     # ---- Package results ----
@@ -349,7 +355,6 @@ sim_calculate <-
 #' attr(index, "metric_metadata") <- list(method = "cosine")
 #'
 #' matric::sim_calculate_ij(population, index)
-#'
 #' @export
 sim_calculate_ij <-
   function(population,
@@ -365,10 +370,10 @@ sim_calculate_ij <-
     stopifnot(is.data.frame(index))
 
     stopifnot(!is.null(attr(index, "metric_metadata")) |
-                !is.null(method))
+      !is.null(method))
 
     stopifnot(!is.null(attr(index, "metric_metadata")$method) |
-                !is.null(method))
+      !is.null(method))
 
     if (is.null(method)) {
       method <- attr(index, "metric_metadata")$method
