@@ -4,7 +4,7 @@
 \alias{sparse_similarity}
 \alias{cosine_sparse}
 \alias{pearson_sparse}
-\title{Compute cosine similarity between pairs of rows of a matrix}
+\title{Compute similarity between pairs of rows of a matrix}
 \usage{
 cosine_sparse(X, id1, id2)
 
@@ -21,11 +21,13 @@ pearson_sparse(X, id1, id2)
 }
 \value{
 data.frame with the same number of rows as the length of \code{id1}
-(and \code{id2}) containing the cosine similarity between the pairs of rows
-of \code{X}. \code{sim[i] == cosine(X[id1[i], ], X[id2[i], ])}.
+(and \code{id2}) containing the similarity between the pairs of rows
+of \code{X}. \code{sim[i] == similarity(X[id1[i], ], X[id2[i], ])}.
 }
 \description{
 \code{cosine_sparse} computes cosine similarity between pairs of rows of a
+matrix.
+\code{pearson_sparse} computes pearson similarity between pairs of rows of a
 matrix.
 }
 \examples{
@@ -55,4 +57,11 @@ s2 <-
 s1
 
 all.equal(s1, s2)
+
+Xm <- X - rowMeans(X)
+s3 <- matric::cosine_sparse(Xm, id1, id2) \%>\% dplyr::arrange(id1, id2)
+s4 <- matric::pearson_sparse(X, id1, id2) \%>\% dplyr::arrange(id1, id2)
+
+all.equal(s3, s4)
+
 }

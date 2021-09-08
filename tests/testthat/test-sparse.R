@@ -13,7 +13,7 @@ test_that("tcrossprod_ij works", {
   expect_equal(s1, s2)
 })
 
-test_that("cosine_sparse works", {
+test_that("cosine_sparse and pearson_sparse work", {
   set.seed(42)
 
   X <- matrix(rnorm(5 * 3), 5, 3)
@@ -40,4 +40,12 @@ test_that("cosine_sparse works", {
   s1
 
   expect_equal(s1, s2)
+
+  Xm <- X - rowMeans(X)
+
+  s3 <- matric::cosine_sparse(Xm, id1, id2) %>% dplyr::arrange(id1, id2)
+  s4 <- matric::pearson_sparse(X, id1, id2) %>% dplyr::arrange(id1, id2)
+
+  all.equal(s3, s4)
+
 })

@@ -92,9 +92,11 @@ tcrossprod_ij <- function(X, id1, id2) {
   tcrossprod(X1, X2)
 }
 
-#' Compute cosine similarity between pairs of rows of a matrix
+#' Compute similarity between pairs of rows of a matrix
 #'
 #' \code{cosine_sparse} computes cosine similarity between pairs of rows of a
+#'   matrix.
+#' \code{pearson_sparse} computes pearson similarity between pairs of rows of a
 #'   matrix.
 #'
 #' @param X matrix
@@ -104,8 +106,8 @@ tcrossprod_ij <- function(X, id1, id2) {
 #' (second set), same length as \code{id1}.
 #'
 #' @return data.frame with the same number of rows as the length of \code{id1}
-#'   (and \code{id2}) containing the cosine similarity between the pairs of rows
-#'   of \code{X}. \code{sim[i] == cosine(X[id1[i], ], X[id2[i], ])}.
+#'   (and \code{id2}) containing the similarity between the pairs of rows
+#'   of \code{X}. \code{sim[i] == similarity(X[id1[i], ], X[id2[i], ])}.
 #'
 #' @examples
 #'
@@ -134,6 +136,13 @@ tcrossprod_ij <- function(X, id1, id2) {
 #' s1
 #'
 #' all.equal(s1, s2)
+#'
+#' Xm <- X - rowMeans(X)
+#' s3 <- matric::cosine_sparse(Xm, id1, id2) %>% dplyr::arrange(id1, id2)
+#' s4 <- matric::pearson_sparse(X, id1, id2) %>% dplyr::arrange(id1, id2)
+#'
+#' all.equal(s3, s4)
+#'
 #' @name sparse_similarity
 NULL
 
