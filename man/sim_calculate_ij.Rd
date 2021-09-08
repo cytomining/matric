@@ -4,19 +4,26 @@
 \alias{sim_calculate_ij}
 \title{Calculate similarities given pairs of rows}
 \usage{
-sim_calculate_ij(population, index, annotation_prefix = "Metadata_", cores = 1)
+sim_calculate_ij(
+  population,
+  index,
+  method = NULL,
+  annotation_prefix = "Metadata_",
+  cores = 1
+)
 }
 \arguments{
 \item{population}{data.frame with annotations (a.k.a. metadata) and
 observation variables.}
 
 \item{index}{data.frame with at least two columns \code{id1} and
-\code{id2} specifying rows of \code{population}, and an attribute
-\code{method}, which is a character string specifying method for to
-calculate similarity. Currently only \code{"cosine"} is implemented.
-Preserve the diagonal entries when constructing \code{index} to allow for
-optimizations. \code{sim_calculate_ij} filters out the diagonal in the
-result.}
+\code{id2} specifying rows of \code{population}, and an optional attribute
+\code{metric_metadata$method}, which is a character string specifying
+implemented. Preserve the diagonal entries when constructing \code{index}}
+
+\item{method}{optional character string specifying method for
+to calculate similarity. \code{method}, if specified, overrides
+\code{attr(index, "metric_metadata")$method}.}
 
 \item{annotation_prefix}{optional character string specifying prefix
 for annotation columns.}
@@ -46,9 +53,10 @@ n <- nrow(population)
 index <-
   expand.grid(id1 = seq(n), id2 = seq(n), KEEP.OUT.ATTRS = FALSE)
 
+matric::sim_calculate_ij(population, index, method = "cosine")
+
 attr(index, "metric_metadata") <- list(method = "cosine")
 
-sim_cosine <- matric::sim_calculate_ij(population, index)
+matric::sim_calculate_ij(population, index)
 
-sim_cosine
 }

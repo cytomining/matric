@@ -1,3 +1,54 @@
+#' Compute similarity between pairs of rows of a matrix
+#'
+#' \code{sparse_pairwise} computes similarity between pairs of rows of a
+#'   matrix.
+#'
+#' @param X matrix
+#' @param id1 vector of integers specifying the list of rows of \code{X}
+#'   (first set)
+#' @param id2 vector of integers specifying the list of rows of \code{X},
+#'   (second set), same length as \code{id1}.
+#' @param pairwise_function function that takes a matrix and a pair of indices
+#'   specifying rows of the matrix, and computes an operation of each pair of
+#'   rows
+#'
+#' @return data.frame with the same number of rows as the length of \code{id1}
+#'   (and \code{id2}) containing the similarity between the pairs of rows
+#'   of \code{X}. \code{sim[i] == pairwise_function(X[id1[i], ], X[id2[i], ])}.
+sparse_pairwise <- function(X, id1, id2, pairwise_function) {
+  index_nest <-
+    data.frame(id1, id2) %>%
+    dplyr::arrange(id1, id2) %>%
+    dplyr::group_by(id1) %>%
+    tidyr::nest(id2_l = c(id2)) %>%
+    dplyr::group_by(id2_l) %>%
+    tidyr::nest(id1_l = c(id1))
+
+  sim_df <-
+    purrr::map2_dfr(
+      index_nest$id1_l,
+      index_nest$id2_l,
+      function(l1, l2) {
+        index_sub <-
+          expand.grid(
+            id1 = l1[[1]],
+            id2 = l2[[1]],
+            KEEP.OUT.ATTRS = FALSE
+          )
+
+        S <-
+          as.vector(pairwise_function(X, l1[[1]], l2[[1]]))
+
+        index_sub <- index_sub %>% dplyr::mutate(sim = S)
+
+        index_sub
+      }
+    ) %>%
+    dplyr::arrange(id1, id2)
+
+  sim_df
+}
+
 #' Compute cross product between two sets of rows of a matrix.
 #'
 #' \code{tcrossprod_ij} computes cross product between two sets of rows of a
@@ -83,62 +134,21 @@ tcrossprod_ij <- function(X, id1, id2) {
 #' s1
 #'
 #' all.equal(s1, s2)
+#' @name sparse_similarity
+NULL
+
 #' @export
+#' @rdname sparse_similarity
 cosine_sparse <- function(X, id1, id2) {
   X <- X / sqrt(rowSums(X * X))
 
   sparse_pairwise(X, id1, id2, tcrossprod_ij)
 }
 
+#' @export
+#' @rdname sparse_similarity
+pearson_sparse <- function(X, id1, id2) {
+  X <- X - rowMeans(X)
 
-#' Compute similarity between pairs of rows of a matrix
-#'
-#' \code{sparse_pairwise} computes similarity between pairs of rows of a
-#'   matrix.
-#'
-#' @param X matrix
-#' @param id1 vector of integers specifying the list of rows of \code{X}
-#'   (first set)
-#' @param id2 vector of integers specifying the list of rows of \code{X},
-#'   (second set), same length as \code{id1}.
-#' @param pairwise_function function that takes a matrix and a pair of indices
-#'   specifying rows of the matrix, and computes an operation of each pair of
-#'   rows
-#'
-#' @return data.frame with the same number of rows as the length of \code{id1}
-#'   (and \code{id2}) containing the similarity between the pairs of rows
-#'   of \code{X}. \code{sim[i] == pairwise_function(X[id1[i], ], X[id2[i], ])}.
-#'
-sparse_pairwise <- function(X, id1, id2, pairwise_function) {
-  index_nest <-
-    data.frame(id1, id2) %>%
-    dplyr::arrange(id1, id2) %>%
-    dplyr::group_by(id1) %>%
-    tidyr::nest(id2_l = c(id2)) %>%
-    dplyr::group_by(id2_l) %>%
-    tidyr::nest(id1_l = c(id1))
-
-  sim_df <-
-    purrr::map2_dfr(
-      index_nest$id1_l,
-      index_nest$id2_l,
-      function(l1, l2) {
-        index_sub <-
-          expand.grid(
-            id1 = l1[[1]],
-            id2 = l2[[1]],
-            KEEP.OUT.ATTRS = FALSE
-          )
-
-        S <-
-          as.vector(pairwise_function(X, l1[[1]], l2[[1]]))
-
-        index_sub <- index_sub %>% dplyr::mutate(sim = S)
-
-        index_sub
-      }
-    ) %>%
-    dplyr::arrange(id1, id2)
-
-  sim_df
+  cosine_sparse(X, id1, id2)
 }
