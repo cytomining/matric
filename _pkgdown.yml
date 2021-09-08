@@ -2,6 +2,7 @@ reference:
 - title: "User-facing operations"
 - contents:
   - sim_calculate
+  - sim_calculate_ij
   - sim_collate
   - sim_metrics
   - sim_wider
@@ -26,7 +27,12 @@ reference:
 - contents:
   - get_annotation
   - drop_annotation
-  - sim_metrics_helper
+  - preprocess_data
+- title: "Sparse operations"
+- contents:
+  - sparse_pairwise
+  - sparse_similarity
+  - tcrossprod_ij
 - title: "Datasets"
 - contents:
   - cellhealth
