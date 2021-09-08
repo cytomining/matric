@@ -197,22 +197,19 @@ sim_calculate <-
               by = names(partition)
             )
 
-          id_reference <-
-            dplyr::inner_join(metadata_partition,
-              reference,
-              by = names(reference)
-            ) %>%
+          id_partition <-
+            metadata_partition %>%
             purrr::pluck("id")
 
-          id_non_reference <-
-            dplyr::anti_join(metadata_partition,
-              reference,
-              by = names(reference)
+          id_reference <-
+            dplyr::inner_join(metadata_partition,
+                              reference,
+                              by = names(reference)
             ) %>%
             purrr::pluck("id")
 
           expand.grid(
-            id1 = id_non_reference,
+            id1 = id_partition,
             id2 = id_reference,
             KEEP.OUT.ATTRS = FALSE
           )
@@ -288,6 +285,9 @@ sim_calculate <-
             )
           )
       }
+
+      sim_df <-
+        dplyr::distinct(sim_df)
 
       if (!lazy) {
         sim_df <- sim_calculate_ij(population, sim_df, method = method, annotation_prefix = annotation_prefix)

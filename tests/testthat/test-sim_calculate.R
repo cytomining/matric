@@ -431,8 +431,10 @@ test_that("`sim_calculate` works in lazy mode with optimizations", {
 
   answer <-
     data.frame(
-      id1 = c(1, 3, 5, 1, 3, 5, 1, 3, 5, 1, 3, 5),
-      id2 = c(1, 1, 1, 3, 3, 3, 5, 5, 5, 2, 4, 6)
+      id1 = c(1, 3, 5, 1, 3, 5, 1, 3, 5, 1,
+              2, 3, 4, 5, 6),
+      id2 = c(1, 1, 1, 3, 3, 3, 5, 5,
+              5, 2, 2, 4, 4, 6, 6)
     )
 
   expect_equal(index, answer, ignore_attr = TRUE)
@@ -449,13 +451,10 @@ test_that("`sim_calculate` works in lazy mode with optimizations", {
     ) %>%
     as.data.frame()
 
-  answer <- data.frame(id1 = c(
-    1, 3, 5, 1, 3, 5, 1, 3, 5, 1, 3, 5, 2,
-    4, 6, 2, 4, 6, 2, 4, 6
-  ), id2 = c(
-    1, 1, 1, 3, 3, 3, 5, 5, 5, 2,
-    4, 6, 2, 2, 2, 4, 4, 4, 6, 6, 6
-  ))
+  answer <- data.frame(
+    id1 = c(1, 3, 5, 1, 3, 5, 1, 3, 5, 1, 2, 3, 4, 5, 6, 4, 6, 2, 6, 2, 4),
+    id2 = c(1, 1, 1, 3, 3, 3, 5, 5, 5, 2, 2, 4, 4, 6, 6, 2, 2, 4, 4, 6, 6)
+  )
 
   expect_equal(index, answer, ignore_attr = TRUE)
 })
