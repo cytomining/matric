@@ -263,5 +263,4 @@ test_that("`sim_metrics` works", {
     matric::sim_metrics(collated_sim_optimized_lazy, "ref", calculate_grouped = TRUE)
 
   expect_equal(metrics, metrics_optimized_lazy)
-
 })
