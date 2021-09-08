@@ -66,7 +66,10 @@ sim_validate <- function(x) {
 
   stopifnot(is.list(metric_metadata))
 
-  stopifnot(all(c("id1", "id2", "sim") %in% names(x)))
+  stopifnot(all(c("id1", "id2") %in% names(x)))
+
+  # drop "sim" to allow for lazy evalution of sim+df
+  # stopifnot(all(c("id1", "id2", "sim") %in% names(x)))
 
   stopifnot("id" %in% names(row_metadata))
 

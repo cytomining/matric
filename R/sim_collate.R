@@ -53,7 +53,8 @@
 #' Do so for only those (a, b) pairs that
 #' - have *same* values in *all* columns of \code{all_same_cols_non_rep}
 #' - have *different* values in *all* columns \code{all_different_cols_non_rep}
-#' - have *different* values in *at least one* column of \code{any_different_cols_non_rep}
+#' - have *different* values in *at least one* column of
+#'   \code{any_different_cols_non_rep}
 #'
 #' Keep, both, (a, b) and (b, a)
 #'
@@ -65,26 +66,35 @@
 #'
 #' Do so for only those (a, b) pairs that
 #' - have *same* values in *all* columns of \code{all_same_cols_group}
-#' - have *different* values in *at least one* column of \code{any_different_cols_group}
+#' - have *different* values in *at least one* column of
+#'   \code{any_different_cols_group}
 #'
 #' Keep, both, (a, b) and (b, a)
 #'
 #'
 #' @param sim_df \code{metric_sim} object.
-#' @param annotation_cols character vector specifying which columns from \code{metadata} to annotate the left index of the filtered \code{sim_df} with.
+#' @param annotation_cols character vector specifying which columns from
+#'   \code{metadata} to annotate the left index of the filtered \code{sim_df}
+#'   with.
 #' @param all_same_cols_rep optional character vector specifying columns.
 #' @param all_same_cols_ref optional character vector specifying columns.
 #' @param all_same_cols_rep_ref optional character vector specifying columns.
-#' @param any_different_cols_non_rep optional character vector specifying columns.
+#' @param any_different_cols_non_rep optional character vector specifying
+#'   columns.
 #' @param all_same_cols_non_rep optional character vector specifying columns.
-#' @param all_different_cols_non_rep optional character vector specifying columns.
+#' @param all_different_cols_non_rep optional character vector specifying
+#'   columns.
 #' @param any_different_cols_group optional character vector specifying columns.
 #' @param all_same_cols_group optional character vector specifying columns.
 #' @param reference optional character string specifying reference.
-#' @param drop_reference optional boolean specifying whether to filter (drop) pairs using \code{reference} on the left index.
-#' @param drop_group optional tbl; rows that match on \code{drop_group} on the left or right index are dropped.
+#' @param drop_reference optional boolean specifying whether to filter (drop)
+#'   pairs using \code{reference} on the left index.
+#' @param drop_group optional tbl; rows that match on \code{drop_group} on the
+#'   left or right index are dropped.
 #'
-#' @return \code{metric_sim} object comprising a filtered \code{sim_df} with sets of pairs, preserving the same \code{metric_sim} attributes as \code{sim_df}.
+#' @return \code{metric_sim} object comprising a filtered \code{sim_df} with
+#'   sets of pairs, preserving the same \code{metric_sim} attributes as
+#'   \code{sim_df}.
 #'
 #' @examples
 #'
@@ -196,12 +206,22 @@ sim_collate <-
 
     row_metadata <- attr(sim_df, "row_metadata")
 
+    sim_cols <- names(sim_df)
+
     # ---- 0. Filter out some rows ----
 
     if (!is.null(drop_group)) {
       sim_df <- sim_df %>%
-        sim_filter_keep_or_drop_some(row_metadata = row_metadata, filter_drop = drop_group, filter_side = "left") %>%
-        sim_filter_keep_or_drop_some(row_metadata = row_metadata, filter_drop = drop_group, filter_side = "right")
+        sim_filter_keep_or_drop_some(
+          row_metadata = row_metadata,
+          filter_drop = drop_group,
+          filter_side = "left"
+        ) %>%
+        sim_filter_keep_or_drop_some(
+          row_metadata = row_metadata,
+          filter_drop = drop_group,
+          filter_side = "right"
+        )
     }
 
     fetch_ref <-
@@ -236,10 +256,11 @@ sim_collate <-
         sim_df %>%
         sim_filter_all_same_keep_some(
           row_metadata = row_metadata,
-          all_same_cols_ref,
+          all_same_cols = all_same_cols_ref,
           filter_keep_right = reference,
           drop_reference = drop_reference,
-          annotation_cols
+          annotation_cols = annotation_cols,
+          sim_cols = sim_cols
         )
     }
 
@@ -257,13 +278,22 @@ sim_collate <-
 
     rep <-
       sim_df %>%
-      sim_filter_keep_or_drop_some(row_metadata = row_metadata, filter_drop = reference, filter_side = "left") %>%
-      sim_filter_keep_or_drop_some(row_metadata = row_metadata, filter_drop = reference, filter_side = "right") %>%
+      sim_filter_keep_or_drop_some(
+        row_metadata = row_metadata,
+        filter_drop = reference,
+        filter_side = "left"
+      ) %>%
+      sim_filter_keep_or_drop_some(
+        row_metadata = row_metadata,
+        filter_drop = reference,
+        filter_side = "right"
+      ) %>%
       sim_filter_all_same(
         row_metadata = row_metadata,
-        all_same_cols_rep,
-        annotation_cols,
-        drop_lower = FALSE
+        all_same_cols = all_same_cols_rep,
+        annotation_cols = annotation_cols,
+        drop_lower = FALSE,
+        sim_cols = sim_cols
       )
 
     # ---- 3. Similarity to replicates (only references) ----
@@ -295,7 +325,8 @@ sim_collate <-
           row_metadata = row_metadata,
           all_same_cols = all_same_cols_rep_ref,
           annotation_cols = annotation_cols,
-          drop_lower = FALSE
+          drop_lower = FALSE,
+          sim_cols = sim_cols
         )
     }
 
@@ -309,7 +340,8 @@ sim_collate <-
     # Do so for only those (a, b) pairs that
     # - have *same* values in *all* columns of `all_same_cols_non_rep`
     # - have *different* values in *all* columns `all_different_cols_non_rep`
-    # - have *different* values in *at least one* column of `any_different_cols_non_rep`
+    # - have *different* values in *at least one* column of
+    #   `any_different_cols_non_rep`
     #
     # Keep, both, (a, b) and (b, a)
 
@@ -329,7 +361,8 @@ sim_collate <-
           all_different_cols = all_different_cols_non_rep,
           filter_drop_left = reference_left,
           filter_drop_right = reference,
-          annotation_cols = annotation_cols
+          annotation_cols = annotation_cols,
+          sim_cols = sim_cols
         )
     }
 
@@ -342,7 +375,8 @@ sim_collate <-
     #
     # Do so for only those (a, b) pairs that
     # - have *same* values in *all* columns of `all_same_cols_group`
-    # - have *different* values in *at least one* column of `any_different_cols_group`
+    # - have *different* values in *at least one* column of
+    #   `any_different_cols_group`
     #
     # Keep, both, (a, b) and (b, a)
 
@@ -361,7 +395,8 @@ sim_collate <-
           all_same_cols = all_same_cols_group,
           filter_drop_left = reference_both,
           filter_drop_right = reference_both,
-          annotation_cols = annotation_cols
+          annotation_cols = annotation_cols,
+          sim_cols = sim_cols
         )
     }
 
@@ -372,7 +407,8 @@ sim_collate <-
 
     if (fetch_rep_ref) {
       combined <- combined %>%
-        dplyr::bind_rows(rep_ref %>% dplyr::mutate(type = "rep")) # same tag as ref
+        # same tag as ref
+        dplyr::bind_rows(rep_ref %>% dplyr::mutate(type = "rep"))
     }
 
     if (fetch_non_rep) {

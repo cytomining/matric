@@ -13,15 +13,22 @@ sim_metrics_helper(
 )
 }
 \arguments{
-\item{collated_sim}{output of \code{sim_collated}, which is a data.frame with some attributes.}
+\item{collated_sim}{output of \code{sim_collated}, which is a data.frame with
+some attributes.}
 
-\item{sim_type_background}{character string specifying the background distributions for computing scaled metrics. This must be one of the strings \code{"non_rep"} or \code{"ref"}.}
+\item{sim_type_background}{character string specifying the background
+distributions for computing scaled metrics. This must be one of the
+strings \code{"non_rep"} or \code{"ref"}.}
 
-\item{summary_cols}{character list specifying columns by which to group similarities.}
+\item{summary_cols}{character list specifying columns by which to group
+similarities.}
 
-\item{sim_type_replication}{character string specifying the type of replication being measured. This must be one of the strings \code{"rep"} or \code{"rep_group"}.}
+\item{sim_type_replication}{character string specifying the type of
+replication being measured. This must be one of the strings \code{"rep"}
+or \code{"rep_group"}.}
 
-\item{identifier}{character string specifying the identifier to add as a suffix to the columns containing scaled-aggregated metrics.}
+\item{identifier}{character string specifying the identifier to add as a
+suffix to the columns containing scaled-aggregated metrics.}
 }
 \value{
 data.frame of metrics.

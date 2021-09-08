@@ -13,7 +13,8 @@ sim_filter_some_different_drop_some(
   all_different_cols = NULL,
   filter_drop_left = NULL,
   filter_drop_right = NULL,
-  annotation_cols = NULL
+  annotation_cols = NULL,
+  sim_cols = c("id1", "id2", "sim")
 )
 }
 \arguments{
@@ -36,6 +37,9 @@ drop on the right index.}
 \item{annotation_cols}{optional character vector specifying which columns
 from \code{metadata} to annotate the left index of the filtered
 \code{sim_df} with.}
+
+\item{sim_cols}{optional character string specifying minimal set of columns
+for a similarity matrix}
 }
 \value{
 Filtered \code{sim_df} as a data.frame, keeping only pairs that have
@@ -50,8 +54,9 @@ with further filtering using \code{filter_drop_left} and
 if specified.
 }
 \description{
-\code{sim_filter_some_different_drop_some} filters a melted similarity matrix to
-keep pairs with the same values in specific columns, and other constraints.
+\code{sim_filter_some_different_drop_some} filters a melted similarity matrix
+to keep pairs with the same values in specific columns, and other
+constraints.
 }
 \examples{
 suppressMessages(suppressWarnings(library(magrittr)))
@@ -70,8 +75,10 @@ sim_df <- matric::sim_annotate(sim_df, row_metadata, annotation_cols)
 all_same_cols <- c("Metadata_group")
 all_different_cols <- c("Metadata_type1")
 any_different_cols <- c("Metadata_type2")
-filter_drop_left <- tibble::tibble(Metadata_group = "a", Metadata_type1 = "x")
-filter_drop_right <- tibble::tibble(Metadata_group = "a", Metadata_type1 = "x")
+filter_drop_left <-
+  tibble::tibble(Metadata_group = "a", Metadata_type1 = "x")
+filter_drop_right <-
+  tibble::tibble(Metadata_group = "a", Metadata_type1 = "x")
 drop_reference <- FALSE
 matric::sim_filter_some_different_drop_some(
   sim_df,

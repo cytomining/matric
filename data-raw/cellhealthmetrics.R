@@ -24,10 +24,6 @@ cellhealth <-
   )
 
 ## -----------------------------------------------------------------------------
-
-sim_df <- matric::sim_calculate(cellhealth)
-
-## -----------------------------------------------------------------------------
 drop_group <-
   data.frame(Metadata_gene_name = "EMPTY")
 
@@ -93,6 +89,8 @@ annotation_cols <-
 
 ## -----------------------------------------------------------------------------
 
+sim_df <- matric::sim_calculate(cellhealth, method = "cosine")
+
 collated_sim <-
   matric::sim_collate(
     sim_df,
@@ -108,6 +106,30 @@ collated_sim <-
     annotation_cols = annotation_cols,
     drop_group = drop_group
   )
+
+index <- matric::sim_calculate(cellhealth, method = "cosine", lazy = TRUE)
+
+# collated_sim_lazy <-
+#   matric::sim_collate(
+#     index,
+#     reference,
+#     all_same_cols_rep = all_same_cols_rep,
+#     all_same_cols_rep_ref = all_same_cols_rep_ref,
+#     all_same_cols_ref = all_same_cols_ref,
+#     any_different_cols_non_rep = any_different_cols_non_rep,
+#     all_same_cols_non_rep = all_same_cols_non_rep,
+#     all_different_cols_non_rep = all_different_cols_non_rep,
+#     any_different_cols_group = any_different_cols_group,
+#     all_same_cols_group = all_same_cols_group,
+#     annotation_cols = annotation_cols,
+#     drop_group = drop_group
+#   )
+#
+# doParallel::registerDoParallel(cores = 8)
+#
+# collated_sim_lazy <- sim_calculate_ij(population = cellhealth,
+#                                       index = collated_sim_lazy,
+#                                       cores = 8)
 
 ## -----------------------------------------------------------------------------
 

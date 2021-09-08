@@ -8,7 +8,12 @@ sim_calculate(
   population,
   annotation_prefix = "Metadata_",
   strata = NULL,
-  method = "pearson"
+  method = "pearson",
+  lazy = FALSE,
+  all_same_cols_rep_or_group = NULL,
+  all_same_cols_ref = NULL,
+  all_same_cols_rep_ref = NULL,
+  reference = NULL
 )
 }
 \arguments{
@@ -24,6 +29,18 @@ for annotation columns.}
 to calculate similarity. This must be one of the
 strings \code{"pearson"} (default), \code{"kendall"}, \code{"spearman"},
 \code{"euclidean"}, \code{"cosine"}.}
+
+\item{lazy}{optional boolean specifying whether to lazily evaluate
+similarity.}
+
+\item{all_same_cols_rep_or_group}{optional character vector specifying
+columns.}
+
+\item{all_same_cols_ref}{optional character vector specifying columns.}
+
+\item{all_same_cols_rep_ref}{optional character vector specifying columns.}
+
+\item{reference}{optional character string specifying reference.}
 }
 \value{
 \code{metric_sim} object, with similarity matrix and related metadata
@@ -34,11 +51,13 @@ strings \code{"pearson"} (default), \code{"kendall"}, \code{"spearman"},
 \examples{
 suppressMessages(suppressWarnings(library(magrittr)))
 population <- tibble::tribble(
-  ~Metadata_group, ~x, ~y, ~z,
-  1, -1, 5, -5,
-  2, 0, 6, -4,
-  3, 7, -4, 3,
-  4, 14, -8, 6
+  ~Metadata_group1, ~Metadata_group2, ~x, ~y, ~z,
+  1, 1, -1, 5, -5,
+  1, 2, -1.2, 5.1, -5.2,
+  2, 1, 0, 6, -4,
+  2, 2, 0.3, 6.2, -4.4,
+  3, 1, 7, -4, 3,
+  3, 2, 7.2, -4.1, 3.7
 )
 sim_pearson <- matric::sim_calculate(population, method = "pearson")
 sim_cosine <- matric::sim_calculate(population, method = "cosine")
@@ -52,4 +71,34 @@ sim_pearson \%>\%
   dplyr::inner_join(sim_euclidean \%>\% dplyr::rename(sim_euclidean = sim),
     by = c("id1", "id2")
   )
+
+sim_cosine <-
+  matric::sim_calculate(population,
+    strata = "Metadata_group1",
+    method = "cosine",
+    lazy = TRUE
+  )
+
+matric::sim_calculate(population,
+  method = "cosine",
+  lazy = TRUE,
+  all_same_cols_rep_or_group = c("Metadata_group2")
+)
+
+matric::sim_calculate(population,
+  method = "cosine",
+  lazy = TRUE,
+  all_same_cols_rep_or_group = c("Metadata_group2"),
+  all_same_cols_ref = c("Metadata_group1"),
+  reference = data.frame(Metadata_group2 = 2)
+)
+
+matric::sim_calculate(population,
+  method = "cosine",
+  lazy = TRUE,
+  all_same_cols_rep_or_group = c("Metadata_group2"),
+  all_same_cols_ref = c("Metadata_group1"),
+  all_same_cols_rep_ref = c("Metadata_group2"),
+  reference = data.frame(Metadata_group2 = 2)
+)
 }

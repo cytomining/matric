@@ -1,6 +1,4 @@
 test_that("`sim_metrics` works", {
-  sim_df <- matric::sim_calculate(matric::cellhealth)
-
   drop_group <-
     data.frame(Metadata_gene_name = "EMPTY")
 
@@ -62,6 +60,10 @@ test_that("`sim_metrics` works", {
       "Metadata_gene_name",
       "Metadata_pert_name"
     )
+
+  # ---- regular lazy sim_df ----
+
+  sim_df <- matric::sim_calculate(matric::cellhealth)
 
   collated_sim <-
     matric::sim_collate(
@@ -143,7 +145,6 @@ test_that("`sim_metrics` works", {
       dplyr::summarise(dplyr::across(dplyr::starts_with("sim"), mean))
   )
 
-
   answer <-
     structure(
       list(
@@ -167,4 +168,99 @@ test_that("`sim_metrics` works", {
     metrics$level_2_1 %>%
       dplyr::summarise(dplyr::across(dplyr::starts_with("sim"), mean))
   )
+
+
+  # ---- lazy sim_df ----
+
+  # without non_reps, group_reps, and all_same_cols_rep_ref = all_same_cols_rep
+
+
+  sim_df <-
+    matric::sim_calculate(matric::cellhealth, method = "cosine")
+
+  collated_sim <-
+    matric::sim_collate(
+      sim_df,
+      reference,
+      all_same_cols_rep = all_same_cols_rep,
+      all_same_cols_rep_ref = all_same_cols_rep,
+      all_same_cols_ref = all_same_cols_ref,
+      any_different_cols_non_rep = NULL,
+      all_same_cols_non_rep = NULL,
+      all_different_cols_non_rep = NULL,
+      any_different_cols_group = NULL,
+      all_same_cols_group = NULL,
+      annotation_cols = annotation_cols,
+      drop_group = drop_group
+    )
+
+  metrics <-
+    matric::sim_metrics(collated_sim, "ref", calculate_grouped = TRUE)
+
+  index <- matric::sim_calculate(matric::cellhealth,
+    method = "cosine",
+    lazy = TRUE
+  )
+
+  collated_sim_lazy <-
+    matric::sim_collate(
+      index,
+      reference,
+      all_same_cols_rep = all_same_cols_rep,
+      all_same_cols_rep_ref = all_same_cols_rep,
+      all_same_cols_ref = all_same_cols_ref,
+      any_different_cols_non_rep = NULL,
+      all_same_cols_non_rep = NULL,
+      all_different_cols_non_rep = NULL,
+      any_different_cols_group = NULL,
+      all_same_cols_group = NULL,
+      annotation_cols = annotation_cols,
+      drop_group = drop_group
+    )
+
+  collated_sim_lazy <-
+    sim_calculate_ij(matric::cellhealth, collated_sim_lazy)
+
+  metrics_lazy <-
+    matric::sim_metrics(collated_sim_lazy, "ref", calculate_grouped = TRUE)
+
+  expect_equal(metrics, metrics_lazy)
+
+  # ---- optimized lazy sim_df ----
+
+  # without non_reps, group_reps, and all_same_cols_rep_ref = all_same_cols_rep
+
+  index_optimized_lazy <- matric::sim_calculate(
+    matric::cellhealth,
+    method = "cosine",
+    lazy = TRUE,
+    all_same_cols_rep_or_group = all_same_cols_rep,
+    all_same_cols_ref = all_same_cols_ref,
+    all_same_cols_rep_ref = all_same_cols_rep,
+    reference = reference
+  )
+
+  collated_sim_optimized_lazy <-
+    matric::sim_collate(
+      index_optimized_lazy,
+      reference,
+      all_same_cols_rep = all_same_cols_rep,
+      all_same_cols_rep_ref = all_same_cols_rep,
+      all_same_cols_ref = all_same_cols_ref,
+      any_different_cols_non_rep = NULL,
+      all_same_cols_non_rep = NULL,
+      all_different_cols_non_rep = NULL,
+      any_different_cols_group = NULL,
+      all_same_cols_group = NULL,
+      annotation_cols = annotation_cols,
+      drop_group = drop_group
+    )
+
+  collated_sim_optimized_lazy <-
+    sim_calculate_ij(matric::cellhealth, collated_sim_optimized_lazy)
+
+  metrics_optimized_lazy <-
+    matric::sim_metrics(collated_sim_optimized_lazy, "ref", calculate_grouped = TRUE)
+
+  expect_equal(metrics, metrics_optimized_lazy)
 })

@@ -96,8 +96,8 @@ sim_filter_keep_or_drop_some <-
 #' Filter a melted similarity matrix to keep pairs with the same
 #' values in specific columns.
 #'
-#' \code{sim_filter_all_same} filters a melted similarity matrix to keep pairs with the
-#' same values in specific columns.
+#' \code{sim_filter_all_same} filters a melted similarity matrix to keep pairs
+#' with the same values in specific columns.
 #'
 #' @param sim_df data.frame with melted similarity matrix.
 #'
@@ -116,6 +116,9 @@ sim_filter_keep_or_drop_some <-
 #' @param drop_lower optional boolean specifying whether to drop the pairs
 #' where the first index is smaller than the second index. This is equivalent
 #' to dropping the lower triangular of  \code{sim_df}.
+#'
+#' @param sim_cols optional character string specifying minimal set of columns
+#' for a similarity matrix
 #'
 #' @return Filtered \code{sim_df} as a data.frame, where only pairs with the
 #' same values in \code{all_same_cols} columns are kept. Rows are annotated
@@ -155,7 +158,8 @@ sim_filter_all_same <-
            all_same_cols,
            annotation_cols = NULL,
            include_group_tag = FALSE,
-           drop_lower = FALSE) {
+           drop_lower = FALSE,
+           sim_cols = c("id1", "id2", "sim")) {
     sim_df <- as.data.frame(sim_df)
 
     metadata_i <-
@@ -185,8 +189,11 @@ sim_filter_all_same <-
 
     if (!is.null(annotation_cols)) {
       sim_df <- sim_df %>%
-        sim_annotate(row_metadata, annotation_cols,
-          index = "left"
+        sim_annotate(
+          row_metadata = row_metadata,
+          annotation_cols = annotation_cols,
+          index = "left",
+          sim_cols = sim_cols
         )
     }
 
@@ -196,8 +203,8 @@ sim_filter_all_same <-
 #' Filter a melted similarity matrix to keep pairs with the same values in
 #' specific columns, and keep only some of these pairs.
 #'
-#' \code{sim_filter_all_same} filters a melted similarity matrix to keep pairs with
-#' the same values in specific columns, keeping only some of these pairs.
+#' \code{sim_filter_all_same} filters a melted similarity matrix to keep pairs
+#' with the same values in specific columns, keeping only some of these pairs.
 #'
 #' @param sim_df data.frame with melted similarity matrix.
 #'
@@ -240,7 +247,8 @@ sim_filter_all_same <-
 #' row_metadata <- attr(sim_df, "row_metadata")
 #' sim_df <- matric::sim_annotate(sim_df, row_metadata, annotation_cols)
 #' all_same_cols <- c("Metadata_group")
-#' filter_keep_right <- tibble::tibble(Metadata_group = "a", Metadata_type = "x")
+#' filter_keep_right <-
+#'   tibble::tibble(Metadata_group = "a", Metadata_type = "x")
 #' drop_reference <- FALSE
 #' matric::sim_filter_all_same_keep_some(
 #'   sim_df,
@@ -263,8 +271,7 @@ sim_filter_all_same_keep_some <-
 
     sim_df <- sim_df %>%
       sim_filter_all_same(row_metadata, all_same_cols) %>%
-      sim_filter_keep_or_drop_some(
-        row_metadata,
+      sim_filter_keep_or_drop_some(row_metadata,
         filter_keep = filter_keep_right,
         filter_side = "right"
       )
@@ -273,8 +280,7 @@ sim_filter_all_same_keep_some <-
       filter_drop_left <- filter_keep_right
 
       sim_df <- sim_df %>%
-        sim_filter_keep_or_drop_some(
-          row_metadata,
+        sim_filter_keep_or_drop_some(row_metadata,
           filter_drop = filter_drop_left,
           filter_side = "left"
         )
@@ -283,8 +289,11 @@ sim_filter_all_same_keep_some <-
     if (!is.null(annotation_cols)) {
       sim_df <- sim_df %>%
         dplyr::select(dplyr::all_of(sim_cols)) %>%
-        sim_annotate(row_metadata, annotation_cols,
-          index = "left"
+        sim_annotate(
+          row_metadata = row_metadata,
+          annotation_cols = annotation_cols,
+          index = "left",
+          sim_cols = sim_cols
         )
     }
 
@@ -294,8 +303,9 @@ sim_filter_all_same_keep_some <-
 #' Filter a melted similarity matrix to keep pairs with the same
 #' values in specific columns, and other constraints.
 #'
-#' \code{sim_filter_some_different_drop_some} filters a melted similarity matrix to
-#' keep pairs with the same values in specific columns, and other constraints.
+#' \code{sim_filter_some_different_drop_some} filters a melted similarity matrix
+#' to keep pairs with the same values in specific columns, and other
+#' constraints.
 #'
 #' @param sim_df data.frame with melted similarity matrix.
 #'
@@ -316,6 +326,9 @@ sim_filter_all_same_keep_some <-
 #' @param annotation_cols optional character vector specifying which columns
 #' from \code{metadata} to annotate the left index of the filtered
 #' \code{sim_df} with.
+#'
+#' @param sim_cols optional character string specifying minimal set of columns
+#' for a similarity matrix
 #'
 #' @return Filtered \code{sim_df} as a data.frame, keeping only pairs that have
 #'   - same values in all columns of \code{all_same_cols},
@@ -345,8 +358,10 @@ sim_filter_all_same_keep_some <-
 #' all_same_cols <- c("Metadata_group")
 #' all_different_cols <- c("Metadata_type1")
 #' any_different_cols <- c("Metadata_type2")
-#' filter_drop_left <- tibble::tibble(Metadata_group = "a", Metadata_type1 = "x")
-#' filter_drop_right <- tibble::tibble(Metadata_group = "a", Metadata_type1 = "x")
+#' filter_drop_left <-
+#'   tibble::tibble(Metadata_group = "a", Metadata_type1 = "x")
+#' filter_drop_right <-
+#'   tibble::tibble(Metadata_group = "a", Metadata_type1 = "x")
 #' drop_reference <- FALSE
 #' matric::sim_filter_some_different_drop_some(
 #'   sim_df,
@@ -367,7 +382,8 @@ sim_filter_some_different_drop_some <-
            all_different_cols = NULL,
            filter_drop_left = NULL,
            filter_drop_right = NULL,
-           annotation_cols = NULL) {
+           annotation_cols = NULL,
+           sim_cols = c("id1", "id2", "sim")) {
     sim_df <- as.data.frame(sim_df)
 
     stopifnot(!any(all_same_cols %in% all_different_cols))
@@ -468,8 +484,11 @@ sim_filter_some_different_drop_some <-
     # add annotations
     if (!is.null(annotation_cols)) {
       sim_df <- sim_df %>%
-        sim_annotate(row_metadata, annotation_cols,
-          index = "left"
+        sim_annotate(
+          row_metadata = row_metadata,
+          annotation_cols = annotation_cols,
+          index = "left",
+          sim_cols = sim_cols
         )
     }
 

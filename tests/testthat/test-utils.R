@@ -46,3 +46,15 @@ test_that("`drop_annotation` works", {
       dplyr::select(AreaShape_Area)
   )
 })
+
+test_that("`preprocess_data works", {
+  population <- tibble::tibble(
+    AreaShape_Area = c(10, 12, 15, 16, 8, 8, 7, 7),
+    AreaShape_Compactness = c(10, 12, NA, 16, 8, 8, 7, 7)
+  )
+
+  expect_equal(
+    matric::preprocess_data(population, annotation_prefix = "Metadata_"),
+    population %>% dplyr::select(-AreaShape_Compactness)
+  )
+})
