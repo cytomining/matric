@@ -1,4 +1,4 @@
-utils::globalVariables(c("all_same_col"))
+utils::globalVariables(c("all_same_col", "all_same_col1", "all_same_col2", "group", "n"))
 
 #' Filter a melted similarity matrix to remove or keep specified rows.
 #'
