@@ -167,17 +167,28 @@ sim_filter_all_same <-
       dplyr::select(id, dplyr::all_of(all_same_cols)) %>%
       tidyr::unite("all_same_col", dplyr::all_of(all_same_cols), sep = ":")
 
-    ids <-
-      dplyr::inner_join(metadata_i,
-        metadata_i,
-        by = "all_same_col",
-        suffix = c("1", "2")
-      )
+    # ids <-
+    #   dplyr::inner_join(metadata_i,
+    #                     metadata_i,
+    #                     by = "all_same_col",
+    #                     suffix = c("1", "2")
+    #   ) %>%
+    #   dplyr::mutate(group = all_same_col)
+
+    ids <- sim_df %>%
+      sim_annotate(
+        row_metadata = metadata_i,
+        annotation_cols = c("all_same_col"),
+        index = "both",
+        sim_cols = sim_cols
+      ) %>%
+      dplyr::filter(all_same_col1 == all_same_col2) %>%
+      dplyr::mutate(group = all_same_col1)
 
     if (include_group_tag) {
-      ids <- ids %>% dplyr::select(id1, id2, group = all_same_col)
+      ids <- ids %>% dplyr::select(id1, id2, group)
     } else {
-      iids <- ids %>% dplyr::select(id1, id2)
+      ids <- ids %>% dplyr::select(id1, id2)
     }
 
     if (drop_lower) {
@@ -270,7 +281,7 @@ sim_filter_all_same_keep_some <-
     sim_df <- as.data.frame(sim_df)
 
     sim_df <- sim_df %>%
-      sim_filter_all_same(row_metadata, all_same_cols) %>%
+      sim_filter_all_same(row_metadata, all_same_cols, sim_cols = sim_cols) %>%
       sim_filter_keep_or_drop_some(row_metadata,
         filter_keep = filter_keep_right,
         filter_side = "right"
