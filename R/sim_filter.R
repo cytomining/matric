@@ -167,23 +167,34 @@ sim_filter_all_same <-
       dplyr::select(id, dplyr::all_of(all_same_cols)) %>%
       tidyr::unite("all_same_col", dplyr::all_of(all_same_cols), sep = ":")
 
-    # ids <-
-    #   dplyr::inner_join(metadata_i,
-    #                     metadata_i,
-    #                     by = "all_same_col",
-    #                     suffix = c("1", "2")
-    #   ) %>%
-    #   dplyr::mutate(group = all_same_col)
+    n_pairs <-
+      metadata_i %>%
+      dplyr::count(all_same_col) %>%
+      dplyr::summarise(nsqsum = sum(n ** 2)) %>%
+      purrr::pluck("nsqsum")
 
-    ids <- sim_df %>%
-      sim_annotate(
-        row_metadata = metadata_i,
-        annotation_cols = c("all_same_col"),
-        index = "both",
-        sim_cols = sim_cols
-      ) %>%
-      dplyr::filter(all_same_col1 == all_same_col2) %>%
-      dplyr::mutate(group = all_same_col1)
+    if (n_pairs > nrow(sim_df)) {
+      futile.logger::flog.info("sim_filter_all_same: annotating rows")
+      ids <- sim_df %>%
+        sim_annotate(
+          row_metadata = metadata_i,
+          annotation_cols = c("all_same_col"),
+          index = "both",
+          sim_cols = sim_cols
+        ) %>%
+        dplyr::filter(all_same_col1 == all_same_col2) %>%
+        dplyr::mutate(group = all_same_col1)
+
+    } else {
+      futile.logger::flog.info("sim_filter_all_same: inner joining rows")
+      ids <-
+        dplyr::inner_join(metadata_i,
+                          metadata_i,
+                          by = "all_same_col",
+                          suffix = c("1", "2")) %>%
+        dplyr::mutate(group = all_same_col)
+    }
+
 
     if (include_group_tag) {
       ids <- ids %>% dplyr::select(id1, id2, group)
@@ -283,18 +294,16 @@ sim_filter_all_same_keep_some <-
     sim_df <- sim_df %>%
       sim_filter_all_same(row_metadata, all_same_cols, sim_cols = sim_cols) %>%
       sim_filter_keep_or_drop_some(row_metadata,
-        filter_keep = filter_keep_right,
-        filter_side = "right"
-      )
+                                   filter_keep = filter_keep_right,
+                                   filter_side = "right")
 
     if (drop_reference) {
       filter_drop_left <- filter_keep_right
 
       sim_df <- sim_df %>%
         sim_filter_keep_or_drop_some(row_metadata,
-          filter_drop = filter_drop_left,
-          filter_side = "left"
-        )
+                                     filter_drop = filter_drop_left,
+                                     filter_side = "left")
     }
 
     if (!is.null(annotation_cols)) {
@@ -458,33 +467,29 @@ sim_filter_some_different_drop_some <-
     # list of rows that should be the same (weak constraint)
     ids_all_same <-
       dplyr::inner_join(metadata_left,
-        metadata_right,
-        by = "all_same_col",
-        suffix = c("1", "2")
-      )
+                        metadata_right,
+                        by = "all_same_col",
+                        suffix = c("1", "2"))
 
     # list of rows that should be the different (strong constraint)
     ids_all_different <-
-      purrr::map_df(
-        all_different_cols,
-        function(all_different_col) {
-          dplyr::inner_join(
-            metadata_i %>% dplyr::select(id, dplyr::all_of(all_different_col)),
-            metadata_i %>% dplyr::select(id, dplyr::all_of(all_different_col)),
-            by = all_different_col,
-            suffix = c("1", "2")
-          ) %>%
-            dplyr::select(id1, id2)
-        }
-      ) %>%
+      purrr::map_df(all_different_cols,
+                    function(all_different_col) {
+                      dplyr::inner_join(
+                        metadata_i %>% dplyr::select(id, dplyr::all_of(all_different_col)),
+                        metadata_i %>% dplyr::select(id, dplyr::all_of(all_different_col)),
+                        by = all_different_col,
+                        suffix = c("1", "2")
+                      ) %>%
+                        dplyr::select(id1, id2)
+                    }) %>%
       dplyr::distinct()
 
     # impose strong constraint on weak constraint
     ids <-
       dplyr::anti_join(ids_all_same,
-        ids_all_different,
-        by = c("id1", "id2")
-      )
+                       ids_all_different,
+                       by = c("id1", "id2"))
 
     ids <- ids %>% dplyr::select(id1, id2)
 
