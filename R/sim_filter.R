@@ -174,7 +174,7 @@ sim_filter_all_same <-
       purrr::pluck("nsqsum")
 
     if (n_pairs > nrow(sim_df)) {
-      futile.logger::flog.info("sim_filter_all_same: annotating rows")
+      futile.logger::flog.debug("sim_filter_all_same: annotating rows")
       ids <- sim_df %>%
         sim_annotate(
           row_metadata = metadata_i,
@@ -185,7 +185,7 @@ sim_filter_all_same <-
         dplyr::filter(all_same_col1 == all_same_col2) %>%
         dplyr::mutate(group = all_same_col1)
     } else {
-      futile.logger::flog.info("sim_filter_all_same: inner joining rows")
+      futile.logger::flog.debug("sim_filter_all_same: inner joining rows")
       ids <-
         dplyr::inner_join(metadata_i,
           metadata_i,
