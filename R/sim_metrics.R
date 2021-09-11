@@ -228,7 +228,7 @@ sim_metrics <- function(collated_sim,
 #'   strings \code{"non_rep"} or \code{"ref"}.
 #' @param summary_cols character list specifying columns by which to group
 #'   similarities.
-#' @param sim_type_replication character string specifying the type of
+#' @param sim_type_signal character string specifying the type of
 #'   replication being measured. This must be one of the strings \code{"rep"}
 #'   or \code{"rep_group"}.
 #' @param identifier character string specifying the identifier to add as a
@@ -239,7 +239,7 @@ sim_metrics_helper <-
   function(collated_sim,
            sim_type_background,
            summary_cols,
-           sim_type_replication,
+           sim_type_signal,
            identifier = NULL) {
     # ---- Get background and signal distributions ----
 
@@ -250,7 +250,7 @@ sim_metrics_helper <-
 
     sim_signal <-
       collated_sim %>%
-      dplyr::filter(type == sim_type_replication) %>%
+      dplyr::filter(type == sim_type_signal) %>%
       dplyr::select(-type)
 
     # ---- Get nested versions of background and signal distributions ----
