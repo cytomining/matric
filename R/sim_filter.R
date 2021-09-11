@@ -296,7 +296,7 @@ sim_filter_all_same_keep_some <-
         filter_keep = filter_keep_right,
         filter_side = "right"
       ) %>%
-    sim_filter_all_same(row_metadata, all_same_cols, sim_cols = sim_cols)
+      sim_filter_all_same(row_metadata, all_same_cols, sim_cols = sim_cols)
 
     if (drop_reference) {
       filter_drop_left <- filter_keep_right

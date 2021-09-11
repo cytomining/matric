@@ -98,8 +98,10 @@ test_that("`sim_metrics` works", {
         sim_retrieval_average_precision_ref_i = 0.364021581450503,
         sim_retrieval_r_precision_ref_i = 0.206666666666667
       ),
-      class = c("tbl_df",
-                "tbl", "data.frame"),
+      class = c(
+        "tbl_df",
+        "tbl", "data.frame"
+      ),
       row.names = c(NA, -1L)
     )
 
@@ -133,8 +135,10 @@ test_that("`sim_metrics` works", {
         sim_retrieval_r_precision_ref_i_mean_i = 0.206666666666667,
         sim_retrieval_r_precision_ref_i_median_i = 0.173333333333333
       ),
-      class = c("tbl_df",
-                "tbl", "data.frame"),
+      class = c(
+        "tbl_df",
+        "tbl", "data.frame"
+      ),
       row.names = c(NA, -1L)
     )
   expect_equal(
@@ -157,8 +161,10 @@ test_that("`sim_metrics` works", {
         sim_retrieval_average_precision_ref_g = 0.59015449527355,
         sim_retrieval_r_precision_ref_g = 0.588518518518519
       ),
-      class = c("tbl_df",
-                "tbl", "data.frame"),
+      class = c(
+        "tbl_df",
+        "tbl", "data.frame"
+      ),
       row.names = c(NA, -1L)
     )
   expect_equal(

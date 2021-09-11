@@ -354,14 +354,15 @@ sim_collate <-
           sim_cols = sim_cols
         )
 
-        # Drop tuples in ref that are actually rep_ref
-        if(!drop_reference) {
-          ref <-
-            ref %>%
-            dplyr::anti_join(
-              rep_ref %>% dplyr::select(id1, id2),
-              by = c("id1", "id2"))
-        }
+      # Drop tuples in ref that are actually rep_ref
+      if (!drop_reference) {
+        ref <-
+          ref %>%
+          dplyr::anti_join(
+            rep_ref %>% dplyr::select(id1, id2),
+            by = c("id1", "id2")
+          )
+      }
     }
 
     # ---- 4. Similarity to non-replicates ----
