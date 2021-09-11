@@ -385,23 +385,22 @@ sim_metrics_helper <-
 
     # ---- * Average Precision ----
 
+    average_precision <- function(df) {
+      df %>%
+        # Set `event_level` as "second" because "signal" is the second
+        # factor level in `truth`
+        yardstick::average_precision(truth,
+          signal_probrank,
+          event_level = "second"
+        ) %>%
+        dplyr::pull(.estimate)
+    }
+
     sim_signal_retrieval <-
       sim_signal_retrieval %>%
       dplyr::mutate(
         sim_retrieval_average_precision =
-          purrr::map_dbl(
-            data_retrieval,
-            function(df) {
-              df %>%
-                # Set `event_level` as "second" because "signal" is the second
-                # factor level in `truth`
-                yardstick::average_precision(truth,
-                  signal_probrank,
-                  event_level = "second"
-                ) %>%
-                dplyr::pull(.estimate)
-            }
-          )
+          purrr::map_dbl(data_retrieval, average_precision)
       )
 
     # ---- * R-Precision ----
