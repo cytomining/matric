@@ -104,21 +104,15 @@ preprocess_data <-
       dplyr::filter(value != 0) %>%
       purrr::pluck("name")
 
-    futile.logger::flog.debug(
-      glue::glue("Number of columns before NA filtering = {n}",
-        n = ncol(population)
-      )
-    )
+    logger::log_debug("Number of columns before NA filtering = {n}",
+                      n = ncol(population))
 
     population <-
       population %>%
       dplyr::select(-any_of(drop_columns))
 
-    futile.logger::flog.debug(
-      glue::glue("Number of columns after NA filtering = {n}",
-        n = ncol(population)
-      )
-    )
+    logger::log_debug("Number of columns after NA filtering = {n}",
+                      n = ncol(population))
 
     population
   }
