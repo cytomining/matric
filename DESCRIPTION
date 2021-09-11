@@ -26,7 +26,8 @@ Imports:
     yardstick,
     foreach,
     doParallel,
-    logger
+    logger,
+    furrr
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 Suggests: 
