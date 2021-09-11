@@ -105,14 +105,16 @@ preprocess_data <-
       purrr::pluck("name")
 
     logger::log_debug("Number of columns before NA filtering = {n}",
-                      n = ncol(population))
+      n = ncol(population)
+    )
 
     population <-
       population %>%
       dplyr::select(-any_of(drop_columns))
 
     logger::log_debug("Number of columns after NA filtering = {n}",
-                      n = ncol(population))
+      n = ncol(population)
+    )
 
     population
   }
