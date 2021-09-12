@@ -28,12 +28,12 @@ Imports:
     doParallel,
     logger,
     furrr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
 Suggests: 
     testthat (>= 3.0.0),
     covr,
-    knitr,
+    knitr (== 1.33),
     markdown,
     rmarkdown
 Config/testthat/edition: 3
