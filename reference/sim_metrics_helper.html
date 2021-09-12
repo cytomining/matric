@@ -138,8 +138,9 @@ scaling.</p>
   <span class='va'>collated_sim</span>,
   <span class='va'>sim_type_background</span>,
   <span class='va'>summary_cols</span>,
-  <span class='va'>sim_type_replication</span>,
-  identifier <span class='op'>=</span> <span class='cn'>NULL</span>
+  <span class='va'>sim_type_signal</span>,
+  identifier <span class='op'>=</span> <span class='cn'>NULL</span>,
+  use_furrr <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -162,7 +163,7 @@ strings <code>"non_rep"</code> or <code>"ref"</code>.</p></td>
 similarities.</p></td>
     </tr>
     <tr>
-      <th>sim_type_replication</th>
+      <th>sim_type_signal</th>
       <td><p>character string specifying the type of
 replication being measured. This must be one of the strings <code>"rep"</code>
 or <code>"rep_group"</code>.</p></td>
@@ -171,6 +172,11 @@ or <code>"rep_group"</code>.</p></td>
       <th>identifier</th>
       <td><p>character string specifying the identifier to add as a
 suffix to the columns containing scaled-aggregated metrics.</p></td>
+    </tr>
+    <tr>
+      <th>use_furrr</th>
+      <td><p>boolean indicating whether to use the furrr library
+for parallel processing.</p></td>
     </tr>
     </table>
 

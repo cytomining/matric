@@ -102,7 +102,7 @@
 <p>We calculate metrics hierarchically:</p>
 <ul>
 <li>
-<strong>Level 1-0</strong>: similarity of elements of a Level 0 (singleton) set to elements of its Level 1 (replicates) set, except elements of its Level 0 set. In simpler terms, this is a <em>replicate similarity of a vertex, i.e. the </em>similarity of vertex to its replicates (except itself)*. This is a <strong>Level 0</strong> (singleton) set metric.</li>
+<strong>Level 1-0</strong>: similarity of elements of a Level 0 (singleton) set to elements of its Level 1 (replicates) set, except elements of its Level 0 set. In simpler terms, this is a <em>replicate similarity of a vertex, i.e. the</em> similarity of vertex to its replicates (except itself)*. This is a <strong>Level 0</strong> (singleton) set metric.</li>
 <li>
 <strong>Level 2-1</strong>: similarity of each element of a Level 1 set (replicates) to elements of its Level 2 set (group replicates), except elements of its Level 1 set (replicates). <em>In simpler terms, this is a group replicate similarity of a replicate set, i.e. similarity of elements of a replicate set to its group replicates (except to other elements of its replicate set)</em>. This is a <strong>Level 1</strong> (replicate) set metric.</li>
 </ul>
@@ -147,8 +147,8 @@
 <a href="#scaled-metrics" class="anchor"></a>Scaled metrics</h3>
 <table class="table">
 <colgroup>
-<col width="25%">
-<col width="74%">
+<col width="27%">
+<col width="72%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">Metric</th>
@@ -249,8 +249,8 @@
 <a href="#raw-metrics-1" class="anchor"></a>Raw metrics</h3>
 <table class="table">
 <colgroup>
-<col width="13%">
-<col width="86%">
+<col width="15%">
+<col width="84%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">Metric</th>
@@ -268,8 +268,8 @@
 <a href="#scaled-metrics-1" class="anchor"></a>Scaled metrics</h3>
 <table class="table">
 <colgroup>
-<col width="25%">
-<col width="74%">
+<col width="27%">
+<col width="72%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">Metric</th>
@@ -338,21 +338,21 @@
 <ol start="0" style="list-style-type: decimal">
 <li>Global: Single list, comprising all edges</li>
 </ol>
-<ol style="list-style-type: lower-alpha">
+<!-- --><ol style="list-style-type: lower-alpha">
 <li>We can directly compute a single <strong><em>global metric</em></strong> from this list</li>
 </ol>
-<ol style="list-style-type: decimal">
+<!-- --><ol style="list-style-type: decimal">
 <li>Label-specific: One list per label, comprising all edges that have at least one vertex with the label</li>
 </ol>
-<ol style="list-style-type: lower-alpha">
+<!-- --><ol style="list-style-type: lower-alpha">
 <li>We can compute a <strong><em>label-specific</em></strong> metric, from each list, with an additional constraint on Class 1 edges: both vertices should share the label being evaluated.</li>
 <li>We can then (weighted) average the label-specific metrics to get a single <em>global metric</em>.</li>
 <li>We can also directly compute a <em>global metric</em> directly across all the label-specific lists.</li>
 </ol>
-<ol start="2" style="list-style-type: decimal">
+<!-- --><ol start="2" style="list-style-type: decimal">
 <li>Sample-specific: One list per sample, comprising all edges that have at least one vertex as that sample</li>
 </ol>
-<ol style="list-style-type: lower-alpha">
+<!-- --><ol style="list-style-type: lower-alpha">
 <li>We can compute a <strong><em>sample-specific</em></strong> metric, from each list.</li>
 <li>We can then average the <em>sample-specific</em> metrics to get a <em>label-specific</em> metric, but filtered like in 1a although it may not be quite as straightforward; 2.d might be better.</li>
 <li>We can further (weighted) average the <em>label-specific</em> metrics to get a single <em>global metric</em>.</li>
@@ -364,6 +364,7 @@
 <p>Notes:</p>
 <ul>
 <li>This discussion on metrics does not address the notion of “group replicates”.</li>
+<li>Level 1 metrics are macro-averaged metrics because we are taking averages of Level 1-0 metrics. Macro-averaged metrics are not currently implemented</li>
 <li>The difference between 1.a and 2.d is in how we construct the label-specific list: 1.a combines the sample-specific lists and then ranks, whereas 2.d first ranks the sample-specific lists and then combines the ranked lists.</li>
 <li>Similarly, the difference between 0.a and 2.g is in how we construct the global list: 0.a combines the sample-specific lists and then ranks, whereas 2.g first ranks the sample-specific lists and then combines the ranked lists.</li>
 <li>1.b and 2.g are similar; the both aggregate their corresponding label-specific metrics (1.a and 2.d respectively) to get a global metric.</li>
@@ -372,6 +373,66 @@
 <li>
 <code>sim_retrieval_average_precision_non_rep_i_mean_i</code> is an example of 2.b</li>
 </ul>
+<p>Categorization based on <a href="https://scikit-learn.org/stable/modules/model_evaluation.html#multiclass-and-multilabel-classification" class="uri">https://scikit-learn.org/stable/modules/model_evaluation.html#multiclass-and-multilabel-classification</a> (I did not double-check; there could be errors)</p>
+<table class="table">
+<thead><tr class="header">
+<th align="left">Index</th>
+<th align="left">Averaging</th>
+<th align="left">Metric type</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">0.a</td>
+<td align="left">micro</td>
+<td align="left">global</td>
+</tr>
+<tr class="even">
+<td align="left">1.a</td>
+<td align="left">micro</td>
+<td align="left">label-specific</td>
+</tr>
+<tr class="odd">
+<td align="left">1.b</td>
+<td align="left">macro</td>
+<td align="left">global</td>
+</tr>
+<tr class="even">
+<td align="left">1.c</td>
+<td align="left">micro</td>
+<td align="left">global</td>
+</tr>
+<tr class="odd">
+<td align="left">2.b</td>
+<td align="left">macro</td>
+<td align="left">label-specific</td>
+</tr>
+<tr class="even">
+<td align="left">2.c</td>
+<td align="left">macro of macro-label-specific</td>
+<td align="left">global</td>
+</tr>
+<tr class="odd">
+<td align="left">2.d</td>
+<td align="left">micro</td>
+<td align="left">label-specific</td>
+</tr>
+<tr class="even">
+<td align="left">2.e</td>
+<td align="left">macro</td>
+<td align="left">global</td>
+</tr>
+<tr class="odd">
+<td align="left">2.f</td>
+<td align="left">micro</td>
+<td align="left">global</td>
+</tr>
+<tr class="even">
+<td align="left">2.g</td>
+<td align="left">macro of micro-label-specific</td>
+<td align="left">global</td>
+</tr>
+</tbody>
+</table>
 </div>
   </div>
 

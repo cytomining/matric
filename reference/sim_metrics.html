@@ -136,7 +136,8 @@
   <span class='va'>collated_sim</span>,
   <span class='va'>sim_type_background</span>,
   calculate_grouped <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  annotation_prefix <span class='op'>=</span> <span class='st'>"Metadata_"</span>
+  annotation_prefix <span class='op'>=</span> <span class='st'>"Metadata_"</span>,
+  use_furrr <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -156,12 +157,17 @@ strings <code>"non_rep"</code> or <code>"ref"</code>.</p></td>
     <tr>
       <th>calculate_grouped</th>
       <td><p>optional boolean specifying whether to include
-grouped metrics. # nolint</p></td>
+grouped metrics.</p></td>
     </tr>
     <tr>
       <th>annotation_prefix</th>
       <td><p>optional character string specifying prefix for
 annotation columns (e.g. <code>"Metadata_"</code> (default)).</p></td>
+    </tr>
+    <tr>
+      <th>use_furrr</th>
+      <td><p>boolean indicating whether to use the furrr library
+for parallel processing.</p></td>
     </tr>
     </table>
 
