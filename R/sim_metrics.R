@@ -22,9 +22,11 @@ utils::globalVariables(
 #'   distributions for computing scaled metrics. This must be one of the
 #'   strings \code{"non_rep"} or \code{"ref"}.
 #' @param calculate_grouped optional boolean specifying whether to include
-#'   grouped metrics. # nolint
+#'   grouped metrics.
 #' @param annotation_prefix optional character string specifying prefix for
 #'   annotation columns (e.g. \code{"Metadata_"} (default)).
+#' @param use_furrr boolean indicating whether to use the \link[furrr] library
+#'   for parallel processing.
 #'
 #' @return List of metrics.
 #' @examples
@@ -140,7 +142,8 @@ utils::globalVariables(
 sim_metrics <- function(collated_sim,
                         sim_type_background,
                         calculate_grouped = FALSE,
-                        annotation_prefix = "Metadata_") {
+                        annotation_prefix = "Metadata_",
+                        use_furrr = FALSE) {
   if (!is.null(attr(collated_sim, "all_same_cols_rep", TRUE))) {
     summary_cols <- attr(collated_sim, "all_same_cols_rep", TRUE)
   } else {
@@ -157,7 +160,8 @@ sim_metrics <- function(collated_sim,
       sim_type_background,
       c("id1", summary_cols),
       "rep",
-      "i"
+      "i",
+      use_furrr
     )
 
   # ---- Level 1 (aggregations of Level 1-0) ----
@@ -192,7 +196,8 @@ sim_metrics <- function(collated_sim,
         sim_type_background,
         summary_cols,
         "rep_group",
-        "g"
+        "g",
+        use_furrr
       )
   }
 
@@ -233,6 +238,8 @@ sim_metrics <- function(collated_sim,
 #'   or \code{"rep_group"}.
 #' @param identifier character string specifying the identifier to add as a
 #'   suffix to the columns containing scaled-aggregated metrics.
+#' @param use_furrr boolean indicating whether to use the \link[furrr] library
+#'   for parallel processing.
 #'
 #' @return data.frame of metrics.
 sim_metrics_helper <-
@@ -240,10 +247,21 @@ sim_metrics_helper <-
            sim_type_background,
            summary_cols,
            sim_type_signal,
-           identifier = NULL) {
-    logger::log_trace(
-      "Compute metrics for signal={sim_type_signal} background={sim_type_background}")
+           identifier = NULL,
+           use_furrr = FALSE) {
+    logger::log_trace("Compute metrics for signal={sim_type_signal} background={sim_type_background}")
 
+    if (use_furrr) {
+      logger::log_trace("Using furrr for parallel processing")
+      x_map2_dbl <- furrr::future_map2_dbl
+      x_map_dbl <- furrr::future_map_dbl
+      x_map2 <- furrr::future_map2
+    } else {
+      logger::log_trace("Using purrr for sequential processing")
+      x_map2_dbl <- purrr::map2_dbl
+      x_map_dbl <- purrr::map_dbl
+      x_map2 <- purrr::map2
+    }
     # ---- Get background and signal distributions ----
 
     sim_background <-
@@ -313,7 +331,7 @@ sim_metrics_helper <-
       dplyr::inner_join(sim_background_nested, by = summary_cols) %>%
       dplyr::mutate(
         sim_ranked_relrank =
-          purrr::map2_dbl(sim, data_background, relrank)
+          x_map2_dbl(sim, data_background, relrank)
       ) %>%
       dplyr::mutate(
         sim_ranked_relrank =
@@ -376,7 +394,7 @@ sim_metrics_helper <-
       dplyr::inner_join(sim_background_nested, by = summary_cols) %>%
       dplyr::mutate(
         data_retrieval =
-          purrr::map2(
+          x_map2(
             data_signal,
             data_background,
             tidy_classprob_data
@@ -392,7 +410,7 @@ sim_metrics_helper <-
       sim_signal_retrieval %>%
       dplyr::mutate(
         sim_retrieval_average_precision =
-          purrr::map_dbl(data_retrieval, average_precision)
+          x_map_dbl(data_retrieval, average_precision)
       )
 
     # ---- * R-Precision ----
@@ -403,7 +421,7 @@ sim_metrics_helper <-
       sim_signal_retrieval %>%
       dplyr::mutate(
         sim_retrieval_r_precision =
-          purrr::map_dbl(data_retrieval, r_precision)
+          x_map_dbl(data_retrieval, r_precision)
       )
 
     logger::log_trace("  Wrapping up metrics ...")
@@ -440,7 +458,8 @@ sim_metrics_helper <-
     }
 
     logger::log_trace(
-      "Completed metrics for signal={sim_type_signal} background={sim_type_background}")
+      "Completed metrics for signal={sim_type_signal} background={sim_type_background}"
+    )
 
     sim_metrics_collated
   }
