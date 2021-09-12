@@ -241,6 +241,9 @@ sim_metrics_helper <-
            summary_cols,
            sim_type_signal,
            identifier = NULL) {
+    logger::log_trace(
+      "Compute metrics for signal={sim_type_signal} background={sim_type_background}")
+
     # ---- Get background and signal distributions ----
 
     sim_background <-
@@ -270,9 +273,13 @@ sim_metrics_helper <-
       dplyr::select(dplyr::all_of(c(summary_cols, "sim"))) %>%
       tidyr::nest(data_background = c(sim))
 
+    logger::log_trace("  Number of rows = {n}", n = nrow(sim_signal_nested))
+
     # ---- Compute transformed metrics ----
     # ---- * Transform ----
     # ---- ** Transform similarity: Scale w.r.t background distribution ----
+
+    logger::log_trace("  Computing `sim_scaled` ...")
 
     # Compute statistics (mean and s.d.) on background distribution defined by
     # `sim_type_background`
@@ -298,6 +305,8 @@ sim_metrics_helper <-
       dplyr::mutate(sim_scaled = (sim - sim_mean_stat) / sim_sd_stat)
 
     # ---- ** Transform similarity: Rank w.r.t background distribution ----
+
+    logger::log_trace("  Computing `sim_ranked_relrank` ...")
 
     sim_signal_ranked <-
       sim_signal %>%
@@ -333,6 +342,8 @@ sim_metrics_helper <-
     # - `sim_scaled` (centered and scaled similarities)
     # - `sim_ranked` (rank based transformations)
 
+    logger::log_trace("  Computing summaries ...")
+
     sim_signal_transformed_agg <-
       sim_signal_transformed %>%
       dplyr::group_by(dplyr::across(dplyr::all_of(summary_cols))) %>%
@@ -358,6 +369,8 @@ sim_metrics_helper <-
     # The metrics in this section are computed across the whole group
     # (and therefore don't need further summarizing)
 
+    logger::log_trace("  Setting up retrieval ...")
+
     sim_signal_retrieval <-
       sim_signal_nested %>%
       dplyr::inner_join(sim_background_nested, by = summary_cols) %>%
@@ -373,6 +386,8 @@ sim_metrics_helper <-
 
     # ---- * Average Precision ----
 
+    logger::log_trace("  Computing average precision ...")
+
     sim_signal_retrieval <-
       sim_signal_retrieval %>%
       dplyr::mutate(
@@ -382,12 +397,16 @@ sim_metrics_helper <-
 
     # ---- * R-Precision ----
 
+    logger::log_trace("  Computing R-precision ...")
+
     sim_signal_retrieval <-
       sim_signal_retrieval %>%
       dplyr::mutate(
         sim_retrieval_r_precision =
           purrr::map_dbl(data_retrieval, r_precision)
       )
+
+    logger::log_trace("  Wrapping up metrics ...")
 
     sim_signal_retrieval <-
       sim_signal_retrieval %>%
@@ -419,6 +438,9 @@ sim_metrics_helper <-
           dplyr::starts_with("sim")
         )
     }
+
+    logger::log_trace(
+      "Completed metrics for signal={sim_type_signal} background={sim_type_background}")
 
     sim_metrics_collated
   }
