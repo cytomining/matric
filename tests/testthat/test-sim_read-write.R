@@ -1,6 +1,6 @@
 test_that("`sim_write` works", {
-  flog_threshold <- futile.logger::flog.threshold()
-  futile.logger::flog.threshold("WARN")
+  log_threshold <- logger::log_threshold()
+  logger::log_threshold(logger::WARN)
 
   n <- 2
 
@@ -68,12 +68,12 @@ test_that("`sim_write` works", {
     sim_df_in
   )
 
-  futile.logger::flog.threshold(flog_threshold)
+  logger::log_threshold(log_threshold)
 })
 
 test_that("`sim_read` works", {
-  flog_threshold <- futile.logger::flog.threshold()
-  futile.logger::flog.threshold("WARN")
+  log_threshold <- logger::log_threshold()
+  logger::log_threshold(logger::WARN)
 
   n <- 2
 
@@ -103,5 +103,5 @@ test_that("`sim_read` works", {
   expect_equal(sim_df_parquet1, sim_df_parquet2)
   expect_equal(sim_df_parquet1, sim_df_csv)
 
-  futile.logger::flog.threshold(flog_threshold)
+  logger::log_threshold(log_threshold)
 })

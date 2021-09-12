@@ -208,22 +208,6 @@ sim_collate <-
 
     sim_cols <- names(sim_df)
 
-    # ---- 0. Filter out some rows ----
-
-    if (!is.null(drop_group)) {
-      sim_df <- sim_df %>%
-        sim_filter_keep_or_drop_some(
-          row_metadata = row_metadata,
-          filter_drop = drop_group,
-          filter_side = "left"
-        ) %>%
-        sim_filter_keep_or_drop_some(
-          row_metadata = row_metadata,
-          filter_drop = drop_group,
-          filter_side = "right"
-        )
-    }
-
     fetch_ref <-
       !is.null(all_same_cols_ref) &&
         !is.null(reference)
@@ -242,6 +226,27 @@ sim_collate <-
       !is.null(any_different_cols_group) &&
         !is.null(all_same_cols_group)
 
+    # ---- 0. Filter out some rows ----
+
+    # Efficiency notes:
+    # Efficient because all the component filters are efficient.
+    # Details:
+    # - `sim_filter_keep_or_drop_some` is efficient
+
+    if (!is.null(drop_group)) {
+      sim_df <- sim_df %>%
+        sim_filter_keep_or_drop_some(
+          row_metadata = row_metadata,
+          filter_drop = drop_group,
+          filter_side = "left"
+        ) %>%
+        sim_filter_keep_or_drop_some(
+          row_metadata = row_metadata,
+          filter_drop = drop_group,
+          filter_side = "right"
+        )
+    }
+
     # ---- 1. Similarity to reference ----
 
     # Fetch similarities between
@@ -250,6 +255,14 @@ sim_collate <-
     # b. all rows containing `reference`
     # Do so only for those (a, b) pairs that
     # - have *same* values in *all* columns of `all_same_cols_ref`
+
+    # Efficiency notes:
+    # Efficient because all the component filters are efficient.
+    # Details:
+    # - `sim_filter_all_same_keep_some` uses `sim_filter_all_same` and
+    #   `sim_filter_keep_or_drop_some`.
+    #   - `sim_filter_keep_or_drop_some` is efficient
+    #   - `sim_filter_all_same` is efficient (strategically)
 
     if (fetch_ref) {
       ref <-
@@ -275,6 +288,12 @@ sim_collate <-
     # - have *same* values in *all* columns of `all_same_cols_rep
     #
     # Keep, both, (a, b) and (b, a)
+
+    # Efficiency notes:
+    # Efficient because all the component filters are efficient.
+    # Details:
+    # - `sim_filter_keep_or_drop_some` is efficient
+    # - `sim_filter_all_same` is efficient (strategically)
 
     rep <-
       sim_df %>%
@@ -308,6 +327,12 @@ sim_collate <-
     #
     # Keep, both, (a, b) and (b, a)
 
+    # Efficiency notes:
+    # Efficient because all the component filters are efficient.
+    # Details:
+    # - `sim_filter_keep_or_drop_some` is efficient
+    # - `sim_filter_all_same` is efficient (strategically)
+
     if (fetch_rep_ref) {
       rep_ref <-
         sim_df %>%
@@ -328,6 +353,16 @@ sim_collate <-
           drop_lower = FALSE,
           sim_cols = sim_cols
         )
+
+      # Drop tuples in ref that are actually rep_ref
+      if (!drop_reference) {
+        ref <-
+          ref %>%
+          dplyr::anti_join(
+            rep_ref %>% dplyr::select(id1, id2),
+            by = c("id1", "id2")
+          )
+      }
     }
 
     # ---- 4. Similarity to non-replicates ----
@@ -344,6 +379,12 @@ sim_collate <-
     #   `any_different_cols_non_rep`
     #
     # Keep, both, (a, b) and (b, a)
+
+    # Efficiency notes:
+    # INEFFICIENT because one of the component filters is inefficient.
+    # Details:
+    # - `sim_filter_some_different_drop_some` is inefficient because of the
+    #    inner join of metadata with itself.
 
     if (fetch_non_rep) {
       if (drop_reference) {
@@ -379,6 +420,12 @@ sim_collate <-
     #   `any_different_cols_group`
     #
     # Keep, both, (a, b) and (b, a)
+
+    # Efficiency notes:
+    # INEFFICIENT because one of the component filters is inefficient.
+    # Details:
+    # - `sim_filter_some_different_drop_some` is inefficient because of the
+    #    inner join of metadata with itself.
 
     if (fetch_rep_group) {
       if (drop_reference) {

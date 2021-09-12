@@ -16,7 +16,6 @@ Imports:
     tibble,
     tidyr,
     readr,
-    futile.logger,
     arrow,
     jsonlite,
     glue,
@@ -26,8 +25,10 @@ Imports:
     rlang,
     yardstick,
     foreach,
-    doParallel
-RoxygenNote: 7.1.1
+    doParallel,
+    logger,
+    furrr
+RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
 Suggests: 
     testthat (>= 3.0.0),

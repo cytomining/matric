@@ -17,7 +17,7 @@ Each vertex belongs to 3 nested sets
 
 We calculate metrics hierarchically:
 
--   **Level 1-0**: similarity of elements of a Level 0 (singleton) set to elements of its Level 1 (replicates) set, except elements of its Level 0 set. In simpler terms, this is a *replicate similarity of a vertex, i.e. the *similarity of vertex to its replicates (except itself)*. This is a **Level 0** (singleton) set metric.
+-   **Level 1-0**: similarity of elements of a Level 0 (singleton) set to elements of its Level 1 (replicates) set, except elements of its Level 0 set. In simpler terms, this is a *replicate similarity of a vertex, i.e. the* similarity of vertex to its replicates (except itself)\*. This is a **Level 0** (singleton) set metric.
 -   **Level 2-1**: similarity of each element of a Level 1 set (replicates) to elements of its Level 2 set (group replicates), except elements of its Level 1 set (replicates). *In simpler terms, this is a group replicate similarity of a replicate set, i.e. similarity of elements of a replicate set to its group replicates (except to other elements of its replicate set)*. This is a **Level 1** (replicate) set metric.
 
 We can aggregate each of these metrics to produce more metrics:
@@ -42,102 +42,111 @@ The metrics implemented in `matric` are defined below.
 ### Raw metrics
 
 | Metric       | Description                                           |
-| :----------- | :---------------------------------------------------- |
+|:-------------|:------------------------------------------------------|
 | `sim_mean_i` | mean similarity of a vertex to its replicate vertices |
 
 Related: `sim_median_i` which uses median instead of mean.
 
 ### Scaled metrics
 
++-----------------------------+--------------------------------------------------------------------------------+
 | Metric                      | Description                                                                    |
-| :-------------------------- | :----------------------------------------------------------------------------- |
++:============================+:===============================================================================+
 | `sim_scaled_mean_non_rep_i` | scale `sim_mean_i` using `sim_mean_stat_non_rep_i` and `sim_sd_stat_non_rep_i` |
++-----------------------------+--------------------------------------------------------------------------------+
 
-where 
+where
 
-- `sim_mean_stat_non_rep_i` and `sim_sd_stat_non_rep_i` are the mean and s.d. of similarity of a vertex to its non-replicate vertices.
-
-Related: 
-
-- `sim_scaled_median_non_rep_i` which scales `sim_median_i` instead of `sim_mean_i`.
-- `sim_scaled_mean_ref_i` which scales `sim_mean_i` w.r.t. reference vertices (i.e. uses `sim_mean_stat_ref_i` and `sim_sd_stat_ref_i` – the mean and s.d. of similarity of a vertex to the references vertices – to scale).
-- `sim_scaled_median_ref_i` which is the same as `sim_scaled_mean_ref_i` except that is scales  `sim_median_i` instead of `sim_mean_i`.
-
-### Rank-based and retrieval-based metrics
-
-Consider a list of vertices comprising 
-
-- the replicates of the vertex
-- the non-replicates of the vertex
-
-| Metric                                      | Description                                                                                                                                                                             |
-| :------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `sim_ranked_relrank_mean_non_rep_i`         | the mean percentile of the vertex's replicates in this list                                                                                                                             |
-| `sim_retrieval_average_precision_non_rep_i` | the [average precision](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Average_precision) reported on the list, with the replicates being the positive class |
-| `sim_retrieval_r_precision_non_rep_i`       | similarly, the [R-precision](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#R-precision) reported on the list                                                |
+-   `sim_mean_stat_non_rep_i` and `sim_sd_stat_non_rep_i` are the mean and s.d. of similarity of a vertex to its non-replicate vertices.
 
 Related:
 
-- `sim_ranked_relrank_median_non_rep_i` reports the median percentile instead of the mean percentile.
-- `sim_ranked_relrank_mean_ref_i`, `sim_ranked_relrank_median_ref_i`, `sim_retrieval_average_precision_ref_i`, and `sim_retrieval_r_precision_non_rep_i` use a list of vertices comprising the reference vertices instead of the non-replicate vertices.
-        
+-   `sim_scaled_median_non_rep_i` which scales `sim_median_i` instead of `sim_mean_i`.
+-   `sim_scaled_mean_ref_i` which scales `sim_mean_i` w.r.t. reference vertices (i.e. uses `sim_mean_stat_ref_i` and `sim_sd_stat_ref_i` -- the mean and s.d. of similarity of a vertex to the references vertices -- to scale).
+-   `sim_scaled_median_ref_i` which is the same as `sim_scaled_mean_ref_i` except that is scales `sim_median_i` instead of `sim_mean_i`.
+
+### Rank-based and retrieval-based metrics
+
+Consider a list of vertices comprising
+
+-   the replicates of the vertex
+-   the non-replicates of the vertex
+
++---------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Metric                                      | Description                                                                                                                                                                             |
++:============================================+:========================================================================================================================================================================================+
+| `sim_ranked_relrank_mean_non_rep_i`         | the mean percentile of the vertex's replicates in this list                                                                                                                             |
++---------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `sim_retrieval_average_precision_non_rep_i` | the [average precision](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Average_precision) reported on the list, with the replicates being the positive class |
++---------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `sim_retrieval_r_precision_non_rep_i`       | similarly, the [R-precision](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#R-precision) reported on the list                                                |
++---------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+Related:
+
+-   `sim_ranked_relrank_median_non_rep_i` reports the median percentile instead of the mean percentile.
+-   `sim_ranked_relrank_mean_ref_i`, `sim_ranked_relrank_median_ref_i`, `sim_retrieval_average_precision_ref_i`, and `sim_retrieval_r_precision_non_rep_i` use a list of vertices comprising the reference vertices instead of the non-replicate vertices.
+
 ### Level 1 aggregations Level 1-0 metrics
 
-- `sim_mean_i_mean_i` is the mean `sim_mean_i` across all replicate vertices in a replicate set.
-- `sim_mean_i_median_i`, `sim_median_i_mean_i`, and `sim_median_i_median_i` are the corresponding Level 1 aggregated metrics for other combinations of Level 1-0 raw metrics and summary statistics.
-- `sim_scaled_mean_non_rep_i_mean_i`, `sim_scaled_median_non_rep_i_median_i`, `sim_scaled_mean_ref_i_mean_i`, `sim_scaled_median_ref_i_median_i` are the corresponding Level 1 aggregated metrics for the scaled Level 1-0 metrics.
-- `sim_ranked_relrank_mean_ref_i_mean_i`, `sim_ranked_relrank_mean_ref_i_median_i`, `sim_ranked_relrank_median_ref_i_mean_i`, `sim_ranked_relrank_median_ref_i_median_i` are the corresponding Level 1 aggregated metrics for the rank-based Level 1-0 metrics.
-- `sim_retrieval_average_precision_ref_i_mean_i`, `sim_retrieval_average_precision_ref_i_median_i`, `sim_retrieval_r_precision_ref_i_mean_i`, `sim_retrieval_r_precision_ref_i_median_i` are the corresponding Level 1 aggregated metrics for the retrieval-based Level 1-0 metrics.
-
+-   `sim_mean_i_mean_i` is the mean `sim_mean_i` across all replicate vertices in a replicate set.
+-   `sim_mean_i_median_i`, `sim_median_i_mean_i`, and `sim_median_i_median_i` are the corresponding Level 1 aggregated metrics for other combinations of Level 1-0 raw metrics and summary statistics.
+-   `sim_scaled_mean_non_rep_i_mean_i`, `sim_scaled_median_non_rep_i_median_i`, `sim_scaled_mean_ref_i_mean_i`, `sim_scaled_median_ref_i_median_i` are the corresponding Level 1 aggregated metrics for the scaled Level 1-0 metrics.
+-   `sim_ranked_relrank_mean_ref_i_mean_i`, `sim_ranked_relrank_mean_ref_i_median_i`, `sim_ranked_relrank_median_ref_i_mean_i`, `sim_ranked_relrank_median_ref_i_median_i` are the corresponding Level 1 aggregated metrics for the rank-based Level 1-0 metrics.
+-   `sim_retrieval_average_precision_ref_i_mean_i`, `sim_retrieval_average_precision_ref_i_median_i`, `sim_retrieval_r_precision_ref_i_mean_i`, `sim_retrieval_r_precision_ref_i_median_i` are the corresponding Level 1 aggregated metrics for the retrieval-based Level 1-0 metrics.
 
 Note: These are Level 1 summaries of scaling parameters; they are not used for scaling, themselves:
 
-- `sim_mean_stat_non_rep_i_mean_i`, `sim_sd_stat_non_rep_i_mean_i`, `sim_mean_stat_non_rep_i_median_i`, `sim_sd_stat_non_rep_i_median_i`
-- `sim_mean_stat_ref_i_mean_i`, `sim_sd_stat_ref_i_mean_i`, `sim_mean_stat_ref_i_median_i`, `sim_sd_stat_ref_i_median_i`
+-   `sim_mean_stat_non_rep_i_mean_i`, `sim_sd_stat_non_rep_i_mean_i`, `sim_mean_stat_non_rep_i_median_i`, `sim_sd_stat_non_rep_i_median_i`
+-   `sim_mean_stat_ref_i_mean_i`, `sim_sd_stat_ref_i_mean_i`, `sim_mean_stat_ref_i_median_i`, `sim_sd_stat_ref_i_median_i`
 
 ## Level 2-1
 
 ### Raw metrics
 
++--------------+--------------------------------------------------------------------------------+
 | Metric       | Description                                                                    |
-| :----------- | :----------------------------------------------------------------------------- |
++:=============+:===============================================================================+
 | `sim_mean_g` | mean similarity of vertices in a replicate set to its group replicate vertices |
++--------------+--------------------------------------------------------------------------------+
 
 Related: `sim_median_g` which uses median instead of mean.
 
 ### Scaled metrics
 
++-----------------------------+--------------------------------------------------------------------------------+
 | Metric                      | Description                                                                    |
-| :-------------------------- | :----------------------------------------------------------------------------- |
++:============================+:===============================================================================+
 | `sim_scaled_mean_non_rep_g` | scale `sim_mean_g` using `sim_mean_stat_non_rep_g` and `sim_sd_stat_non_rep_g` |
++-----------------------------+--------------------------------------------------------------------------------+
 
 where
 
-- `sim_mean_stat_non_rep_g` and `sim_sd_stat_non_rep_g` are the mean and s.d. of similarity of vertices in a replicate set to their non-replicate (and non-group replicate) vertices.
+-   `sim_mean_stat_non_rep_g` and `sim_sd_stat_non_rep_g` are the mean and s.d. of similarity of vertices in a replicate set to their non-replicate (and non-group replicate) vertices.
 
 Related:
 
-- `sim_scaled_median_non_rep_g` which scales `sim_median_g` instead of `sim_mean_g`.
-- `sim_scaled_mean_ref_g` which scales `sim_mean_g` w.r.t. reference vertices (i.e. uses `sim_mean_stat_ref_g` and `sim_sd_stat_ref_g` – the mean and s.d. of similarity of vertices in a replicate set to the references vertices – to scale).
-- `sim_scaled_median_ref_i` which is the same as `sim_scaled_mean_ref_i` except that is scales  `sim_median_i` instead of `sim_mean_i`.
+-   `sim_scaled_median_non_rep_g` which scales `sim_median_g` instead of `sim_mean_g`.
+-   `sim_scaled_mean_ref_g` which scales `sim_mean_g` w.r.t. reference vertices (i.e. uses `sim_mean_stat_ref_g` and `sim_sd_stat_ref_g` -- the mean and s.d. of similarity of vertices in a replicate set to the references vertices -- to scale).
+-   `sim_scaled_median_ref_i` which is the same as `sim_scaled_mean_ref_i` except that is scales `sim_median_i` instead of `sim_mean_i`.
 
 ### Rank-based and retrieval-based metrics
 
-Consider a list of vertices comprising 
+Consider a list of vertices comprising
 
-- the vertices in a replicate set
-- the corresponding non-replicate (and non-group replicate) vertices
+-   the vertices in a replicate set
+-   the corresponding non-replicate (and non-group replicate) vertices
 
 We define metrics similar to the corresponding Level 1-0 metrics:
 
-- `sim_ranked_relrank_mean_non_rep_g`
-- `sim_ranked_relrank_median_non_rep_g`
-- `sim_retrieval_average_precision_non_rep_g`
-- `sim_retrieval_r_precision_non_rep_g`
-- `sim_ranked_relrank_median_ref_g`
-- `sim_ranked_relrank_median_ref_g`
-- `sim_retrieval_average_precision_ref_g`
-- `sim_retrieval_r_precision_ref_g`
+-   `sim_ranked_relrank_mean_non_rep_g`
+-   `sim_ranked_relrank_median_non_rep_g`
+-   `sim_retrieval_average_precision_non_rep_g`
+-   `sim_retrieval_r_precision_non_rep_g`
+-   `sim_ranked_relrank_median_ref_g`
+-   `sim_ranked_relrank_median_ref_g`
+-   `sim_retrieval_average_precision_ref_g`
+-   `sim_retrieval_r_precision_ref_g`
 
 ### Level 2 aggregations of Level 2-1 metrics
 
@@ -149,41 +158,74 @@ These are not implemented.
 
 We have a weighted graph where the vertices are perturbations with multiple labels (e.g. pathways in the case of genetic perturbations), and edges are the similarity between the vertices (e.g. the cosine similarity between image-based profiles of two CRISPR knockouts).
 
-There are three levels of ranked lists of edges, each of which can produce global metrics (based on classification metrics like average precision or other so-called [class probability metrics](https://yardstick.tidymodels.org/reference/index.html#section-class-probability-metrics)). 
-These global metrics can be used to compare representations.
+There are three levels of ranked lists of edges, each of which can produce global metrics (based on classification metrics like average precision or other so-called [class probability metrics](https://yardstick.tidymodels.org/reference/index.html#section-class-probability-metrics)). These global metrics can be used to compare representations.
 
-In all 3 cases, we pose it as a binary classification problem on the edges: 
+In all 3 cases, we pose it as a binary classification problem on the edges:
 
-- Class 1 edges: vertices have a shared label (e.g. at least one MOA in common) 
-- Class 0 edges: vertices do not have a shared label
+-   Class 1 edges: vertices have a shared label (e.g. at least one MOA in common)
+-   Class 0 edges: vertices do not have a shared label
 
 The three levels of ranked lists of edges, along with the metrics they induce, are below
 
 (Not all the metrics are useful, and some may be very similar to others. I have highlighted the ones I think are useful.)
 
 0.  Global: Single list, comprising all edges
-  a.  We can directly compute a single ***global metric*** from this list
 
+```{=html}
+<!-- -->
+```
+a.  We can directly compute a single ***global metric*** from this list
+
+```{=html}
+<!-- -->
+```
 1.  Label-specific: One list per label, comprising all edges that have at least one vertex with the label
-  a.  We can compute a ***label-specific*** metric, from each list, with an additional constraint on Class 1 edges: both vertices should share the label being evaluated.
-  b.  We can then (weighted) average the label-specific metrics to get a single *global metric*.
-  c.  We can also directly compute a *global metric* directly across all the label-specific lists.
 
+```{=html}
+<!-- -->
+```
+a.  We can compute a ***label-specific*** metric, from each list, with an additional constraint on Class 1 edges: both vertices should share the label being evaluated.
+b.  We can then (weighted) average the label-specific metrics to get a single *global metric*.
+c.  We can also directly compute a *global metric* directly across all the label-specific lists.
+
+```{=html}
+<!-- -->
+```
 2.  Sample-specific: One list per sample, comprising all edges that have at least one vertex as that sample
-  a.  We can compute a ***sample-specific*** metric, from each list.
-  b.  We can then average the *sample-specific* metrics to get a *label-specific* metric, but filtered like in 1a although it may not be quite as straightforward; 2.d might be better.
-  c.  We can further (weighted) average the *label-specific* metrics to get a single *global metric*.
-  d.  We can also directly compute a *label-specific* metric directly across the sample-specific lists, but filtered like in 1a.
-  e.  We can also directly average the *sample-specific* metrics to get a single *global metric*.
-  f.  We can also directly compute a single ***global metric*** directly across all the sample-specific lists.
-  g.  We can also (weighted) average the *label-specific* metric in 2d to get a single *global metric*.
 
+```{=html}
+<!-- -->
+```
+a.  We can compute a ***sample-specific*** metric, from each list.
+b.  We can then average the *sample-specific* metrics to get a *label-specific* metric, but filtered like in 1a although it may not be quite as straightforward; 2.d might be better.
+c.  We can further (weighted) average the *label-specific* metrics to get a single *global metric*.
+d.  We can also directly compute a *label-specific* metric directly across the sample-specific lists, but filtered like in 1a.
+e.  We can also directly average the *sample-specific* metrics to get a single *global metric*.
+f.  We can also directly compute a single ***global metric*** directly across all the sample-specific lists.
+g.  We can also (weighted) average the *label-specific* metric in 2d to get a single *global metric*.
 
 Notes:
 
-- This discussion on metrics does not address the notion of "group replicates".
-- The difference between 1.a and 2.d is in how we construct the label-specific list: 1.a combines the sample-specific lists and then ranks, whereas 2.d first ranks the sample-specific lists and then combines the ranked lists.
-- Similarly, the difference between 0.a and 2.g is in how we construct the global list: 0.a combines the sample-specific lists and then ranks, whereas 2.g first ranks the sample-specific lists and then combines the ranked lists.
-- 1.b and 2.g are similar; the both aggregate their corresponding label-specific metrics (1.a and 2.d respectively) to get a global metric.
-- `sim_retrieval_average_precision_non_rep_i` is an example of 2.a
-- `sim_retrieval_average_precision_non_rep_i_mean_i` is an example of 2.b
+-   This discussion on metrics does not address the notion of "group replicates".
+-   Level 1 metrics are macro-averaged metrics because we are taking averages of Level 1-0 metrics. Macro-averaged metrics are not currently implemented
+-   The difference between 1.a and 2.d is in how we construct the label-specific list: 1.a combines the sample-specific lists and then ranks, whereas 2.d first ranks the sample-specific lists and then combines the ranked lists.
+-   Similarly, the difference between 0.a and 2.g is in how we construct the global list: 0.a combines the sample-specific lists and then ranks, whereas 2.g first ranks the sample-specific lists and then combines the ranked lists.
+-   1.b and 2.g are similar; the both aggregate their corresponding label-specific metrics (1.a and 2.d respectively) to get a global metric.
+-   `sim_retrieval_average_precision_non_rep_i` is an example of 2.a
+-   `sim_retrieval_average_precision_non_rep_i_mean_i` is an example of 2.b
+
+Categorization based on <https://scikit-learn.org/stable/modules/model_evaluation.html#multiclass-and-multilabel-classification>
+(I did not double-check; there could be errors)
+
+| Index | Averaging                            | Metric type    |
+|:------|:-------------------------------------|:---------------|
+| 0.a   | micro                                | global         |
+| 1.a   | micro                                | label-specific |
+| 1.b   | macro                                | global         |
+| 1.c   | micro                                | global         |
+| 2.b   | macro                                | label-specific |
+| 2.c   | macro of macro-label-specific        | global         |
+| 2.d   | micro                                | label-specific |
+| 2.e   | macro                                | global         |
+| 2.f   | micro                                | global         |
+| 2.g   | macro of micro-label-specific        | global         |

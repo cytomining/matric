@@ -41,7 +41,7 @@ sim_write <- function(sim_df, output, file_format = "parquet") {
   invisible(sim_validate(sim_df))
 
   if (file_format == "csv") {
-    futile.logger::flog.info(glue::glue("Creating {output} ..."))
+    logger::log_info("Creating {output} ...")
     dir.create(output, showWarnings = FALSE)
 
     sim_filename <-
@@ -53,19 +53,19 @@ sim_write <- function(sim_df, output, file_format = "parquet") {
     metric_metadata_filename <-
       file.path(output, paste(paste0(basename(output), "_metadata"), "json", sep = "."))
 
-    futile.logger::flog.info(glue::glue("Writing {sim_filename} ..."))
+    logger::log_info("Writing {sim_filename} ...")
 
     sim_df %>% readr::write_csv(sim_filename)
 
-    futile.logger::flog.info(glue::glue("Writing {row_metadata_filename} ..."))
+    logger::log_info("Writing {row_metadata_filename} ...")
 
     attr(sim_df, "row_metadata") %>% readr::write_csv(row_metadata_filename)
 
-    futile.logger::flog.info(glue::glue("Writing {metric_metadata_filename} ..."))
+    logger::log_info("Writing {metric_metadata_filename} ...")
 
     attr(sim_df, "metric_metadata") %>% jsonlite::write_json(metric_metadata_filename)
   } else {
-    futile.logger::flog.info(glue::glue("Writing {output} ..."))
+    logger::log_info("Writing {output} ...")
 
     sim_df %>% arrow::write_parquet(output, compression = "gzip", compression_level = 9)
   }
@@ -121,17 +121,17 @@ sim_read <- function(input, file_format = "parquet") {
       file.exists(row_metadata_filename) &&
       file.exists(metric_metadata_filename))
 
-    futile.logger::flog.info(glue::glue("Reading {sim_filename} ..."))
+    logger::log_info("Reading {sim_filename} ...")
 
     # https://www.tidyverse.org/blog/2018/12/readr-1-3-1/#tibble-subclass
     sim_df <- readr::read_csv(sim_filename, col_types = readr::cols())[]
 
-    futile.logger::flog.info(glue::glue("Reading {row_metadata_filename} ..."))
+    logger::log_info("Reading {row_metadata_filename} ...")
 
     # https://www.tidyverse.org/blog/2018/12/readr-1-3-1/#tibble-subclass
     row_metadata <- readr::read_csv(row_metadata_filename, col_types = readr::cols())[]
 
-    futile.logger::flog.info(glue::glue("Reading {metric_metadata_filename} ..."))
+    logger::log_info("Reading {metric_metadata_filename} ...")
 
     metric_metadata <-
       jsonlite::read_json(metric_metadata_filename,

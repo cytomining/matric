@@ -201,7 +201,7 @@ test_that("`sim_collate` works", {
     structure(
       list(
         type = c("non_rep", "ref", "rep", "rep_group"),
-        n = c(1152L, 2052L, 468L, 3672L)
+        n = c(1152L, 1944L, 468L, 3672L)
       ),
       row.names = c(NA, -4L),
       class = c(
@@ -217,7 +217,7 @@ test_that("`sim_collate` works", {
       dplyr::tally()
   )
 
-  expect_equal(mean(collated_sim$sim), 0.103919374)
+  expect_equal(mean(collated_sim$sim), 0.1040035)
 
   # ---- Test sim_collate with a lazy sim_df ----
 

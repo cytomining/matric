@@ -8,8 +8,9 @@ sim_metrics_helper(
   collated_sim,
   sim_type_background,
   summary_cols,
-  sim_type_replication,
-  identifier = NULL
+  sim_type_signal,
+  identifier = NULL,
+  use_furrr = FALSE
 )
 }
 \arguments{
@@ -23,12 +24,15 @@ strings \code{"non_rep"} or \code{"ref"}.}
 \item{summary_cols}{character list specifying columns by which to group
 similarities.}
 
-\item{sim_type_replication}{character string specifying the type of
+\item{sim_type_signal}{character string specifying the type of
 replication being measured. This must be one of the strings \code{"rep"}
 or \code{"rep_group"}.}
 
 \item{identifier}{character string specifying the identifier to add as a
 suffix to the columns containing scaled-aggregated metrics.}
+
+\item{use_furrr}{boolean indicating whether to use the furrr library
+for parallel processing.}
 }
 \value{
 data.frame of metrics.

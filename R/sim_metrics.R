@@ -22,9 +22,11 @@ utils::globalVariables(
 #'   distributions for computing scaled metrics. This must be one of the
 #'   strings \code{"non_rep"} or \code{"ref"}.
 #' @param calculate_grouped optional boolean specifying whether to include
-#'   grouped metrics. # nolint
+#'   grouped metrics.
 #' @param annotation_prefix optional character string specifying prefix for
 #'   annotation columns (e.g. \code{"Metadata_"} (default)).
+#' @param use_furrr boolean indicating whether to use the furrr library
+#'   for parallel processing.
 #'
 #' @return List of metrics.
 #' @examples
@@ -140,7 +142,8 @@ utils::globalVariables(
 sim_metrics <- function(collated_sim,
                         sim_type_background,
                         calculate_grouped = FALSE,
-                        annotation_prefix = "Metadata_") {
+                        annotation_prefix = "Metadata_",
+                        use_furrr = FALSE) {
   if (!is.null(attr(collated_sim, "all_same_cols_rep", TRUE))) {
     summary_cols <- attr(collated_sim, "all_same_cols_rep", TRUE)
   } else {
@@ -157,7 +160,8 @@ sim_metrics <- function(collated_sim,
       sim_type_background,
       c("id1", summary_cols),
       "rep",
-      "i"
+      "i",
+      use_furrr
     )
 
   # ---- Level 1 (aggregations of Level 1-0) ----
@@ -192,7 +196,8 @@ sim_metrics <- function(collated_sim,
         sim_type_background,
         summary_cols,
         "rep_group",
-        "g"
+        "g",
+        use_furrr
       )
   }
 
@@ -228,19 +233,35 @@ sim_metrics <- function(collated_sim,
 #'   strings \code{"non_rep"} or \code{"ref"}.
 #' @param summary_cols character list specifying columns by which to group
 #'   similarities.
-#' @param sim_type_replication character string specifying the type of
+#' @param sim_type_signal character string specifying the type of
 #'   replication being measured. This must be one of the strings \code{"rep"}
 #'   or \code{"rep_group"}.
 #' @param identifier character string specifying the identifier to add as a
 #'   suffix to the columns containing scaled-aggregated metrics.
+#' @param use_furrr boolean indicating whether to use the furrr library
+#'   for parallel processing.
 #'
 #' @return data.frame of metrics.
 sim_metrics_helper <-
   function(collated_sim,
            sim_type_background,
            summary_cols,
-           sim_type_replication,
-           identifier = NULL) {
+           sim_type_signal,
+           identifier = NULL,
+           use_furrr = FALSE) {
+    logger::log_trace("Compute metrics for signal={sim_type_signal} background={sim_type_background}")
+
+    if (use_furrr) {
+      logger::log_trace("Using furrr for parallel processing")
+      x_map2_dbl <- furrr::future_map2_dbl
+      x_map_dbl <- furrr::future_map_dbl
+      x_map2 <- furrr::future_map2
+    } else {
+      logger::log_trace("Using purrr for sequential processing")
+      x_map2_dbl <- purrr::map2_dbl
+      x_map_dbl <- purrr::map_dbl
+      x_map2 <- purrr::map2
+    }
     # ---- Get background and signal distributions ----
 
     sim_background <-
@@ -250,7 +271,7 @@ sim_metrics_helper <-
 
     sim_signal <-
       collated_sim %>%
-      dplyr::filter(type == sim_type_replication) %>%
+      dplyr::filter(type == sim_type_signal) %>%
       dplyr::select(-type)
 
     # ---- Get nested versions of background and signal distributions ----
@@ -270,9 +291,13 @@ sim_metrics_helper <-
       dplyr::select(dplyr::all_of(c(summary_cols, "sim"))) %>%
       tidyr::nest(data_background = c(sim))
 
+    logger::log_trace("  Number of rows = {n}", n = nrow(sim_signal_nested))
+
     # ---- Compute transformed metrics ----
     # ---- * Transform ----
     # ---- ** Transform similarity: Scale w.r.t background distribution ----
+
+    logger::log_trace("  Computing `sim_scaled` ...")
 
     # Compute statistics (mean and s.d.) on background distribution defined by
     # `sim_type_background`
@@ -299,14 +324,14 @@ sim_metrics_helper <-
 
     # ---- ** Transform similarity: Rank w.r.t background distribution ----
 
+    logger::log_trace("  Computing `sim_ranked_relrank` ...")
+
     sim_signal_ranked <-
       sim_signal %>%
       dplyr::inner_join(sim_background_nested, by = summary_cols) %>%
       dplyr::mutate(
         sim_ranked_relrank =
-          purrr::map2_dbl(sim, data_background, function(sim, df) {
-            which(sim >= df$sim)[1] / nrow(df)
-          })
+          x_map2_dbl(sim, data_background, relrank)
       ) %>%
       dplyr::mutate(
         sim_ranked_relrank =
@@ -335,6 +360,8 @@ sim_metrics_helper <-
     # - `sim_scaled` (centered and scaled similarities)
     # - `sim_ranked` (rank based transformations)
 
+    logger::log_trace("  Computing summaries ...")
+
     sim_signal_transformed_agg <-
       sim_signal_transformed %>%
       dplyr::group_by(dplyr::across(dplyr::all_of(summary_cols))) %>%
@@ -360,74 +387,44 @@ sim_metrics_helper <-
     # The metrics in this section are computed across the whole group
     # (and therefore don't need further summarizing)
 
+    logger::log_trace("  Setting up retrieval ...")
+
     sim_signal_retrieval <-
       sim_signal_nested %>%
       dplyr::inner_join(sim_background_nested, by = summary_cols) %>%
       dplyr::mutate(
         data_retrieval =
-          purrr::map2(
+          x_map2(
             data_signal,
             data_background,
-            function(signal, background) {
-              dplyr::bind_rows(
-                signal %>% dplyr::mutate(truth = "signal"),
-                background %>% dplyr::mutate(truth = "background")
-              ) %>%
-                # Note for yardstick: "signal" is the second factor level
-                dplyr::mutate(truth = as.factor(truth)) %>%
-                dplyr::mutate(signal_probrank = rank(sim) / dplyr::n()) %>%
-                dplyr::select(-sim) %>%
-                dplyr::arrange(dplyr::desc(signal_probrank))
-            }
+            tidy_classprob_data
           )
       ) %>%
       dplyr::select(-data_background, -data_signal)
 
     # ---- * Average Precision ----
 
+    logger::log_trace("  Computing average precision ...")
+
     sim_signal_retrieval <-
       sim_signal_retrieval %>%
       dplyr::mutate(
         sim_retrieval_average_precision =
-          purrr::map_dbl(
-            data_retrieval,
-            function(df) {
-              df %>%
-                # Set `event_level` as "second" because "signal" is the second
-                # factor level in `truth`
-                yardstick::average_precision(truth,
-                  signal_probrank,
-                  event_level = "second"
-                ) %>%
-                dplyr::pull(.estimate)
-            }
-          )
+          x_map_dbl(data_retrieval, average_precision)
       )
 
     # ---- * R-Precision ----
 
-    r_precision <- function(df) {
-      condition_positive <-
-        df %>%
-        dplyr::filter(truth == "signal") %>%
-        nrow()
-
-      # df is already sorted by `desc(signal_probrank)` above
-      true_positive <-
-        df %>%
-        dplyr::slice_head(n = condition_positive) %>%
-        dplyr::filter(truth == "signal") %>%
-        nrow()
-
-      true_positive / condition_positive
-    }
+    logger::log_trace("  Computing R-precision ...")
 
     sim_signal_retrieval <-
       sim_signal_retrieval %>%
       dplyr::mutate(
         sim_retrieval_r_precision =
-          purrr::map_dbl(data_retrieval, r_precision)
+          x_map_dbl(data_retrieval, r_precision)
       )
+
+    logger::log_trace("  Wrapping up metrics ...")
 
     sim_signal_retrieval <-
       sim_signal_retrieval %>%
@@ -460,5 +457,86 @@ sim_metrics_helper <-
         )
     }
 
+    logger::log_trace(
+      "Completed metrics for signal={sim_type_signal} background={sim_type_background}"
+    )
+
     sim_metrics_collated
   }
+
+
+#' Create a tidy data frame for using in class probability metrics
+#'
+#' @param signal numeric vector corresponding to signal.
+#' @param background numeric vector corresponding to background.
+#'
+#' @return tidy data frame with two columns: `truth` (with two levels: `signal`
+#'  and `background`) and `signal_probrank` indicating the relative rank
+#'  (proxy for probability).
+#'
+#' @noRd
+tidy_classprob_data <- function(signal, background) {
+  dplyr::bind_rows(
+    signal %>% dplyr::mutate(truth = "signal"),
+    background %>% dplyr::mutate(truth = "background")
+  ) %>%
+    # Note for yardstick: "signal" is the second factor level
+    dplyr::mutate(truth = as.factor(truth)) %>%
+    dplyr::mutate(signal_probrank = rank(sim) / dplyr::n()) %>%
+    dplyr::select(-sim) %>%
+    dplyr::arrange(dplyr::desc(signal_probrank))
+}
+
+#' Compute relative rank of a value within a data fram
+#'
+#' @param sim numeric indicating the value of which to find the rank.
+#' @param df data.frame containing a numeric column named `sim` in which to
+#'   find the rank of `sim`
+#'
+#' @return numeric indicating relative rank of `sim`.
+#'
+#' @noRd
+relrank <- function(sim, df) {
+  which(sim >= df$sim)[1] / nrow(df)
+}
+
+#' Compute average precision.
+#'
+#' @param df data.frame generated by `tidy_classprob_data()`
+#'
+#' @return numeric indicating average precision of the `signal` class.
+#'
+#' @noRd
+average_precision <- function(df) {
+  df %>%
+    # Set `event_level` as "second" because "signal" is the second
+    # factor level in `truth`
+    yardstick::average_precision(truth,
+      signal_probrank,
+      event_level = "second"
+    ) %>%
+    dplyr::pull(.estimate)
+}
+
+#' Compute R-precision.
+#'
+#' @param df data.frame generated by `tidy_classprob_data()`
+#'
+#' @return numeric indicating R-precision of the `signal` class.
+#'
+#' @noRd
+r_precision <- function(df) {
+  condition_positive <-
+    df %>%
+    dplyr::filter(truth == "signal") %>%
+    nrow()
+
+  # df is already sorted by `desc(signal_probrank)` above
+  true_positive <-
+    df %>%
+    dplyr::slice_head(n = condition_positive) %>%
+    dplyr::filter(truth == "signal") %>%
+    nrow()
+
+  true_positive / condition_positive
+}
