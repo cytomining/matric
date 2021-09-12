@@ -8,7 +8,8 @@ sim_metrics(
   collated_sim,
   sim_type_background,
   calculate_grouped = FALSE,
-  annotation_prefix = "Metadata_"
+  annotation_prefix = "Metadata_",
+  use_furrr = FALSE
 )
 }
 \arguments{
@@ -20,10 +21,13 @@ distributions for computing scaled metrics. This must be one of the
 strings \code{"non_rep"} or \code{"ref"}.}
 
 \item{calculate_grouped}{optional boolean specifying whether to include
-grouped metrics. # nolint}
+grouped metrics.}
 
 \item{annotation_prefix}{optional character string specifying prefix for
 annotation columns (e.g. \code{"Metadata_"} (default)).}
+
+\item{use_furrr}{boolean indicating whether to use the \link\link{furrr} library
+for parallel processing.}
 }
 \value{
 List of metrics.

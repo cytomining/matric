@@ -9,7 +9,8 @@ sim_metrics_helper(
   sim_type_background,
   summary_cols,
   sim_type_signal,
-  identifier = NULL
+  identifier = NULL,
+  use_furrr = FALSE
 )
 }
 \arguments{
@@ -29,6 +30,9 @@ or \code{"rep_group"}.}
 
 \item{identifier}{character string specifying the identifier to add as a
 suffix to the columns containing scaled-aggregated metrics.}
+
+\item{use_furrr}{boolean indicating whether to use the \link\link{furrr} library
+for parallel processing.}
 }
 \value{
 data.frame of metrics.
