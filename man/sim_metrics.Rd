@@ -26,7 +26,7 @@ grouped metrics.}
 \item{annotation_prefix}{optional character string specifying prefix for
 annotation columns (e.g. \code{"Metadata_"} (default)).}
 
-\item{use_furrr}{boolean indicating whether to use the \link\link{furrr} library
+\item{use_furrr}{boolean indicating whether to use the furrr library
 for parallel processing.}
 }
 \value{

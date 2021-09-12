@@ -31,7 +31,7 @@ or \code{"rep_group"}.}
 \item{identifier}{character string specifying the identifier to add as a
 suffix to the columns containing scaled-aggregated metrics.}
 
-\item{use_furrr}{boolean indicating whether to use the \link\link{furrr} library
+\item{use_furrr}{boolean indicating whether to use the furrr library
 for parallel processing.}
 }
 \value{

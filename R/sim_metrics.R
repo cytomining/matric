@@ -25,7 +25,7 @@ utils::globalVariables(
 #'   grouped metrics.
 #' @param annotation_prefix optional character string specifying prefix for
 #'   annotation columns (e.g. \code{"Metadata_"} (default)).
-#' @param use_furrr boolean indicating whether to use the \link[furrr] library
+#' @param use_furrr boolean indicating whether to use the furrr library
 #'   for parallel processing.
 #'
 #' @return List of metrics.
@@ -238,7 +238,7 @@ sim_metrics <- function(collated_sim,
 #'   or \code{"rep_group"}.
 #' @param identifier character string specifying the identifier to add as a
 #'   suffix to the columns containing scaled-aggregated metrics.
-#' @param use_furrr boolean indicating whether to use the \link[furrr] library
+#' @param use_furrr boolean indicating whether to use the furrr library
 #'   for parallel processing.
 #'
 #' @return data.frame of metrics.
