@@ -266,12 +266,12 @@ test_that("`sim_collate` works", {
   collated_sim <-
     collated_sim %>%
     dplyr::arrange(across(-sim)) %>%
-    dplyr::select(col_names)
+    dplyr::select(dplyr::all_of(col_names))
 
   collated_sim_lazy <-
     collated_sim_lazy %>%
     dplyr::arrange(across(-sim)) %>%
-    dplyr::select(col_names)
+    dplyr::select(dplyr::all_of(col_names))
 
   expect_equal(collated_sim, collated_sim_lazy)
 
@@ -320,13 +320,13 @@ test_that("`sim_collate` works", {
   collated_sim <-
     collated_sim %>%
     dplyr::arrange(across(-sim)) %>%
-    dplyr::select(col_names) %>%
+    dplyr::select(dplyr::all_of(col_names)) %>%
     dplyr::inner_join(type_df, by = "type")
 
   collated_sim_lazy <-
     collated_sim_lazy %>%
     dplyr::arrange(across(-sim)) %>%
-    dplyr::select(col_names) %>%
+    dplyr::select(dplyr::all_of(col_names)) %>%
     dplyr::inner_join(type_df, by = "type")
 
   expect_equal(collated_sim, collated_sim_lazy, ignore_attr = TRUE)
