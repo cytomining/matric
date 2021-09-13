@@ -19,6 +19,7 @@ utils::globalVariables(c("id1", "id2", "id1_l", "id2_l", "i", "sim"))
 #' @param all_same_cols_ref optional character vector specifying columns.
 #' @param all_same_cols_rep_ref optional character vector specifying columns.
 #' @param reference optional character string specifying reference.
+#' @param ... arguments passed downstream for parallel processing.
 #'
 #' @return \code{metric_sim} object, with similarity matrix and related metadata
 #'
@@ -85,7 +86,8 @@ sim_calculate <-
            all_same_cols_rep_or_group = NULL,
            all_same_cols_ref = NULL,
            all_same_cols_rep_ref = NULL,
-           reference = NULL) {
+           reference = NULL,
+           ...) {
     # ---- Checks ----
     stopifnot(is.null(strata) | is.null(all_same_cols_rep_or_group))
 
@@ -290,7 +292,7 @@ sim_calculate <-
         dplyr::distinct(sim_df)
 
       if (!lazy) {
-        sim_df <- sim_calculate_ij(population, sim_df, method = method, annotation_prefix = annotation_prefix)
+        sim_df <- sim_calculate_ij(population, sim_df, method = method, annotation_prefix = annotation_prefix, ...)
       }
 
       sim_df
@@ -327,8 +329,7 @@ sim_calculate <-
 #'   \code{attr(index, "metric_metadata")$method}.
 #' @param annotation_prefix optional character string specifying prefix
 #'   for annotation columns.
-#' @param cores optional integer specifying number of CPU cores used for
-#'   parallel computing using \code{doParallel}.
+#' @param ... arguments passed downstream for parallel processing.
 #'
 #' @return data.frame which is the same as \code{index}, but with a new
 #'   column `sim` containing similarities, and with the diagonals filtered out.
@@ -361,9 +362,7 @@ sim_calculate_ij <-
            index,
            method = NULL,
            annotation_prefix = "Metadata_",
-           cores = 1) {
-    doParallel::registerDoParallel(cores = cores)
-
+           ...) {
     correlations <- c("pearson")
     similarities <- c("cosine")
 
@@ -406,10 +405,10 @@ sim_calculate_ij <-
 
     if (method %in% c(correlations, similarities)) {
       if (method == "cosine") {
-        sim_df <- cosine_sparse(X, index_distinct$id1, index_distinct$id2)
+        sim_df <- cosine_sparse(X, index_distinct$id1, index_distinct$id2, ...)
       }
       if (method == "pearson") {
-        sim_df <- pearson_sparse(X, index_distinct$id1, index_distinct$id2)
+        sim_df <- pearson_sparse(X, index_distinct$id1, index_distinct$id2, ...)
       }
     }
 

@@ -6,9 +6,9 @@
 \alias{pearson_sparse}
 \title{Compute similarity between pairs of rows of a matrix}
 \usage{
-cosine_sparse(X, id1, id2)
+cosine_sparse(X, id1, id2, ...)
 
-pearson_sparse(X, id1, id2)
+pearson_sparse(X, id1, id2, ...)
 }
 \arguments{
 \item{X}{matrix}
@@ -18,6 +18,8 @@ pearson_sparse(X, id1, id2)
 
 \item{id2}{vector of integers specifying the list of rows of \code{X},
 (second set), same length as \code{id1}.}
+
+\item{...}{arguments passed downstream for parallel processing.}
 }
 \value{
 data.frame with the same number of rows as the length of \code{id1}

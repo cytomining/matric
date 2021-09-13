@@ -11,12 +11,12 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
+    arrow,
     dplyr,
     magrittr,
     tibble,
     tidyr,
     readr,
-    arrow,
     jsonlite,
     glue,
     purrr,

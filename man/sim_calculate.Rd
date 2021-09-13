@@ -13,7 +13,8 @@ sim_calculate(
   all_same_cols_rep_or_group = NULL,
   all_same_cols_ref = NULL,
   all_same_cols_rep_ref = NULL,
-  reference = NULL
+  reference = NULL,
+  ...
 )
 }
 \arguments{
@@ -41,6 +42,8 @@ columns.}
 \item{all_same_cols_rep_ref}{optional character vector specifying columns.}
 
 \item{reference}{optional character string specifying reference.}
+
+\item{...}{arguments passed downstream for parallel processing.}
 }
 \value{
 \code{metric_sim} object, with similarity matrix and related metadata

@@ -9,7 +9,7 @@ sim_calculate_ij(
   index,
   method = NULL,
   annotation_prefix = "Metadata_",
-  cores = 1
+  ...
 )
 }
 \arguments{
@@ -28,8 +28,7 @@ to calculate similarity. \code{method}, if specified, overrides
 \item{annotation_prefix}{optional character string specifying prefix
 for annotation columns.}
 
-\item{cores}{optional integer specifying number of CPU cores used for
-parallel computing using \code{doParallel}.}
+\item{...}{arguments passed downstream for parallel processing.}
 }
 \value{
 data.frame which is the same as \code{index}, but with a new

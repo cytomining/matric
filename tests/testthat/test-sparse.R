@@ -47,4 +47,9 @@ test_that("cosine_sparse and pearson_sparse work", {
   s4 <- matric::pearson_sparse(X, id1, id2) %>% dplyr::arrange(id1, id2)
 
   all.equal(s3, s4)
+
+  s5 <- matric::cosine_sparse(Xm, id1, id2, use_furrr = TRUE) %>%
+    dplyr::arrange(id1, id2)
+
+  all.equal(s3, s5)
 })

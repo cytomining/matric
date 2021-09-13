@@ -253,6 +253,7 @@ sim_metrics_helper <-
 
     if (use_furrr) {
       logger::log_trace("Using furrr for parallel processing")
+      logger::log_trace(future::plan())
       x_map2_dbl <- furrr::future_map2_dbl
       x_map_dbl <- furrr::future_map_dbl
       x_map2 <- furrr::future_map2
