@@ -68,20 +68,20 @@ sparse_pairwise <- function(X, id1, id2, pairwise_function, use_furrr = FALSE) {
 #'   \code{sim[i] == pairwise_function(X[idl1[i], ], X[idl2[i], ])} where
 #'   idl1[i] and idl2[i] are each *lists* of indices.
 sparse_pairwise_helper <- function(idl1, idl2, X, pairwise_function) {
-        index_sub <-
-          expand.grid(
-            id1 = idl1[[1]],
-            id2 = idl2[[1]],
-            KEEP.OUT.ATTRS = FALSE
-          )
+  index_sub <-
+    expand.grid(
+      id1 = idl1[[1]],
+      id2 = idl2[[1]],
+      KEEP.OUT.ATTRS = FALSE
+    )
 
-        S <-
-          as.vector(pairwise_function(X, idl1[[1]], idl2[[1]]))
+  S <-
+    as.vector(pairwise_function(X, idl1[[1]], idl2[[1]]))
 
-        index_sub <- index_sub %>% dplyr::mutate(sim = S)
+  index_sub <- index_sub %>% dplyr::mutate(sim = S)
 
-        index_sub
-      }
+  index_sub
+}
 
 #' Compute cross product between two sets of rows of a matrix.
 #'

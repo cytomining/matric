@@ -52,5 +52,4 @@ test_that("cosine_sparse and pearson_sparse work", {
     dplyr::arrange(id1, id2)
 
   all.equal(s3, s5)
-
 })

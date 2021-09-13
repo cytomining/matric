@@ -264,14 +264,15 @@ test_that("`sim_metrics` works", {
 
   metrics_optimized_lazy <-
     matric::sim_metrics(collated_sim_optimized_lazy, "ref",
-                        calculate_grouped = TRUE)
+      calculate_grouped = TRUE
+    )
 
   expect_equal(metrics, metrics_optimized_lazy)
 
   metrics_optimized_lazy_furrr <-
     matric::sim_metrics(collated_sim_optimized_lazy, "ref",
-                        calculate_grouped = TRUE, use_furrr = TRUE)
+      calculate_grouped = TRUE, use_furrr = TRUE
+    )
 
   expect_equal(metrics, metrics_optimized_lazy_furrr)
-
 })

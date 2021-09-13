@@ -363,7 +363,6 @@ sim_calculate_ij <-
            method = NULL,
            annotation_prefix = "Metadata_",
            ...) {
-
     correlations <- c("pearson")
     similarities <- c("cosine")
 
