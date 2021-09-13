@@ -4,7 +4,7 @@
 \alias{sparse_pairwise}
 \title{Compute similarity between pairs of rows of a matrix}
 \usage{
-sparse_pairwise(X, id1, id2, pairwise_function)
+sparse_pairwise(X, id1, id2, pairwise_function, use_furrr = FALSE)
 }
 \arguments{
 \item{X}{matrix}
@@ -18,6 +18,9 @@ sparse_pairwise(X, id1, id2, pairwise_function)
 \item{pairwise_function}{function that takes a matrix and a pair of indices
 specifying rows of the matrix, and computes an operation of each pair of
 rows}
+
+\item{use_furrr}{boolean indicating whether to use the furrr library
+for parallel processing.}
 }
 \value{
 data.frame with the same number of rows as the length of \code{id1}

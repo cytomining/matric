@@ -11,11 +11,13 @@
 #' @param pairwise_function function that takes a matrix and a pair of indices
 #'   specifying rows of the matrix, and computes an operation of each pair of
 #'   rows
+#' @param use_furrr boolean indicating whether to use the furrr library
+#'   for parallel processing.
 #'
 #' @return data.frame with the same number of rows as the length of \code{id1}
 #'   (and \code{id2}) containing the similarity between the pairs of rows
 #'   of \code{X}. \code{sim[i] == pairwise_function(X[id1[i], ], X[id2[i], ])}.
-sparse_pairwise <- function(X, id1, id2, pairwise_function) {
+sparse_pairwise <- function(X, id1, id2, pairwise_function, use_furrr = FALSE) {
   index_nest <-
     data.frame(id1, id2) %>%
     dplyr::arrange(id1, id2) %>%
@@ -104,6 +106,7 @@ tcrossprod_ij <- function(X, id1, id2) {
 #'   (first set)
 #' @param id2 vector of integers specifying the list of rows of \code{X},
 #' (second set), same length as \code{id1}.
+#' @param ... arguments passed downstream for parallel processing.
 #'
 #' @return data.frame with the same number of rows as the length of \code{id1}
 #'   (and \code{id2}) containing the similarity between the pairs of rows
@@ -147,16 +150,16 @@ NULL
 
 #' @export
 #' @rdname sparse_similarity
-cosine_sparse <- function(X, id1, id2) {
+cosine_sparse <- function(X, id1, id2, ...) {
   X <- X / sqrt(rowSums(X * X))
 
-  sparse_pairwise(X, id1, id2, tcrossprod_ij)
+  sparse_pairwise(X, id1, id2, tcrossprod_ij, ...)
 }
 
 #' @export
 #' @rdname sparse_similarity
-pearson_sparse <- function(X, id1, id2) {
+pearson_sparse <- function(X, id1, id2, ...) {
   X <- X - rowMeans(X)
 
-  cosine_sparse(X, id1, id2)
+  cosine_sparse(X, id1, id2, ...)
 }
