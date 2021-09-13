@@ -134,7 +134,7 @@ matrix." />
 matrix.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sparse_pairwise</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>id1</span>, <span class='va'>id2</span>, <span class='va'>pairwise_function</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>sparse_pairwise</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>id1</span>, <span class='va'>id2</span>, <span class='va'>pairwise_function</span>, use_furrr <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -158,6 +158,11 @@ matrix.</p>
       <td><p>function that takes a matrix and a pair of indices
 specifying rows of the matrix, and computes an operation of each pair of
 rows</p></td>
+    </tr>
+    <tr>
+      <th>use_furrr</th>
+      <td><p>boolean indicating whether to use the furrr library
+for parallel processing.</p></td>
     </tr>
     </table>
 

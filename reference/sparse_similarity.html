@@ -138,9 +138,9 @@ matrix.
 matrix.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cosine_sparse</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>id1</span>, <span class='va'>id2</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>cosine_sparse</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>id1</span>, <span class='va'>id2</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>pearson_sparse</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>id1</span>, <span class='va'>id2</span><span class='op'>)</span></pre>
+<span class='fu'>pearson_sparse</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>id1</span>, <span class='va'>id2</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -158,6 +158,10 @@ matrix.</p>
       <th>id2</th>
       <td><p>vector of integers specifying the list of rows of <code>X</code>,
 (second set), same length as <code>id1</code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>arguments passed downstream for parallel processing.</p></td>
     </tr>
     </table>
 
