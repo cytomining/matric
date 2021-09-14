@@ -67,6 +67,7 @@ sparse_pairwise <- function(X, id1, id2, pairwise_function, use_furrr = FALSE) {
 #'   of \code{X}.
 #'   \code{sim[i] == pairwise_function(X[idl1[i], ], X[idl2[i], ])} where
 #'   idl1[i] and idl2[i] are each *lists* of indices.
+#' @noRd
 sparse_pairwise_helper <- function(idl1, idl2, X, pairwise_function) {
   index_sub <-
     expand.grid(
