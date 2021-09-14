@@ -278,7 +278,6 @@ test_that("`sim_metrics` works", {
 })
 
 test_that("`r_precision` works", {
-
   df <- data.frame(truth = c("signal", "background", "background"))
   expect_equal(matric:::r_precision(df), 1)
 
@@ -290,5 +289,4 @@ test_that("`r_precision` works", {
 
   df <- data.frame(truth = c("background", "background"))
   expect_equal(matric:::r_precision(df), NaN)
-
 })
