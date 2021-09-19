@@ -310,7 +310,8 @@ sim_metrics_helper <-
         list(
           mean_stat = mean,
           sd_stat = sd
-        )
+        ),
+        na.rm = TRUE
       ),
       .groups = "keep"
       ) %>%
