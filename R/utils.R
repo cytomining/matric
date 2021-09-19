@@ -99,7 +99,7 @@ preprocess_data <-
            annotation_prefix = "Metadata_") {
     drop_columns <-
       population %>%
-      dplyr::summarise(across(!matches("Species"), ~ sum(is.na(.)))) %>%
+      dplyr::summarise(across(!matches(annotation_prefix), ~ sum(is.na(.)))) %>%
       tidyr::pivot_longer(everything()) %>%
       dplyr::filter(value != 0) %>%
       purrr::pluck("name")
