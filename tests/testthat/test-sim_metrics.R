@@ -276,3 +276,17 @@ test_that("`sim_metrics` works", {
 
   expect_equal(metrics, metrics_optimized_lazy_furrr)
 })
+
+test_that("`r_precision` works", {
+  df <- data.frame(truth = c("signal", "background", "background"))
+  expect_equal(matric:::r_precision(df), 1)
+
+  df <- data.frame(truth = c("background", "signal", "background"))
+  expect_equal(matric:::r_precision(df), 0)
+
+  df <- data.frame(truth = c("background", "signal", "signal", "background"))
+  expect_equal(matric:::r_precision(df), 0.5)
+
+  df <- data.frame(truth = c("background", "background"))
+  expect_equal(matric:::r_precision(df), NaN)
+})
