@@ -67,7 +67,7 @@ sim_write <- function(sim_df, output, file_format = "parquet") {
   } else {
     logger::log_info("Writing {output} ...")
 
-    sim_df %>% arrow::write_parquet(output, compression = "gzip", compression_level = 9)
+    sim_df %>% arrow::write_parquet(output)
   }
 
   NULL
