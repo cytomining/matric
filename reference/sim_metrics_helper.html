@@ -136,9 +136,10 @@ scaling.</p>
 
     <pre class="usage"><span class='fu'>sim_metrics_helper</span><span class='op'>(</span>
   <span class='va'>collated_sim</span>,
+  <span class='va'>sim_type_signal</span>,
   <span class='va'>sim_type_background</span>,
   <span class='va'>summary_cols</span>,
-  <span class='va'>sim_type_signal</span>,
+  <span class='va'>annotation_cols</span>,
   identifier <span class='op'>=</span> <span class='cn'>NULL</span>,
   use_furrr <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
@@ -152,6 +153,12 @@ scaling.</p>
 some attributes.</p></td>
     </tr>
     <tr>
+      <th>sim_type_signal</th>
+      <td><p>character string specifying the type of
+replication being measured. This must be one of the strings <code>"rep"</code>
+or <code>"rep_group"</code>.</p></td>
+    </tr>
+    <tr>
       <th>sim_type_background</th>
       <td><p>character string specifying the background
 distributions for computing scaled metrics. This must be one of the
@@ -163,10 +170,8 @@ strings <code>"non_rep"</code> or <code>"ref"</code>.</p></td>
 similarities.</p></td>
     </tr>
     <tr>
-      <th>sim_type_signal</th>
-      <td><p>character string specifying the type of
-replication being measured. This must be one of the strings <code>"rep"</code>
-or <code>"rep_group"</code>.</p></td>
+      <th>annotation_cols</th>
+      <td><p>character list specifying annotation columns.</p></td>
     </tr>
     <tr>
       <th>identifier</th>
