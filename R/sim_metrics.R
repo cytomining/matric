@@ -144,7 +144,6 @@ sim_metrics <- function(collated_sim,
                         calculate_grouped = FALSE,
                         annotation_prefix = "Metadata_",
                         use_furrr = FALSE) {
-
   annotation_cols <-
     stringr::str_subset(colnames(collated_sim), pattern = annotation_prefix)
 
@@ -208,14 +207,14 @@ sim_metrics <- function(collated_sim,
   if (calculate_grouped) {
     sim_metrics_group_collated <-
       sim_metrics_helper(
-      collated_sim = collated_sim,
-      sim_type_signal = "rep_group",
-      sim_type_background = sim_type_background,
-      summary_cols = summary_cols,
-      annotation_cols = annotation_cols,
-      identifier = "g",
-      use_furrr = use_furrr
-    )
+        collated_sim = collated_sim,
+        sim_type_signal = "rep_group",
+        sim_type_background = sim_type_background,
+        summary_cols = summary_cols,
+        annotation_cols = annotation_cols,
+        identifier = "g",
+        use_furrr = use_furrr
+      )
   }
 
   # ---- Collect metrics  ----

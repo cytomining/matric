@@ -281,7 +281,7 @@ test_that("`sim_metrics` works", {
   # ---- annotation works ----
 
   sim_df_extra_annotation <- matric::sim_calculate(matric::cellhealth %>%
-                                    dplyr::mutate(Metadata_dummy = "dummy"))
+    dplyr::mutate(Metadata_dummy = "dummy"))
 
   extra_annotation_cols <- c("Metadata_dummy", "Metadata_Well", "Metadata_Plate")
 
@@ -316,7 +316,6 @@ test_that("`sim_metrics` works", {
       dplyr::select(-all_of(extra_annotation_cols)),
     metrics_orig$level_1_0
   )
-
 })
 
 test_that("`r_precision` works", {
