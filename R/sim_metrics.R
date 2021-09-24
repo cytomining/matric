@@ -144,24 +144,28 @@ sim_metrics <- function(collated_sim,
                         calculate_grouped = FALSE,
                         annotation_prefix = "Metadata_",
                         use_furrr = FALSE) {
+
+  annotation_cols <-
+    stringr::str_subset(colnames(collated_sim), pattern = annotation_prefix)
+
   if (!is.null(attr(collated_sim, "all_same_cols_rep", TRUE))) {
     summary_cols <- attr(collated_sim, "all_same_cols_rep", TRUE)
   } else {
-    message("Warning: Inferring columns specifying replicates from `sim_df`...")
-    summary_cols <-
-      stringr::str_subset(colnames(collated_sim), pattern = annotation_prefix)
+    logger::log_warn("Inferring columns specifying replicates from `sim_df`...")
+    summary_cols <- annotation_cols
   }
 
   # ---- Level 1-0 ----
 
   sim_metrics_collated <-
     sim_metrics_helper(
-      collated_sim,
-      sim_type_background,
-      c("id1", summary_cols),
-      "rep",
-      "i",
-      use_furrr
+      collated_sim = collated_sim,
+      sim_type_signal = "rep",
+      sim_type_background = sim_type_background,
+      summary_cols = c("id1", summary_cols),
+      annotation_cols = annotation_cols,
+      identifier = "i",
+      use_furrr = use_furrr
     )
 
   # ---- Level 1 (aggregations of Level 1-0) ----
@@ -169,14 +173,26 @@ sim_metrics <- function(collated_sim,
   sim_metrics_collated_agg <-
     sim_metrics_collated %>%
     dplyr::ungroup() %>%
-    dplyr::group_by(dplyr::across(dplyr::all_of(c(summary_cols)))) %>%
+    dplyr::group_by(dplyr::across(dplyr::all_of(summary_cols))) %>%
     dplyr::summarise(dplyr::across(
-      -dplyr::all_of("id1"),
+      dplyr::matches("sim_"),
       list(mean = mean, median = median)
     ),
     .groups = "keep"
     ) %>%
     dplyr::ungroup()
+
+
+  annotation_cols_full <- unique(c(summary_cols, annotation_cols))
+
+  metadata <-
+    sim_metrics_collated %>%
+    dplyr::distinct(across(all_of(annotation_cols_full)))
+
+  sim_metrics_collated_agg <-
+    sim_metrics_collated_agg %>%
+    dplyr::inner_join(metadata, by = summary_cols) %>%
+    dplyr::select(all_of(annotation_cols_full), dplyr::everything())
 
   # append identifier to summarized metrics ("_i" for "individual")
 
@@ -192,13 +208,14 @@ sim_metrics <- function(collated_sim,
   if (calculate_grouped) {
     sim_metrics_group_collated <-
       sim_metrics_helper(
-        collated_sim,
-        sim_type_background,
-        summary_cols,
-        "rep_group",
-        "g",
-        use_furrr
-      )
+      collated_sim = collated_sim,
+      sim_type_signal = "rep_group",
+      sim_type_background = sim_type_background,
+      summary_cols = summary_cols,
+      annotation_cols = annotation_cols,
+      identifier = "g",
+      use_furrr = use_furrr
+    )
   }
 
   # ---- Collect metrics  ----
@@ -228,14 +245,15 @@ sim_metrics <- function(collated_sim,
 #'
 #' @param collated_sim output of \code{sim_collated}, which is a data.frame with
 #'   some attributes.
+#' @param sim_type_signal character string specifying the type of
+#'   replication being measured. This must be one of the strings \code{"rep"}
+#'   or \code{"rep_group"}.
 #' @param sim_type_background character string specifying the background
 #'   distributions for computing scaled metrics. This must be one of the
 #'   strings \code{"non_rep"} or \code{"ref"}.
 #' @param summary_cols character list specifying columns by which to group
 #'   similarities.
-#' @param sim_type_signal character string specifying the type of
-#'   replication being measured. This must be one of the strings \code{"rep"}
-#'   or \code{"rep_group"}.
+#' @param annotation_cols character list specifying annotation columns.
 #' @param identifier character string specifying the identifier to add as a
 #'   suffix to the columns containing scaled-aggregated metrics.
 #' @param use_furrr boolean indicating whether to use the furrr library
@@ -244,9 +262,10 @@ sim_metrics <- function(collated_sim,
 #' @return data.frame of metrics.
 sim_metrics_helper <-
   function(collated_sim,
+           sim_type_signal,
            sim_type_background,
            summary_cols,
-           sim_type_signal,
+           annotation_cols,
            identifier = NULL,
            use_furrr = FALSE) {
     logger::log_trace("Compute metrics for signal={sim_type_signal} background={sim_type_background}")
@@ -263,6 +282,7 @@ sim_metrics_helper <-
       x_map_dbl <- purrr::map_dbl
       x_map2 <- purrr::map2
     }
+
     # ---- Get background and signal distributions ----
 
     sim_background <-
@@ -440,6 +460,8 @@ sim_metrics_helper <-
         by = summary_cols
       )
 
+    # ---- Format result  ----
+
     # add a suffix to identify the background
     sim_metrics_collated <-
       sim_metrics_collated %>%
@@ -458,6 +480,32 @@ sim_metrics_helper <-
           dplyr::starts_with("sim")
         )
     }
+
+    # annotate the rows
+    #
+    # Note: if `annotation_cols` is more granular than `summary_cols`
+    # (`summary_cols` is typically just `all_same_cols_rep`), then adding these
+    # annotations will result in a duplication of rows. For example, if
+    # `all_same_cols_rep` ==
+    # c("Metadata_cell_line", "Metadata_gene_name", "Metadata_pert_name"
+    # and
+    # `annotation_cols` ==
+    # c("Metadata_cell_line", "Metadata_gene_name", "Metadata_pert_name",
+    #   "Metadata_Well")
+    # we will end up with one entry per `Metadata_Well` in
+    # `sim_metrics_collated`
+    # This is as expected.
+
+    annotation_cols_full <- unique(c(summary_cols, annotation_cols))
+
+    metadata <-
+      collated_sim %>%
+      dplyr::distinct(across(all_of(annotation_cols_full)))
+
+    sim_metrics_collated <-
+      sim_metrics_collated %>%
+      dplyr::inner_join(metadata, by = summary_cols) %>%
+      dplyr::select(all_of(annotation_cols_full), dplyr::everything())
 
     logger::log_trace(
       "Completed metrics for signal={sim_type_signal} background={sim_type_background}"
