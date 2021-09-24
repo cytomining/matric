@@ -27,7 +27,8 @@ Imports:
     foreach,
     doParallel,
     logger,
-    furrr
+    furrr,
+    future
 RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
 Suggests: 

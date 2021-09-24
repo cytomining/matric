@@ -173,6 +173,8 @@ test_that("`sim_metrics` works", {
       dplyr::summarise(dplyr::across(dplyr::starts_with("sim"), mean))
   )
 
+  metrics_orig <- metrics
+
   # ---- lazy sim_df ----
 
   # without non_reps, group_reps, and all_same_cols_rep_ref = all_same_cols_rep
@@ -275,6 +277,45 @@ test_that("`sim_metrics` works", {
     )
 
   expect_equal(metrics, metrics_optimized_lazy_furrr)
+
+  # ---- annotation works ----
+
+  sim_df_extra_annotation <- matric::sim_calculate(matric::cellhealth %>%
+    dplyr::mutate(Metadata_dummy = "dummy"))
+
+  extra_annotation_cols <- c("Metadata_dummy", "Metadata_Well", "Metadata_Plate")
+
+  collated_sim_extra_annotation <-
+    matric::sim_collate(
+      sim_df_extra_annotation,
+      reference,
+      all_same_cols_rep = all_same_cols_rep,
+      all_same_cols_rep_ref = all_same_cols_rep_ref,
+      all_same_cols_ref = all_same_cols_ref,
+      any_different_cols_non_rep = any_different_cols_non_rep,
+      all_same_cols_non_rep = all_same_cols_non_rep,
+      all_different_cols_non_rep = all_different_cols_non_rep,
+      any_different_cols_group = any_different_cols_group,
+      all_same_cols_group = all_same_cols_group,
+      annotation_cols = c(annotation_cols, extra_annotation_cols),
+      drop_group = drop_group
+    )
+
+  metrics_extra_annotation <-
+    matric::sim_metrics(collated_sim_extra_annotation, "ref", calculate_grouped = TRUE)
+
+  expect_equal(
+    metrics_extra_annotation$level_1 %>%
+      dplyr::select(-any_of(extra_annotation_cols)) %>%
+      dplyr::distinct(),
+    metrics_orig$level_1
+  )
+
+  expect_equal(
+    metrics_extra_annotation$level_1_0 %>%
+      dplyr::select(-all_of(extra_annotation_cols)),
+    metrics_orig$level_1_0
+  )
 })
 
 test_that("`r_precision` works", {
