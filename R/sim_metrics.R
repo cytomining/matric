@@ -421,6 +421,8 @@ sim_metrics_helper <-
             tidy_classprob_data
           )
       ) %>%
+      dplyr::mutate(sim_stat_signal_n = purrr::map_int(data_signal, nrow)) %>%
+      dplyr::mutate(sim_stat_background_n = purrr::map_int(data_background, nrow)) %>%
       dplyr::select(-data_background, -data_signal)
 
     # ---- * Average Precision ----
@@ -466,9 +468,11 @@ sim_metrics_helper <-
       sim_metrics_collated %>%
       dplyr::rename_with(
         ~ paste(., sim_type_background, sep = "_"),
-        dplyr::matches("sim_.*_stat|sim_retrieval|sim_scaled|sim_ranked")
+        dplyr::matches("sim_.*_stat|sim_stat_.*|sim_retrieval|sim_scaled|sim_ranked")
       ) %>%
       dplyr::ungroup()
+    # ^^^ we need to do "sim_.*_stat|sim_stat_.*" because there's an
+    # inconsistency in naming the variables
 
     # add a suffix to identify the summary columns
     if (!is.null(identifier)) {
