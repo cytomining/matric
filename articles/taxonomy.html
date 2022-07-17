@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">matric</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/matric.html">Get started</a>
 </li>
@@ -50,7 +46,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -64,7 +60,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/shntnu/matric/">
+  <a href="https://github.com/shntnu/matric/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -85,7 +81,7 @@
       <h1 data-toc-skip>Taxonomy</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/shntnu/matric/blob/master/vignettes/taxonomy.Rmd"><code>vignettes/taxonomy.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/shntnu/matric/blob/HEAD/vignettes/taxonomy.Rmd" class="external-link"><code>vignettes/taxonomy.Rmd</code></a></small>
       <div class="hidden name"><code>taxonomy.Rmd</code></div>
 
     </div>
@@ -124,12 +120,12 @@
 <li>Each <strong>MOA</strong> has a Level 2 metric, which is the average Level 2-1 metric across all its compounds.</li>
 </ul>
 <p>The metrics implemented in <code>matric</code> are defined below.</p>
-<div id="level-1-0" class="section level2">
-<h2 class="hasAnchor">
-<a href="#level-1-0" class="anchor"></a>Level 1-0</h2>
-<div id="raw-metrics" class="section level3">
-<h3 class="hasAnchor">
-<a href="#raw-metrics" class="anchor"></a>Raw metrics</h3>
+<div class="section level2">
+<h2 id="level-1-0">Level 1-0<a class="anchor" aria-label="anchor" href="#level-1-0"></a>
+</h2>
+<div class="section level3">
+<h3 id="raw-metrics">Raw metrics<a class="anchor" aria-label="anchor" href="#raw-metrics"></a>
+</h3>
 <table class="table">
 <thead><tr class="header">
 <th align="left">Metric</th>
@@ -142,9 +138,9 @@
 </table>
 <p>Related: <code>sim_median_i</code> which uses median instead of mean.</p>
 </div>
-<div id="scaled-metrics" class="section level3">
-<h3 class="hasAnchor">
-<a href="#scaled-metrics" class="anchor"></a>Scaled metrics</h3>
+<div class="section level3">
+<h3 id="scaled-metrics">Scaled metrics<a class="anchor" aria-label="anchor" href="#scaled-metrics"></a>
+</h3>
 <table class="table">
 <colgroup>
 <col width="27%">
@@ -175,9 +171,9 @@
 <code>sim_scaled_median_ref_i</code> which is the same as <code>sim_scaled_mean_ref_i</code> except that is scales <code>sim_median_i</code> instead of <code>sim_mean_i</code>.</li>
 </ul>
 </div>
-<div id="rank-based-and-retrieval-based-metrics" class="section level3">
-<h3 class="hasAnchor">
-<a href="#rank-based-and-retrieval-based-metrics" class="anchor"></a>Rank-based and retrieval-based metrics</h3>
+<div class="section level3">
+<h3 id="rank-based-and-retrieval-based-metrics">Rank-based and retrieval-based metrics<a class="anchor" aria-label="anchor" href="#rank-based-and-retrieval-based-metrics"></a>
+</h3>
 <p>Consider a list of vertices comprising</p>
 <ul>
 <li>the replicates of the vertex</li>
@@ -199,11 +195,11 @@
 </tr>
 <tr class="even">
 <td align="left"><code>sim_retrieval_average_precision_non_rep_i</code></td>
-<td align="left">the <a href="https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Average_precision">average precision</a> reported on the list, with the replicates being the positive class</td>
+<td align="left">the <a href="https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Average_precision" class="external-link">average precision</a> reported on the list, with the replicates being the positive class</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>sim_retrieval_r_precision_non_rep_i</code></td>
-<td align="left">similarly, the <a href="https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#R-precision">R-precision</a> reported on the list</td>
+<td align="left">similarly, the <a href="https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#R-precision" class="external-link">R-precision</a> reported on the list</td>
 </tr>
 </tbody>
 </table>
@@ -215,9 +211,9 @@
 <code>sim_ranked_relrank_mean_ref_i</code>, <code>sim_ranked_relrank_median_ref_i</code>, <code>sim_retrieval_average_precision_ref_i</code>, and <code>sim_retrieval_r_precision_non_rep_i</code> use a list of vertices comprising the reference vertices instead of the non-replicate vertices.</li>
 </ul>
 </div>
-<div id="level-1-aggregations-level-1-0-metrics" class="section level3">
-<h3 class="hasAnchor">
-<a href="#level-1-aggregations-level-1-0-metrics" class="anchor"></a>Level 1 aggregations Level 1-0 metrics</h3>
+<div class="section level3">
+<h3 id="level-1-aggregations-level-1-0-metrics">Level 1 aggregations Level 1-0 metrics<a class="anchor" aria-label="anchor" href="#level-1-aggregations-level-1-0-metrics"></a>
+</h3>
 <ul>
 <li>
 <code>sim_mean_i_mean_i</code> is the mean <code>sim_mean_i</code> across all replicate vertices in a replicate set.</li>
@@ -241,12 +237,12 @@
 </ul>
 </div>
 </div>
-<div id="level-2-1" class="section level2">
-<h2 class="hasAnchor">
-<a href="#level-2-1" class="anchor"></a>Level 2-1</h2>
-<div id="raw-metrics-1" class="section level3">
-<h3 class="hasAnchor">
-<a href="#raw-metrics-1" class="anchor"></a>Raw metrics</h3>
+<div class="section level2">
+<h2 id="level-2-1">Level 2-1<a class="anchor" aria-label="anchor" href="#level-2-1"></a>
+</h2>
+<div class="section level3">
+<h3 id="raw-metrics-1">Raw metrics<a class="anchor" aria-label="anchor" href="#raw-metrics-1"></a>
+</h3>
 <table class="table">
 <colgroup>
 <col width="15%">
@@ -263,9 +259,9 @@
 </table>
 <p>Related: <code>sim_median_g</code> which uses median instead of mean.</p>
 </div>
-<div id="scaled-metrics-1" class="section level3">
-<h3 class="hasAnchor">
-<a href="#scaled-metrics-1" class="anchor"></a>Scaled metrics</h3>
+<div class="section level3">
+<h3 id="scaled-metrics-1">Scaled metrics<a class="anchor" aria-label="anchor" href="#scaled-metrics-1"></a>
+</h3>
 <table class="table">
 <colgroup>
 <col width="27%">
@@ -296,9 +292,9 @@
 <code>sim_scaled_median_ref_i</code> which is the same as <code>sim_scaled_mean_ref_i</code> except that is scales <code>sim_median_i</code> instead of <code>sim_mean_i</code>.</li>
 </ul>
 </div>
-<div id="rank-based-and-retrieval-based-metrics-1" class="section level3">
-<h3 class="hasAnchor">
-<a href="#rank-based-and-retrieval-based-metrics-1" class="anchor"></a>Rank-based and retrieval-based metrics</h3>
+<div class="section level3">
+<h3 id="rank-based-and-retrieval-based-metrics-1">Rank-based and retrieval-based metrics<a class="anchor" aria-label="anchor" href="#rank-based-and-retrieval-based-metrics-1"></a>
+</h3>
 <p>Consider a list of vertices comprising</p>
 <ul>
 <li>the vertices in a replicate set</li>
@@ -316,18 +312,18 @@
 <li><code>sim_retrieval_r_precision_ref_g</code></li>
 </ul>
 </div>
-<div id="level-2-aggregations-of-level-2-1-metrics" class="section level3">
-<h3 class="hasAnchor">
-<a href="#level-2-aggregations-of-level-2-1-metrics" class="anchor"></a>Level 2 aggregations of Level 2-1 metrics</h3>
+<div class="section level3">
+<h3 id="level-2-aggregations-of-level-2-1-metrics">Level 2 aggregations of Level 2-1 metrics<a class="anchor" aria-label="anchor" href="#level-2-aggregations-of-level-2-1-metrics"></a>
+</h3>
 <p>These are not implemented.</p>
 </div>
 </div>
-<div id="addendum" class="section level2">
-<h2 class="hasAnchor">
-<a href="#addendum" class="anchor"></a>Addendum</h2>
-<p><em>This a related discussion on metrics, from <a href="https://github.com/broadinstitute/DeepProfilerExperiments/issues/5#issuecomment-804451302">here</a>.</em></p>
+<div class="section level2">
+<h2 id="addendum">Addendum<a class="anchor" aria-label="anchor" href="#addendum"></a>
+</h2>
+<p><em>This a related discussion on metrics, from <a href="https://github.com/broadinstitute/DeepProfilerExperiments/issues/5#issuecomment-804451302" class="external-link">here</a>.</em></p>
 <p>We have a weighted graph where the vertices are perturbations with multiple labels (e.g. pathways in the case of genetic perturbations), and edges are the similarity between the vertices (e.g. the cosine similarity between image-based profiles of two CRISPR knockouts).</p>
-<p>There are three levels of ranked lists of edges, each of which can produce global metrics (based on classification metrics like average precision or other so-called <a href="https://yardstick.tidymodels.org/reference/index.html#section-class-probability-metrics">class probability metrics</a>). These global metrics can be used to compare representations.</p>
+<p>There are three levels of ranked lists of edges, each of which can produce global metrics (based on classification metrics like average precision or other so-called <a href="https://yardstick.tidymodels.org/reference/index.html#section-class-probability-metrics" class="external-link">class probability metrics</a>). These global metrics can be used to compare representations.</p>
 <p>In all 3 cases, we pose it as a binary classification problem on the edges:</p>
 <ul>
 <li>Class 1 edges: vertices have a shared label (e.g. at least one MOA in common)</li>
@@ -373,7 +369,7 @@
 <li>
 <code>sim_retrieval_average_precision_non_rep_i_mean_i</code> is an example of 2.b</li>
 </ul>
-<p>Categorization based on <a href="https://scikit-learn.org/stable/modules/model_evaluation.html#multiclass-and-multilabel-classification" class="uri">https://scikit-learn.org/stable/modules/model_evaluation.html#multiclass-and-multilabel-classification</a> (I did not double-check; there could be errors)</p>
+<p>Categorization based on <a href="https://scikit-learn.org/stable/modules/model_evaluation.html#multiclass-and-multilabel-classification" class="external-link uri">https://scikit-learn.org/stable/modules/model_evaluation.html#multiclass-and-multilabel-classification</a> (I did not double-check; there could be errors)</p>
 <table class="table">
 <thead><tr class="header">
 <th align="left">Index</th>
@@ -447,11 +443,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Shantanu Singh, Gregory Way.</p>
+  <p></p>
+<p>Developed by Shantanu Singh, Gregory Way.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>
@@ -459,6 +457,8 @@
 
   
 
+
+  
 
   </body>
 </html>

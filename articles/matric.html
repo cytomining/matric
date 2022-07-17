@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">matric</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/matric.html">Get started</a>
 </li>
@@ -50,7 +46,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -64,7 +60,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/shntnu/matric/">
+  <a href="https://github.com/shntnu/matric/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -85,273 +81,274 @@
       <h1 data-toc-skip>matric</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/shntnu/matric/blob/master/vignettes/matric.Rmd"><code>vignettes/matric.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/shntnu/matric/blob/HEAD/vignettes/matric.Rmd" class="external-link"><code>vignettes/matric.Rmd</code></a></small>
       <div class="hidden name"><code>matric.Rmd</code></div>
 
     </div>
 
     
     
-<div id="load-packages" class="section level1">
-<h1 class="hasAnchor">
-<a href="#load-packages" class="anchor"></a>Load packages</h1>
+<div class="section level2">
+<h2 id="load-packages">Load packages<a class="anchor" aria-label="anchor" href="#load-packages"></a>
+</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressMessages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/warning.html">suppressWarnings</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressMessages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/warning.html">suppressWarnings</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressMessages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/warning.html">suppressWarnings</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressMessages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/warning.html">suppressWarnings</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/shntnu/matric">matric</a></span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressMessages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressMessages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressMessages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressMessages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/shntnu/matric" class="external-link">matric</a></span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="calculate-similarity" class="section level1">
-<h1 class="hasAnchor">
-<a href="#calculate-similarity" class="anchor"></a>Calculate similarity</h1>
+<div class="section level2">
+<h2 id="calculate-similarity">Calculate similarity<a class="anchor" aria-label="anchor" href="#calculate-similarity"></a>
+</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sim_df</span> <span class="op">&lt;-</span> <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_calculate.html">sim_calculate</a></span><span class="op">(</span><span class="va">cellhealth</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">sim_df</span> <span class="op">&lt;-</span> <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_calculate.html">sim_calculate</a></span><span class="op">(</span><span class="va">cellhealth</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="filter-and-collate-similarity" class="section level1">
-<h1 class="hasAnchor">
-<a href="#filter-and-collate-similarity" class="anchor"></a>Filter and collate similarity</h1>
+<div class="section level2">
+<h2 id="filter-and-collate-similarity">Filter and collate similarity<a class="anchor" aria-label="anchor" href="#filter-and-collate-similarity"></a>
+</h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">drop_group</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Metadata_gene_name <span class="op">=</span> <span class="st">"EMPTY"</span><span class="op">)</span>
-
-<span class="va">reference</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Metadata_gene_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Chr2"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">all_same_cols_ref</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Metadata_cell_line"</span>,
-    <span class="st">"Metadata_Plate"</span><span class="op">)</span>
-
-<span class="va">all_same_cols_rep</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Metadata_cell_line"</span>,
-    <span class="st">"Metadata_gene_name"</span>,
-    <span class="st">"Metadata_pert_name"</span><span class="op">)</span>
-
-<span class="va">all_same_cols_rep_ref</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
-    <span class="st">"Metadata_cell_line"</span>,
-    <span class="st">"Metadata_gene_name"</span>,
-    <span class="st">"Metadata_pert_name"</span>,
-    <span class="st">"Metadata_Plate"</span>
-  <span class="op">)</span>
-
-<span class="va">any_different_cols_non_rep</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Metadata_cell_line"</span>,
-    <span class="st">"Metadata_gene_name"</span>,
-    <span class="st">"Metadata_pert_name"</span><span class="op">)</span>
-
-<span class="va">all_same_cols_non_rep</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Metadata_cell_line"</span>,
-    <span class="st">"Metadata_Plate"</span><span class="op">)</span>
-
-<span class="va">all_different_cols_non_rep</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Metadata_gene_name"</span><span class="op">)</span>
-
-<span class="va">all_same_cols_group</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Metadata_cell_line"</span>,
-    <span class="st">"Metadata_gene_name"</span><span class="op">)</span>
-
-<span class="va">any_different_cols_group</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Metadata_cell_line"</span>,
-    <span class="st">"Metadata_gene_name"</span>,
-    <span class="st">"Metadata_pert_name"</span><span class="op">)</span>
-
-<span class="va">annotation_cols</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Metadata_cell_line"</span>,
-    <span class="st">"Metadata_gene_name"</span>,
-    <span class="st">"Metadata_pert_name"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">drop_group</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Metadata_gene_name <span class="op">=</span> <span class="st">"EMPTY"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">reference</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Metadata_gene_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Chr2"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">all_same_cols_ref</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Metadata_cell_line"</span>,</span>
+<span>    <span class="st">"Metadata_Plate"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">all_same_cols_rep</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Metadata_cell_line"</span>,</span>
+<span>    <span class="st">"Metadata_gene_name"</span>,</span>
+<span>    <span class="st">"Metadata_pert_name"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">all_same_cols_rep_ref</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"Metadata_cell_line"</span>,</span>
+<span>    <span class="st">"Metadata_gene_name"</span>,</span>
+<span>    <span class="st">"Metadata_pert_name"</span>,</span>
+<span>    <span class="st">"Metadata_Plate"</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">any_different_cols_non_rep</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Metadata_cell_line"</span>,</span>
+<span>    <span class="st">"Metadata_gene_name"</span>,</span>
+<span>    <span class="st">"Metadata_pert_name"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">all_same_cols_non_rep</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Metadata_cell_line"</span>,</span>
+<span>    <span class="st">"Metadata_Plate"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">all_different_cols_non_rep</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Metadata_gene_name"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">all_same_cols_group</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Metadata_cell_line"</span>,</span>
+<span>    <span class="st">"Metadata_gene_name"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">any_different_cols_group</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Metadata_cell_line"</span>,</span>
+<span>    <span class="st">"Metadata_gene_name"</span>,</span>
+<span>    <span class="st">"Metadata_pert_name"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">annotation_cols</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Metadata_cell_line"</span>,</span>
+<span>    <span class="st">"Metadata_gene_name"</span>,</span>
+<span>    <span class="st">"Metadata_pert_name"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">collated_sim</span> <span class="op">&lt;-</span>
-  <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_collate.html">sim_collate</a></span><span class="op">(</span>
-    <span class="va">sim_df</span>,
-    <span class="va">reference</span>,
-    all_same_cols_rep <span class="op">=</span> <span class="va">all_same_cols_rep</span>,
-    all_same_cols_rep_ref <span class="op">=</span> <span class="va">all_same_cols_rep_ref</span>,
-    all_same_cols_ref <span class="op">=</span> <span class="va">all_same_cols_ref</span>,
-    any_different_cols_non_rep <span class="op">=</span> <span class="va">any_different_cols_non_rep</span>,
-    all_same_cols_non_rep <span class="op">=</span> <span class="va">all_same_cols_non_rep</span>,
-    all_different_cols_non_rep <span class="op">=</span> <span class="va">all_different_cols_non_rep</span>,
-    any_different_cols_group <span class="op">=</span> <span class="va">any_different_cols_group</span>,
-    all_same_cols_group <span class="op">=</span> <span class="va">all_same_cols_group</span>,
-    annotation_cols <span class="op">=</span> <span class="va">annotation_cols</span>,
-    drop_group <span class="op">=</span> <span class="va">drop_group</span>
-  <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">collated_sim</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_collate.html">sim_collate</a></span><span class="op">(</span></span>
+<span>    <span class="va">sim_df</span>,</span>
+<span>    <span class="va">reference</span>,</span>
+<span>    all_same_cols_rep <span class="op">=</span> <span class="va">all_same_cols_rep</span>,</span>
+<span>    all_same_cols_rep_ref <span class="op">=</span> <span class="va">all_same_cols_rep_ref</span>,</span>
+<span>    all_same_cols_ref <span class="op">=</span> <span class="va">all_same_cols_ref</span>,</span>
+<span>    any_different_cols_non_rep <span class="op">=</span> <span class="va">any_different_cols_non_rep</span>,</span>
+<span>    all_same_cols_non_rep <span class="op">=</span> <span class="va">all_same_cols_non_rep</span>,</span>
+<span>    all_different_cols_non_rep <span class="op">=</span> <span class="va">all_different_cols_non_rep</span>,</span>
+<span>    any_different_cols_group <span class="op">=</span> <span class="va">any_different_cols_group</span>,</span>
+<span>    all_same_cols_group <span class="op">=</span> <span class="va">all_same_cols_group</span>,</span>
+<span>    annotation_cols <span class="op">=</span> <span class="va">annotation_cols</span>,</span>
+<span>    drop_group <span class="op">=</span> <span class="va">drop_group</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 </div>
-<div id="compute-metrics" class="section level1">
-<h1 class="hasAnchor">
-<a href="#compute-metrics" class="anchor"></a>Compute metrics</h1>
+<div class="section level2">
+<h2 id="compute-metrics">Compute metrics<a class="anchor" aria-label="anchor" href="#compute-metrics"></a>
+</h2>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">metrics</span> <span class="op">&lt;-</span>
-  <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_metrics.html">sim_metrics</a></span><span class="op">(</span><span class="va">collated_sim</span>, <span class="st">"ref"</span>, calculate_grouped <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">metrics</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_metrics.html">sim_metrics</a></span><span class="op">(</span><span class="va">collated_sim</span>, <span class="st">"ref"</span>, calculate_grouped <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="plot-metrics" class="section level1">
-<h1 class="hasAnchor">
-<a href="#plot-metrics" class="anchor"></a>Plot metrics</h1>
-<div id="per-row-level-0" class="section level2">
-<h2 class="hasAnchor">
-<a href="#per-row-level-0" class="anchor"></a>Per row (Level 0)</h2>
+<div class="section level2">
+<h2 id="plot-metrics">Plot metrics<a class="anchor" aria-label="anchor" href="#plot-metrics"></a>
+</h2>
+<div class="section level3">
+<h3 id="per-row-level-0">Per row (Level 0)<a class="anchor" aria-label="anchor" href="#per-row-level-0"></a>
+</h3>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">metrics</span><span class="op">$</span><span class="va">level_1_0</span>,
-       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">sim_scaled_mean_ref_i</span>, fill <span class="op">=</span> <span class="va">Metadata_gene_name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Metadata_cell_line</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"bottom"</span>, legend.box <span class="op">=</span> <span class="st">"horizontal"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">metrics</span><span class="op">$</span><span class="va">level_1_0</span>,</span>
+<span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">sim_scaled_mean_ref_i</span>, fill <span class="op">=</span> <span class="va">Metadata_gene_name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Metadata_cell_line</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"bottom"</span>, legend.box <span class="op">=</span> <span class="st">"horizontal"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="matric_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 </div>
-<div id="per-set-level-1-0" class="section level2">
-<h2 class="hasAnchor">
-<a href="#per-set-level-1-0" class="anchor"></a>Per set (Level 1-0)</h2>
+<div class="section level3">
+<h3 id="per-set-level-1-0">Per set (Level 1-0)<a class="anchor" aria-label="anchor" href="#per-set-level-1-0"></a>
+</h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">metrics</span><span class="op">$</span><span class="va">level_1</span>,
-       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">sim_scaled_mean_ref_i_mean_i</span>, fill <span class="op">=</span> <span class="va">Metadata_gene_name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Metadata_cell_line</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"bottom"</span>, legend.box <span class="op">=</span> <span class="st">"horizontal"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">metrics</span><span class="op">$</span><span class="va">level_1</span>,</span>
+<span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">sim_scaled_mean_ref_i_mean_i</span>, fill <span class="op">=</span> <span class="va">Metadata_gene_name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Metadata_cell_line</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"bottom"</span>, legend.box <span class="op">=</span> <span class="st">"horizontal"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="matric_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
-<div id="per-group-level-2" class="section level2">
-<h2 class="hasAnchor">
-<a href="#per-group-level-2" class="anchor"></a>Per group (Level 2)</h2>
+<div class="section level3">
+<h3 id="per-group-level-2">Per group (Level 2)<a class="anchor" aria-label="anchor" href="#per-group-level-2"></a>
+</h3>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">metrics</span><span class="op">$</span><span class="va">level_2_1</span>,
-       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">sim_scaled_mean_ref_g</span>, fill <span class="op">=</span> <span class="va">Metadata_gene_name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Metadata_cell_line</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"bottom"</span>, legend.box <span class="op">=</span> <span class="st">"horizontal"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">metrics</span><span class="op">$</span><span class="va">level_2_1</span>,</span>
+<span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">sim_scaled_mean_ref_g</span>, fill <span class="op">=</span> <span class="va">Metadata_gene_name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Metadata_cell_line</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"bottom"</span>, legend.box <span class="op">=</span> <span class="st">"horizontal"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="matric_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
 </div>
-<div id="plot-metrics-from-precomputed-data" class="section level1">
-<h1 class="hasAnchor">
-<a href="#plot-metrics-from-precomputed-data" class="anchor"></a>Plot metrics from precomputed data</h1>
-<div id="per-row-level-0-1" class="section level2">
-<h2 class="hasAnchor">
-<a href="#per-row-level-0-1" class="anchor"></a>Per row (Level 0)</h2>
+<div class="section level2">
+<h2 id="plot-metrics-from-precomputed-data">Plot metrics from precomputed data<a class="anchor" aria-label="anchor" href="#plot-metrics-from-precomputed-data"></a>
+</h2>
+<div class="section level3">
+<h3 id="per-row-level-0-1">Per row (Level 0)<a class="anchor" aria-label="anchor" href="#per-row-level-0-1"></a>
+</h3>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">cellhealthmetrics</span><span class="op">$</span><span class="va">level_1_0</span>,
-       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">sim_scaled_mean_ref_i</span>, fill <span class="op">=</span> <span class="va">Metadata_gene_name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Metadata_cell_line</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">cellhealthmetrics</span><span class="op">$</span><span class="va">level_1_0</span>,</span>
+<span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">sim_scaled_mean_ref_i</span>, fill <span class="op">=</span> <span class="va">Metadata_gene_name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Metadata_cell_line</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="matric_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 </div>
-<div id="per-set-level-1-0-1" class="section level2">
-<h2 class="hasAnchor">
-<a href="#per-set-level-1-0-1" class="anchor"></a>Per set (Level 1-0)</h2>
+<div class="section level3">
+<h3 id="per-set-level-1-0-1">Per set (Level 1-0)<a class="anchor" aria-label="anchor" href="#per-set-level-1-0-1"></a>
+</h3>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">cellhealthmetrics</span><span class="op">$</span><span class="va">level_1</span>,
-       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">sim_scaled_mean_ref_i_mean_i</span>, fill <span class="op">=</span> <span class="va">Metadata_gene_name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Metadata_cell_line</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">cellhealthmetrics</span><span class="op">$</span><span class="va">level_1</span>,</span>
+<span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">sim_scaled_mean_ref_i_mean_i</span>, fill <span class="op">=</span> <span class="va">Metadata_gene_name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Metadata_cell_line</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="matric_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">cellhealthmetrics</span><span class="op">$</span><span class="va">level_1_0</span>,
-       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">sim_retrieval_average_precision_ref_i</span>, fill <span class="op">=</span> <span class="va">Metadata_gene_name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">.01</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Metadata_cell_line</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">cellhealthmetrics</span><span class="op">$</span><span class="va">level_1_0</span>,</span>
+<span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">sim_retrieval_average_precision_ref_i</span>, fill <span class="op">=</span> <span class="va">Metadata_gene_name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">.01</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Metadata_cell_line</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="matric_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 </div>
-<div id="per-group-level-2-1" class="section level2">
-<h2 class="hasAnchor">
-<a href="#per-group-level-2-1" class="anchor"></a>Per group (Level 2)</h2>
+<div class="section level3">
+<h3 id="per-group-level-2-1">Per group (Level 2)<a class="anchor" aria-label="anchor" href="#per-group-level-2-1"></a>
+</h3>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">cellhealthmetrics</span><span class="op">$</span><span class="va">level_2_1</span>,
-       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">sim_scaled_mean_ref_g</span>, fill <span class="op">=</span> <span class="va">Metadata_gene_name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Metadata_cell_line</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">cellhealthmetrics</span><span class="op">$</span><span class="va">level_2_1</span>,</span>
+<span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">sim_scaled_mean_ref_g</span>, fill <span class="op">=</span> <span class="va">Metadata_gene_name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Metadata_cell_line</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="matric_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">cellhealthmetrics</span><span class="op">$</span><span class="va">level_2_1</span>,
-       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">sim_retrieval_average_precision_ref_g</span>, fill <span class="op">=</span> <span class="va">Metadata_gene_name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">.02</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Metadata_cell_line</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">cellhealthmetrics</span><span class="op">$</span><span class="va">level_2_1</span>,</span>
+<span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">sim_retrieval_average_precision_ref_g</span>, fill <span class="op">=</span> <span class="va">Metadata_gene_name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">.02</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Metadata_cell_line</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="matric_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 </div>
 </div>
-<div id="calculate-similarity-in-a-lazy-manner-and-evaluate-metrics" class="section level1">
-<h1 class="hasAnchor">
-<a href="#calculate-similarity-in-a-lazy-manner-and-evaluate-metrics" class="anchor"></a>Calculate similarity in a lazy manner and evaluate metrics</h1>
+<div class="section level2">
+<h2 id="calculate-similarity-in-a-lazy-manner-and-evaluate-metrics">Calculate similarity in a lazy manner and evaluate metrics<a class="anchor" aria-label="anchor" href="#calculate-similarity-in-a-lazy-manner-and-evaluate-metrics"></a>
+</h2>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sim_df_lazy</span> <span class="op">&lt;-</span>
-  <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_calculate.html">sim_calculate</a></span><span class="op">(</span>
-    <span class="va">cellhealth</span>,
-    lazy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-
-<span class="va">collated_sim_lazy</span> <span class="op">&lt;-</span>
-  <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_collate.html">sim_collate</a></span><span class="op">(</span>
-    <span class="va">sim_df_lazy</span>,
-    <span class="va">reference</span>,
-    all_same_cols_rep <span class="op">=</span> <span class="va">all_same_cols_rep</span>,
-    all_same_cols_rep_ref <span class="op">=</span> <span class="va">all_same_cols_rep_ref</span>,
-    all_same_cols_ref <span class="op">=</span> <span class="va">all_same_cols_ref</span>,
-    any_different_cols_non_rep <span class="op">=</span> <span class="va">any_different_cols_non_rep</span>,
-    all_same_cols_non_rep <span class="op">=</span> <span class="va">all_same_cols_non_rep</span>,
-    all_different_cols_non_rep <span class="op">=</span> <span class="va">all_different_cols_non_rep</span>,
-    any_different_cols_group <span class="op">=</span> <span class="va">any_different_cols_group</span>,
-    all_same_cols_group <span class="op">=</span> <span class="va">all_same_cols_group</span>,
-    annotation_cols <span class="op">=</span> <span class="va">annotation_cols</span>,
-    drop_group <span class="op">=</span> <span class="va">drop_group</span>
-  <span class="op">)</span>
-
-<span class="va">collated_sim_lazy</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="../reference/sim_calculate_ij.html">sim_calculate_ij</a></span><span class="op">(</span><span class="va">cellhealth</span>, <span class="va">collated_sim_lazy</span><span class="op">)</span>
-
-<span class="va">metrics_lazy</span> <span class="op">&lt;-</span>
-  <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_metrics.html">sim_metrics</a></span><span class="op">(</span><span class="va">collated_sim_lazy</span>, <span class="st">"ref"</span>, calculate_grouped <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="va">metrics_lazy</span>,
-          <span class="va">metrics</span><span class="op">)</span>
-<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">sim_df_lazy</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_calculate.html">sim_calculate</a></span><span class="op">(</span></span>
+<span>    <span class="va">cellhealth</span>,</span>
+<span>    lazy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">collated_sim_lazy</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_collate.html">sim_collate</a></span><span class="op">(</span></span>
+<span>    <span class="va">sim_df_lazy</span>,</span>
+<span>    <span class="va">reference</span>,</span>
+<span>    all_same_cols_rep <span class="op">=</span> <span class="va">all_same_cols_rep</span>,</span>
+<span>    all_same_cols_rep_ref <span class="op">=</span> <span class="va">all_same_cols_rep_ref</span>,</span>
+<span>    all_same_cols_ref <span class="op">=</span> <span class="va">all_same_cols_ref</span>,</span>
+<span>    any_different_cols_non_rep <span class="op">=</span> <span class="va">any_different_cols_non_rep</span>,</span>
+<span>    all_same_cols_non_rep <span class="op">=</span> <span class="va">all_same_cols_non_rep</span>,</span>
+<span>    all_different_cols_non_rep <span class="op">=</span> <span class="va">all_different_cols_non_rep</span>,</span>
+<span>    any_different_cols_group <span class="op">=</span> <span class="va">any_different_cols_group</span>,</span>
+<span>    all_same_cols_group <span class="op">=</span> <span class="va">all_same_cols_group</span>,</span>
+<span>    annotation_cols <span class="op">=</span> <span class="va">annotation_cols</span>,</span>
+<span>    drop_group <span class="op">=</span> <span class="va">drop_group</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">collated_sim_lazy</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="../reference/sim_calculate_ij.html">sim_calculate_ij</a></span><span class="op">(</span><span class="va">cellhealth</span>, <span class="va">collated_sim_lazy</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">metrics_lazy</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_metrics.html">sim_metrics</a></span><span class="op">(</span><span class="va">collated_sim_lazy</span>, <span class="st">"ref"</span>, calculate_grouped <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">metrics_lazy</span>,</span>
+<span>          <span class="va">metrics</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 </div>
-<div id="calculate-similarity-in-a-lazy-optimized-manner-and-evaluate-metrics" class="section level1">
-<h1 class="hasAnchor">
-<a href="#calculate-similarity-in-a-lazy-optimized-manner-and-evaluate-metrics" class="anchor"></a>Calculate similarity in a lazy, optimized manner and evaluate metrics</h1>
+<div class="section level2">
+<h2 id="calculate-similarity-in-a-lazy-optimized-manner-and-evaluate-metrics">Calculate similarity in a lazy, optimized manner and evaluate metrics<a class="anchor" aria-label="anchor" href="#calculate-similarity-in-a-lazy-optimized-manner-and-evaluate-metrics"></a>
+</h2>
 <p>The optimizations are useful only if you are not calculating non-replicate metrics and if the group replicates are not computed on references</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sim_df_optimized_lazy</span> <span class="op">&lt;-</span>
-  <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_calculate.html">sim_calculate</a></span><span class="op">(</span>
-    <span class="va">cellhealth</span>,
-    lazy <span class="op">=</span> <span class="cn">TRUE</span>,
-    all_same_cols_rep_or_group <span class="op">=</span> <span class="va">all_same_cols_group</span>,
-    all_same_cols_rep_ref <span class="op">=</span> <span class="va">all_same_cols_rep_ref</span>,
-    all_same_cols_ref <span class="op">=</span> <span class="va">all_same_cols_ref</span>,
-    reference <span class="op">=</span> <span class="va">reference</span>
-  <span class="op">)</span>
-
-<span class="va">collated_sim_optimized_lazy</span> <span class="op">&lt;-</span>
-  <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_collate.html">sim_collate</a></span><span class="op">(</span>
-    <span class="va">sim_df_optimized_lazy</span>,
-    <span class="va">reference</span>,
-    all_same_cols_rep <span class="op">=</span> <span class="va">all_same_cols_rep</span>,
-    all_same_cols_rep_ref <span class="op">=</span> <span class="va">all_same_cols_rep_ref</span>,
-    all_same_cols_ref <span class="op">=</span> <span class="va">all_same_cols_ref</span>,
-    any_different_cols_non_rep <span class="op">=</span> <span class="cn">NULL</span>,
-    all_same_cols_non_rep <span class="op">=</span> <span class="cn">NULL</span>,
-    all_different_cols_non_rep <span class="op">=</span> <span class="cn">NULL</span>,
-    any_different_cols_group <span class="op">=</span> <span class="cn">NULL</span>,
-    all_same_cols_group <span class="op">=</span> <span class="cn">NULL</span>,
-    annotation_cols <span class="op">=</span> <span class="va">annotation_cols</span>,
-    drop_group <span class="op">=</span> <span class="va">drop_group</span>
-  <span class="op">)</span>
-
-<span class="va">collated_sim_optimized_lazy</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="../reference/sim_calculate_ij.html">sim_calculate_ij</a></span><span class="op">(</span><span class="va">cellhealth</span>, <span class="va">collated_sim_optimized_lazy</span><span class="op">)</span>
-
-<span class="va">metrics_optimized_lazy</span> <span class="op">&lt;-</span>
-  <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_metrics.html">sim_metrics</a></span><span class="op">(</span>
-    <span class="va">collated_sim_optimized_lazy</span>, <span class="st">"ref"</span>, calculate_grouped <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span>
-  <span class="va">metrics_optimized_lazy</span><span class="op">$</span><span class="va">level_1_0</span>, 
-  <span class="va">metrics</span><span class="op">$</span><span class="va">level_1_0</span><span class="op">)</span>
-<span class="co">#&gt; [1] TRUE</span>
-<span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span>
-  <span class="va">metrics_optimized_lazy</span><span class="op">$</span><span class="va">level_1</span>, 
-  <span class="va">metrics</span><span class="op">$</span><span class="va">level_1</span><span class="op">)</span>
-<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">sim_df_optimized_lazy</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_calculate.html">sim_calculate</a></span><span class="op">(</span></span>
+<span>    <span class="va">cellhealth</span>,</span>
+<span>    lazy <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    all_same_cols_rep_or_group <span class="op">=</span> <span class="va">all_same_cols_group</span>,</span>
+<span>    all_same_cols_rep_ref <span class="op">=</span> <span class="va">all_same_cols_rep_ref</span>,</span>
+<span>    all_same_cols_ref <span class="op">=</span> <span class="va">all_same_cols_ref</span>,</span>
+<span>    reference <span class="op">=</span> <span class="va">reference</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">collated_sim_optimized_lazy</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_collate.html">sim_collate</a></span><span class="op">(</span></span>
+<span>    <span class="va">sim_df_optimized_lazy</span>,</span>
+<span>    <span class="va">reference</span>,</span>
+<span>    all_same_cols_rep <span class="op">=</span> <span class="va">all_same_cols_rep</span>,</span>
+<span>    all_same_cols_rep_ref <span class="op">=</span> <span class="va">all_same_cols_rep_ref</span>,</span>
+<span>    all_same_cols_ref <span class="op">=</span> <span class="va">all_same_cols_ref</span>,</span>
+<span>    any_different_cols_non_rep <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>    all_same_cols_non_rep <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>    all_different_cols_non_rep <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>    any_different_cols_group <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>    all_same_cols_group <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>    annotation_cols <span class="op">=</span> <span class="va">annotation_cols</span>,</span>
+<span>    drop_group <span class="op">=</span> <span class="va">drop_group</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">collated_sim_optimized_lazy</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="../reference/sim_calculate_ij.html">sim_calculate_ij</a></span><span class="op">(</span><span class="va">cellhealth</span>, <span class="va">collated_sim_optimized_lazy</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">metrics_optimized_lazy</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_metrics.html">sim_metrics</a></span><span class="op">(</span></span>
+<span>    <span class="va">collated_sim_optimized_lazy</span>, <span class="st">"ref"</span>, calculate_grouped <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span></span>
+<span>  <span class="va">metrics_optimized_lazy</span><span class="op">$</span><span class="va">level_1_0</span>, </span>
+<span>  <span class="va">metrics</span><span class="op">$</span><span class="va">level_1_0</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span></span>
+<span>  <span class="va">metrics_optimized_lazy</span><span class="op">$</span><span class="va">level_1</span>, </span>
+<span>  <span class="va">metrics</span><span class="op">$</span><span class="va">level_1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 </div>
   </div>
 
@@ -366,11 +363,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Shantanu Singh, Gregory Way.</p>
+  <p></p>
+<p>Developed by Shantanu Singh, Gregory Way.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>
@@ -378,6 +377,8 @@
 
   
 
+
+  
 
   </body>
 </html>

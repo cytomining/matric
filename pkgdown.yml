@@ -1,8 +1,8 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1
+pkgdown: 2.0.5
 pkgdown_sha: ~
 articles:
   matric: matric.html
   taxonomy: taxonomy.html
-last_built: 2021-09-24T11:25Z
+last_built: 2022-07-17T13:21Z
 
