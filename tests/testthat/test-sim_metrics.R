@@ -95,6 +95,8 @@ test_that("`sim_metrics` works", {
         sim_median_i = 0.171754795930839,
         sim_mean_stat_ref_i = 0.102638280742606,
         sim_sd_stat_ref_i = 0.797300368641178,
+        sim_stat_signal_n_ref_i = 2.6,
+        sim_stat_background_n_ref_i = 10.8,
         sim_retrieval_average_precision_ref_i = 0.364021581450503,
         sim_retrieval_r_precision_ref_i = 0.206666666666667
       ),
@@ -130,6 +132,10 @@ test_that("`sim_metrics` works", {
         sim_mean_stat_ref_i_median_i = 0.156868735917279,
         sim_sd_stat_ref_i_mean_i = 0.797300368641178,
         sim_sd_stat_ref_i_median_i = 0.811216514006836,
+        sim_stat_signal_n_ref_i_mean_i = 2.6,
+        sim_stat_signal_n_ref_i_median_i = 2.6,
+        sim_stat_background_n_ref_i_mean_i = 10.8,
+        sim_stat_background_n_ref_i_median_i = 10.8,
         sim_retrieval_average_precision_ref_i_mean_i = 0.364021581450503,
         sim_retrieval_average_precision_ref_i_median_i = 0.321487174045998,
         sim_retrieval_r_precision_ref_i_mean_i = 0.206666666666667,
@@ -158,6 +164,8 @@ test_that("`sim_metrics` works", {
         sim_median_g = 0.287140533081703,
         sim_mean_stat_ref_g = 0.102638280742606,
         sim_sd_stat_ref_g = 0.837821072124129,
+        sim_stat_signal_n_ref_g = 122.4,
+        sim_stat_background_n_ref_g = 64.8,
         sim_retrieval_average_precision_ref_g = 0.59015449527355,
         sim_retrieval_r_precision_ref_g = 0.588518518518519
       ),
