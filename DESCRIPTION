@@ -29,7 +29,7 @@ Imports:
     logger,
     furrr,
     future
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 Roxygen: list(markdown = TRUE)
 Suggests: 
     testthat (>= 3.0.0),
