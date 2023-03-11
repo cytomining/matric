@@ -78,7 +78,7 @@ retrieval_baseline <-
            background_type,
            level_identifier,
            n_iterations = 10000,
-           random_seed=42) {
+           random_seed = 42) {
     pow <- 1.3
 
     points <-
