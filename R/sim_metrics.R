@@ -191,7 +191,7 @@ sim_metrics <- function(collated_sim,
 
   sim_metrics_collated_agg <-
     sim_metrics_collated_agg %>%
-    dplyr::inner_join(metadata, by = summary_cols) %>%
+    dplyr::inner_join(metadata, by = summary_cols, multiple = "all") %>%
     dplyr::select(all_of(annotation_cols_full), dplyr::everything())
 
   # append identifier to summarized metrics ("_i" for "individual")
@@ -322,6 +322,7 @@ sim_metrics_helper <-
 
     # Compute statistics (mean and s.d.) on background distribution defined by
     # `sim_type_background`
+    # See https://github.com/tidyverse/dplyr/issues/6073
     sim_stats <-
       sim_background %>%
       dplyr::group_by(dplyr::across(dplyr::all_of(summary_cols))) %>%
@@ -329,10 +330,9 @@ sim_metrics_helper <-
         dplyr::across(
           dplyr::all_of("sim"),
           list(
-            mean_stat = mean,
-            sd_stat = sd
-          ),
-          na.rm = TRUE
+            mean_stat = \(x) mean(x, na.rm = TRUE),
+            sd_stat = \(x) sd(x, na.rm = TRUE)
+          )
         ),
         .groups = "keep"
       ) %>%
@@ -401,7 +401,8 @@ sim_metrics_helper <-
     # include stats columns
     sim_signal_transformed_agg <- sim_signal_transformed_agg %>%
       dplyr::inner_join(sim_stats,
-        by = summary_cols
+        by = summary_cols,
+        multiple = "all"
       )
 
     # ---- Compute retrieval metrics ----
@@ -510,7 +511,7 @@ sim_metrics_helper <-
 
     sim_metrics_collated <-
       sim_metrics_collated %>%
-      dplyr::inner_join(metadata, by = summary_cols) %>%
+      dplyr::inner_join(metadata, by = summary_cols, multiple = "all") %>%
       dplyr::select(all_of(annotation_cols_full), dplyr::everything())
 
     logger::log_trace(
