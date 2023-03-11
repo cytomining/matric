@@ -8,6 +8,7 @@ retrieval_baseline(
   metrics,
   background_type,
   level_identifier,
+  n_iterations = 10000,
   random_seed = 42
 )
 }
