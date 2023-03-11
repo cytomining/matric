@@ -19,7 +19,8 @@ sim_annotate(
 
 \item{annotation_cols}{character vector specifying annotation columns.}
 
-\item{index}{optional character string specifying whether to annotate left index, right index, or both.  This must be one of the strings \code{"both"} (default), \code{"left"}, \code{"right"}.}
+\item{index}{optional character string specifying whether to annotate left index, right index, or both.
+This must be one of the strings \code{"both"} (default), \code{"left"}, \code{"right"}.}
 
 \item{sim_cols}{optional character string specifying minimal set of columns for a similarity matrix}
 }
