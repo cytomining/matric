@@ -39,8 +39,7 @@ sim_metrics_signif <-
       )
 
 
-    metric_nlog10pvalue <-
-      # nolint:object_usage_linter
+    metric_nlog10pvalue <- # nolint:object_usage_linter
       glue::glue(
         "sim_{metric_group}_{metric_name}_{background_type}_{level_identifier}_nlog10pvalue"
       )
