@@ -11,4 +11,4 @@
 ^codecov\.yml$
 ^data-raw$
 ^.vscode$
-^lintr$
+^.lintr$
