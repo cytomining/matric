@@ -170,8 +170,7 @@ sim_calculate <-
         metadata %>%
           dplyr::select(all_of(strata)) %>%
           dplyr::group_by(across(all_of(strata))) %>%
-          dplyr::summarise(reductor(dplyr::cur_group(), metadata_subset), .groups = "keep") %>%
-          dplyr::ungroup() %>%
+          dplyr::reframe(reductor(dplyr::cur_group(), metadata_subset)) %>%
           dplyr::select(id1, id2)
       }
 
@@ -275,7 +274,9 @@ sim_calculate <-
       if (!is.null(all_same_cols_rep_ref) && !is.null(reference)) {
         metadata_subset <-
           metadata %>%
-          dplyr::inner_join(reference, by = names(reference))
+          dplyr::inner_join(reference,
+                            by = names(reference),
+                            multiple = "all")
 
         sim_df <-
           dplyr::bind_rows(
