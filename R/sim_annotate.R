@@ -6,7 +6,8 @@ utils::globalVariables(c("id"))
 #' @param sim_df data.frame with melted similarity matrix.
 #' @param row_metadata data.frame with row metadata.
 #' @param annotation_cols character vector specifying annotation columns.
-#' @param index optional character string specifying whether to annotate left index, right index, or both.  This must be one of the strings \code{"both"} (default), \code{"left"}, \code{"right"}.
+#' @param index optional character string specifying whether to annotate left index, right index, or both.
+#'              This must be one of the strings \code{"both"} (default), \code{"left"}, \code{"right"}.
 #' @param sim_cols optional character string specifying minimal set of columns for a similarity matrix
 #'
 #' @return Annotated melted similarity matrix of the same class as \code{sim_df}.

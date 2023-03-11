@@ -60,7 +60,7 @@ sim_filter_keep_or_drop_some <-
 
     # if there's nothing to keep and nothing to drop, then assume there is
     # nothing to drop
-    if (is.null(filter_drop) & is.null(filter_keep)) {
+    if (is.null(filter_drop) && is.null(filter_keep)) {
       return(sim_df)
     }
 

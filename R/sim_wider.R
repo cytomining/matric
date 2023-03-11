@@ -3,8 +3,10 @@
 #' \code{sim_widen} widens a symmetric melted matrix.
 #'
 #' @param sim_df data.frame with melted similarity matrix.
-#' @param primary_key_column character string specifying the column in \code{sim_df} to use to uniquely identify rows and columns
-#' @param annotation_column character string specifying the column in \code{sim_df} to use to annotate rows and columns
+#' @param primary_key_column character string specifying the column in \code{sim_df}
+#'                           to use to uniquely identify rows and columns
+#' @param annotation_column character string specifying the column in \code{sim_df}
+#'                           to use to annotate rows and columns
 #'
 #' @return data.frame of widened similarity matrix, with some attributes.
 #'
@@ -48,12 +50,9 @@ sim_wider <-
 
     annotation_column1 <- paste0(annotation_column, "1")
     annotation_column2 <- paste0(annotation_column, "2")
-    annotation_columns <- c(annotation_column1, annotation_column2)
 
     annotation_column_unique1 <-
       paste(annotation_column1, "uniq", sep = "_")
-    annotation_column_unique2 <-
-      paste(annotation_column2, "uniq", sep = "_")
 
     sim_df_wider <-
       sim_df %>%
@@ -103,11 +102,6 @@ sim_wider <-
 
     key1 <- data.frame(x = as.character(row.names(sim_df_wider)))
     names(key1) <- primary_key_column1
-
-    value1 <-
-      key1 %>%
-      dplyr::inner_join(map1, by = primary_key_column1) %>%
-      dplyr::pull(all_of(annotation_column1))
 
     value_unique1 <-
       key1 %>%

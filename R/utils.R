@@ -34,7 +34,7 @@ get_annotation <-
            annotation_prefix = "Metadata_") {
     population %>%
       dplyr::select(dplyr::matches(annotation_prefix)) %>%
-      dplyr::mutate(id = seq(nrow(population))) %>%
+      dplyr::mutate(id = seq_len(nrow(population))) %>%
       dplyr::select(id, dplyr::everything())
   }
 

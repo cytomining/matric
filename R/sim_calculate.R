@@ -272,7 +272,7 @@ sim_calculate <-
           )
       }
 
-      if (!is.null(all_same_cols_rep_ref) & !is.null(reference)) {
+      if (!is.null(all_same_cols_rep_ref) && !is.null(reference)) {
         metadata_subset <-
           metadata %>%
           dplyr::inner_join(reference, by = names(reference))
@@ -377,7 +377,7 @@ sim_calculate_ij <-
     if (is.null(method)) {
       method <- attr(index, "metric_metadata")$method
     } else {
-      method -> attr(index, "metric_metadata")$method
+      attr(index, "metric_metadata")$method <- method
     }
 
     stopifnot(all(c("id1", "id2") %in% names(index)))
