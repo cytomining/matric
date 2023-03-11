@@ -62,7 +62,7 @@ sim_metrics_signif <-
             metric_name = metric_name
           )
       ) %>%
-      dplyr::mutate(q_value = p.adjust(p_value, method = "BH")) %>%
+      dplyr::mutate(q_value = stats::p.adjust(p_value, method = "BH")) %>%
       dplyr::mutate("{metric_nlog10pvalue}" := -log10(p_value),
                     "{metric_nlog10qvalue}" := -log10(q_value)) %>%
       dplyr::select(-p_value, -q_value) %>%

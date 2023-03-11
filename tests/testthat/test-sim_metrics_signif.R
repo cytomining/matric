@@ -31,4 +31,16 @@ test_that("`sim_metrics_signif` works", {
     0
   )
 
+  # -log10(p) should be less than or equal to -log10(q)
+
+  expect_equal(
+    level_1_0_metrics %>%
+      dplyr::filter(
+        sim_retrieval_average_precision_ref_i_nlog10pvalue >
+          sim_retrieval_average_precision_ref_i_nlog10qvalue
+      ) %>%
+      nrow(),
+    0
+  )
+
 })
