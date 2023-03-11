@@ -15,7 +15,7 @@ test_that("`sim_metrics_signif` works", {
   expect_gte(
     level_1_0_metrics %>%
       dplyr::filter(
-        sim_stat_signal_n_ref_i == 5 &&
+        sim_stat_signal_n_ref_i == 5 &
           sim_stat_background_n_ref_i == 48
       ) %>%
       dplyr::arrange(sim_retrieval_average_precision_ref_i) %>%
