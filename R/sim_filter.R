@@ -73,17 +73,23 @@ sim_filter_keep_or_drop_some <-
     if (!is.null(filter_keep)) {
       filter_ids <-
         row_metadata %>%
-        dplyr::inner_join(filter_keep, by = colnames(filter_keep)) %>%
+        dplyr::inner_join(filter_keep,
+                          by = colnames(filter_keep),
+                          multiple = "all") %>%
         dplyr::select(id)
 
       sim_df <- sim_df %>%
-        dplyr::inner_join(filter_ids, by = join_str)
+        dplyr::inner_join(filter_ids,
+                          by = join_str,
+                          multiple = "all")
     }
 
     if (!is.null(filter_drop)) {
       filter_ids <-
         row_metadata %>%
-        dplyr::inner_join(filter_drop, by = colnames(filter_drop)) %>%
+        dplyr::inner_join(filter_drop,
+                          by = colnames(filter_drop),
+                          multiple = "all") %>%
         dplyr::select(id)
 
       sim_df <- sim_df %>%
@@ -190,7 +196,8 @@ sim_filter_all_same <-
         dplyr::inner_join(metadata_i,
           metadata_i,
           by = "all_same_col",
-          suffix = c("1", "2")
+          suffix = c("1", "2"),
+          multiple = "all"
         ) %>%
         dplyr::mutate(group = all_same_col)
     }
@@ -471,7 +478,8 @@ sim_filter_some_different_drop_some <-
       dplyr::inner_join(metadata_left,
         metadata_right,
         by = "all_same_col",
-        suffix = c("1", "2")
+        suffix = c("1", "2"),
+        multiple = "all"
       )
 
     # list of rows that should be the different (strong constraint)
@@ -483,7 +491,8 @@ sim_filter_some_different_drop_some <-
             metadata_i %>% dplyr::select(id, dplyr::all_of(all_different_col)),
             metadata_i %>% dplyr::select(id, dplyr::all_of(all_different_col)),
             by = all_different_col,
-            suffix = c("1", "2")
+            suffix = c("1", "2"),
+            multiple = "all"
           ) %>%
             dplyr::select(id1, id2)
         }
