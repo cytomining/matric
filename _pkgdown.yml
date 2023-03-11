@@ -32,7 +32,8 @@ reference:
   - sim_metrics_helper
   - null_distribution
   - null_distribution_helper
-  - p_value
+  - get_p_value
+  - bin
 - title: "Sparse operations"
 - contents:
   - sparse_pairwise
