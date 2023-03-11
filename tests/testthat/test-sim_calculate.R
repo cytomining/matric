@@ -120,15 +120,17 @@ test_that("`sim_calculate` handles `NA`s", {
       )
 
     sim_df1 <-
-      matric::sim_calculate(population %>%
-        dplyr::select(-b),
-      method = method
+      matric::sim_calculate(
+        population %>%
+          dplyr::select(-b),
+        method = method
       )
 
     sim_df2 <-
-      matric::sim_calculate(population %>%
-        dplyr::filter(Metadata_batch == 2),
-      method = method
+      matric::sim_calculate(
+        population %>%
+          dplyr::filter(Metadata_batch == 2),
+        method = method
       )
 
     expect_equal(
