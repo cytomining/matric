@@ -14,15 +14,14 @@ null_distribution(
 )
 }
 \arguments{
-\item{metrics}{Metrics data frame, containing columns
-\verb{sim_stat_signal_n_\{background_type\}_\{level_identifier\}} and
-\verb{sim_stat_background_n_\{background_type\}_\{level_identifier\}}}
+\item{metrics}{Metrics data frame, containing at least the column
+\code{"sim_stat_background_n_{background_type}_{level_identifier}"}.}
 
-\item{background_type}{Background type. Either "ref" or "non_rep"}
+\item{background_type}{Background type. Either \code{"ref"} or \code{"non_rep"}.}
 
-\item{level_identifier}{Level identifier. Either "i" (Level 1_0) or "g" (Level 2_1)}
+\item{level_identifier}{Level identifier. Either \code{"i"} (Level 1_0) or \code{"g"} (Level 2_1).}
 
-\item{metric_name}{name of metric. Only \code{"average_precision"} is implemented.}
+\item{metric_name}{name of metric. Only \code{"average_precision"} is currently implemented.}
 
 \item{n_iterations}{number of iterations for generating the null distribution}
 

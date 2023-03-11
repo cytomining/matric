@@ -1,23 +1,18 @@
-utils::globalVariables(
-  c(
-    "sim_stat_average_precision_null",
-    "sim_stat_r_precision_null",
-    "sim_stat_average_precision_null_samples"
-  )
-)
+utils::globalVariables(c("sim_stat_average_precision_null_samples", "p_value", "q_value"))
 
 #' Report p-values for metrics
 #'
-#' @param background_type Background type. Either "ref" or "non_rep".
-#' @param level_identifier Level identifier. Either "i" (Level 1_0) or "g" (Level 2_1).
-#' @param metrics Metrics data frame, containing columns
-#'  `sim_stat_signal_n_{background_type}_{level_identifier}` and
-#'  `sim_stat_background_n_{background_type}_{level_identifier}`.
-#' @param metric_name name of metric. Only \code{"average_precision"} is implemented.
+#' @param background_type Background type. Either \code{"ref"} or \code{"non_rep"}.
+#' @param level_identifier Level identifier. Either \code{"i"} (Level 1_0) or \code{"g"} (Level 2_1).
+#' @param metrics Metrics data frame, containing at least two columns
+#'  \code{"sim_stat_signal_n_{background_type}_{level_identifier}"} and
+#'  \code{"sim_stat_background_n_{background_type}_{level_identifier}"}.
+#' @param metric_name name of metric. Only \code{"average_precision"} is currently implemented.
 #' @param ... arguments passed downstream.
 #'
-#' @return Metrics data frame, containing additional columns
-#'  `sim_retrieval_average_precision_{background_type}_{level_identifier}_nlog10pvalue`
+#' @return Metrics data frame containing two extra columns: the -log10 p-value and q-value of the specified metric
+#'  \code{"sim_retrieval_average_precision_{background_type}_{level_identifier}_nlog10pvalue"}
+#'  \code{"sim_retrieval_average_precision_{background_type}_{level_identifier}_nlog10qvalue"}
 #'
 #' @export
 sim_metrics_signif <-
@@ -44,6 +39,11 @@ sim_metrics_signif <-
         "sim_{metric_group}_{metric_name}_{background_type}_{level_identifier}_nlog10pvalue"
       )
 
+    metric_nlog10qvalue <- # nolint:object_usage_linter
+      glue::glue(
+        "sim_{metric_group}_{metric_name}_{background_type}_{level_identifier}_nlog10qvalue"
+      )
+
     metric_value <-
       glue::glue("sim_{metric_group}_{metric_name}_{background_type}_{level_identifier}")
 
@@ -52,16 +52,20 @@ sim_metrics_signif <-
 
     metrics %>%
       dplyr::rowwise() %>%
-      dplyr::mutate("{metric_nlog10pvalue}" :=
-                      -log10(
-                        p_value(
-                          nulls = nulls,
-                          m = .data[[sim_stat_signal_n]],
-                          n = .data[["sim_stat_background_n_mapped"]],
-                          statistic = .data[[metric_value]],
-                          metric_name = metric_name
-                        )
-                      )) %>%
+      dplyr::mutate(
+        p_value =
+          get_p_value(
+            nulls = nulls,
+            m = .data[[sim_stat_signal_n]],
+            n = .data[["sim_stat_background_n_mapped"]],
+            statistic = .data[[metric_value]],
+            metric_name = metric_name
+          )
+      ) %>%
+      dplyr::mutate(q_value = p.adjust(p_value, method = "BH")) %>%
+      dplyr::mutate("{metric_nlog10pvalue}" := -log10(p_value),
+                    "{metric_nlog10qvalue}" := -log10(q_value)) %>%
+      dplyr::select(-p_value, -q_value) %>%
       dplyr::ungroup()
 
   }
@@ -69,12 +73,11 @@ sim_metrics_signif <-
 
 #' Compute null distribution for a set of metrics
 #'
-#' @param background_type Background type. Either "ref" or "non_rep"
-#' @param level_identifier Level identifier. Either "i" (Level 1_0) or "g" (Level 2_1)
-#' @param metrics Metrics data frame, containing columns
-#'  `sim_stat_signal_n_{background_type}_{level_identifier}` and
-#'  `sim_stat_background_n_{background_type}_{level_identifier}`
-#' @param metric_name name of metric. Only \code{"average_precision"} is implemented.
+#' @param background_type Background type. Either \code{"ref"} or \code{"non_rep"}.
+#' @param level_identifier Level identifier. Either \code{"i"} (Level 1_0) or \code{"g"} (Level 2_1).
+#' @param metrics Metrics data frame, containing at least the column
+#'  \code{"sim_stat_background_n_{background_type}_{level_identifier}"}.
+#' @param metric_name name of metric. Only \code{"average_precision"} is currently implemented.
 #' @param n_iterations number of iterations for generating the null distribution
 #' @param random_seed Random seed (default = 42)
 #'
@@ -87,24 +90,11 @@ null_distribution <-
            n_iterations = 10000,
            random_seed = 42) {
     stopifnot(metric_name == "average_precision")
-    pow <- 1.3
-
-    points <-
-      metrics[[glue::glue("sim_stat_background_n_{background_type}_{level_identifier}")]]
-
-    max_value <- max(points)
-
-    break_point <-
-      ceiling(seq(1, ceiling((max_value) ^ (1 / pow)), 1) ** (pow))
-
-    points_mapped <-
-      points %>% purrr::map_dbl(function(i) {
-        break_point[min(which(break_point > i))]
-      })
 
     metrics <-
       metrics %>%
-      dplyr::mutate(sim_stat_background_n_mapped = points_mapped)
+      dplyr::mutate(sim_stat_background_n_mapped =
+                      bin(metrics[[glue::glue("sim_stat_background_n_{background_type}_{level_identifier}")]]))
 
     nulls <-
       metrics %>%
@@ -127,6 +117,26 @@ null_distribution <-
     nulls
 
   }
+
+
+#' Bin values into increasingly wider bins
+#'
+#' @param x values
+#'
+#' @return rebinned values
+bin <- function(x) {
+  pow <- 1.3
+
+  max_value <- max(x)
+
+  break_point <-
+    ceiling(seq(1, ceiling((max_value) ^ (1 / pow)), 1) ** (pow))
+
+  x %>% purrr::map_dbl(function(i) {
+    break_point[min(which(break_point > i))]
+  })
+}
+
 
 #' Compute null distribution of metrics
 #'
@@ -173,7 +183,7 @@ null_distribution_helper <-
 #' @param metric_name name of metric. Only \code{"average_precision"} is implemented.
 #'
 #' @return p-value
-p_value <-
+get_p_value <-
   function(nulls, m, n, statistic, metric_name = "average_precision") {
     stopifnot(metric_name == "average_precision")
 
