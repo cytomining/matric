@@ -70,6 +70,7 @@ sim_metrics_signif <-
 #' @param metrics Metrics data frame, containing columns
 #'  `sim_stat_signal_n_{background_type}_{level_identifier}` and
 #'  `sim_stat_background_n_{background_type}_{level_identifier}`
+#' @param n_iterations number of iterations for generating the null distribution
 #' @param random_seed Random seed (default = 42)
 #'
 #' @return Nulls data frame
@@ -108,7 +109,7 @@ retrieval_baseline <-
       ))) %>%
       dplyr::rename(m = 1, n = 2) %>%
       furrr::future_pmap_dfr(function(m, n) {
-        logger::log_info("Compute retrieval random baseline for m = {m}, n = {n}")
+        logger::log_trace("Compute retrieval random baseline for m = {m}, n = {n}")
         retrieval_baseline_helper(m = m,
                                   n = n,
                                   nn = n_iterations)

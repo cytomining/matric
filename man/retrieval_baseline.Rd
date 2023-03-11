@@ -21,6 +21,8 @@ retrieval_baseline(
 
 \item{level_identifier}{Level identifier. Either "i" (Level 1_0) or "g" (Level 2_1)}
 
+\item{n_iterations}{number of iterations for generating the null distribution}
+
 \item{random_seed}{Random seed (default = 42)}
 }
 \value{
