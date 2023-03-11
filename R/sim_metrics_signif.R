@@ -77,6 +77,7 @@ retrieval_baseline <-
   function(metrics,
            background_type,
            level_identifier,
+           n_iterations = 10000,
            random_seed=42) {
     pow <- 1.3
 
@@ -110,7 +111,7 @@ retrieval_baseline <-
         logger::log_info("Compute retrieval random baseline for m = {m}, n = {n}")
         retrieval_baseline_helper(m = m,
                                   n = n,
-                                  nn = 10000)
+                                  nn = n_iterations)
       },
       .options = furrr::furrr_options(seed = random_seed))
 
