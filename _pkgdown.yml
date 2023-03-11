@@ -5,6 +5,7 @@ reference:
   - sim_calculate_ij
   - sim_collate
   - sim_metrics
+  - sim_metrics_signif
   - sim_wider
   - sim_plot
 - title: "Annotation and filtering operations"
@@ -29,6 +30,9 @@ reference:
   - drop_annotation
   - preprocess_data
   - sim_metrics_helper
+  - null_distribution
+  - null_distribution_helper
+  - p_value
 - title: "Sparse operations"
 - contents:
   - sparse_pairwise
