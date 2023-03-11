@@ -39,13 +39,17 @@ reference <-
   data.frame(Metadata_gene_name = c("Chr2"))
 
 all_same_cols_ref <-
-  c("Metadata_cell_line",
-    "Metadata_Plate")
+  c(
+    "Metadata_cell_line",
+    "Metadata_Plate"
+  )
 
 all_same_cols_rep <-
-  c("Metadata_cell_line",
+  c(
+    "Metadata_cell_line",
     "Metadata_gene_name",
-    "Metadata_pert_name")
+    "Metadata_pert_name"
+  )
 
 all_same_cols_rep_ref <-
   c(
@@ -56,30 +60,40 @@ all_same_cols_rep_ref <-
   )
 
 any_different_cols_non_rep <-
-  c("Metadata_cell_line",
+  c(
+    "Metadata_cell_line",
     "Metadata_gene_name",
-    "Metadata_pert_name")
+    "Metadata_pert_name"
+  )
 
 all_same_cols_non_rep <-
-  c("Metadata_cell_line",
-    "Metadata_Plate")
+  c(
+    "Metadata_cell_line",
+    "Metadata_Plate"
+  )
 
 all_different_cols_non_rep <-
   c("Metadata_gene_name")
 
 all_same_cols_group <-
-  c("Metadata_cell_line",
-    "Metadata_gene_name")
+  c(
+    "Metadata_cell_line",
+    "Metadata_gene_name"
+  )
 
 any_different_cols_group <-
-  c("Metadata_cell_line",
+  c(
+    "Metadata_cell_line",
     "Metadata_gene_name",
-    "Metadata_pert_name")
+    "Metadata_pert_name"
+  )
 
 annotation_cols <-
-  c("Metadata_cell_line",
+  c(
+    "Metadata_cell_line",
     "Metadata_gene_name",
-    "Metadata_pert_name")
+    "Metadata_pert_name"
+  )
 ```
 
 
@@ -113,31 +127,37 @@ metrics <-
 ## Per row (Level 0)
 
 ```{r}
-ggplot(metrics$level_1_0,
-       aes(sim_scaled_mean_ref_i, fill = Metadata_gene_name)) +
+ggplot(
+  metrics$level_1_0,
+  aes(sim_scaled_mean_ref_i, fill = Metadata_gene_name)
+) +
   geom_histogram(binwidth = .1) +
-  facet_wrap( ~ Metadata_cell_line) +
-  theme(legend.position="bottom", legend.box = "horizontal")
+  facet_wrap(~Metadata_cell_line) +
+  theme(legend.position = "bottom", legend.box = "horizontal")
 ```
 
 ## Per set (Level 1-0)
 
 ```{r}
-ggplot(metrics$level_1,
-       aes(sim_scaled_mean_ref_i_mean_i, fill = Metadata_gene_name)) +
+ggplot(
+  metrics$level_1,
+  aes(sim_scaled_mean_ref_i_mean_i, fill = Metadata_gene_name)
+) +
   geom_histogram(binwidth = .1) +
-  facet_wrap( ~ Metadata_cell_line) +
-  theme(legend.position="bottom", legend.box = "horizontal")
+  facet_wrap(~Metadata_cell_line) +
+  theme(legend.position = "bottom", legend.box = "horizontal")
 ```
 
 ## Per group (Level 2)
 
 ```{r}
-ggplot(metrics$level_2_1,
-       aes(sim_scaled_mean_ref_g, fill = Metadata_gene_name)) +
+ggplot(
+  metrics$level_2_1,
+  aes(sim_scaled_mean_ref_g, fill = Metadata_gene_name)
+) +
   geom_histogram(binwidth = .1) +
-  facet_wrap( ~ Metadata_cell_line) +
-  theme(legend.position="bottom", legend.box = "horizontal")
+  facet_wrap(~Metadata_cell_line) +
+  theme(legend.position = "bottom", legend.box = "horizontal")
 ```
 
 # Plot metrics from precomputed data
@@ -145,47 +165,57 @@ ggplot(metrics$level_2_1,
 ## Per row (Level 0)
 
 ```{r}
-ggplot(cellhealthmetrics$level_1_0,
-       aes(sim_scaled_mean_ref_i, fill = Metadata_gene_name)) +
+ggplot(
+  cellhealthmetrics$level_1_0,
+  aes(sim_scaled_mean_ref_i, fill = Metadata_gene_name)
+) +
   geom_histogram(binwidth = .1) +
-  facet_wrap( ~ Metadata_cell_line) +
-  theme(legend.position="none")
+  facet_wrap(~Metadata_cell_line) +
+  theme(legend.position = "none")
 ```
 
 ## Per set (Level 1-0)
 
 ```{r}
-ggplot(cellhealthmetrics$level_1,
-       aes(sim_scaled_mean_ref_i_mean_i, fill = Metadata_gene_name)) +
+ggplot(
+  cellhealthmetrics$level_1,
+  aes(sim_scaled_mean_ref_i_mean_i, fill = Metadata_gene_name)
+) +
   geom_histogram(binwidth = .1) +
-  facet_wrap( ~ Metadata_cell_line) +
-  theme(legend.position="none")
+  facet_wrap(~Metadata_cell_line) +
+  theme(legend.position = "none")
 ```
 
 ```{r}
-ggplot(cellhealthmetrics$level_1_0,
-       aes(sim_retrieval_average_precision_ref_i, fill = Metadata_gene_name)) +
+ggplot(
+  cellhealthmetrics$level_1_0,
+  aes(sim_retrieval_average_precision_ref_i, fill = Metadata_gene_name)
+) +
   geom_histogram(binwidth = .01) +
-  facet_wrap( ~ Metadata_cell_line) +
-  theme(legend.position="none")
+  facet_wrap(~Metadata_cell_line) +
+  theme(legend.position = "none")
 ```
 
 ## Per group (Level 2)
 
 ```{r}
-ggplot(cellhealthmetrics$level_2_1,
-       aes(sim_scaled_mean_ref_g, fill = Metadata_gene_name)) +
+ggplot(
+  cellhealthmetrics$level_2_1,
+  aes(sim_scaled_mean_ref_g, fill = Metadata_gene_name)
+) +
   geom_histogram(binwidth = .1) +
-  facet_wrap( ~ Metadata_cell_line) +
-  theme(legend.position="none")
+  facet_wrap(~Metadata_cell_line) +
+  theme(legend.position = "none")
 ```
 
 ```{r}
-ggplot(cellhealthmetrics$level_2_1,
-       aes(sim_retrieval_average_precision_ref_g, fill = Metadata_gene_name)) +
+ggplot(
+  cellhealthmetrics$level_2_1,
+  aes(sim_retrieval_average_precision_ref_g, fill = Metadata_gene_name)
+) +
   geom_histogram(binwidth = .02) +
-  facet_wrap( ~ Metadata_cell_line) +
-  theme(legend.position="none")
+  facet_wrap(~Metadata_cell_line) +
+  theme(legend.position = "none")
 ```
 
 
@@ -195,7 +225,8 @@ ggplot(cellhealthmetrics$level_2_1,
 sim_df_lazy <-
   matric::sim_calculate(
     cellhealth,
-    lazy = TRUE)
+    lazy = TRUE
+  )
 
 collated_sim_lazy <-
   matric::sim_collate(
@@ -219,8 +250,10 @@ collated_sim_lazy <-
 metrics_lazy <-
   matric::sim_metrics(collated_sim_lazy, "ref", calculate_grouped = TRUE)
 
-all.equal(metrics_lazy,
-          metrics)
+all.equal(
+  metrics_lazy,
+  metrics
+)
 ```
 
 # Calculate similarity in a lazy, optimized manner and evaluate metrics
@@ -260,14 +293,18 @@ collated_sim_optimized_lazy <-
 
 metrics_optimized_lazy <-
   matric::sim_metrics(
-    collated_sim_optimized_lazy, "ref", calculate_grouped = FALSE)
+    collated_sim_optimized_lazy, "ref",
+    calculate_grouped = FALSE
+  )
 
 all.equal(
-  metrics_optimized_lazy$level_1_0, 
-  metrics$level_1_0)
+  metrics_optimized_lazy$level_1_0,
+  metrics$level_1_0
+)
 
 all.equal(
-  metrics_optimized_lazy$level_1, 
-  metrics$level_1)
+  metrics_optimized_lazy$level_1,
+  metrics$level_1
+)
 ```
 

@@ -11,7 +11,7 @@ test_that("`sim_wider` works", {
     x5 <- rnorm(n)
   )
 
-  population$Metadata_id <- as.character(seq(nrow(population)))
+  population$Metadata_id <- as.character(seq_len(nrow(population)))
   metadata <- matric::get_annotation(population)
   annotation_cols <- c("Metadata_group", "Metadata_id")
 

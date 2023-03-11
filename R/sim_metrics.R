@@ -173,11 +173,12 @@ sim_metrics <- function(collated_sim,
     sim_metrics_collated %>%
     dplyr::ungroup() %>%
     dplyr::group_by(dplyr::across(dplyr::all_of(summary_cols))) %>%
-    dplyr::summarise(dplyr::across(
-      dplyr::matches("sim_"),
-      list(mean = mean, median = median)
-    ),
-    .groups = "keep"
+    dplyr::summarise(
+      dplyr::across(
+        dplyr::matches("sim_"),
+        list(mean = mean, median = median)
+      ),
+      .groups = "keep"
     ) %>%
     dplyr::ungroup()
 
@@ -324,15 +325,16 @@ sim_metrics_helper <-
     sim_stats <-
       sim_background %>%
       dplyr::group_by(dplyr::across(dplyr::all_of(summary_cols))) %>%
-      dplyr::summarise(dplyr::across(
-        dplyr::all_of("sim"),
-        list(
-          mean_stat = mean,
-          sd_stat = sd
+      dplyr::summarise(
+        dplyr::across(
+          dplyr::all_of("sim"),
+          list(
+            mean_stat = mean,
+            sd_stat = sd
+          ),
+          na.rm = TRUE
         ),
-        na.rm = TRUE
-      ),
-      .groups = "keep"
+        .groups = "keep"
       ) %>%
       dplyr::ungroup()
 
@@ -386,13 +388,14 @@ sim_metrics_helper <-
     sim_signal_transformed_agg <-
       sim_signal_transformed %>%
       dplyr::group_by(dplyr::across(dplyr::all_of(summary_cols))) %>%
-      dplyr::summarise(dplyr::across(
-        dplyr::any_of(
-          c("sim_scaled", "sim_ranked_relrank", "sim")
+      dplyr::summarise(
+        dplyr::across(
+          dplyr::any_of(
+            c("sim_scaled", "sim_ranked_relrank", "sim")
+          ),
+          list(mean = mean, median = median)
         ),
-        list(mean = mean, median = median)
-      ),
-      .groups = "keep"
+        .groups = "keep"
       )
 
     # include stats columns

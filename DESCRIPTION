@@ -22,21 +22,22 @@ Imports:
     purrr,
     ggplot2,
     stringr,
-    rlang,
+    rlang (>= 0.4.11),
     yardstick,
     foreach,
     doParallel,
     logger,
     furrr,
     future
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
 Suggests: 
     testthat (>= 3.0.0),
     covr,
     knitr,
     markdown,
-    rmarkdown
+    rmarkdown,
+    roxygen2
 Config/testthat/edition: 3
 URL: https://github.com/shntnu/matric
 BugReports: https://github.com/shntnu/matric/issues

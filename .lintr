@@ -1,0 +1,13 @@
+linters: linters_with_defaults(
+    line_length_linter(120),
+    commented_code_linter = NULL,
+    spaces_inside_linter = NULL,
+    object_name_linter = NULL,
+    object_length_linter = NULL,
+    cyclocomp_linter = NULL
+  )
+exclusions: list(
+    "data-raw/cellhealth.R",
+    "data-raw/cellhealthmetrics.R"
+  )
+encoding: "UTF-8"
