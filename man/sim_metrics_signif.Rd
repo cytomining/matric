@@ -4,7 +4,13 @@
 \alias{sim_metrics_signif}
 \title{Report p-values for metrics}
 \usage{
-sim_metrics_signif(metrics, background_type, level_identifier, ...)
+sim_metrics_signif(
+  metrics,
+  background_type,
+  level_identifier,
+  metric_name,
+  ...
+)
 }
 \arguments{
 \item{metrics}{Metrics data frame, containing columns
@@ -14,6 +20,8 @@ sim_metrics_signif(metrics, background_type, level_identifier, ...)
 \item{background_type}{Background type. Either "ref" or "non_rep".}
 
 \item{level_identifier}{Level identifier. Either "i" (Level 1_0) or "g" (Level 2_1).}
+
+\item{metric_name}{name of metric. Only \code{"average_precision"} is implemented.}
 
 \item{...}{arguments passed downstream.}
 }
