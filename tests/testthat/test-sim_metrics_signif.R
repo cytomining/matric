@@ -6,7 +6,8 @@ test_that("`sim_metrics_signif` works", {
     matric::sim_metrics_signif(
       background_type = "ref",
       level_identifier = "i",
-      n_iterations = 100
+      n_iterations = 100,
+      metric_name = "average_precision"
     )
 
   # -log10(p) should increase with higher effect size

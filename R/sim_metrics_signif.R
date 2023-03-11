@@ -13,6 +13,7 @@ utils::globalVariables(
 #' @param metrics Metrics data frame, containing columns
 #'  `sim_stat_signal_n_{background_type}_{level_identifier}` and
 #'  `sim_stat_background_n_{background_type}_{level_identifier}`.
+#' @param metric_name name of metric. Only \code{"average_precision"} is implemented.
 #' @param ... arguments passed downstream.
 #'
 #' @return Metrics data frame, containing additional columns
@@ -23,63 +24,70 @@ sim_metrics_signif <-
   function(metrics,
            background_type,
            level_identifier,
+           metric_name,
            ...) {
+    stopifnot(metric_name == "average_precision")
+    metric_group <- "retrieval"
+
     nulls <-
-      retrieval_baseline(metrics,
-                         background_type = background_type,
-                         level_identifier = level_identifier,
-                         ...)
-
-
-    sim_retrieval_average_precision_nlog10pvalue <- # nolint:object_usage_linter
-      glue::glue(
-        "sim_retrieval_average_precision_{background_type}_{level_identifier}_nlog10pvalue"
+      null_distribution(
+        metrics,
+        background_type = background_type,
+        level_identifier = level_identifier,
+        metric_name = metric_name,
+        ...
       )
 
-    sim_retrieval_average_precision <-
-      glue::glue("sim_retrieval_average_precision_{background_type}_{level_identifier}")
+
+    metric_nlog10pvalue <-
+      # nolint:object_usage_linter
+      glue::glue(
+        "sim_{metric_group}_{metric_name}_{background_type}_{level_identifier}_nlog10pvalue"
+      )
+
+    metric_value <-
+      glue::glue("sim_{metric_group}_{metric_name}_{background_type}_{level_identifier}")
 
     sim_stat_signal_n <-
       glue::glue("sim_stat_signal_n_{background_type}_{level_identifier}")
 
-    sim_stat_background_n_mapped <-
-      "sim_stat_background_n_mapped"
-
     metrics %>%
       dplyr::rowwise() %>%
-      dplyr::mutate(
-        "{sim_retrieval_average_precision_nlog10pvalue}" :=
-          -log10(
-            get_average_precision_p_value(
-              nulls = nulls,
-              m = .data[[sim_stat_signal_n]],
-              n = .data[[sim_stat_background_n_mapped]],
-              statistic = .data[[sim_retrieval_average_precision]]
-            )
-          )
-      ) %>%
+      dplyr::mutate("{metric_nlog10pvalue}" :=
+                      -log10(
+                        p_value(
+                          nulls = nulls,
+                          m = .data[[sim_stat_signal_n]],
+                          n = .data[["sim_stat_background_n_mapped"]],
+                          statistic = .data[[metric_value]],
+                          metric_name = metric_name
+                        )
+                      )) %>%
       dplyr::ungroup()
 
   }
 
 
-#' Compute null thresholds for a set of metrics
+#' Compute null distribution for a set of metrics
 #'
 #' @param background_type Background type. Either "ref" or "non_rep"
 #' @param level_identifier Level identifier. Either "i" (Level 1_0) or "g" (Level 2_1)
 #' @param metrics Metrics data frame, containing columns
 #'  `sim_stat_signal_n_{background_type}_{level_identifier}` and
 #'  `sim_stat_background_n_{background_type}_{level_identifier}`
+#' @param metric_name name of metric. Only \code{"average_precision"} is implemented.
 #' @param n_iterations number of iterations for generating the null distribution
 #' @param random_seed Random seed (default = 42)
 #'
 #' @return Nulls data frame
-retrieval_baseline <-
+null_distribution <-
   function(metrics,
            background_type,
            level_identifier,
+           metric_name = "average_precision",
            n_iterations = 10000,
            random_seed = 42) {
+    stopifnot(metric_name == "average_precision")
     pow <- 1.3
 
     points <-
@@ -110,9 +118,9 @@ retrieval_baseline <-
       dplyr::rename(m = 1, n = 2) %>%
       furrr::future_pmap_dfr(function(m, n) {
         logger::log_trace("Compute retrieval random baseline for m = {m}, n = {n}")
-        retrieval_baseline_helper(m = m,
-                                  n = n,
-                                  nn = n_iterations)
+        null_distribution_helper(m = m,
+                                 n = n,
+                                 nn = n_iterations)
       },
       .options = furrr::furrr_options(seed = random_seed))
 
@@ -121,18 +129,20 @@ retrieval_baseline <-
 
   }
 
-#' Estimate statistics of the distribution of information retrieval metrics under the null hypothesis
+#' Compute null distribution of metrics
 #'
 #' @param m Number of positive examples (= number of replicates - 1)
 #' @param n Number of negative examples (= number of controls, or number of non-replicates)
 #' @param nn Number of simulations (default = 10000)
+#' @param metric_name name of metric. Only \code{"average_precision"} is implemented.
 #'
-#' @return Nulls data frame parametrized by m and n
-retrieval_baseline_helper <-
+#' @return Null distribution data frame parametrized by m and n
+null_distribution_helper <-
   function(m,
            n,
-           nn = 10000) {
-    # Average precision
+           nn = 10000,
+           metric_name = "average_precision") {
+    stopifnot(metric_name == "average_precision")
 
     y_rank <- 1 - (seq(m + n) / (m + n))
 
@@ -155,20 +165,23 @@ retrieval_baseline_helper <-
       )
   }
 
-#' Get average precision p-value
+#' Compute p-value against null distribution
 #'
-#' @param nulls Nulls data frame
-#' @param m Number of positive examples (= number of replicates - 1)
-#' @param n Number of negative examples (= number of controls, or number of non-replicates)
-#' @param statistic Average precision statistic
+#' @param nulls Null distribution data frame
+#' @param m Number of positive examples
+#' @param n Number of negative examples
+#' @param statistic statistic for which to compute p-value
+#' @param metric_name name of metric. Only \code{"average_precision"} is implemented.
 #'
 #' @return p-value
-get_average_precision_p_value <-
-  function(nulls, m, n, statistic) {
+p_value <-
+  function(nulls, m, n, statistic, metric_name = "average_precision") {
+    stopifnot(metric_name == "average_precision")
+
     null_samples <-
       nulls %>%
       dplyr::filter(m == m, n == n) %>%
-      dplyr::pull("sim_stat_average_precision_null_samples") %>%
+      dplyr::pull(glue::glue("sim_stat_{metric_name}_null_samples")) %>%
       purrr::pluck(1)
 
     (1 + sum(null_samples > statistic)) / (1 + length(null_samples))
