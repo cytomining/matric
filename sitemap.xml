@@ -43,6 +43,15 @@
     <loc>/reference/matric.html</loc>
   </url>
   <url>
+    <loc>/reference/null_distribution.html</loc>
+  </url>
+  <url>
+    <loc>/reference/null_distribution_helper.html</loc>
+  </url>
+  <url>
+    <loc>/reference/p_value.html</loc>
+  </url>
+  <url>
     <loc>/reference/pipe.html</loc>
   </url>
   <url>
@@ -77,6 +86,9 @@
   </url>
   <url>
     <loc>/reference/sim_metrics_helper.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sim_metrics_signif.html</loc>
   </url>
   <url>
     <loc>/reference/sim_new.html</loc>
