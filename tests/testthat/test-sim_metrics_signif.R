@@ -13,19 +13,19 @@ test_that("`sim_metrics_signif` works", {
 
   expect_gte(
     level_1_0_metrics %>%
-      filter(
+      dplyr::filter(
         sim_stat_signal_n_ref_i == 5 &&
           sim_stat_background_n_ref_i == 48
       ) %>%
-      arrange(sim_retrieval_average_precision_ref_i) %>%
-      mutate(
+      dplyr::arrange(sim_retrieval_average_precision_ref_i) %>%
+      dplyr::mutate(
         nlog10pvalue_diff =
           sim_retrieval_average_precision_ref_i_nlog10pvalue -
           lag(sim_retrieval_average_precision_ref_i_nlog10pvalue)
       ) %>%
-      select(nlog10pvalue_diff) %>%
+      dplyr::select(nlog10pvalue_diff) %>%
       na.omit() %>%
-      filter(nlog10pvalue_diff < 0) %>%
+      dplyr::filter(nlog10pvalue_diff < 0) %>%
       nrow(),
     0
   )
