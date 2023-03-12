@@ -25,7 +25,7 @@ sim_metrics_signif <-
 
     if (nrow(metrics) == 0) {
       logger::log_warn("Empty metrics data frame; no p-values to compute")
-      metrics
+      return(metrics)
     }
 
     nulls <-
