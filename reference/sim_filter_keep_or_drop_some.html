@@ -128,36 +128,36 @@ some rows dropped. No filters applied if both <code>filter_keep</code> and
 <span class="r-in"><span>  filter_keep <span class="op">=</span> <span class="va">filter_keep</span>, filter_side <span class="op">=</span> <span class="st">"left"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   id1 id2        sim Metadata_group1 Metadata_type1 Metadata_group2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   1   2 -0.9355752               a              x               a</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   1   3  0.9813004               a              x               b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   1   4  0.5447503               a              x               b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   3   1 -0.9981133               a              x               b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   3   2 -0.9997418               a              x               b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   3   4 -0.9896942               a              x               b</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Metadata_type2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1              y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2              y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3              x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2              x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3              y</span>
 <span class="r-in"><span><span class="fu">matric</span><span class="fu">::</span><span class="fu">sim_filter_keep_or_drop_some</span><span class="op">(</span><span class="va">sim_df</span>, <span class="va">row_metadata</span>,</span></span>
 <span class="r-in"><span>  filter_drop <span class="op">=</span> <span class="va">filter_drop</span>, filter_side <span class="op">=</span> <span class="st">"left"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   id1 id2        sim Metadata_group1 Metadata_type1 Metadata_group2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   2   1 -0.9355752               a              y               a</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   3   1  0.9813004               b              y               a</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   4   1  0.5447503               b              x               a</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   3   2 -0.9860512               b              y               a</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   4   2 -0.8057871               b              x               a</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   2   3 -0.9860512               a              y               b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7   4   3  0.6959791               b              x               b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8   2   4 -0.8057871               a              y               b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9   3   4  0.6959791               b              y               b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   2   1  0.9964605               b              x               b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   4   1  0.9790349               b              y               b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   1   2  0.9964605               b              y               b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   4   2  0.9926925               b              y               b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   1   3 -0.9981133               b              y               a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   2   3 -0.9997418               b              x               a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   4   3 -0.9896942               b              y               a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   1   4  0.9790349               b              y               b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   2   4  0.9926925               b              x               b</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Metadata_type2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1              x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2              x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1              y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2              y</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3              x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4              y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5              y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6              y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7              y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8              x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9              x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4              x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5              x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6              x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7              x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8              y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9              y</span>
 </code></pre></div>
     </div>
   </div>
