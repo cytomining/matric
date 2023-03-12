@@ -9,7 +9,9 @@ sim_metrics(
   sim_type_background,
   calculate_grouped = FALSE,
   annotation_prefix = "Metadata_",
-  use_furrr = FALSE
+  use_furrr = FALSE,
+  calculate_pvalue = FALSE,
+  ...
 )
 }
 \arguments{
@@ -28,6 +30,11 @@ annotation columns (e.g. \code{"Metadata_"} (default)).}
 
 \item{use_furrr}{boolean indicating whether to use the furrr library
 for parallel processing.}
+
+\item{calculate_pvalue}{optional boolean specifying whether to calculate
+p-values for the metrics}
+
+\item{...}{arguments passed down to \code{"sim_metrics_signif}}
 }
 \value{
 List of metrics.
