@@ -68,7 +68,9 @@
 <span>  <span class="va">sim_type_background</span>,</span>
 <span>  calculate_grouped <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  annotation_prefix <span class="op">=</span> <span class="st">"Metadata_"</span>,</span>
-<span>  use_furrr <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  use_furrr <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  calculate_pvalue <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -98,6 +100,15 @@ annotation columns (e.g. <code>"Metadata_"</code> (default)).</p></dd>
 <dt>use_furrr</dt>
 <dd><p>boolean indicating whether to use the furrr library
 for parallel processing.</p></dd>
+
+
+<dt>calculate_pvalue</dt>
+<dd><p>optional boolean specifying whether to calculate
+p-values for the metrics</p></dd>
+
+
+<dt>...</dt>
+<dd><p>arguments passed down to <code>"sim_metrics_signif"</code></p></dd>
 
 </dl></div>
     <div id="value">

@@ -76,21 +76,20 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>metrics</dt>
-<dd><p>Metrics data frame, containing columns
-<code>sim_stat_signal_n_{background_type}_{level_identifier}</code> and
-<code>sim_stat_background_n_{background_type}_{level_identifier}</code></p></dd>
+<dd><p>Metrics data frame, containing at least the column
+<code>"sim_stat_background_n_{background_type}_{level_identifier}"</code>.</p></dd>
 
 
 <dt>background_type</dt>
-<dd><p>Background type. Either "ref" or "non_rep"</p></dd>
+<dd><p>Background type. Either <code>"ref"</code> or <code>"non_rep"</code>.</p></dd>
 
 
 <dt>level_identifier</dt>
-<dd><p>Level identifier. Either "i" (Level 1_0) or "g" (Level 2_1)</p></dd>
+<dd><p>Level identifier. Either <code>"i"</code> (Level 1_0) or <code>"g"</code> (Level 2_1).</p></dd>
 
 
 <dt>metric_name</dt>
-<dd><p>name of metric. Only <code>"average_precision"</code> is implemented.</p></dd>
+<dd><p>name of metric. Only <code>"average_precision"</code> is currently implemented.</p></dd>
 
 
 <dt>n_iterations</dt>
