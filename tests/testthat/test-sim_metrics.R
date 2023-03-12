@@ -341,19 +341,19 @@ test_that("`sim_metrics` works", {
   expect_equal(
     metrics_pvalue$level_1_0 %>%
       dplyr::select(-matches("pvalue|qvalue")),
-    metrics$level_1_0
+    metrics_orig$level_1_0
   )
 
   expect_equal(
     metrics_pvalue$level_1 %>%
       dplyr::select(-matches("pvalue|qvalue")),
-    metrics$level_1
+    metrics_orig$level_1
   )
 
   expect_equal(
     metrics_pvalue$level_2_1 %>%
       dplyr::select(-matches("pvalue|qvalue")),
-    metrics$level_2_1
+    metrics_orig$level_2_1
   )
 
 })
