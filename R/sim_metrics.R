@@ -27,6 +27,9 @@ utils::globalVariables(
 #'   annotation columns (e.g. \code{"Metadata_"} (default)).
 #' @param use_furrr boolean indicating whether to use the furrr library
 #'   for parallel processing.
+#' @param calculate_pvalue optional boolean specifying whether to calculate
+#'   p-values for the metrics
+#' @param ... arguments passed down to \code{"sim_metrics_signif}
 #'
 #' @return List of metrics.
 #' @examples
@@ -143,7 +146,9 @@ sim_metrics <- function(collated_sim,
                         sim_type_background,
                         calculate_grouped = FALSE,
                         annotation_prefix = "Metadata_",
-                        use_furrr = FALSE) {
+                        use_furrr = FALSE,
+                        calculate_pvalue = FALSE,
+                        ...) {
   annotation_cols <-
     stringr::str_subset(colnames(collated_sim), pattern = annotation_prefix)
 
@@ -166,6 +171,21 @@ sim_metrics <- function(collated_sim,
       identifier = "i",
       use_furrr = use_furrr
     )
+
+  if (calculate_pvalue) {
+    metric_group <- "retrieval"
+
+    metric_name <- "average_precision"
+
+    sim_metrics_collated <-
+      sim_metrics_collated %>%
+      sim_metrics_signif(
+        background_type = sim_type_background,
+        level_identifier = "i",
+        metric_name = "average_precision",
+        ...
+      )
+  }
 
   # ---- Level 1 (aggregations of Level 1-0) ----
 
@@ -203,7 +223,28 @@ sim_metrics <- function(collated_sim,
       dplyr::starts_with("sim")
     )
 
-  # ---- Level 2  ----
+  if (calculate_pvalue) {
+    level_identifier <- "i"
+
+    metric_nlog10pvalue <- # nolint:object_usage_linter
+      glue::glue(
+        "sim_{metric_group}_{metric_name}_{sim_type_background}_{level_identifier}_nlog10pvalue_mean_{level_identifier}"
+      )
+
+    metric_nlog10qvalue <- # nolint:object_usage_linter
+      glue::glue(
+        "sim_{metric_group}_{metric_name}_{sim_type_background}_{level_identifier}_nlog10qvalue_mean_{level_identifier}"
+      )
+
+    sim_metrics_collated_agg <-
+      sim_metrics_collated_agg %>%
+      dplyr::mutate("{metric_nlog10qvalue}" :=
+                      -log10(stats::p.adjust(10 ** -.data[[metric_nlog10pvalue]],
+                                             method = "BH")))
+
+  }
+
+  # ---- Level 2_1 ----
 
   if (calculate_grouped) {
     sim_metrics_group_collated <-
@@ -216,6 +257,21 @@ sim_metrics <- function(collated_sim,
         identifier = "g",
         use_furrr = use_furrr
       )
+
+    if (calculate_pvalue) {
+      metric_group <- "retrieval"
+
+      metric_name <- "average_precision"
+
+      sim_metrics_group_collated <-
+        sim_metrics_group_collated %>%
+        sim_metrics_signif(
+          background_type = sim_type_background,
+          level_identifier = "g",
+          metric_name = "average_precision",
+          ...
+        )
+    }
   }
 
   # ---- Collect metrics  ----

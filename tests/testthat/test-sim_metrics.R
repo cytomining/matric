@@ -183,6 +183,8 @@ test_that("`sim_metrics` works", {
 
   metrics_orig <- metrics
 
+  collated_sim_orig <- collated_sim
+
   # ---- lazy sim_df ----
 
   # without non_reps, group_reps, and all_same_cols_rep_ref = all_same_cols_rep
@@ -324,6 +326,36 @@ test_that("`sim_metrics` works", {
       dplyr::select(-all_of(extra_annotation_cols)),
     metrics_orig$level_1_0
   )
+
+  # ---- p-value works ----
+
+  metrics_pvalue <-
+    matric::sim_metrics(
+      collated_sim_orig,
+      "ref",
+      calculate_grouped = TRUE,
+      calculate_pvalue = TRUE,
+      n_iterations = 100
+    )
+
+  expect_equal(
+    metrics_pvalue$level_1_0 %>%
+      dplyr::select(-matches("pvalue|qvalue")),
+    metrics$level_1_0
+  )
+
+  expect_equal(
+    metrics_pvalue$level_1 %>%
+      dplyr::select(-matches("pvalue|qvalue")),
+    metrics$level_1
+  )
+
+  expect_equal(
+    metrics_pvalue$level_2_1 %>%
+      dplyr::select(-matches("pvalue|qvalue")),
+    metrics$level_2_1
+  )
+
 })
 
 test_that("`r_precision` works", {
