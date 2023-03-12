@@ -28,7 +28,6 @@ sim_metrics_signif(
 \value{
 Metrics data frame containing two extra columns: the -log10 p-value and q-value of the specified metric
 \code{"sim_retrieval_average_precision_{background_type}_{level_identifier}_nlog10pvalue"}
-\code{"sim_retrieval_average_precision_{background_type}_{level_identifier}_nlog10qvalue"}
 }
 \description{
 Report p-values for metrics

@@ -1,4 +1,4 @@
-utils::globalVariables(c("sim_stat_average_precision_null_samples", "p_value", "q_value"))
+utils::globalVariables(c("sim_stat_average_precision_null_samples", "p_value"))
 
 #' Report p-values for metrics
 #'
@@ -12,7 +12,6 @@ utils::globalVariables(c("sim_stat_average_precision_null_samples", "p_value", "
 #'
 #' @return Metrics data frame containing two extra columns: the -log10 p-value and q-value of the specified metric
 #'  \code{"sim_retrieval_average_precision_{background_type}_{level_identifier}_nlog10pvalue"}
-#'  \code{"sim_retrieval_average_precision_{background_type}_{level_identifier}_nlog10qvalue"}
 #'
 #' @export
 sim_metrics_signif <-
@@ -39,11 +38,6 @@ sim_metrics_signif <-
         "sim_{metric_group}_{metric_name}_{background_type}_{level_identifier}_nlog10pvalue"
       )
 
-    metric_nlog10qvalue <- # nolint:object_usage_linter
-      glue::glue(
-        "sim_{metric_group}_{metric_name}_{background_type}_{level_identifier}_nlog10qvalue"
-      )
-
     metric_value <-
       glue::glue("sim_{metric_group}_{metric_name}_{background_type}_{level_identifier}")
 
@@ -62,10 +56,8 @@ sim_metrics_signif <-
             metric_name = metric_name
           )
       ) %>%
-      dplyr::mutate(q_value = stats::p.adjust(p_value, method = "BH")) %>%
-      dplyr::mutate("{metric_nlog10pvalue}" := -log10(p_value),
-                    "{metric_nlog10qvalue}" := -log10(q_value)) %>%
-      dplyr::select(-p_value, -q_value) %>%
+      dplyr::mutate("{metric_nlog10pvalue}" := -log10(p_value)) %>%
+      dplyr::select(-p_value) %>%
       dplyr::ungroup()
 
   }
