@@ -29,7 +29,7 @@ utils::globalVariables(
 #'   for parallel processing.
 #' @param calculate_pvalue optional boolean specifying whether to calculate
 #'   p-values for the metrics
-#' @param ... arguments passed down to \code{"sim_metrics_signif}
+#' @param ... arguments passed down to \code{"sim_metrics_signif"}
 #'
 #' @return List of metrics.
 #' @examples

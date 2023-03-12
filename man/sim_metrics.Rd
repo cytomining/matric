@@ -34,7 +34,7 @@ for parallel processing.}
 \item{calculate_pvalue}{optional boolean specifying whether to calculate
 p-values for the metrics}
 
-\item{...}{arguments passed down to \code{"sim_metrics_signif}}
+\item{...}{arguments passed down to \code{"sim_metrics_signif"}}
 }
 \value{
 List of metrics.
