@@ -23,6 +23,11 @@ sim_metrics_signif <-
     stopifnot(metric_name == "average_precision")
     metric_group <- "retrieval"
 
+    if (nrow(metrics) == 0) {
+      logger::log_warn("Empty metrics data frame; no p-values to compute")
+      metrics
+    }
+
     nulls <-
       null_distribution(
         metrics,
