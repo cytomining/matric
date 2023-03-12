@@ -21,22 +21,8 @@ sim_metrics_signif <-
            metric_name,
            ...) {
     stopifnot(metric_name == "average_precision")
+
     metric_group <- "retrieval"
-
-    if (nrow(metrics) == 0) {
-      logger::log_warn("Empty metrics data frame; no p-values to compute")
-      return(metrics)
-    }
-
-    nulls <-
-      null_distribution(
-        metrics,
-        background_type = background_type,
-        level_identifier = level_identifier,
-        metric_name = metric_name,
-        ...
-      )
-
 
     metric_nlog10pvalue <- # nolint:object_usage_linter
       glue::glue(
@@ -48,6 +34,25 @@ sim_metrics_signif <-
 
     sim_stat_signal_n <-
       glue::glue("sim_stat_signal_n_{background_type}_{level_identifier}")
+
+
+    if (nrow(metrics) == 0) {
+      logger::log_warn("Empty metrics data frame; no p-values to compute")
+
+      # hack to append new column
+      return(metrics %>%
+               dplyr::mutate("{metric_nlog10pvalue}" := .data[[metric_value]])
+             )
+    }
+
+    nulls <-
+      null_distribution(
+        metrics,
+        background_type = background_type,
+        level_identifier = level_identifier,
+        metric_name = metric_name,
+        ...
+      )
 
     metrics %>%
       dplyr::rowwise() %>%
