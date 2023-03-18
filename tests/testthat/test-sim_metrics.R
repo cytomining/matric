@@ -355,7 +355,6 @@ test_that("`sim_metrics` works", {
       dplyr::select(-matches("pvalue|qvalue")),
     metrics_orig$level_2_1
   )
-
 })
 
 test_that("`r_precision` works", {

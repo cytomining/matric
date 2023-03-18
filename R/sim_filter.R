@@ -74,22 +74,25 @@ sim_filter_keep_or_drop_some <-
       filter_ids <-
         row_metadata %>%
         dplyr::inner_join(filter_keep,
-                          by = colnames(filter_keep),
-                          multiple = "all") %>%
+          by = colnames(filter_keep),
+          multiple = "all"
+        ) %>%
         dplyr::select(id)
 
       sim_df <- sim_df %>%
         dplyr::inner_join(filter_ids,
-                          by = join_str,
-                          multiple = "all")
+          by = join_str,
+          multiple = "all"
+        )
     }
 
     if (!is.null(filter_drop)) {
       filter_ids <-
         row_metadata %>%
         dplyr::inner_join(filter_drop,
-                          by = colnames(filter_drop),
-                          multiple = "all") %>%
+          by = colnames(filter_drop),
+          multiple = "all"
+        ) %>%
         dplyr::select(id)
 
       sim_df <- sim_df %>%

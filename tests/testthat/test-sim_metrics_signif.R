@@ -22,7 +22,7 @@ test_that("`sim_metrics_signif` works", {
       dplyr::mutate(
         nlog10pvalue_diff =
           sim_retrieval_average_precision_ref_i_nlog10pvalue -
-          lag(sim_retrieval_average_precision_ref_i_nlog10pvalue)
+            lag(sim_retrieval_average_precision_ref_i_nlog10pvalue)
       ) %>%
       dplyr::select(nlog10pvalue_diff) %>%
       na.omit() %>%
@@ -30,5 +30,4 @@ test_that("`sim_metrics_signif` works", {
       nrow(),
     0
   )
-
 })

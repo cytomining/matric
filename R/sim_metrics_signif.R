@@ -41,8 +41,7 @@ sim_metrics_signif <-
 
       # hack to append new column
       return(metrics %>%
-               dplyr::mutate("{metric_nlog10pvalue}" := .data[[metric_value]])
-             )
+        dplyr::mutate("{metric_nlog10pvalue}" := .data[[metric_value]]))
     }
 
     nulls <-
@@ -69,7 +68,6 @@ sim_metrics_signif <-
       dplyr::mutate("{metric_nlog10pvalue}" := -log10(p_value)) %>%
       dplyr::select(-p_value) %>%
       dplyr::ungroup()
-
   }
 
 
@@ -95,8 +93,10 @@ null_distribution <-
 
     metrics <-
       metrics %>%
-      dplyr::mutate(sim_stat_background_n_mapped =
-                      bin(metrics[[glue::glue("sim_stat_background_n_{background_type}_{level_identifier}")]]))
+      dplyr::mutate(
+        sim_stat_background_n_mapped =
+          bin(metrics[[glue::glue("sim_stat_background_n_{background_type}_{level_identifier}")]])
+      )
 
     nulls <-
       metrics %>%
@@ -107,17 +107,20 @@ null_distribution <-
         )
       ))) %>%
       dplyr::rename(m = 1, n = 2) %>%
-      furrr::future_pmap_dfr(function(m, n) {
-        logger::log_trace("Compute retrieval random baseline for m = {m}, n = {n}")
-        null_distribution_helper(m = m,
-                                 n = n,
-                                 nn = n_iterations)
-      },
-      .options = furrr::furrr_options(seed = random_seed))
+      furrr::future_pmap_dfr(
+        function(m, n) {
+          logger::log_trace("Compute retrieval random baseline for m = {m}, n = {n}")
+          null_distribution_helper(
+            m = m,
+            n = n,
+            nn = n_iterations
+          )
+        },
+        .options = furrr::furrr_options(seed = random_seed)
+      )
 
 
     nulls
-
   }
 
 
@@ -132,7 +135,7 @@ bin <- function(x) {
   max_value <- max(x)
 
   break_point <-
-    ceiling(seq(1, ceiling((max_value) ^ (1 / pow)), 1) ** (pow))
+    ceiling(seq(1, ceiling((max_value)^(1 / pow)), 1)**(pow))
 
   x %>% purrr::map_dbl(function(i) {
     break_point[min(which(break_point > i))]
@@ -196,6 +199,4 @@ get_p_value <-
       purrr::pluck(1)
 
     (1 + sum(null_samples > statistic)) / (1 + length(null_samples))
-
-
   }
