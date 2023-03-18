@@ -313,7 +313,7 @@ sim_collate <-
         filter_side = "right"
       )
 
-    if (is.null(any_different_cols_rep) & is.null(all_different_cols_rep)) {
+    if (is.null(any_different_cols_rep) & is.null(all_different_cols_rep)) { # nolint: vector_logic_linter
       rep <-
         rep %>%
         sim_filter_all_same(
