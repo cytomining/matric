@@ -72,10 +72,12 @@ required for computing metrics.</p>
 <span>  <span class="va">sim_df</span>,</span>
 <span>  <span class="va">all_same_cols_rep</span>,</span>
 <span>  <span class="va">annotation_cols</span>,</span>
+<span>  any_different_cols_rep <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  all_different_cols_rep <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  all_same_cols_ref <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  all_same_cols_rep_ref <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  any_different_cols_non_rep <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  all_same_cols_non_rep <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  any_different_cols_non_rep <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  all_different_cols_non_rep <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  any_different_cols_group <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  all_same_cols_group <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -101,6 +103,16 @@ required for computing metrics.</p>
 with.</p></dd>
 
 
+<dt>any_different_cols_rep</dt>
+<dd><p>optional character vector specifying
+columns.</p></dd>
+
+
+<dt>all_different_cols_rep</dt>
+<dd><p>optional character vector specifying
+columns.</p></dd>
+
+
 <dt>all_same_cols_ref</dt>
 <dd><p>optional character vector specifying columns.</p></dd>
 
@@ -109,13 +121,13 @@ with.</p></dd>
 <dd><p>optional character vector specifying columns.</p></dd>
 
 
+<dt>all_same_cols_non_rep</dt>
+<dd><p>optional character vector specifying columns.</p></dd>
+
+
 <dt>any_different_cols_non_rep</dt>
 <dd><p>optional character vector specifying
 columns.</p></dd>
-
-
-<dt>all_same_cols_non_rep</dt>
-<dd><p>optional character vector specifying columns.</p></dd>
 
 
 <dt>all_different_cols_non_rep</dt>
@@ -179,6 +191,10 @@ sets of pairs, preserving the same <code>metric_sim</code> attributes as
 <p>Fetch similarities between</p><ul><li><p>(a) all rows except <code>reference</code> rows, and</p></li>
 <li><p>(b) all rows except <code>reference</code> rows (i.e. to each other)</p></li>
 </ul><p>Do so for only those (a, b) pairs that</p><ul><li><p>have <em>same</em> values in <em>all</em> columns of <code>all_same_cols_rep</code></p></li>
+<li><p>have <em>different</em> values in <em>all</em> columns of <code>all_different_cols_rep</code>
+(if specified)</p></li>
+<li><p>have <em>different</em> values in <em>at least one</em> column of
+<code>any_different_cols_rep</code> (if specified)</p></li>
 </ul><p>Keep, both, (a, b) and (b, a)</p>
 </div>
 
@@ -290,7 +306,7 @@ sets of pairs, preserving the same <code>metric_sim</code> attributes as
 <span class="r-in"><span><span class="va">collated_sim</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="fu">matric</span><span class="fu">::</span><span class="fu">sim_collate</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="va">sim_df</span>,</span></span>
-<span class="r-in"><span>    <span class="va">reference</span>,</span></span>
+<span class="r-in"><span>    reference <span class="op">=</span> <span class="va">reference</span>,</span></span>
 <span class="r-in"><span>    all_same_cols_rep <span class="op">=</span> <span class="va">all_same_cols_rep</span>,</span></span>
 <span class="r-in"><span>    all_same_cols_rep_ref <span class="op">=</span> <span class="va">all_same_cols_rep_ref</span>,</span></span>
 <span class="r-in"><span>    all_same_cols_ref <span class="op">=</span> <span class="va">all_same_cols_ref</span>,</span></span>
