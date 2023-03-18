@@ -156,7 +156,7 @@ test_that("`sim_collate` works", {
   collated_sim <-
     sim_collate(
       sim_df,
-      reference,
+      reference = reference,
       all_same_cols_rep = all_same_cols_rep,
       all_same_cols_rep_ref = all_same_cols_rep_ref,
       all_same_cols_ref = all_same_cols_ref,
@@ -226,7 +226,7 @@ test_that("`sim_collate` works", {
   collated_sim <-
     sim_collate(
       sim_df,
-      reference,
+      reference = reference,
       all_same_cols_rep = all_same_cols_rep,
       all_same_cols_rep_ref = all_same_cols_rep_ref,
       all_same_cols_ref = all_same_cols_ref,
@@ -245,7 +245,7 @@ test_that("`sim_collate` works", {
   collated_sim_lazy <-
     matric::sim_collate(
       index,
-      reference,
+      reference = reference,
       all_same_cols_rep = all_same_cols_rep,
       all_same_cols_rep_ref = all_same_cols_rep_ref,
       all_same_cols_ref = all_same_cols_ref,
@@ -281,7 +281,7 @@ test_that("`sim_collate` works", {
   collated_sim <-
     sim_collate(
       sim_df,
-      reference,
+      reference = reference,
       all_same_cols_rep = all_same_cols_rep,
       all_same_cols_rep_ref = all_same_cols_rep,
       all_same_cols_ref = all_same_cols_ref,
@@ -297,7 +297,7 @@ test_that("`sim_collate` works", {
   collated_sim_lazy <-
     matric::sim_collate(
       index,
-      reference,
+      reference = reference,
       all_same_cols_rep = all_same_cols_rep,
       all_same_cols_rep_ref = all_same_cols_rep,
       all_same_cols_ref = all_same_cols_ref,
@@ -365,7 +365,7 @@ test_that("`sim_collate` works", {
   collated_sim_optimized <-
     sim_collate(
       sim_df_optimized,
-      reference,
+      reference = reference,
       all_same_cols_rep = all_same_cols_rep,
       all_same_cols_rep_ref = all_same_cols_rep,
       all_same_cols_ref = all_same_cols_ref,
@@ -381,7 +381,7 @@ test_that("`sim_collate` works", {
   collated_sim_optimized_lazy <-
     sim_collate(
       sim_df_optimized_lazy,
-      reference,
+      reference = reference,
       all_same_cols_rep = all_same_cols_rep,
       all_same_cols_rep_ref = all_same_cols_rep,
       all_same_cols_ref = all_same_cols_ref,
