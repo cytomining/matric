@@ -154,7 +154,7 @@ test_that("`sim_collate` works", {
   sim_df <- sim_calculate(cellhealth)
 
   collated_sim <-
-    sim_collate(
+    matric::sim_collate(
       sim_df,
       reference = reference,
       all_same_cols_rep = all_same_cols_rep,
@@ -224,7 +224,7 @@ test_that("`sim_collate` works", {
   sim_df <- sim_calculate(cellhealth, method = "cosine")
 
   collated_sim <-
-    sim_collate(
+    matric::sim_collate(
       sim_df,
       reference = reference,
       all_same_cols_rep = all_same_cols_rep,
@@ -279,7 +279,7 @@ test_that("`sim_collate` works", {
   # ---- and all_same_cols_rep_ref = all_same_cols_rep
 
   collated_sim <-
-    sim_collate(
+    matric::sim_collate(
       sim_df,
       reference = reference,
       all_same_cols_rep = all_same_cols_rep,
@@ -363,7 +363,7 @@ test_that("`sim_collate` works", {
   )
 
   collated_sim_optimized <-
-    sim_collate(
+    matric::sim_collate(
       sim_df_optimized,
       reference = reference,
       all_same_cols_rep = all_same_cols_rep,
@@ -379,7 +379,7 @@ test_that("`sim_collate` works", {
     )
 
   collated_sim_optimized_lazy <-
-    sim_collate(
+    matric::sim_collate(
       sim_df_optimized_lazy,
       reference = reference,
       all_same_cols_rep = all_same_cols_rep,
