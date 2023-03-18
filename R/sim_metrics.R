@@ -104,7 +104,7 @@ utils::globalVariables(
 #' collated_sim <-
 #'   matric::sim_collate(
 #'     sim_df,
-#'     reference,
+#'     reference = reference,
 #'     all_same_cols_rep = all_same_cols_rep,
 #'     all_same_cols_rep_ref = all_same_cols_rep_ref,
 #'     all_same_cols_ref = all_same_cols_ref,
@@ -239,9 +239,9 @@ sim_metrics <- function(collated_sim,
     sim_metrics_collated_agg <-
       sim_metrics_collated_agg %>%
       dplyr::mutate("{metric_nlog10qvalue}" :=
-                      -log10(stats::p.adjust(10 ** -.data[[metric_nlog10pvalue]],
-                                             method = "BH")))
-
+        -log10(stats::p.adjust(10**-.data[[metric_nlog10pvalue]],
+          method = "BH"
+        )))
   }
 
   # ---- Level 2_1 ----

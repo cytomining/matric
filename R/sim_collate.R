@@ -30,6 +30,10 @@
 #'
 #' Do so for only those (a, b) pairs that
 #' - have *same* values in *all* columns of \code{all_same_cols_rep}
+#' - have *different* values in *all* columns of \code{all_different_cols_rep}
+#'   (if specified)
+#' - have *different* values in *at least one* column of
+#'   \code{any_different_cols_rep} (if specified)
 #'
 #' Keep, both, (a, b) and (b, a)
 #'
@@ -77,6 +81,10 @@
 #'   \code{metadata} to annotate the left index of the filtered \code{sim_df}
 #'   with.
 #' @param all_same_cols_rep optional character vector specifying columns.
+#' @param any_different_cols_rep optional character vector specifying
+#'   columns.
+#' @param all_different_cols_rep optional character vector specifying
+#'   columns.
 #' @param all_same_cols_ref optional character vector specifying columns.
 #' @param all_same_cols_rep_ref optional character vector specifying columns.
 #' @param any_different_cols_non_rep optional character vector specifying
@@ -166,7 +174,7 @@
 #' collated_sim <-
 #'   matric::sim_collate(
 #'     sim_df,
-#'     reference,
+#'     reference = reference,
 #'     all_same_cols_rep = all_same_cols_rep,
 #'     all_same_cols_rep_ref = all_same_cols_rep_ref,
 #'     all_same_cols_ref = all_same_cols_ref,
@@ -190,10 +198,12 @@ sim_collate <-
   function(sim_df,
            all_same_cols_rep,
            annotation_cols,
+           any_different_cols_rep = NULL,
+           all_different_cols_rep = NULL,
            all_same_cols_ref = NULL,
            all_same_cols_rep_ref = NULL,
-           any_different_cols_non_rep = NULL,
            all_same_cols_non_rep = NULL,
+           any_different_cols_non_rep = NULL,
            all_different_cols_non_rep = NULL,
            any_different_cols_group = NULL,
            all_same_cols_group = NULL,
@@ -286,6 +296,9 @@ sim_collate <-
     #
     # Do so for only those (a, b) pairs that
     # - have *same* values in *all* columns of `all_same_cols_rep
+    # - have *different* values in *all* columns `all_different_cols_rep` (if specified)
+    # - have *different* values in *at least one* column of
+    #   `any_different_cols_rep` (if specified)
     #
     # Keep, both, (a, b) and (b, a)
 
@@ -306,14 +319,31 @@ sim_collate <-
         row_metadata = row_metadata,
         filter_drop = reference,
         filter_side = "right"
-      ) %>%
-      sim_filter_all_same(
-        row_metadata = row_metadata,
-        all_same_cols = all_same_cols_rep,
-        annotation_cols = annotation_cols,
-        drop_lower = FALSE,
-        sim_cols = sim_cols
       )
+
+    if (is.null(any_different_cols_rep) & is.null(all_different_cols_rep)) { # nolint: vector_logic_linter
+      rep <-
+        rep %>%
+        sim_filter_all_same(
+          row_metadata = row_metadata,
+          all_same_cols = all_same_cols_rep,
+          annotation_cols = annotation_cols,
+          drop_lower = FALSE,
+          sim_cols = sim_cols
+        )
+    } else {
+      rep <-
+        rep %>%
+        sim_filter_some_different_drop_some(
+          row_metadata = row_metadata,
+          any_different_cols = any_different_cols_rep,
+          all_same_cols = all_same_cols_rep,
+          all_different_cols = all_different_cols_rep,
+          annotation_cols = annotation_cols,
+          sim_cols = sim_cols
+        )
+    }
+
 
     # ---- 3. Similarity to replicates (only references) ----
 

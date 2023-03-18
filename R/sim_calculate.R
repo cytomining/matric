@@ -275,8 +275,9 @@ sim_calculate <-
         metadata_subset <-
           metadata %>%
           dplyr::inner_join(reference,
-                            by = names(reference),
-                            multiple = "all")
+            by = names(reference),
+            multiple = "all"
+          )
 
         sim_df <-
           dplyr::bind_rows(

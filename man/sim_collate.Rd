@@ -9,10 +9,12 @@ sim_collate(
   sim_df,
   all_same_cols_rep,
   annotation_cols,
+  any_different_cols_rep = NULL,
+  all_different_cols_rep = NULL,
   all_same_cols_ref = NULL,
   all_same_cols_rep_ref = NULL,
-  any_different_cols_non_rep = NULL,
   all_same_cols_non_rep = NULL,
+  any_different_cols_non_rep = NULL,
   all_different_cols_non_rep = NULL,
   any_different_cols_group = NULL,
   all_same_cols_group = NULL,
@@ -30,14 +32,20 @@ sim_collate(
 \code{metadata} to annotate the left index of the filtered \code{sim_df}
 with.}
 
+\item{any_different_cols_rep}{optional character vector specifying
+columns.}
+
+\item{all_different_cols_rep}{optional character vector specifying
+columns.}
+
 \item{all_same_cols_ref}{optional character vector specifying columns.}
 
 \item{all_same_cols_rep_ref}{optional character vector specifying columns.}
 
+\item{all_same_cols_non_rep}{optional character vector specifying columns.}
+
 \item{any_different_cols_non_rep}{optional character vector specifying
 columns.}
-
-\item{all_same_cols_non_rep}{optional character vector specifying columns.}
 
 \item{all_different_cols_non_rep}{optional character vector specifying
 columns.}
@@ -94,6 +102,10 @@ Fetch similarities between
 Do so for only those (a, b) pairs that
 \itemize{
 \item have \emph{same} values in \emph{all} columns of \code{all_same_cols_rep}
+\item have \emph{different} values in \emph{all} columns of \code{all_different_cols_rep}
+(if specified)
+\item have \emph{different} values in \emph{at least one} column of
+\code{any_different_cols_rep} (if specified)
 }
 
 Keep, both, (a, b) and (b, a)
@@ -222,7 +234,7 @@ annotation_cols <-
 collated_sim <-
   matric::sim_collate(
     sim_df,
-    reference,
+    reference = reference,
     all_same_cols_rep = all_same_cols_rep,
     all_same_cols_rep_ref = all_same_cols_rep_ref,
     all_same_cols_ref = all_same_cols_ref,

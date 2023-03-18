@@ -35,7 +35,7 @@ test_that("cosine_sparse and pearson_sparse work", {
     ) %>%
     dplyr::mutate(sim = as.vector(tcrossprod(Xn))) %>%
     dplyr::inner_join(s1 %>%
-                        dplyr::select(id1, id2), by = c("id1", "id2")) %>%
+      dplyr::select(id1, id2), by = c("id1", "id2")) %>%
     dplyr::arrange(id1, id2)
 
   s1

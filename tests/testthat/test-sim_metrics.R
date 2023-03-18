@@ -68,7 +68,7 @@ test_that("`sim_metrics` works", {
   collated_sim <-
     matric::sim_collate(
       sim_df,
-      reference,
+      reference = reference,
       all_same_cols_rep = all_same_cols_rep,
       all_same_cols_rep_ref = all_same_cols_rep_ref,
       all_same_cols_ref = all_same_cols_ref,
@@ -196,7 +196,7 @@ test_that("`sim_metrics` works", {
   collated_sim <-
     matric::sim_collate(
       sim_df,
-      reference,
+      reference = reference,
       all_same_cols_rep = all_same_cols_rep,
       all_same_cols_rep_ref = all_same_cols_rep,
       all_same_cols_ref = all_same_cols_ref,
@@ -220,7 +220,7 @@ test_that("`sim_metrics` works", {
   collated_sim_lazy <-
     matric::sim_collate(
       index,
-      reference,
+      reference = reference,
       all_same_cols_rep = all_same_cols_rep,
       all_same_cols_rep_ref = all_same_cols_rep,
       all_same_cols_ref = all_same_cols_ref,
@@ -258,7 +258,7 @@ test_that("`sim_metrics` works", {
   collated_sim_optimized_lazy <-
     matric::sim_collate(
       index_optimized_lazy,
-      reference,
+      reference = reference,
       all_same_cols_rep = all_same_cols_rep,
       all_same_cols_rep_ref = all_same_cols_rep,
       all_same_cols_ref = all_same_cols_ref,
@@ -298,7 +298,7 @@ test_that("`sim_metrics` works", {
   collated_sim_extra_annotation <-
     matric::sim_collate(
       sim_df_extra_annotation,
-      reference,
+      reference = reference,
       all_same_cols_rep = all_same_cols_rep,
       all_same_cols_rep_ref = all_same_cols_rep_ref,
       all_same_cols_ref = all_same_cols_ref,
@@ -355,7 +355,6 @@ test_that("`sim_metrics` works", {
       dplyr::select(-matches("pvalue|qvalue")),
     metrics_orig$level_2_1
   )
-
 })
 
 test_that("`r_precision` works", {

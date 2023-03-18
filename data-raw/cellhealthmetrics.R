@@ -94,7 +94,7 @@ sim_df <- matric::sim_calculate(cellhealth, method = "cosine")
 collated_sim <-
   matric::sim_collate(
     sim_df,
-    reference,
+    reference = reference,
     all_same_cols_rep = all_same_cols_rep,
     all_same_cols_rep_ref = all_same_cols_rep_ref,
     all_same_cols_ref = all_same_cols_ref,
@@ -112,7 +112,7 @@ index <- matric::sim_calculate(cellhealth, method = "cosine", lazy = TRUE)
 # collated_sim_lazy <-
 #   matric::sim_collate(
 #     index,
-#     reference,
+#     reference = reference,
 #     all_same_cols_rep = all_same_cols_rep,
 #     all_same_cols_rep_ref = all_same_cols_rep_ref,
 #     all_same_cols_ref = all_same_cols_ref,
