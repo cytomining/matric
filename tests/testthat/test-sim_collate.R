@@ -262,9 +262,9 @@ test_that("`sim_collate` works", {
   expect_equal(
     collated_sim %>%
       dplyr::anti_join(collated_sim_all_different_cols_rep,
-                       by = join_by(id1, id2)) %>%
-      distinct(type) %>%
-      pull("type"),
+                       by = dplyr::join_by(id1, id2)) %>%
+      dplyr::distinct(type) %>%
+      dplyr::pull("type"),
     "rep"
   )
 
