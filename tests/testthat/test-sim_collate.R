@@ -249,12 +249,12 @@ test_that("`sim_collate` works", {
   expect_equal(
     collated_sim %>%
       dplyr::anti_join(collated_sim_all_different_cols_rep,
-                       by = join_by(id1, id2)) %>%
+                       by = dplyr::join_by(id1, id2)) %>%
       matric::sim_annotate(
         row_metadata = attr(collated_sim, "row_metadata"),
         annotation_cols = c("Metadata_Plate")
       ) %>%
-      dplyr::filter(Metadata_Plate1 != Metadata_Plate2)  %>%
+      dplyr::filter(Metadata_Plate1 != Metadata_Plate2) %>%
       nrow(),
     0
   )
