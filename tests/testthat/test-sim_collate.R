@@ -50,6 +50,12 @@ test_that("`sim_collate` works", {
       "Metadata_pert_name"
     )
 
+  # this param is used only in one test
+  all_different_cols_rep <-
+    c(
+      "Metadata_Plate"
+    )
+
   ## 3. Similarity to replicates (only references)
 
   # Fetch similarities between
@@ -218,6 +224,49 @@ test_that("`sim_collate` works", {
   )
 
   expect_equal(mean(collated_sim$sim), 0.1040035)
+
+  # --- Test sim_collate with an eager sim_df and with additional rep param----
+
+  sim_df <- sim_calculate(cellhealth)
+
+  collated_sim_all_different_cols_rep <-
+    matric::sim_collate(
+      sim_df,
+      reference = reference,
+      all_same_cols_rep = all_same_cols_rep,
+      all_different_cols_rep = all_different_cols_rep,
+      all_same_cols_rep_ref = all_same_cols_rep_ref,
+      all_same_cols_ref = all_same_cols_ref,
+      any_different_cols_non_rep = any_different_cols_non_rep,
+      all_same_cols_non_rep = all_same_cols_non_rep,
+      all_different_cols_non_rep = all_different_cols_non_rep,
+      any_different_cols_group = any_different_cols_group,
+      all_same_cols_group = all_same_cols_group,
+      annotation_cols = annotation_cols,
+      drop_group = drop_group
+    )
+
+  expect_equal(
+    collated_sim %>%
+      dplyr::anti_join(collated_sim_all_different_cols_rep,
+                       by = join_by(id1, id2)) %>%
+      matric::sim_annotate(
+        row_metadata = attr(collated_sim, "row_metadata"),
+        annotation_cols = c("Metadata_Plate")
+      ) %>%
+      dplyr::filter(Metadata_Plate1 != Metadata_Plate2)  %>%
+      nrow(),
+    0
+  )
+
+  expect_equal(
+    collated_sim %>%
+      dplyr::anti_join(collated_sim_all_different_cols_rep,
+                       by = join_by(id1, id2)) %>%
+      distinct(type) %>%
+      pull("type"),
+    "rep"
+  )
 
   # ---- Test sim_collate with a lazy sim_df ----
 

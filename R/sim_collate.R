@@ -30,6 +30,10 @@
 #'
 #' Do so for only those (a, b) pairs that
 #' - have *same* values in *all* columns of \code{all_same_cols_rep}
+#' - have *different* values in *all* columns of \code{all_different_cols_rep}
+#'   (if specified)
+#' - have *different* values in *at least one* column of
+#'   \code{any_different_cols_rep} (if specified)
 #'
 #' Keep, both, (a, b) and (b, a)
 #'

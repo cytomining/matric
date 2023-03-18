@@ -102,6 +102,10 @@ Fetch similarities between
 Do so for only those (a, b) pairs that
 \itemize{
 \item have \emph{same} values in \emph{all} columns of \code{all_same_cols_rep}
+\item have \emph{different} values in \emph{all} columns of \code{all_different_cols_rep}
+(if specified)
+\item have \emph{different} values in \emph{at least one} column of
+\code{any_different_cols_rep} (if specified)
 }
 
 Keep, both, (a, b) and (b, a)
