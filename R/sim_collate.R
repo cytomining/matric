@@ -77,6 +77,10 @@
 #'   \code{metadata} to annotate the left index of the filtered \code{sim_df}
 #'   with.
 #' @param all_same_cols_rep optional character vector specifying columns.
+#' @param any_different_cols_rep optional character vector specifying
+#'   columns.
+#' @param all_different_cols_rep optional character vector specifying
+#'   columns.
 #' @param all_same_cols_ref optional character vector specifying columns.
 #' @param all_same_cols_rep_ref optional character vector specifying columns.
 #' @param any_different_cols_non_rep optional character vector specifying
@@ -194,8 +198,8 @@ sim_collate <-
            all_different_cols_rep = NULL,
            all_same_cols_ref = NULL,
            all_same_cols_rep_ref = NULL,
-           any_different_cols_non_rep = NULL,
            all_same_cols_non_rep = NULL,
+           any_different_cols_non_rep = NULL,
            all_different_cols_non_rep = NULL,
            any_different_cols_group = NULL,
            all_same_cols_group = NULL,
