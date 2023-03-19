@@ -12,3 +12,4 @@
 ^data-raw$
 ^.vscode$
 ^.lintr$
+^cran-comments\.md$

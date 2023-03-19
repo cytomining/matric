@@ -15,9 +15,6 @@ coverage](https://codecov.io/gh/shntnu/matric/branch/main/graph/badge.svg)](http
 
 Metrics for Similarity Matrices.
 
-This is a prototype for testing out ideas for
-[`cytominer-eval`](https://github.com/cytomining/cytominer-eval).
-
 ## Installation
 
 You can install the development version from
@@ -25,14 +22,7 @@ You can install the development version from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("shntnu/matric")
+devtools::install_github("cytomining/matric")
 ```
 
-## Example
 
-This is a basic example which shows you how to solve a common problem:
-
-``` r
-library(matric)
-## basic example code
-```
