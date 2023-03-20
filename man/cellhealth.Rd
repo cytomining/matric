@@ -25,6 +25,6 @@ cellhealth
 }
 \description{
 Cell Painting dataset of CRISPR perturbations from
-\url{https://www.molbiolcell.org/doi/abs/10.1091/mbc.E20-12-0784}
+\url{https://doi.org/10.1091/mbc.E20-12-0784}
 }
 \keyword{datasets}

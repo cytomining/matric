@@ -1,7 +1,7 @@
 #' Cell Painting dataset of CRISPR perturbations.
 #'
 #' Cell Painting dataset of CRISPR perturbations from
-#' <https://www.molbiolcell.org/doi/abs/10.1091/mbc.E20-12-0784>
+#' <https://doi.org/10.1091/mbc.E20-12-0784>
 #'
 #' @format A data frame with 198 rows and 8 variables:
 #' \describe{
