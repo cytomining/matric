@@ -26,7 +26,6 @@ Imports:
     rlang (>= 0.4.11),
     yardstick,
     foreach,
-    doParallel,
     logger,
     furrr,
     future
