@@ -1,13 +1,14 @@
 Package: matric
 Type: Package
 Title: Metrics for Similarity Matrices
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: c(
-    person("Shantanu", "Singh", email = "shsingh@broad.io", role = c("aut", "cre")),
+    person("Shantanu", "Singh", email = "shantanu@broad.io", role = c("aut", "cre", "cph")),
     person("Gregory", "Way", email = "gway@broad.io", role = c("aut"))
   )
-Description: This is a prototype for testing out ideas for `cytominer-eval`.
-License: MIT + file LICENSE
+Description: Functions to calculate quality metrics for readouts from 
+  high-throughput profiling experiments.
+License: BSD_3_clause + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
@@ -39,8 +40,8 @@ Suggests:
     rmarkdown,
     roxygen2
 Config/testthat/edition: 3
-URL: https://github.com/shntnu/matric
-BugReports: https://github.com/shntnu/matric/issues
+URL: https://github.com/cytomining/matric
+BugReports: https://github.com/cytomining/matric/issues
 Depends: 
-    R (>= 2.10)
+    R (>= 4.1.0)
 VignetteBuilder: knitr
