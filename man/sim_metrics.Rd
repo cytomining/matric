@@ -46,7 +46,16 @@ List of metrics.
 
 suppressMessages(suppressWarnings(library(ggplot2)))
 
-sim_df <- matric::sim_calculate(matric::cellhealth)
+cellhealth_subset <-
+  matric::cellhealth \%>\%
+  dplyr::filter(Metadata_cell_line != "A549") \%>\%
+  dplyr::group_by(Metadata_cell_line,
+                  Metadata_gene_name,
+                  Metadata_pert_name) \%>\%
+  dplyr::slice_sample(n = 3) \%>\%
+  dplyr::ungroup()
+
+sim_df <- matric::sim_calculate(cellhealth_subset)
 
 drop_group <-
   data.frame(Metadata_gene_name = "EMPTY")
