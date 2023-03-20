@@ -32,13 +32,15 @@ population <- tibble::tibble(
   y = x + rnorm(4) / 100,
   z = y + rnorm(4) / 1000
 )
+tmpdir <- tempdir()
+tmpfile_prefix <- file.path(tmpdir, "test")
 sim_df <- matric::sim_calculate(population, method = "pearson")
-sim_df \%>\% matric::sim_write("/tmp/test", file_format = "csv")
-readr::read_csv("/tmp/test/test.csv")
-readr::read_csv("/tmp/test/test_metadata.csv")
-jsonlite::read_json("/tmp/test/test_metadata.json")
-sim_df \%>\% matric::sim_write("/tmp/test.parquet")
-sim_df_in <- arrow::read_parquet("/tmp/test.parquet")
+sim_df \%>\% matric::sim_write(tmpfile_prefix, file_format = "csv")
+readr::read_csv(paste0(tmpfile_prefix, ".csv"))
+readr::read_csv(paste0(tmpfile_prefix, "_metadata.csv"))
+jsonlite::read_json(paste0(tmpfile_prefix, "_metadata.json"))
+sim_df \%>\% matric::sim_write(paste0(tmpfile_prefix, ".parquet"))
+sim_df_in <- arrow::read_parquet(paste0(tmpfile_prefix, ".parquet"))
 attr(sim_df_in, "row_metadata")
 attr(sim_df_in, "metric_metadata")
 }
