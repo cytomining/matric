@@ -41,6 +41,6 @@ for parallel processing.}
 data.frame of metrics.
 }
 \description{
-\code{sim_metrics_helper} helps compute metrics by agrregating and
+\code{sim_metrics_helper} helps compute metrics by aggregating and
 scaling.
 }

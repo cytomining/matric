@@ -48,7 +48,7 @@ suppressMessages(suppressWarnings(library(ggplot2)))
 
 cellhealth_subset <-
   matric::cellhealth \%>\%
-  dplyr::filter(Metadata_cell_line != "A549") \%>\%
+  dplyr::filter(Metadata_cell_line == "A549") \%>\%
   dplyr::group_by(Metadata_cell_line,
                   Metadata_gene_name,
                   Metadata_pert_name) \%>\%

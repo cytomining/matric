@@ -38,7 +38,7 @@ utils::globalVariables(
 #'
 #' cellhealth_subset <-
 #'   matric::cellhealth %>%
-#'   dplyr::filter(Metadata_cell_line != "A549") %>%
+#'   dplyr::filter(Metadata_cell_line == "A549") %>%
 #'   dplyr::group_by(Metadata_cell_line,
 #'                   Metadata_gene_name,
 #'                   Metadata_pert_name) %>%
@@ -305,7 +305,7 @@ sim_metrics <- function(collated_sim,
 
 #' Helper function to compute metrics.
 #'
-#' \code{sim_metrics_helper} helps compute metrics by agrregating and
+#' \code{sim_metrics_helper} helps compute metrics by aggregating and
 #' scaling.
 #'
 #' @param collated_sim output of \code{sim_collated}, which is a data.frame with
