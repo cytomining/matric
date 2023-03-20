@@ -3,8 +3,8 @@ Type: Package
 Title: Metrics for Similarity Matrices
 Version: 0.2.0
 Authors@R: c(
-    person("Shantanu", "Singh", email = "shantanu@broad.io", role = c("aut", "cre", "cph")),
-    person("Gregory", "Way", email = "gway@broad.io", role = c("aut"))
+    person("Shantanu", "Singh", email = "shsingh@broadinstitute.org", role = c("aut", "cre", "cph")),
+    person("Gregory", "Way", email = "gway@broadinstitute.org", role = c("aut"))
   )
 Description: Functions to calculate quality metrics for readouts from 
   high-throughput profiling experiments.
