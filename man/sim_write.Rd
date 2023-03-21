@@ -13,6 +13,9 @@ sim_write(sim_df, output, file_format = "parquet")
 
 \item{file_format}{character string specify file format. This must be one of \code{csv} or \code{parquet}(default).}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 \code{sim_write} writes similarity matrix.
 }

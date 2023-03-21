@@ -21,9 +21,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: end -->
 
-Metrics for Similarity Matrices.
-
-`matric` contains functions to calculate quality metrics for readouts from high-throughput profiling experiments.
+`matric` calculates quality metrics for readouts from high-throughput profiling experiments.
 
 ## Installation
 

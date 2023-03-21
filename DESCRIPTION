@@ -6,8 +6,8 @@ Authors@R: c(
     person("Shantanu", "Singh", email = "shsingh@broadinstitute.org", role = c("aut", "cre", "cph")),
     person("Gregory", "Way", email = "gway@broadinstitute.org", role = c("aut"))
   )
-Description: Functions to calculate quality metrics for readouts from 
-  high-throughput profiling experiments.
+Description: Calculate quality metrics for readouts from high-throughput 
+  profiling experiments.
 License: BSD_3_clause + file LICENSE
 Encoding: UTF-8
 LazyData: true

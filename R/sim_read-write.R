@@ -14,7 +14,7 @@ utils::globalVariables(c("."))
 #' @param output character string specifying the output directory or filename.
 #' @param file_format character string specify file format. This must be one of \code{csv} or \code{parquet}(default).
 #'
-#' @return NULL
+#' @return No return value, called for side effects
 #' @export
 #'
 #' @importFrom magrittr %>%
