@@ -10,18 +10,22 @@
 [![test-coverage](https://github.com/cytomining/matric/workflows/test-coverage/badge.svg)](https://github.com/cytomining/matric/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/cytomining/matric/branch/main/graph/badge.svg)](https://app.codecov.io/gh/cytomining/matric?branch=main)
-
+[![CRAN
+status](https://www.r-pkg.org/badges/version/matric)](https://CRAN.R-project.org/package=matric)
 <!-- badges: end -->
 
-Metrics for Similarity Matrices.
-
-`matric` contains functions to calculate quality metrics for readouts
-from high-throughput profiling experiments.
+`matric` calculates quality metrics for readouts from high-throughput
+profiling experiments.
 
 ## Installation
 
-You can install the development version from
-[GitHub](https://github.com/) with:
+You can install from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("matric")
+```
+
+or the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
