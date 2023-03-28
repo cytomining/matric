@@ -25,13 +25,16 @@ population <- tibble::tibble(
   y = x + rnorm(4) / 100,
   z = y + rnorm(4) / 1000
 )
+tmpdir <- tempdir()
+tmpfile_prefix <- file.path(tmpdir, "test")
+tmpfile_parquet <- file.path(tmpdir, "test.pqrquet")
 sim_df <- sim_calculate(population, method = "pearson")
-sim_df \%>\% sim_write("/tmp/test", file_format = "csv")
-sim_df_csv <- sim_read("/tmp/test", file_format = "csv")
-sim_df \%>\% sim_write("/tmp/test.parquet")
-sim_df_parquet1 <- sim_read("/tmp/test.parquet")
-sim_df \%>\% arrow::write_parquet("/tmp/test.parquet")
-sim_df_parquet2 <- arrow::read_parquet("/tmp/test.parquet")
+sim_df \%>\% sim_write(tmpfile_prefix, file_format = "csv")
+sim_df_csv <- sim_read(tmpfile_prefix, file_format = "csv")
+sim_df \%>\% sim_write(tmpfile_parquet)
+sim_df_parquet1 <- sim_read(tmpfile_parquet)
+sim_df \%>\% arrow::write_parquet(tmpfile_parquet)
+sim_df_parquet2 <- arrow::read_parquet(tmpfile_parquet)
 all(sim_df_parquet1 == sim_df_parquet2)
 all(sim_df_parquet1 == sim_df_csv)
 }

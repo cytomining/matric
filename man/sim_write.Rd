@@ -13,6 +13,9 @@ sim_write(sim_df, output, file_format = "parquet")
 
 \item{file_format}{character string specify file format. This must be one of \code{csv} or \code{parquet}(default).}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 \code{sim_write} writes similarity matrix.
 }
@@ -32,13 +35,15 @@ population <- tibble::tibble(
   y = x + rnorm(4) / 100,
   z = y + rnorm(4) / 1000
 )
+tmpdir <- tempdir()
+tmpfile_prefix <- file.path(tmpdir, "test")
 sim_df <- matric::sim_calculate(population, method = "pearson")
-sim_df \%>\% matric::sim_write("/tmp/test", file_format = "csv")
-readr::read_csv("/tmp/test/test.csv")
-readr::read_csv("/tmp/test/test_metadata.csv")
-jsonlite::read_json("/tmp/test/test_metadata.json")
-sim_df \%>\% matric::sim_write("/tmp/test.parquet")
-sim_df_in <- arrow::read_parquet("/tmp/test.parquet")
+sim_df \%>\% matric::sim_write(tmpfile_prefix, file_format = "csv")
+readr::read_csv(file.path(tmpfile_prefix, "test.csv"))
+readr::read_csv(file.path(tmpfile_prefix, "test_metadata.csv"))
+jsonlite::read_json(file.path(tmpfile_prefix, "test_metadata.json"))
+sim_df \%>\% matric::sim_write(paste0(tmpfile_prefix, ".parquet"))
+sim_df_in <- arrow::read_parquet(paste0(tmpfile_prefix, ".parquet"))
 attr(sim_df_in, "row_metadata")
 attr(sim_df_in, "metric_metadata")
 }

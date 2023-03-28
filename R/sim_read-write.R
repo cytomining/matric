@@ -14,7 +14,7 @@ utils::globalVariables(c("."))
 #' @param output character string specifying the output directory or filename.
 #' @param file_format character string specify file format. This must be one of \code{csv} or \code{parquet}(default).
 #'
-#' @return NULL
+#' @return No return value, called for side effects
 #' @export
 #'
 #' @importFrom magrittr %>%
@@ -27,13 +27,15 @@ utils::globalVariables(c("."))
 #'   y = x + rnorm(4) / 100,
 #'   z = y + rnorm(4) / 1000
 #' )
+#' tmpdir <- tempdir()
+#' tmpfile_prefix <- file.path(tmpdir, "test")
 #' sim_df <- matric::sim_calculate(population, method = "pearson")
-#' sim_df %>% matric::sim_write("/tmp/test", file_format = "csv")
-#' readr::read_csv("/tmp/test/test.csv")
-#' readr::read_csv("/tmp/test/test_metadata.csv")
-#' jsonlite::read_json("/tmp/test/test_metadata.json")
-#' sim_df %>% matric::sim_write("/tmp/test.parquet")
-#' sim_df_in <- arrow::read_parquet("/tmp/test.parquet")
+#' sim_df %>% matric::sim_write(tmpfile_prefix, file_format = "csv")
+#' readr::read_csv(file.path(tmpfile_prefix, "test.csv"))
+#' readr::read_csv(file.path(tmpfile_prefix, "test_metadata.csv"))
+#' jsonlite::read_json(file.path(tmpfile_prefix, "test_metadata.json"))
+#' sim_df %>% matric::sim_write(paste0(tmpfile_prefix, ".parquet"))
+#' sim_df_in <- arrow::read_parquet(paste0(tmpfile_prefix, ".parquet"))
 #' attr(sim_df_in, "row_metadata")
 #' attr(sim_df_in, "metric_metadata")
 #' @export
@@ -94,13 +96,16 @@ sim_write <- function(sim_df, output, file_format = "parquet") {
 #'   y = x + rnorm(4) / 100,
 #'   z = y + rnorm(4) / 1000
 #' )
+#' tmpdir <- tempdir()
+#' tmpfile_prefix <- file.path(tmpdir, "test")
+#' tmpfile_parquet <- file.path(tmpdir, "test.pqrquet")
 #' sim_df <- sim_calculate(population, method = "pearson")
-#' sim_df %>% sim_write("/tmp/test", file_format = "csv")
-#' sim_df_csv <- sim_read("/tmp/test", file_format = "csv")
-#' sim_df %>% sim_write("/tmp/test.parquet")
-#' sim_df_parquet1 <- sim_read("/tmp/test.parquet")
-#' sim_df %>% arrow::write_parquet("/tmp/test.parquet")
-#' sim_df_parquet2 <- arrow::read_parquet("/tmp/test.parquet")
+#' sim_df %>% sim_write(tmpfile_prefix, file_format = "csv")
+#' sim_df_csv <- sim_read(tmpfile_prefix, file_format = "csv")
+#' sim_df %>% sim_write(tmpfile_parquet)
+#' sim_df_parquet1 <- sim_read(tmpfile_parquet)
+#' sim_df %>% arrow::write_parquet(tmpfile_parquet)
+#' sim_df_parquet2 <- arrow::read_parquet(tmpfile_parquet)
 #' all(sim_df_parquet1 == sim_df_parquet2)
 #' all(sim_df_parquet1 == sim_df_csv)
 #' @export

@@ -68,7 +68,7 @@ sets of pairs, preserving the same \code{metric_sim} attributes as
 \code{sim_df}.
 }
 \description{
-\code{sim_collate} collates several subsets of a melted simolarity matrix,
+\code{sim_collate} collates several subsets of a melted similarity matrix,
 required for computing metrics.
 }
 \details{
