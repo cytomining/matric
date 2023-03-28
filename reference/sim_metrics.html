@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">matric</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0.9000</span>
       </span>
     </div>
 
@@ -38,8 +38,11 @@
       <a href="../articles/taxonomy.html">Taxonomy</a>
     </li>
   </ul></li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/shntnu/matric/" class="external-link">
+  <a href="https://github.com/cytomining/matric/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -54,7 +57,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Compute metrics.</h1>
-    <small class="dont-index">Source: <a href="https://github.com/shntnu/matric/blob/HEAD/R/sim_metrics.R" class="external-link"><code>R/sim_metrics.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/cytomining/matric/blob/HEAD/R/sim_metrics.R" class="external-link"><code>R/sim_metrics.R</code></a></small>
     <div class="hidden name"><code>sim_metrics.Rd</code></div>
     </div>
 
@@ -123,7 +126,16 @@ p-values for the metrics</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressMessages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">sim_df</span> <span class="op">&lt;-</span> <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="sim_calculate.html">sim_calculate</a></span><span class="op">(</span><span class="fu">matric</span><span class="fu">::</span><span class="va"><a href="cellhealth.html">cellhealth</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cellhealth_subset</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu">matric</span><span class="fu">::</span><span class="va"><a href="cellhealth.html">cellhealth</a></span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Metadata_cell_line</span> <span class="op">==</span> <span class="st">"A549"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Metadata_cell_line</span>,</span></span>
+<span class="r-in"><span>                  <span class="va">Metadata_gene_name</span>,</span></span>
+<span class="r-in"><span>                  <span class="va">Metadata_pert_name</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_sample</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">sim_df</span> <span class="op">&lt;-</span> <span class="fu">matric</span><span class="fu">::</span><span class="fu"><a href="sim_calculate.html">sim_calculate</a></span><span class="op">(</span><span class="va">cellhealth_subset</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">drop_group</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Metadata_gene_name <span class="op">=</span> <span class="st">"EMPTY"</span><span class="op">)</span></span></span>
