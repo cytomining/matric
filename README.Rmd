@@ -22,6 +22,7 @@ knitr::opts_chunk$set(
 [![test-coverage](https://github.com/cytomining/matric/workflows/test-coverage/badge.svg)](https://github.com/cytomining/matric/actions)
 [![Codecov test coverage](https://codecov.io/gh/cytomining/matric/branch/main/graph/badge.svg)](https://app.codecov.io/gh/cytomining/matric?branch=main)
 [![CRAN status](https://www.r-pkg.org/badges/version/matric)](https://CRAN.R-project.org/package=matric)
+[![R-CMD-check](https://github.com/cytomining/matric/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/cytomining/matric/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 `matric` calculates quality metrics for readouts from high-throughput profiling experiments.
