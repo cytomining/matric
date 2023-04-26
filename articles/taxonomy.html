@@ -78,7 +78,7 @@
 
       
 
-      </header><script src="taxonomy_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Taxonomy</h1>
@@ -95,32 +95,59 @@
 <p>Each vertex belongs to 3 nested sets</p>
 <ul>
 <li>Level 0 “singleton” set - i.e. just itself</li>
-<li>Level 1 “replicate” set - e.g. replicates of the same perturbation</li>
-<li>Level 2 “group replicate” set e.g. replicates of perturbations with same MOA</li>
+<li>Level 1 “replicate” set - e.g. replicates of the same
+perturbation</li>
+<li>Level 2 “group replicate” set e.g. replicates of perturbations with
+same MOA</li>
 </ul>
 <p>We calculate metrics hierarchically:</p>
 <ul>
 <li>
-<strong>Level 1-0</strong>: similarity of elements of a Level 0 (singleton) set to elements of its Level 1 (replicates) set, except elements of its Level 0 set. In simpler terms, this is a <em>replicate similarity of a vertex, i.e. the</em> similarity of vertex to its replicates (except itself)*. This is a <strong>Level 0</strong> (singleton) set metric.</li>
+<strong>Level 1-0</strong>: similarity of elements of a Level 0
+(singleton) set to elements of its Level 1 (replicates) set, except
+elements of its Level 0 set. In simpler terms, this is a <em>replicate
+similarity of a vertex, i.e. the</em> similarity of vertex to its
+replicates (except itself)*. This is a <strong>Level 0</strong>
+(singleton) set metric.</li>
 <li>
-<strong>Level 2-1</strong>: similarity of each element of a Level 1 set (replicates) to elements of its Level 2 set (group replicates), except elements of its Level 1 set (replicates). <em>In simpler terms, this is a group replicate similarity of a replicate set, i.e. similarity of elements of a replicate set to its group replicates (except to other elements of its replicate set)</em>. This is a <strong>Level 1</strong> (replicate) set metric.</li>
+<strong>Level 2-1</strong>: similarity of each element of a Level 1
+set (replicates) to elements of its Level 2 set (group replicates),
+except elements of its Level 1 set (replicates). <em>In simpler terms,
+this is a group replicate similarity of a replicate set, i.e. similarity
+of elements of a replicate set to its group replicates (except to other
+elements of its replicate set)</em>. This is a <strong>Level 1</strong>
+(replicate) set metric.</li>
 </ul>
 <p>We can aggregate each of these metrics to produce more metrics:</p>
 <ul>
 <li>
-<strong>Level 1</strong>: average Level 1-0 similarity across all Level 0 (singleton) sets that are nested in the Level 1 set. In simpler terms, this is the <em>average replicate similarity of a set of replicate vertices</em>. This is a <strong>Level 1</strong> (replicate) set metric.</li>
+<strong>Level 1</strong>: average Level 1-0 similarity across all
+Level 0 (singleton) sets that are nested in the Level 1 set. In simpler
+terms, this is the <em>average replicate similarity of a set of
+replicate vertices</em>. This is a <strong>Level 1</strong> (replicate)
+set metric.</li>
 <li>
-<strong>Level 2</strong>: average Level 2-1 similarity across all Level 1 (replicate) sets that are nested in the Level 2 set. In simpler terms, this is the <em>average group replicate similarity of a set of replicate sets.</em> This is a a <strong>Level 2</strong> (group replicate) set metric.</li>
+<strong>Level 2</strong>: average Level 2-1 similarity across all
+Level 1 (replicate) sets that are nested in the Level 2 set. In simpler
+terms, this is the <em>average group replicate similarity of a set of
+replicate sets.</em> This is a a <strong>Level 2</strong> (group
+replicate) set metric.</li>
 </ul>
-<p>Consider a compound perturbation experiment done in replicates in a multi-well plate. Each compound belongs to one (or more) MOAs.</p>
+<p>Consider a compound perturbation experiment done in replicates in a
+multi-well plate. Each compound belongs to one (or more) MOAs.</p>
 <ul>
-<li>Each <strong>replicate well</strong> has a Level 1-0 metric, which is the similarity of that well to its replicates.</li>
-<li>Each <strong>compound</strong> has a Level 2-1 metric, which is the average similarity of each of its replicate wells to replicate wells of other compounds with the same MOA.</li>
+<li>Each <strong>replicate well</strong> has a Level 1-0 metric, which
+is the similarity of that well to its replicates.</li>
+<li>Each <strong>compound</strong> has a Level 2-1 metric, which is the
+average similarity of each of its replicate wells to replicate wells of
+other compounds with the same MOA.</li>
 </ul>
 <p>Further,</p>
 <ul>
-<li>Each <strong>compound</strong> has a Level 1 metric, which is the average Level 1-0 metric across all its replicate wells.</li>
-<li>Each <strong>MOA</strong> has a Level 2 metric, which is the average Level 2-1 metric across all its compounds.</li>
+<li>Each <strong>compound</strong> has a Level 1 metric, which is the
+average Level 1-0 metric across all its replicate wells.</li>
+<li>Each <strong>MOA</strong> has a Level 2 metric, which is the average
+Level 2-1 metric across all its compounds.</li>
 </ul>
 <p>The metrics implemented in <code>matric</code> are defined below.</p>
 <div class="section level2">
@@ -136,10 +163,12 @@
 </tr></thead>
 <tbody><tr class="odd">
 <td align="left"><code>sim_mean_i</code></td>
-<td align="left">mean similarity of a vertex to its replicate vertices</td>
+<td align="left">mean similarity of a vertex to its replicate
+vertices</td>
 </tr></tbody>
 </table>
-<p>Related: <code>sim_median_i</code> which uses median instead of mean.</p>
+<p>Related: <code>sim_median_i</code> which uses median instead of
+mean.</p>
 </div>
 <div class="section level3">
 <h3 id="scaled-metrics">Scaled metrics<a class="anchor" aria-label="anchor" href="#scaled-metrics"></a>
@@ -155,23 +184,34 @@
 </tr></thead>
 <tbody><tr class="odd">
 <td align="left"><code>sim_scaled_mean_non_rep_i</code></td>
-<td align="left">scale <code>sim_mean_i</code> using <code>sim_mean_stat_non_rep_i</code> and <code>sim_sd_stat_non_rep_i</code>
+<td align="left">scale <code>sim_mean_i</code> using
+<code>sim_mean_stat_non_rep_i</code> and
+<code>sim_sd_stat_non_rep_i</code>
 </td>
 </tr></tbody>
 </table>
 <p>where</p>
 <ul>
 <li>
-<code>sim_mean_stat_non_rep_i</code> and <code>sim_sd_stat_non_rep_i</code> are the mean and s.d. of similarity of a vertex to its non-replicate vertices.</li>
+<code>sim_mean_stat_non_rep_i</code> and
+<code>sim_sd_stat_non_rep_i</code> are the mean and s.d. of similarity
+of a vertex to its non-replicate vertices.</li>
 </ul>
 <p>Related:</p>
 <ul>
 <li>
-<code>sim_scaled_median_non_rep_i</code> which scales <code>sim_median_i</code> instead of <code>sim_mean_i</code>.</li>
+<code>sim_scaled_median_non_rep_i</code> which scales
+<code>sim_median_i</code> instead of <code>sim_mean_i</code>.</li>
 <li>
-<code>sim_scaled_mean_ref_i</code> which scales <code>sim_mean_i</code> w.r.t. reference vertices (i.e. uses <code>sim_mean_stat_ref_i</code> and <code>sim_sd_stat_ref_i</code> – the mean and s.d. of similarity of a vertex to the references vertices – to scale).</li>
+<code>sim_scaled_mean_ref_i</code> which scales
+<code>sim_mean_i</code> w.r.t. reference vertices (i.e. uses
+<code>sim_mean_stat_ref_i</code> and <code>sim_sd_stat_ref_i</code>
+– the mean and s.d. of similarity of a vertex to the references vertices
+– to scale).</li>
 <li>
-<code>sim_scaled_median_ref_i</code> which is the same as <code>sim_scaled_mean_ref_i</code> except that is scales <code>sim_median_i</code> instead of <code>sim_mean_i</code>.</li>
+<code>sim_scaled_median_ref_i</code> which is the same as
+<code>sim_scaled_mean_ref_i</code> except that is scales
+<code>sim_median_i</code> instead of <code>sim_mean_i</code>.</li>
 </ul>
 </div>
 <div class="section level3">
@@ -194,24 +234,34 @@
 <tbody>
 <tr class="odd">
 <td align="left"><code>sim_ranked_relrank_mean_non_rep_i</code></td>
-<td align="left">the mean percentile of the vertex’s replicates in this list</td>
+<td align="left">the mean percentile of the vertex’s replicates in this
+list</td>
 </tr>
 <tr class="even">
 <td align="left"><code>sim_retrieval_average_precision_non_rep_i</code></td>
-<td align="left">the <a href="https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Average_precision" class="external-link">average precision</a> reported on the list, with the replicates being the positive class</td>
+<td align="left">the <a href="https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Average_precision" class="external-link">average
+precision</a> reported on the list, with the replicates being the
+positive class</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>sim_retrieval_r_precision_non_rep_i</code></td>
-<td align="left">similarly, the <a href="https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#R-precision" class="external-link">R-precision</a> reported on the list</td>
+<td align="left">similarly, the <a href="https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#R-precision" class="external-link">R-precision</a>
+reported on the list</td>
 </tr>
 </tbody>
 </table>
 <p>Related:</p>
 <ul>
 <li>
-<code>sim_ranked_relrank_median_non_rep_i</code> reports the median percentile instead of the mean percentile.</li>
+<code>sim_ranked_relrank_median_non_rep_i</code> reports the median
+percentile instead of the mean percentile.</li>
 <li>
-<code>sim_ranked_relrank_mean_ref_i</code>, <code>sim_ranked_relrank_median_ref_i</code>, <code>sim_retrieval_average_precision_ref_i</code>, and <code>sim_retrieval_r_precision_non_rep_i</code> use a list of vertices comprising the reference vertices instead of the non-replicate vertices.</li>
+<code>sim_ranked_relrank_mean_ref_i</code>,
+<code>sim_ranked_relrank_median_ref_i</code>,
+<code>sim_retrieval_average_precision_ref_i</code>, and
+<code>sim_retrieval_r_precision_non_rep_i</code> use a list of vertices
+comprising the reference vertices instead of the non-replicate
+vertices.</li>
 </ul>
 </div>
 <div class="section level3">
@@ -219,23 +269,48 @@
 </h3>
 <ul>
 <li>
-<code>sim_mean_i_mean_i</code> is the mean <code>sim_mean_i</code> across all replicate vertices in a replicate set.</li>
+<code>sim_mean_i_mean_i</code> is the mean <code>sim_mean_i</code>
+across all replicate vertices in a replicate set.</li>
 <li>
-<code>sim_mean_i_median_i</code>, <code>sim_median_i_mean_i</code>, and <code>sim_median_i_median_i</code> are the corresponding Level 1 aggregated metrics for other combinations of Level 1-0 raw metrics and summary statistics.</li>
+<code>sim_mean_i_median_i</code>, <code>sim_median_i_mean_i</code>,
+and <code>sim_median_i_median_i</code> are the corresponding Level 1
+aggregated metrics for other combinations of Level 1-0 raw metrics and
+summary statistics.</li>
 <li>
-<code>sim_scaled_mean_non_rep_i_mean_i</code>, <code>sim_scaled_median_non_rep_i_median_i</code>, <code>sim_scaled_mean_ref_i_mean_i</code>, <code>sim_scaled_median_ref_i_median_i</code> are the corresponding Level 1 aggregated metrics for the scaled Level 1-0 metrics.</li>
+<code>sim_scaled_mean_non_rep_i_mean_i</code>,
+<code>sim_scaled_median_non_rep_i_median_i</code>,
+<code>sim_scaled_mean_ref_i_mean_i</code>,
+<code>sim_scaled_median_ref_i_median_i</code> are the corresponding
+Level 1 aggregated metrics for the scaled Level 1-0 metrics.</li>
 <li>
-<code>sim_ranked_relrank_mean_ref_i_mean_i</code>, <code>sim_ranked_relrank_mean_ref_i_median_i</code>, <code>sim_ranked_relrank_median_ref_i_mean_i</code>, <code>sim_ranked_relrank_median_ref_i_median_i</code> are the corresponding Level 1 aggregated metrics for the rank-based Level 1-0 metrics.</li>
+<code>sim_ranked_relrank_mean_ref_i_mean_i</code>,
+<code>sim_ranked_relrank_mean_ref_i_median_i</code>,
+<code>sim_ranked_relrank_median_ref_i_mean_i</code>,
+<code>sim_ranked_relrank_median_ref_i_median_i</code> are the
+corresponding Level 1 aggregated metrics for the rank-based Level 1-0
+metrics.</li>
 <li>
-<code>sim_retrieval_average_precision_ref_i_mean_i</code>, <code>sim_retrieval_average_precision_ref_i_median_i</code>, <code>sim_retrieval_r_precision_ref_i_mean_i</code>, <code>sim_retrieval_r_precision_ref_i_median_i</code> are the corresponding Level 1 aggregated metrics for the retrieval-based Level 1-0 metrics.</li>
+<code>sim_retrieval_average_precision_ref_i_mean_i</code>,
+<code>sim_retrieval_average_precision_ref_i_median_i</code>,
+<code>sim_retrieval_r_precision_ref_i_mean_i</code>,
+<code>sim_retrieval_r_precision_ref_i_median_i</code> are the
+corresponding Level 1 aggregated metrics for the retrieval-based Level
+1-0 metrics.</li>
 </ul>
-<p>Note: These are Level 1 summaries of scaling parameters; they are not used for scaling, themselves:</p>
+<p>Note: These are Level 1 summaries of scaling parameters; they are not
+used for scaling, themselves:</p>
 <ul>
 <li>
-<code>sim_mean_stat_non_rep_i_mean_i</code>, <code>sim_sd_stat_non_rep_i_mean_i</code>, <code>sim_mean_stat_non_rep_i_median_i</code>, <code>sim_sd_stat_non_rep_i_median_i</code>
+<code>sim_mean_stat_non_rep_i_mean_i</code>,
+<code>sim_sd_stat_non_rep_i_mean_i</code>,
+<code>sim_mean_stat_non_rep_i_median_i</code>,
+<code>sim_sd_stat_non_rep_i_median_i</code>
 </li>
 <li>
-<code>sim_mean_stat_ref_i_mean_i</code>, <code>sim_sd_stat_ref_i_mean_i</code>, <code>sim_mean_stat_ref_i_median_i</code>, <code>sim_sd_stat_ref_i_median_i</code>
+<code>sim_mean_stat_ref_i_mean_i</code>,
+<code>sim_sd_stat_ref_i_mean_i</code>,
+<code>sim_mean_stat_ref_i_median_i</code>,
+<code>sim_sd_stat_ref_i_median_i</code>
 </li>
 </ul>
 </div>
@@ -257,10 +332,12 @@
 </tr></thead>
 <tbody><tr class="odd">
 <td align="left"><code>sim_mean_g</code></td>
-<td align="left">mean similarity of vertices in a replicate set to its group replicate vertices</td>
+<td align="left">mean similarity of vertices in a replicate set to its
+group replicate vertices</td>
 </tr></tbody>
 </table>
-<p>Related: <code>sim_median_g</code> which uses median instead of mean.</p>
+<p>Related: <code>sim_median_g</code> which uses median instead of
+mean.</p>
 </div>
 <div class="section level3">
 <h3 id="scaled-metrics-1">Scaled metrics<a class="anchor" aria-label="anchor" href="#scaled-metrics-1"></a>
@@ -276,23 +353,35 @@
 </tr></thead>
 <tbody><tr class="odd">
 <td align="left"><code>sim_scaled_mean_non_rep_g</code></td>
-<td align="left">scale <code>sim_mean_g</code> using <code>sim_mean_stat_non_rep_g</code> and <code>sim_sd_stat_non_rep_g</code>
+<td align="left">scale <code>sim_mean_g</code> using
+<code>sim_mean_stat_non_rep_g</code> and
+<code>sim_sd_stat_non_rep_g</code>
 </td>
 </tr></tbody>
 </table>
 <p>where</p>
 <ul>
 <li>
-<code>sim_mean_stat_non_rep_g</code> and <code>sim_sd_stat_non_rep_g</code> are the mean and s.d. of similarity of vertices in a replicate set to their non-replicate (and non-group replicate) vertices.</li>
+<code>sim_mean_stat_non_rep_g</code> and
+<code>sim_sd_stat_non_rep_g</code> are the mean and s.d. of similarity
+of vertices in a replicate set to their non-replicate (and non-group
+replicate) vertices.</li>
 </ul>
 <p>Related:</p>
 <ul>
 <li>
-<code>sim_scaled_median_non_rep_g</code> which scales <code>sim_median_g</code> instead of <code>sim_mean_g</code>.</li>
+<code>sim_scaled_median_non_rep_g</code> which scales
+<code>sim_median_g</code> instead of <code>sim_mean_g</code>.</li>
 <li>
-<code>sim_scaled_mean_ref_g</code> which scales <code>sim_mean_g</code> w.r.t. reference vertices (i.e. uses <code>sim_mean_stat_ref_g</code> and <code>sim_sd_stat_ref_g</code> – the mean and s.d. of similarity of vertices in a replicate set to the references vertices – to scale).</li>
+<code>sim_scaled_mean_ref_g</code> which scales
+<code>sim_mean_g</code> w.r.t. reference vertices (i.e. uses
+<code>sim_mean_stat_ref_g</code> and <code>sim_sd_stat_ref_g</code> –
+the mean and s.d. of similarity of vertices in a replicate set to the
+references vertices – to scale).</li>
 <li>
-<code>sim_scaled_median_ref_i</code> which is the same as <code>sim_scaled_mean_ref_i</code> except that is scales <code>sim_median_i</code> instead of <code>sim_mean_i</code>.</li>
+<code>sim_scaled_median_ref_i</code> which is the same as
+<code>sim_scaled_mean_ref_i</code> except that is scales
+<code>sim_median_i</code> instead of <code>sim_mean_i</code>.</li>
 </ul>
 </div>
 <div class="section level3">
@@ -301,7 +390,8 @@
 <p>Consider a list of vertices comprising</p>
 <ul>
 <li>the vertices in a replicate set</li>
-<li>the corresponding non-replicate (and non-group replicate) vertices</li>
+<li>the corresponding non-replicate (and non-group replicate)
+vertices</li>
 </ul>
 <p>We define metrics similar to the corresponding Level 1-0 metrics:</p>
 <ul>
@@ -325,54 +415,94 @@
 <h2 id="addendum">Addendum<a class="anchor" aria-label="anchor" href="#addendum"></a>
 </h2>
 <p><em>This a related discussion on metrics, from <a href="https://github.com/broadinstitute/DeepProfilerExperiments/issues/5#issuecomment-804451302" class="external-link">here</a>.</em></p>
-<p>We have a weighted graph where the vertices are perturbations with multiple labels (e.g. pathways in the case of genetic perturbations), and edges are the similarity between the vertices (e.g. the cosine similarity between image-based profiles of two CRISPR knockouts).</p>
-<p>There are three levels of ranked lists of edges, each of which can produce global metrics (based on classification metrics like average precision or other so-called <a href="https://yardstick.tidymodels.org/reference/index.html#section-class-probability-metrics" class="external-link">class probability metrics</a>). These global metrics can be used to compare representations.</p>
-<p>In all 3 cases, we pose it as a binary classification problem on the edges:</p>
+<p>We have a weighted graph where the vertices are perturbations with
+multiple labels (e.g. pathways in the case of genetic perturbations),
+and edges are the similarity between the vertices (e.g. the cosine
+similarity between image-based profiles of two CRISPR knockouts).</p>
+<p>There are three levels of ranked lists of edges, each of which can
+produce global metrics (based on classification metrics like average
+precision or other so-called <a href="https://yardstick.tidymodels.org/reference/index.html#section-class-probability-metrics" class="external-link">class
+probability metrics</a>). These global metrics can be used to compare
+representations.</p>
+<p>In all 3 cases, we pose it as a binary classification problem on the
+edges:</p>
 <ul>
-<li>Class 1 edges: vertices have a shared label (e.g. at least one MOA in common)</li>
+<li>Class 1 edges: vertices have a shared label (e.g. at least one MOA
+in common)</li>
 <li>Class 0 edges: vertices do not have a shared label</li>
 </ul>
-<p>The three levels of ranked lists of edges, along with the metrics they induce, are below</p>
-<p>(Not all the metrics are useful, and some may be very similar to others. I have highlighted the ones I think are useful.)</p>
+<p>The three levels of ranked lists of edges, along with the metrics
+they induce, are below</p>
+<p>(Not all the metrics are useful, and some may be very similar to
+others. I have highlighted the ones I think are useful.)</p>
 <ol start="0" style="list-style-type: decimal">
 <li>Global: Single list, comprising all edges</li>
 </ol>
 <!-- --><ol style="list-style-type: lower-alpha">
-<li>We can directly compute a single <strong><em>global metric</em></strong> from this list</li>
+<li>We can directly compute a single <strong><em>global
+metric</em></strong> from this list</li>
 </ol>
 <!-- --><ol style="list-style-type: decimal">
-<li>Label-specific: One list per label, comprising all edges that have at least one vertex with the label</li>
+<li>Label-specific: One list per label, comprising all edges that have
+at least one vertex with the label</li>
 </ol>
 <!-- --><ol style="list-style-type: lower-alpha">
-<li>We can compute a <strong><em>label-specific</em></strong> metric, from each list, with an additional constraint on Class 1 edges: both vertices should share the label being evaluated.</li>
-<li>We can then (weighted) average the label-specific metrics to get a single <em>global metric</em>.</li>
-<li>We can also directly compute a <em>global metric</em> directly across all the label-specific lists.</li>
+<li>We can compute a <strong><em>label-specific</em></strong> metric,
+from each list, with an additional constraint on Class 1 edges: both
+vertices should share the label being evaluated.</li>
+<li>We can then (weighted) average the label-specific metrics to get a
+single <em>global metric</em>.</li>
+<li>We can also directly compute a <em>global metric</em> directly
+across all the label-specific lists.</li>
 </ol>
 <!-- --><ol start="2" style="list-style-type: decimal">
-<li>Sample-specific: One list per sample, comprising all edges that have at least one vertex as that sample</li>
+<li>Sample-specific: One list per sample, comprising all edges that have
+at least one vertex as that sample</li>
 </ol>
 <!-- --><ol style="list-style-type: lower-alpha">
-<li>We can compute a <strong><em>sample-specific</em></strong> metric, from each list.</li>
-<li>We can then average the <em>sample-specific</em> metrics to get a <em>label-specific</em> metric, but filtered like in 1a although it may not be quite as straightforward; 2.d might be better.</li>
-<li>We can further (weighted) average the <em>label-specific</em> metrics to get a single <em>global metric</em>.</li>
-<li>We can also directly compute a <em>label-specific</em> metric directly across the sample-specific lists, but filtered like in 1a.</li>
-<li>We can also directly average the <em>sample-specific</em> metrics to get a single <em>global metric</em>.</li>
-<li>We can also directly compute a single <strong><em>global metric</em></strong> directly across all the sample-specific lists.</li>
-<li>We can also (weighted) average the <em>label-specific</em> metric in 2d to get a single <em>global metric</em>.</li>
+<li>We can compute a <strong><em>sample-specific</em></strong> metric,
+from each list.</li>
+<li>We can then average the <em>sample-specific</em> metrics to get a
+<em>label-specific</em> metric, but filtered like in 1a although it may
+not be quite as straightforward; 2.d might be better.</li>
+<li>We can further (weighted) average the <em>label-specific</em>
+metrics to get a single <em>global metric</em>.</li>
+<li>We can also directly compute a <em>label-specific</em> metric
+directly across the sample-specific lists, but filtered like in 1a.</li>
+<li>We can also directly average the <em>sample-specific</em> metrics to
+get a single <em>global metric</em>.</li>
+<li>We can also directly compute a single <strong><em>global
+metric</em></strong> directly across all the sample-specific lists.</li>
+<li>We can also (weighted) average the <em>label-specific</em> metric in
+2d to get a single <em>global metric</em>.</li>
 </ol>
 <p>Notes:</p>
 <ul>
-<li>This discussion on metrics does not address the notion of “group replicates”.</li>
-<li>Level 1 metrics are macro-averaged metrics because we are taking averages of Level 1-0 metrics. Macro-averaged metrics are not currently implemented</li>
-<li>The difference between 1.a and 2.d is in how we construct the label-specific list: 1.a combines the sample-specific lists and then ranks, whereas 2.d first ranks the sample-specific lists and then combines the ranked lists.</li>
-<li>Similarly, the difference between 0.a and 2.g is in how we construct the global list: 0.a combines the sample-specific lists and then ranks, whereas 2.g first ranks the sample-specific lists and then combines the ranked lists.</li>
-<li>1.b and 2.g are similar; the both aggregate their corresponding label-specific metrics (1.a and 2.d respectively) to get a global metric.</li>
+<li>This discussion on metrics does not address the notion of “group
+replicates”.</li>
+<li>Level 1 metrics are macro-averaged metrics because we are taking
+averages of Level 1-0 metrics. Macro-averaged metrics are not currently
+implemented</li>
+<li>The difference between 1.a and 2.d is in how we construct the
+label-specific list: 1.a combines the sample-specific lists and then
+ranks, whereas 2.d first ranks the sample-specific lists and then
+combines the ranked lists.</li>
+<li>Similarly, the difference between 0.a and 2.g is in how we construct
+the global list: 0.a combines the sample-specific lists and then ranks,
+whereas 2.g first ranks the sample-specific lists and then combines the
+ranked lists.</li>
+<li>1.b and 2.g are similar; the both aggregate their corresponding
+label-specific metrics (1.a and 2.d respectively) to get a global
+metric.</li>
 <li>
-<code>sim_retrieval_average_precision_non_rep_i</code> is an example of 2.a</li>
+<code>sim_retrieval_average_precision_non_rep_i</code> is an example
+of 2.a</li>
 <li>
-<code>sim_retrieval_average_precision_non_rep_i_mean_i</code> is an example of 2.b</li>
+<code>sim_retrieval_average_precision_non_rep_i_mean_i</code> is an
+example of 2.b</li>
 </ul>
-<p>Categorization based on <a href="https://scikit-learn.org/stable/modules/model_evaluation.html#multiclass-and-multilabel-classification" class="external-link uri">https://scikit-learn.org/stable/modules/model_evaluation.html#multiclass-and-multilabel-classification</a> (I did not double-check; there could be errors)</p>
+<p>Categorization based on <a href="https://scikit-learn.org/stable/modules/model_evaluation.html#multiclass-and-multilabel-classification" class="external-link uri">https://scikit-learn.org/stable/modules/model_evaluation.html#multiclass-and-multilabel-classification</a>
+(I did not double-check; there could be errors)</p>
 <table class="table">
 <thead><tr class="header">
 <th align="left">Index</th>

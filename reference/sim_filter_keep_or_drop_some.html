@@ -131,36 +131,36 @@ some rows dropped. No filters applied if both <code>filter_keep</code> and
 <span class="r-in"><span>  filter_keep <span class="op">=</span> <span class="va">filter_keep</span>, filter_side <span class="op">=</span> <span class="st">"left"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   id1 id2        sim Metadata_group1 Metadata_type1 Metadata_group2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   2   1  0.9292515               a              x               a</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   4   1 -0.9479626               a              x               a</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   4   2 -0.9985211               a              x               a</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   2   3  0.9975104               a              x               b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   4   3 -0.9998690               a              x               b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   2   4 -0.9985211               a              x               a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   4   1 -0.7770026               a              x               b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   4   2  0.5608673               a              x               b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   4   3  0.7392556               a              x               a</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Metadata_type2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1              y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2              y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3              x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4              x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5              x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6              x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1              x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2              x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3              y</span>
 <span class="r-in"><span><span class="fu">matric</span><span class="fu">::</span><span class="fu">sim_filter_keep_or_drop_some</span><span class="op">(</span><span class="va">sim_df</span>, <span class="va">row_metadata</span>,</span></span>
 <span class="r-in"><span>  filter_drop <span class="op">=</span> <span class="va">filter_drop</span>, filter_side <span class="op">=</span> <span class="st">"left"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   id1 id2        sim Metadata_group1 Metadata_type1 Metadata_group2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   3   1  0.9529913               b              x               a</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   1   2  0.9292515               a              y               a</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   3   2  0.9975104               b              x               a</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   1   3  0.9529913               a              y               b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   1   4 -0.9479626               a              y               a</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   3   4 -0.9998690               b              x               a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   2   1 -0.9569599               b              x               b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   3   1 -0.9983228               a              y               b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   1   2 -0.9569599               b              x               b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   3   2  0.9721567               a              y               b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   1   3 -0.9983228               b              x               a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   2   3  0.9721567               b              x               a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   1   4 -0.7770026               b              x               a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   2   4  0.5608673               b              x               a</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   3   4  0.7392556               a              y               a</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Metadata_type2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1              y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1              x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2              x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3              x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4              x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5              x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6              x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5              y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6              y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7              x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8              x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9              x</span>
 </code></pre></div>
     </div>
   </div>
